@@ -1,0 +1,20 @@
+diff --git a/gson/src/main/java/com/google/gson/JsonPrimitive.java b/gson/src/main/java/com/google/gson/JsonPrimitive.java
+index 827de959..f143da97 100644
+--- a/gson/src/main/java/com/google/gson/JsonPrimitive.java
++++ b/gson/src/main/java/com/google/gson/JsonPrimitive.java
+@@ -290,11 +290,10 @@ public final class JsonPrimitive extends JsonElement {
+           : this.getAsNumber().longValue() == other.getAsNumber().longValue();
+     }
+     if (value instanceof Number && other.value instanceof Number) {
+-      double a = getAsNumber().doubleValue();
+-      // Java standard types other than double return true for two NaN. So, need
+-      // special handling for double.
+-      double b = other.getAsNumber().doubleValue();
+-      return a == b || (Double.isNaN(a) && Double.isNaN(b));
++      return this.value instanceof BigDecimal && other.value instanceof BigDecimal
++          ? this.getAsBigDecimal().compareTo(other.getAsBigDecimal()) == 0
++          : this.getAsDouble() == other.getAsDouble()
++              || (Double.isNaN(this.getAsDouble()) && Double.isNaN(other.getAsDouble()));
+     }
+     return value.equals(other.value);
+   }

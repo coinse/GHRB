@@ -1,0 +1,309 @@
+diff --git a/javaparser-symbol-solver-testing/src/test/java/com/github/javaparser/symbolsolver/Issue2162Test.java b/javaparser-symbol-solver-testing/src/test/java/com/github/javaparser/symbolsolver/Issue2162Test.java
+index 8d9a66d..a19f8b6 100644
+--- a/javaparser-symbol-solver-testing/src/test/java/com/github/javaparser/symbolsolver/Issue2162Test.java
++++ b/javaparser-symbol-solver-testing/src/test/java/com/github/javaparser/symbolsolver/Issue2162Test.java
+@@ -21,6 +21,14 @@
+ 
+ package com.github.javaparser.symbolsolver;
+ 
++import static com.github.javaparser.Providers.provider;
++import static org.junit.jupiter.api.Assertions.*;
++
++import java.util.List;
++
++import org.junit.jupiter.api.BeforeEach;
++import org.junit.jupiter.api.Test;
++
+ import com.github.javaparser.JavaParser;
+ import com.github.javaparser.ParseResult;
+ import com.github.javaparser.ParseStart;
+@@ -29,16 +37,10 @@ import com.github.javaparser.ast.CompilationUnit;
+ import com.github.javaparser.ast.body.MethodDeclaration;
+ import com.github.javaparser.ast.expr.MethodCallExpr;
+ import com.github.javaparser.resolution.TypeSolver;
++import com.github.javaparser.resolution.UnsolvedSymbolException;
+ import com.github.javaparser.symbolsolver.javaparsermodel.JavaParserFacade;
+ import com.github.javaparser.symbolsolver.resolution.typesolvers.CombinedTypeSolver;
+ import com.github.javaparser.symbolsolver.resolution.typesolvers.ReflectionTypeSolver;
+-import org.junit.jupiter.api.BeforeEach;
+-import org.junit.jupiter.api.Test;
+-
+-import java.util.List;
+-
+-import static com.github.javaparser.Providers.provider;
+-import static org.junit.jupiter.api.Assertions.*;
+ 
+ /**
+  * @see <a href="https://github.com/javaparser/javaparser/issues/2162">https://github.com/javaparser/javaparser/issues/2162</a>
+@@ -135,7 +137,7 @@ public class Issue2162Test extends AbstractSymbolResolutionTest {
+ 
+         // b3.getView()
+         assertEquals("D", javaParserFacade.solve(methodCallExprs.get(4)).getCorrespondingDeclaration().getReturnType().describe());
+-        assertThrows(UnsupportedOperationException.class, () -> {
++        assertThrows(UnsolvedSymbolException.class, () -> {
+             // b3.getView().getView() -- causing error
+             assertEquals("V", javaParserFacade.solve(methodCallExprs.get(3)).getCorrespondingDeclaration().getReturnType().describe());
+         }, "Exected this resolution to fail due to the chained methods -- `getView()` shouldn't exist on the return value from the first call to `getView()`.");
+diff --git a/javaparser-symbol-solver-testing/src/test/java/com/github/javaparser/symbolsolver/Issue3045Test.java b/javaparser-symbol-solver-testing/src/test/java/com/github/javaparser/symbolsolver/Issue3045Test.java
+new file mode 100755
+index 0000000..671b6f6
+--- /dev/null
++++ b/javaparser-symbol-solver-testing/src/test/java/com/github/javaparser/symbolsolver/Issue3045Test.java
+@@ -0,0 +1,66 @@
++/*
++ * Copyright (C) 2015-2016 Federico Tomassetti
++ * Copyright (C) 2017-2023 The JavaParser Team.
++ *
++ * This file is part of JavaParser.
++ *
++ * JavaParser can be used either under the terms of
++ * a) the GNU Lesser General Public License as published by
++ *     the Free Software Foundation, either version 3 of the License, or
++ *     (at your option) any later version.
++ * b) the terms of the Apache License
++ *
++ * You should have received a copy of both licenses in LICENCE.LGPL and
++ * LICENCE.APACHE. Please refer to those files for details.
++ *
++ * JavaParser is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ * GNU Lesser General Public License for more details.
++ */
++
++package com.github.javaparser.symbolsolver;
++
++import static org.junit.jupiter.api.Assertions.assertThrows;
++import static org.junit.jupiter.api.Assertions.assertTrue;
++
++import java.util.Optional;
++
++import org.junit.jupiter.api.Test;
++
++import com.github.javaparser.JavaParser;
++import com.github.javaparser.ast.body.MethodDeclaration;
++import com.github.javaparser.ast.type.Type;
++import com.github.javaparser.resolution.UnsolvedSymbolException;
++import com.github.javaparser.symbolsolver.resolution.AbstractResolutionTest;
++
++class Issue3045Test extends AbstractResolutionTest {
++
++	@Test
++	void createAnonymousClassWithUnsolvableParent() {
++	  String sourceCode =
++			  "import com.google.common.base.Function;\n" +
++	          "public class A {\n" +
++	          "    private static final Function<Object, Object> MAP = new Function<Object, Object>() {\n" +
++	          "        @Override\n" +
++	          "        public Object apply(Object input) {\n" +
++	          "            return null;\n" +
++	          "        }\n" +
++	          "    };\n" +
++	          "}";
++
++	  // Create the parser
++	  JavaParser parser = createParserWithResolver(defaultTypeSolver());
++
++	  // Get the method return type that is declared inside of anonymous class
++	  Optional<Type> methodType = parser.parse(sourceCode)
++	          .getResult()
++	          .flatMap(cu -> cu.findFirst(MethodDeclaration.class))
++	          .map(MethodDeclaration::getType);
++	  assertTrue(methodType.isPresent());
++
++	  // Try to resolve the given type and expect an unsolved exception
++	  assertThrows(UnsolvedSymbolException.class, methodType.get()::resolve);
++	}
++
++}
+diff --git a/javaparser-symbol-solver-testing/src/test/java/com/github/javaparser/symbolsolver/model/resolution/SymbolReferenceTest.java b/javaparser-symbol-solver-testing/src/test/java/com/github/javaparser/symbolsolver/model/resolution/SymbolReferenceTest.java
+index d51cd68..fc94b4a 100644
+--- a/javaparser-symbol-solver-testing/src/test/java/com/github/javaparser/symbolsolver/model/resolution/SymbolReferenceTest.java
++++ b/javaparser-symbol-solver-testing/src/test/java/com/github/javaparser/symbolsolver/model/resolution/SymbolReferenceTest.java
+@@ -20,16 +20,18 @@
+ 
+ package com.github.javaparser.symbolsolver.model.resolution;
+ 
++import static org.junit.jupiter.api.Assertions.*;
++
++import org.junit.jupiter.api.Test;
++
+ import com.github.javaparser.resolution.TypeSolver;
++import com.github.javaparser.resolution.UnsolvedSymbolException;
+ import com.github.javaparser.resolution.declarations.ResolvedClassDeclaration;
+ import com.github.javaparser.resolution.declarations.ResolvedDeclaration;
+ import com.github.javaparser.resolution.declarations.ResolvedParameterDeclaration;
+ import com.github.javaparser.resolution.model.SymbolReference;
+ import com.github.javaparser.symbolsolver.reflectionmodel.ReflectionClassDeclaration;
+ import com.github.javaparser.symbolsolver.resolution.typesolvers.ReflectionTypeSolver;
+-import org.junit.jupiter.api.Test;
+-
+-import static org.junit.jupiter.api.Assertions.*;
+ 
+ class SymbolReferenceTest {
+ 
+@@ -103,7 +105,7 @@ class SymbolReferenceTest {
+ 
+         assertNotNull(symbol);
+         assertFalse(symbol.isSolved());
+-        assertThrows(UnsupportedOperationException.class, symbol::getCorrespondingDeclaration);
++        assertThrows(UnsolvedSymbolException.class, symbol::getCorrespondingDeclaration);
+     }
+ 
+ }
+\ No newline at end of file
+diff --git a/javaparser-symbol-solver-testing/src/test/java/com/github/javaparser/symbolsolver/resolution/SymbolSolverWithJavassistClassTest.java b/javaparser-symbol-solver-testing/src/test/java/com/github/javaparser/symbolsolver/resolution/SymbolSolverWithJavassistClassTest.java
+index 9a9f684..56a7c7d 100644
+--- a/javaparser-symbol-solver-testing/src/test/java/com/github/javaparser/symbolsolver/resolution/SymbolSolverWithJavassistClassTest.java
++++ b/javaparser-symbol-solver-testing/src/test/java/com/github/javaparser/symbolsolver/resolution/SymbolSolverWithJavassistClassTest.java
+@@ -21,6 +21,14 @@
+ 
+ package com.github.javaparser.symbolsolver.resolution;
+ 
++import static org.junit.jupiter.api.Assertions.*;
++
++import java.io.IOException;
++import java.nio.file.Path;
++
++import org.junit.jupiter.api.BeforeEach;
++import org.junit.jupiter.api.Test;
++
+ import com.github.javaparser.resolution.Solver;
+ import com.github.javaparser.resolution.TypeSolver;
+ import com.github.javaparser.resolution.UnsolvedSymbolException;
+@@ -31,13 +39,6 @@ import com.github.javaparser.symbolsolver.javassistmodel.JavassistClassDeclarati
+ import com.github.javaparser.symbolsolver.resolution.typesolvers.CombinedTypeSolver;
+ import com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver;
+ import com.github.javaparser.symbolsolver.resolution.typesolvers.ReflectionTypeSolver;
+-import org.junit.jupiter.api.BeforeEach;
+-import org.junit.jupiter.api.Test;
+-
+-import java.io.IOException;
+-import java.nio.file.Path;
+-
+-import static org.junit.jupiter.api.Assertions.*;
+ 
+ class SymbolSolverWithJavassistClassTest extends AbstractSymbolResolutionTest {
+     private TypeSolver typeSolver;
+@@ -83,14 +84,10 @@ class SymbolSolverWithJavassistClassTest extends AbstractSymbolResolutionTest {
+ 
+         assertFalse(solvedSymbol.isSolved());
+ 
+-        try {
+-            solvedSymbol.getCorrespondingDeclaration();
+-        } catch (Exception e) {
+-            assertTrue(e instanceof UnsupportedOperationException);
+-            assertEquals("CorrespondingDeclaration not available for unsolved symbol.", e.getMessage());
+-            return;
+-        }
+-        fail("Expected UnsupportedOperationException when requesting CorrespondingDeclaration on unsolved SymbolRefernce");
++        assertThrows(UnsolvedSymbolException.class, () -> {
++        	solvedSymbol.getCorrespondingDeclaration();
++        }, "Expected UnsolvedSymbolException when requesting CorrespondingDeclaration on unsolved SymbolRefernce");
++
+     }
+ 
+     @Test
+diff --git a/javaparser-symbol-solver-testing/src/test/java/com/github/javaparser/symbolsolver/resolution/SymbolSolverWithJavassistEnumTest.java b/javaparser-symbol-solver-testing/src/test/java/com/github/javaparser/symbolsolver/resolution/SymbolSolverWithJavassistEnumTest.java
+index 49a0b2a..42eee27 100644
+--- a/javaparser-symbol-solver-testing/src/test/java/com/github/javaparser/symbolsolver/resolution/SymbolSolverWithJavassistEnumTest.java
++++ b/javaparser-symbol-solver-testing/src/test/java/com/github/javaparser/symbolsolver/resolution/SymbolSolverWithJavassistEnumTest.java
+@@ -21,6 +21,14 @@
+ 
+ package com.github.javaparser.symbolsolver.resolution;
+ 
++import static org.junit.jupiter.api.Assertions.*;
++
++import java.io.IOException;
++import java.nio.file.Path;
++
++import org.junit.jupiter.api.BeforeEach;
++import org.junit.jupiter.api.Test;
++
+ import com.github.javaparser.resolution.Solver;
+ import com.github.javaparser.resolution.TypeSolver;
+ import com.github.javaparser.resolution.UnsolvedSymbolException;
+@@ -31,13 +39,6 @@ import com.github.javaparser.symbolsolver.javassistmodel.JavassistEnumDeclaratio
+ import com.github.javaparser.symbolsolver.resolution.typesolvers.CombinedTypeSolver;
+ import com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver;
+ import com.github.javaparser.symbolsolver.resolution.typesolvers.ReflectionTypeSolver;
+-import org.junit.jupiter.api.BeforeEach;
+-import org.junit.jupiter.api.Test;
+-
+-import java.io.IOException;
+-import java.nio.file.Path;
+-
+-import static org.junit.jupiter.api.Assertions.*;
+ 
+ class SymbolSolverWithJavassistEnumTest extends AbstractSymbolResolutionTest {
+     private TypeSolver typeSolver;
+@@ -87,14 +88,10 @@ class SymbolSolverWithJavassistEnumTest extends AbstractSymbolResolutionTest {
+ 
+         assertFalse(solvedSymbol.isSolved());
+ 
+-        try {
+-            solvedSymbol.getCorrespondingDeclaration();
+-        } catch (Exception e) {
+-            assertTrue(e instanceof UnsupportedOperationException);
+-            assertEquals("CorrespondingDeclaration not available for unsolved symbol.", e.getMessage());
+-            return;
+-        }
+-        fail("Expected UnsupportedOperationException when requesting CorrespondingDeclaration on unsolved SymbolRefernce");
++        assertThrows(UnsolvedSymbolException.class, () -> {
++        	solvedSymbol.getCorrespondingDeclaration();
++        }, "Expected UnsolvedSymbolException when requesting CorrespondingDeclaration on unsolved SymbolRefernce");
++
+     }
+ 
+     @Test
+diff --git a/javaparser-symbol-solver-testing/src/test/java/com/github/javaparser/symbolsolver/resolution/SymbolSolverWithJavassistInterfaceTest.java b/javaparser-symbol-solver-testing/src/test/java/com/github/javaparser/symbolsolver/resolution/SymbolSolverWithJavassistInterfaceTest.java
+index 7636ba1..9a6f0b0 100644
+--- a/javaparser-symbol-solver-testing/src/test/java/com/github/javaparser/symbolsolver/resolution/SymbolSolverWithJavassistInterfaceTest.java
++++ b/javaparser-symbol-solver-testing/src/test/java/com/github/javaparser/symbolsolver/resolution/SymbolSolverWithJavassistInterfaceTest.java
+@@ -21,6 +21,14 @@
+ 
+ package com.github.javaparser.symbolsolver.resolution;
+ 
++import static org.junit.jupiter.api.Assertions.*;
++
++import java.io.IOException;
++import java.nio.file.Path;
++
++import org.junit.jupiter.api.BeforeEach;
++import org.junit.jupiter.api.Test;
++
+ import com.github.javaparser.resolution.Solver;
+ import com.github.javaparser.resolution.TypeSolver;
+ import com.github.javaparser.resolution.UnsolvedSymbolException;
+@@ -31,13 +39,6 @@ import com.github.javaparser.symbolsolver.javassistmodel.JavassistInterfaceDecla
+ import com.github.javaparser.symbolsolver.resolution.typesolvers.CombinedTypeSolver;
+ import com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver;
+ import com.github.javaparser.symbolsolver.resolution.typesolvers.ReflectionTypeSolver;
+-import org.junit.jupiter.api.BeforeEach;
+-import org.junit.jupiter.api.Test;
+-
+-import java.io.IOException;
+-import java.nio.file.Path;
+-
+-import static org.junit.jupiter.api.Assertions.*;
+ 
+ class SymbolSolverWithJavassistInterfaceTest extends AbstractSymbolResolutionTest {
+     private TypeSolver typeSolver;
+@@ -77,14 +78,9 @@ class SymbolSolverWithJavassistInterfaceTest extends AbstractSymbolResolutionTes
+ 
+         assertFalse(solvedSymbol.isSolved());
+ 
+-        try {
+-            solvedSymbol.getCorrespondingDeclaration();
+-        } catch (Exception e) {
+-            assertTrue(e instanceof UnsupportedOperationException);
+-            assertEquals("CorrespondingDeclaration not available for unsolved symbol.", e.getMessage());
+-            return;
+-        }
+-        fail("Expected UnsupportedOperationException when requesting CorrespondingDeclaration on unsolved SymbolRefernce");
++        assertThrows(UnsolvedSymbolException.class, () -> {
++        	solvedSymbol.getCorrespondingDeclaration();
++        }, "Expected UnsolvedSymbolException when requesting CorrespondingDeclaration on unsolved SymbolRefernce");
+     }
+ 
+     @Test

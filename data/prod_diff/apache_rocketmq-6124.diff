@@ -1,0 +1,100 @@
+diff --git a/tieredstore/src/main/java/org/apache/rocketmq/tieredstore/container/TieredContainerManager.java b/tieredstore/src/main/java/org/apache/rocketmq/tieredstore/container/TieredContainerManager.java
+index ca2f4f81f..94f1e048d 100644
+--- a/tieredstore/src/main/java/org/apache/rocketmq/tieredstore/container/TieredContainerManager.java
++++ b/tieredstore/src/main/java/org/apache/rocketmq/tieredstore/container/TieredContainerManager.java
+@@ -44,12 +44,17 @@ public class TieredContainerManager {
+     private final TieredMessageStoreConfig storeConfig;
+ 
+     public static TieredContainerManager getInstance(TieredMessageStoreConfig storeConfig) {
++        if (storeConfig == null) {
++            return instance;
++        }
++
+         if (instance == null) {
+             synchronized (TieredContainerManager.class) {
+                 if (instance == null) {
+                     try {
+                         instance = new TieredContainerManager(storeConfig);
+-                    } catch (Exception ignored) {
++                    } catch (Exception e) {
++                        logger.error("TieredContainerManager#getInstance: create container manager failed", e);
+                     }
+                 }
+             }
+@@ -58,6 +63,10 @@ public class TieredContainerManager {
+     }
+ 
+     public static TieredIndexFile getIndexFile(TieredMessageStoreConfig storeConfig) {
++        if (storeConfig == null) {
++            return indexFile;
++        }
++
+         if (indexFile == null) {
+             synchronized (TieredContainerManager.class) {
+                 if (indexFile == null) {
+diff --git a/tieredstore/src/main/java/org/apache/rocketmq/tieredstore/container/TieredFileQueue.java b/tieredstore/src/main/java/org/apache/rocketmq/tieredstore/container/TieredFileQueue.java
+index 8ad1b1491..1640e8daf 100644
+--- a/tieredstore/src/main/java/org/apache/rocketmq/tieredstore/container/TieredFileQueue.java
++++ b/tieredstore/src/main/java/org/apache/rocketmq/tieredstore/container/TieredFileQueue.java
+@@ -51,7 +51,7 @@ public class TieredFileQueue {
+     private final TieredMessageStoreConfig storeConfig;
+     private final TieredMetadataStore metadataStore;
+ 
+-    private final List<TieredFileSegment> fileSegmentList = new ArrayList<>();
++    protected final List<TieredFileSegment> fileSegmentList = new ArrayList<>();
+     protected final List<TieredFileSegment> needCommitFileSegmentList = new CopyOnWriteArrayList<>();
+     private final ReentrantReadWriteLock fileSegmentLock = new ReentrantReadWriteLock();
+ 
+@@ -130,7 +130,10 @@ public class TieredFileQueue {
+         }
+     }
+ 
+-    private void loadFromMetadata() {
++    protected void loadFromMetadata() {
++        fileSegmentList.clear();
++        needCommitFileSegmentList.clear();
++
+         metadataStore.iterateFileSegment(fileType, messageQueue.getTopic(), messageQueue.getQueueId(), metadata -> {
+             if (metadata.getStatus() == FileSegmentMetadata.STATUS_DELETED) {
+                 return;
+diff --git a/tieredstore/src/main/java/org/apache/rocketmq/tieredstore/provider/posix/PosixFileSegment.java b/tieredstore/src/main/java/org/apache/rocketmq/tieredstore/provider/posix/PosixFileSegment.java
+index 9def6bd29..b83967db2 100644
+--- a/tieredstore/src/main/java/org/apache/rocketmq/tieredstore/provider/posix/PosixFileSegment.java
++++ b/tieredstore/src/main/java/org/apache/rocketmq/tieredstore/provider/posix/PosixFileSegment.java
+@@ -129,10 +129,6 @@ public class PosixFileSegment extends TieredFileSegment {
+ 
+     @Override
+     public void destroyFile() {
+-        if (file.exists()) {
+-            file.delete();
+-        }
+-
+         try {
+             if (readFileChannel != null && readFileChannel.isOpen()) {
+                 readFileChannel.close();
+@@ -143,6 +139,10 @@ public class PosixFileSegment extends TieredFileSegment {
+         } catch (IOException e) {
+             logger.error("PosixFileSegment#destroyFile: destroy file {} failed: ", filepath, e);
+         }
++
++        if (file.exists()) {
++            file.delete();
++        }
+     }
+ 
+     @Override
+diff --git a/tieredstore/src/main/java/org/apache/rocketmq/tieredstore/util/TieredStoreUtil.java b/tieredstore/src/main/java/org/apache/rocketmq/tieredstore/util/TieredStoreUtil.java
+index c41e5a48e..d1ba8f761 100644
+--- a/tieredstore/src/main/java/org/apache/rocketmq/tieredstore/util/TieredStoreUtil.java
++++ b/tieredstore/src/main/java/org/apache/rocketmq/tieredstore/util/TieredStoreUtil.java
+@@ -135,6 +135,10 @@ public class TieredStoreUtil {
+     }
+ 
+     public static TieredMetadataStore getMetadataStore(TieredMessageStoreConfig storeConfig) {
++        if (storeConfig == null) {
++            return metadataStoreInstance;
++        }
++
+         if (metadataStoreInstance == null) {
+             synchronized (TieredMetadataStore.class) {
+                 if (metadataStoreInstance == null) {

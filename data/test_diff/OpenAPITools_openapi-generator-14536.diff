@@ -1,0 +1,25 @@
+diff --git a/modules/openapi-generator/src/test/java/org/openapitools/codegen/DefaultCodegenTest.java b/modules/openapi-generator/src/test/java/org/openapitools/codegen/DefaultCodegenTest.java
+index b571cf2..0414e03 100644
+--- a/modules/openapi-generator/src/test/java/org/openapitools/codegen/DefaultCodegenTest.java
++++ b/modules/openapi-generator/src/test/java/org/openapitools/codegen/DefaultCodegenTest.java
+@@ -2544,6 +2544,20 @@ public class DefaultCodegenTest {
+     }
+ 
+     @Test
++    public void testMultipleSecuritySchemes() {
++        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore.yaml");
++        final DefaultCodegen codegen = new DefaultCodegen();
++        codegen.setOpenAPI(openAPI);
++
++        final Map<String, SecurityScheme> securitySchemes = openAPI.getComponents().getSecuritySchemes();
++        final List<CodegenSecurity> securities = codegen.fromSecurity(securitySchemes);
++
++        assertEquals(securities.size(), 2);
++        assertEquals(securities.get(0).name, "petstore_auth");
++        assertEquals(securities.get(1).name, "api_key");
++    }
++
++    @Test
+     public void testItemsPresent() {
+         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_7613.yaml");
+         final DefaultCodegen codegen = new DefaultCodegen();

@@ -1,0 +1,13 @@
+diff --git a/store/src/test/java/org/apache/rocketmq/store/queue/BatchConsumeQueueTest.java b/store/src/test/java/org/apache/rocketmq/store/queue/BatchConsumeQueueTest.java
+index 1c8e31f..8b3b8dd 100644
+--- a/store/src/test/java/org/apache/rocketmq/store/queue/BatchConsumeQueueTest.java
++++ b/store/src/test/java/org/apache/rocketmq/store/queue/BatchConsumeQueueTest.java
+@@ -161,7 +161,7 @@ public class BatchConsumeQueueTest extends StoreTestBase {
+         }
+         end = System.currentTimeMillis();
+         Assert.assertTrue(end - start < 2000);
+-        Assert.assertEquals(-1, batchConsumeQueue.getOffsetInQueueByTime(System.currentTimeMillis()));
++        Assert.assertEquals(199991, batchConsumeQueue.getOffsetInQueueByTime(System.currentTimeMillis()));
+         batchConsumeQueue.destroy();
+     }
+ 

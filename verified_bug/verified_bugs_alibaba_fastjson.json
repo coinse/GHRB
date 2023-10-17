@@ -1,0 +1,37 @@
+{
+  "alibaba_fastjson-3834": {
+    "bug_id": "alibaba_fastjson-3834",
+    "PR_number": 3834,
+    "PR_createdAt": "2021-07-10T14:31:35Z",
+    "merge_commit": "fe5c264a707b78e305e2d57db98f37fa8cea7572",
+    "buggy_commits": [
+      {
+        "oid": "c942c83443117b73af5ad278cc780270998ba3e1",
+        "message": "Update README.md"
+      },
+      {
+        "oid": "465260a2e9510fc1fd3fc134643f08b5a36106b0",
+        "message": "add a !isEOF() to fix #3719\n\n</subject>\n\nBranch: issue3719-2nd\n\n<type>:\n- [x] Bug fix\n- [ ] Bug fix (Test)\n- [ ] New feature\n- [x] New Test Case\n- [ ] Breaking change\n- [ ] Documentation update\n- [ ] This change requires a documentation update\n\n<body>\n\n<footer>\n\nSigned-off-by: Certseeds <51754303+Certseeds@users.noreply.github.com>"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/alibaba/fastjson/issues/3719",
+      "createdAt": "2021-04-15T07:10:01Z",
+      "content": "bug_report_all/alibaba_fastjson-3834.json"
+    },
+    "changed_tests": [
+      "src/test/java/com/alibaba/json/bvt/issue_3700/Issue3719.java"
+    ],
+    "PR_url": "https://github.com/alibaba/fastjson/pull/3834",
+    "merge_commit_url": "https://github.com/alibaba/fastjson/commit/fe5c264a707b78e305e2d57db98f37fa8cea7572",
+    "buggy_commit": "c942c83443117b73af5ad278cc780270998ba3e1",
+    "execution_result": {
+      "valid_tests": [
+        ".com.alibaba.json.bvt.issue_3700.Issue3719"
+      ],
+      "success_tests": [
+        ".com.alibaba.json.bvt.issue_3700.Issue3719"
+      ]
+    }
+  }
+}

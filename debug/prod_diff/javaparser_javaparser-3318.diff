@@ -1,0 +1,13 @@
+diff --git a/javaparser-core/src/main/java/com/github/javaparser/printer/DefaultPrettyPrinterVisitor.java b/javaparser-core/src/main/java/com/github/javaparser/printer/DefaultPrettyPrinterVisitor.java
+index f4fb57305..894bb37d3 100755
+--- a/javaparser-core/src/main/java/com/github/javaparser/printer/DefaultPrettyPrinterVisitor.java
++++ b/javaparser-core/src/main/java/com/github/javaparser/printer/DefaultPrettyPrinterVisitor.java
+@@ -371,6 +371,8 @@ public class DefaultPrettyPrinterVisitor implements VoidVisitor<Void> {
+ 
+     @Override
+     public void visit(SimpleName n, Void arg) {
++        printOrphanCommentsBeforeThisChildNode(n);
++        printComment(n.getComment(), arg);
+         printer.print(n.getIdentifier());
+     }
+ 

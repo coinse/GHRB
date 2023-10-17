@@ -1,0 +1,153 @@
+{
+  "OpenAPITools_openapi-generator-13996": {
+    "bug_id": "OpenAPITools_openapi-generator-13996",
+    "PR_number": 13996,
+    "PR_createdAt": "2022-11-11T19:20:00Z",
+    "merge_commit": "188c39dccd912202a025363cbf9ba19bf2716412",
+    "buggy_commits": [
+      {
+        "oid": "1670e952ff56d706a2a721ea7fe16ce6899e99d8",
+        "message": "[Rust] Add support for reqwest-middleware when using reqwest (#13946)\n\nCo-authored-by: Elric Milon <whirm@gmx.com>"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/OpenAPITools/openapi-generator/issues/13971",
+      "createdAt": "2022-11-10T00:41:55Z",
+      "content": "bug_report_all/OpenAPITools_openapi-generator-13996.json"
+    },
+    "changed_tests": [
+      "modules/openapi-generator/src/test/java/org/openapitools/codegen/python/PythonClientTest.java"
+    ],
+    "PR_url": "https://github.com/OpenAPITools/openapi-generator/pull/13996",
+    "merge_commit_url": "https://github.com/OpenAPITools/openapi-generator/commit/188c39dccd912202a025363cbf9ba19bf2716412",
+    "buggy_commit": "1670e952ff56d706a2a721ea7fe16ce6899e99d8",
+    "execution_result": {
+      "valid_tests": [
+        ".org.openapitools.codegen.python.PythonClientTest.java"
+      ],
+      "success_tests": [
+        ".org.openapitools.codegen.python.PythonClientTest.java"
+      ]
+    }
+  },
+  "OpenAPITools_openapi-generator-14433": {
+    "bug_id": "OpenAPITools_openapi-generator-14433",
+    "PR_number": 14433,
+    "PR_createdAt": "2023-01-11T20:36:33Z",
+    "merge_commit": "626cd8c0cdd7c1f5d1b331b00852557110bd6158",
+    "buggy_commits": [
+      {
+        "oid": "a94ad37738e2e87762214666df8a609c4ca47b88",
+        "message": "[Ruby] Allow general purpose faraday connection configuration (#14423)\n\n* allow general purpose faraday connection configuration\r\n\r\n* add spec for Configuration#configure_faraday_connection\r\n\r\n* run generators\r\n\r\n* limit changes to ruby client generated using faraday library"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/OpenAPITools/openapi-generator/issues/2737",
+      "createdAt": "2019-04-25T07:56:24Z",
+      "content": "bug_report_all/OpenAPITools_openapi-generator-14433.json"
+    },
+    "changed_tests": [
+      "modules/openapi-generator/src/test/java/org/openapitools/codegen/DefaultGeneratorTest.java"
+    ],
+    "PR_url": "https://github.com/OpenAPITools/openapi-generator/pull/14433",
+    "merge_commit_url": "https://github.com/OpenAPITools/openapi-generator/commit/626cd8c0cdd7c1f5d1b331b00852557110bd6158",
+    "buggy_commit": "a94ad37738e2e87762214666df8a609c4ca47b88",
+    "execution_result": {
+      "valid_tests": [
+        ".org.openapitools.codegen.DefaultGeneratorTest.java"
+      ],
+      "success_tests": [
+        ".org.openapitools.codegen.DefaultGeneratorTest.java"
+      ]
+    }
+  },
+  "OpenAPITools_openapi-generator-14536": {
+    "bug_id": "OpenAPITools_openapi-generator-14536",
+    "PR_number": 14536,
+    "PR_createdAt": "2023-01-26T21:24:35Z",
+    "merge_commit": "68b944e6e62fa69669e97a8c2041a7eb7ed3314a",
+    "buggy_commits": [
+      {
+        "oid": "1b60ee1799a6831a9cd59cb833db63d4ee4eb06b",
+        "message": "[Java][native]Fixed StringJoiner add method parameter error (#14646)\n\nCo-authored-by: Ran Tao <ran.tao@tech-tao.com>"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/OpenAPITools/openapi-generator/issues/14531",
+      "createdAt": "2023-01-26T14:50:49Z",
+      "content": "bug_report_all/OpenAPITools_openapi-generator-14536.json"
+    },
+    "changed_tests": [],
+    "PR_url": "https://github.com/OpenAPITools/openapi-generator/pull/14536",
+    "merge_commit_url": "https://github.com/OpenAPITools/openapi-generator/commit/68b944e6e62fa69669e97a8c2041a7eb7ed3314a",
+    "buggy_commit": "1b60ee1799a6831a9cd59cb833db63d4ee4eb06b",
+    "execution_result": {
+      "valid_tests": [
+        ".org.openapitools.codegen.DefaultCodegenTest.java"
+      ],
+      "success_tests": [
+        ".org.openapitools.codegen.DefaultCodegenTest.java"
+      ]
+    }
+  },
+  "OpenAPITools_openapi-generator-14768": {
+    "bug_id": "OpenAPITools_openapi-generator-14768",
+    "PR_number": 14768,
+    "PR_createdAt": "2023-02-20T17:27:24Z",
+    "merge_commit": "f45523dd1a6c4c02d1745c13104beadfa103fa26",
+    "buggy_commits": [
+      {
+        "oid": "564939a4a8eb73f26a5878445c058875e2a1f2a9",
+        "message": "[java][jersey] Remove double brace initialization and some more jersey cleanup (#14783)\n\n* Remove double brace initialization\r\n\r\n* Use diamond operator\r\n\r\n* Less clutter in generated api classes\r\n\r\n* Optimize isJsonMime\r\n\r\n* Revert change in escapeString\r\n\r\nSkip toString() on string parameters.\r\n\r\n* Fix edge-cases\r\n\r\nA ServerVariable without enumValues and/or operationServers\r\nwith any ServerVariables would lead to invalid code."
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/OpenAPITools/openapi-generator/issues/11185",
+      "createdAt": "2021-12-25T17:51:55Z",
+      "content": "bug_report_all/OpenAPITools_openapi-generator-14768.json"
+    },
+    "changed_tests": [],
+    "PR_url": "https://github.com/OpenAPITools/openapi-generator/pull/14768",
+    "merge_commit_url": "https://github.com/OpenAPITools/openapi-generator/commit/f45523dd1a6c4c02d1745c13104beadfa103fa26",
+    "buggy_commit": "564939a4a8eb73f26a5878445c058875e2a1f2a9",
+    "execution_result": {
+      "valid_tests": [
+        ".org.openapitools.codegen.swift5.Swift5ClientCodegenTest.java"
+      ],
+      "success_tests": [
+        ".org.openapitools.codegen.swift5.Swift5ClientCodegenTest.java"
+      ]
+    }
+  },
+  "OpenAPITools_openapi-generator-16050": {
+    "bug_id": "OpenAPITools_openapi-generator-16050",
+    "PR_number": 16050,
+    "PR_createdAt": "2023-07-10T10:25:36Z",
+    "merge_commit": "1531ad48d0f5ed03036d5253e60cd5077d0d90ad",
+    "buggy_commits": [
+      {
+        "oid": "7f480cb9360e98308a16d0adae1f8a2d8fad2ae6",
+        "message": "[C++][Pistache] Serialize integer enums if possible (#16080)\n\nIn OpenAPI it is possible to define an enum schema containing integers\r\nonly.\r\n\r\nSimilar to the following JSON snippet:\r\n```\r\n...\r\n  \"components\": {\r\n    \"schemas\": {\r\n      \"size\": {\r\n        \"type\": \"integer\",\r\n        \"description\": \"Container size\",\r\n        \"enum\": [\r\n          10000,\r\n          20000,\r\n          100000,\r\n          200000,\r\n          300000,\r\n          1000000,\r\n          1200000,\r\n          2500000,\r\n          5000000,\r\n          10000000\r\n        ]\r\n      }\r\n    }\r\n  }\r\n...\r\n```\r\n\r\nTo correctly serialize this we need to convert to JSON integers. We can\r\nachieve this by feeding nlohmann JSON objects directly with integers\r\ninstead of strings.\r\n\r\nFor the C++ pistache server adapt the enum models to serialize integer\r\nvalues if possible."
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/OpenAPITools/openapi-generator/issues/15476",
+      "createdAt": "2023-05-11T07:36:41Z",
+      "content": "bug_report_all/OpenAPITools_openapi-generator-16050.json"
+    },
+    "changed_tests": [
+      "modules/openapi-generator/src/test/java/org/openapitools/codegen/DefaultCodegenTest.java"
+    ],
+    "PR_url": "https://github.com/OpenAPITools/openapi-generator/pull/16050",
+    "merge_commit_url": "https://github.com/OpenAPITools/openapi-generator/commit/1531ad48d0f5ed03036d5253e60cd5077d0d90ad",
+    "buggy_commit": "7f480cb9360e98308a16d0adae1f8a2d8fad2ae6",
+    "execution_result": {
+      "valid_tests": [
+        ".org.openapitools.codegen.DefaultCodegenTest.java"
+      ],
+      "success_tests": [
+        ".org.openapitools.codegen.DefaultCodegenTest.java"
+      ]
+    }
+  }
+}

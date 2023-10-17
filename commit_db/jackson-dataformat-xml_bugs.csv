@@ -1,0 +1,2 @@
+bug_id,revision.id.buggy,revision.id.fixed,report.id,report.url
+1,6c03760102474a0e38f0f52cdaef2a88e7133598,06d787505134304e6e9d5154ae223fcfb26a0b52,FasterXML_jackson-dataformat-xml-544,https://github.com/FasterXML/jackson-dataformat-xml/issues/545

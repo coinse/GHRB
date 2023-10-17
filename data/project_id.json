@@ -1,0 +1,229 @@
+{
+  "jackson-dataformat-xml": {
+    "owner": "FasterXML",
+    "number_of_bugs": 1,
+    "commit_db": "commit_db/jackson-dataformat-xml_bugs.csv",
+    "repo_path": "/root/framework/repos/jackson-dataformat-xml",
+    "requirements": {
+      "build": "maven",
+      "wrapper": false,
+      "version": "3.8.6",
+      "jdk": "17",
+      "extra": {}
+    }
+  },
+  "checkstyle": {
+    "owner": "checkstyle",
+    "number_of_bugs": 16,
+    "commit_db": "commit_db/checkstyle_bugs.csv",
+    "repo_path": "/root/framework/repos/checkstyle",
+    "requirements": {
+      "build": "maven",
+      "wrapper": false,
+      "version": "3.8.6",
+      "jdk": "17",
+      "extra": {}
+    }
+  },
+  "jackson-core": {
+    "owner": "FasterXML",
+    "number_of_bugs": 3,
+    "commit_db": "commit_db/jackson-core_bugs.csv",
+    "repo_path": "/root/framework/repos/jackson-core",
+    "requirements": {
+      "build": "maven",
+      "wrapper": false,
+      "version": "3.8.6",
+      "jdk": "17",
+      "extra": {}
+    }
+  },
+  "dubbo": {
+    "owner": "apache",
+    "number_of_bugs": 1,
+    "commit_db": "commit_db/dubbo_bugs.csv",
+    "repo_path": "/root/framework/repos/dubbo",
+    "requirements": {
+      "build": "maven",
+      "wrapper": false,
+      "version": "3.8.6",
+      "jdk": "8",
+      "extra": {}
+    }
+  },
+  "jackson-databind": {
+    "owner": "FasterXML",
+    "number_of_bugs": 4,
+    "commit_db": "commit_db/jackson-databind_bugs.csv",
+    "repo_path": "/root/framework/repos/jackson-databind",
+    "requirements": {
+      "build": "maven",
+      "wrapper": false,
+      "version": "3.8.6",
+      "jdk": "17",
+      "extra": {}
+    }
+  },
+  "seata": {
+    "owner": "seata",
+    "number_of_bugs": 2,
+    "commit_db": "commit_db/seata_bugs.csv",
+    "repo_path": "/root/framework/repos/seata",
+    "requirements": {
+      "build": "maven",
+      "wrapper": false,
+      "version": "3.8.6",
+      "jdk": "11",
+      "extra": {}
+    }
+  },
+  "Apktool": {
+    "owner": "iBotPeaches",
+    "number_of_bugs": 1,
+    "commit_db": "commit_db/Apktool_bugs.csv",
+    "repo_path": "/root/framework/repos/Apktool",
+    "requirements": {
+      "build": "gradle",
+      "wrapper": true,
+      "jdk": "17",
+      "extra": {}
+    }
+  },
+  "openapi-generator": {
+    "owner": "OpenAPITools",
+    "number_of_bugs": 5,
+    "commit_db": "commit_db/openapi-generator_bugs.csv",
+    "repo_path": "/root/framework/repos/openapi-generator",
+    "requirements": {
+      "build": "maven",
+      "wrapper": true,
+      "jdk": "11",
+      "extra": {
+        "command": "-Dsurefire.failIfNoSpecifiedTests=false"
+      }
+    }
+  },
+  "jsoup": {
+    "owner": "jhy",
+    "number_of_bugs": 5,
+    "commit_db": "commit_db/jsoup_bugs.csv",
+    "repo_path": "/root/framework/repos/jsoup",
+    "requirements": {
+      "build": "maven",
+      "wrapper": false,
+      "version": "3.8.6",
+      "jdk": "17",
+      "extra": {}
+    }
+  },
+  "gson": {
+    "owner": "google",
+    "number_of_bugs": 12,
+    "commit_db": "commit_db/gson_bugs.csv",
+    "repo_path": "/root/framework/repos/gson",
+    "requirements": {
+      "build": "maven",
+      "wrapper": false,
+      "version": "3.8.6",
+      "jdk": "11",
+      "extra": {}
+    }
+  },
+  "nacos": {
+    "owner": "alibaba",
+    "number_of_bugs": 5,
+    "commit_db": "commit_db/nacos_bugs.csv",
+    "repo_path": "/root/framework/repos/nacos",
+    "requirements": {
+      "build": "maven",
+      "wrapper": false,
+      "version": "3.8.6",
+      "jdk": "8",
+      "extra": {}
+    }
+  },
+  "fastjson": {
+    "owner": "alibaba",
+    "number_of_bugs": 1,
+    "commit_db": "commit_db/fastjson_bugs.csv",
+    "repo_path": "/root/framework/repos/fastjson",
+    "requirements": {
+      "build": "maven",
+      "wrapper": false,
+      "version": "3.8.6",
+      "jdk": "8",
+      "extra": {}
+    }
+  },
+  "assertj": {
+    "owner": "assertj",
+    "number_of_bugs": 5,
+    "commit_db": "commit_db/assertj_bugs.csv",
+    "repo_path": "/root/framework/repos/assertj",
+    "requirements": {
+      "build": "maven",
+      "wrapper": false,
+      "version": "3.8.6",
+      "jdk": "17",
+      "extra": {}
+    }
+  },
+  "rocketmq": {
+    "owner": "apache",
+    "number_of_bugs": 12,
+    "commit_db": "commit_db/rocketmq_bugs.csv",
+    "repo_path": "/root/framework/repos/rocketmq",
+    "requirements": {
+      "build": "maven",
+      "wrapper": false,
+      "version": "3.8.1",
+      "jdk": "8",
+      "extra": {
+        "command": "-Dargline='-Xmx1024m' -Dcheckstyle.skip"
+      }
+    }
+  },
+  "javaparser": {
+    "owner": "javaparser",
+    "number_of_bugs": 31,
+    "commit_db": "commit_db/javaparser_bugs.csv",
+    "repo_path": "/root/framework/repos/javaparser",
+    "requirements": {
+      "build": "maven",
+      "wrapper": true,
+      "jdk": "11",
+      "extra": {
+        "command": "-DskipTests=javaparser-core,javaparser-core-testing,javaparser-core-testing-bdd"
+      }
+    }
+  },
+  "retrofit": {
+    "owner": "square",
+    "number_of_bugs": 1,
+    "commit_db": "commit_db/retrofit_bugs.csv",
+    "repo_path": "/root/framework/repos/retrofit",
+    "requirements": {
+      "build": "gradle",
+      "wrapper": true,
+      "jdk": "17",
+      "extra": {
+        "command": ":retrofit:test"
+      }
+    }
+  },
+  "sslcontext-kickstart": {
+    "owner": "Hakky54",
+    "number_of_bugs": 6,
+    "commit_db": "commit_db/sslcontext-kickstart_bugs.csv",
+    "repo_path": "/root/framework/repos/sslcontext-kickstart",
+    "requirements": {
+      "build": "maven",
+      "wrapper": false,
+      "version": "3.8.6",
+      "jdk": "17",
+      "extra": {
+        "command": "-Dsurefire.failIfNoSpecifiedTests=false"
+      }
+    }
+  }
+}

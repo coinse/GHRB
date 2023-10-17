@@ -1,0 +1,52 @@
+diff --git a/naming/src/main/java/com/alibaba/nacos/naming/consistency/ephemeral/distro/v2/DistroClientDataProcessor.java b/naming/src/main/java/com/alibaba/nacos/naming/consistency/ephemeral/distro/v2/DistroClientDataProcessor.java
+index 770432d0f..f71eaf3b1 100644
+--- a/naming/src/main/java/com/alibaba/nacos/naming/consistency/ephemeral/distro/v2/DistroClientDataProcessor.java
++++ b/naming/src/main/java/com/alibaba/nacos/naming/consistency/ephemeral/distro/v2/DistroClientDataProcessor.java
+@@ -288,7 +288,7 @@ public class DistroClientDataProcessor extends SmartSubscriber implements Distro
+             }
+             if (clientManager.isResponsibleClient(client)) {
+                 DistroClientVerifyInfo verifyData = new DistroClientVerifyInfo(client.getClientId(),
+-                        client.recalculateRevision());
++                        client.getRevision());
+                 DistroKey distroKey = new DistroKey(client.getClientId(), TYPE);
+                 DistroData data = new DistroData(distroKey,
+                         ApplicationUtils.getBean(Serializer.class).serialize(verifyData));
+diff --git a/naming/src/main/java/com/alibaba/nacos/naming/core/v2/client/AbstractClient.java b/naming/src/main/java/com/alibaba/nacos/naming/core/v2/client/AbstractClient.java
+index d6f402af1..452be7139 100644
+--- a/naming/src/main/java/com/alibaba/nacos/naming/core/v2/client/AbstractClient.java
++++ b/naming/src/main/java/com/alibaba/nacos/naming/core/v2/client/AbstractClient.java
+@@ -49,7 +49,7 @@ public abstract class AbstractClient implements Client {
+     
+     protected volatile long lastUpdatedTime;
+     
+-    private final AtomicLong revision;
++    protected final AtomicLong revision;
+     
+     public AbstractClient(Long revision) {
+         lastUpdatedTime = System.currentTimeMillis();
+diff --git a/naming/src/main/java/com/alibaba/nacos/naming/core/v2/client/impl/ConnectionBasedClient.java b/naming/src/main/java/com/alibaba/nacos/naming/core/v2/client/impl/ConnectionBasedClient.java
+index 78ede54d4..be7d0ecb9 100644
+--- a/naming/src/main/java/com/alibaba/nacos/naming/core/v2/client/impl/ConnectionBasedClient.java
++++ b/naming/src/main/java/com/alibaba/nacos/naming/core/v2/client/impl/ConnectionBasedClient.java
+@@ -74,4 +74,9 @@ public class ConnectionBasedClient extends AbstractClient {
+     public boolean isExpire(long currentTime) {
+         return !isNative() && currentTime - getLastRenewTime() > ClientConfig.getInstance().getClientExpiredTime();
+     }
++    
++    @Override
++    public long recalculateRevision() {
++        return revision.addAndGet(1);
++    }
+ }
+diff --git a/naming/src/main/java/com/alibaba/nacos/naming/core/v2/pojo/BatchInstancePublishInfo.java b/naming/src/main/java/com/alibaba/nacos/naming/core/v2/pojo/BatchInstancePublishInfo.java
+index 1ab5b33a2..9097834a9 100644
+--- a/naming/src/main/java/com/alibaba/nacos/naming/core/v2/pojo/BatchInstancePublishInfo.java
++++ b/naming/src/main/java/com/alibaba/nacos/naming/core/v2/pojo/BatchInstancePublishInfo.java
+@@ -27,7 +27,6 @@ import java.util.Objects;
+  * @author : ChenHao26
+  * @ClassName: BatchInstancePublishInfo
+  * @Date: 2022/4/21 16:19
+- * @Description: TODO
+  */
+ public class BatchInstancePublishInfo extends InstancePublishInfo {
+     

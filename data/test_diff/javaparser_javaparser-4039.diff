@@ -1,0 +1,166 @@
+diff --git a/javaparser-core-testing/src/test/java/com/github/javaparser/JavaParserTest.java b/javaparser-core-testing/src/test/java/com/github/javaparser/JavaParserTest.java
+index 7c43f42..0d7fc9f 100644
+--- a/javaparser-core-testing/src/test/java/com/github/javaparser/JavaParserTest.java
++++ b/javaparser-core-testing/src/test/java/com/github/javaparser/JavaParserTest.java
+@@ -21,6 +21,22 @@
+ 
+ package com.github.javaparser;
+ 
++import static com.github.javaparser.ParseStart.COMPILATION_UNIT;
++import static com.github.javaparser.ParserConfiguration.LanguageLevel.BLEEDING_EDGE;
++import static com.github.javaparser.ParserConfiguration.LanguageLevel.CURRENT;
++import static com.github.javaparser.Providers.provider;
++import static com.github.javaparser.Range.range;
++import static com.github.javaparser.StaticJavaParser.*;
++import static com.github.javaparser.utils.TestUtils.assertInstanceOf;
++import static com.github.javaparser.utils.Utils.SYSTEM_EOL;
++import static org.junit.jupiter.api.Assertions.*;
++
++import java.util.Optional;
++
++import org.junit.jupiter.api.AfterEach;
++import org.junit.jupiter.api.BeforeEach;
++import org.junit.jupiter.api.Test;
++
+ import com.github.javaparser.ast.CompilationUnit;
+ import com.github.javaparser.ast.NodeList;
+ import com.github.javaparser.ast.body.AnnotationMemberDeclaration;
+@@ -34,21 +50,6 @@ import com.github.javaparser.ast.type.ClassOrInterfaceType;
+ import com.github.javaparser.ast.type.IntersectionType;
+ import com.github.javaparser.ast.type.Type;
+ import com.github.javaparser.printer.YamlPrinter;
+-import org.junit.jupiter.api.AfterEach;
+-import org.junit.jupiter.api.BeforeEach;
+-import org.junit.jupiter.api.Test;
+-
+-import java.util.Optional;
+-
+-import static com.github.javaparser.ParseStart.COMPILATION_UNIT;
+-import static com.github.javaparser.ParserConfiguration.LanguageLevel.BLEEDING_EDGE;
+-import static com.github.javaparser.ParserConfiguration.LanguageLevel.CURRENT;
+-import static com.github.javaparser.Providers.provider;
+-import static com.github.javaparser.Range.range;
+-import static com.github.javaparser.StaticJavaParser.*;
+-import static com.github.javaparser.utils.TestUtils.assertInstanceOf;
+-import static com.github.javaparser.utils.Utils.SYSTEM_EOL;
+-import static org.junit.jupiter.api.Assertions.*;
+ 
+ class JavaParserTest {
+ 
+@@ -142,7 +143,7 @@ class JavaParserTest {
+ 
+         Problem problem = result.getProblem(0);
+         assertEquals(range(1, 9, 1, 17), problem.getLocation().get().toRange().get());
+-        assertEquals("Parse error. Found <EOF>, expected one of  \";\" \"<\" \"@\" \"abstract\" \"boolean\" \"byte\" \"char\" \"class\" \"default\" \"double\" \"enum\" \"exports\" \"final\" \"float\" \"int\" \"interface\" \"long\" \"module\" \"native\" \"non-sealed\" \"open\" \"opens\" \"private\" \"protected\" \"provides\" \"public\" \"record\" \"requires\" \"sealed\" \"short\" \"static\" \"strictfp\" \"synchronized\" \"to\" \"transient\" \"transitive\" \"uses\" \"void\" \"volatile\" \"with\" \"yield\" \"{\" \"}\" <IDENTIFIER>", problem.getMessage());
++        assertEquals("Parse error. Found <EOF>, expected one of  \";\" \"<\" \"@\" \"abstract\" \"boolean\" \"byte\" \"char\" \"class\" \"default\" \"double\" \"enum\" \"exports\" \"final\" \"float\" \"int\" \"interface\" \"long\" \"module\" \"native\" \"non-sealed\" \"open\" \"opens\" \"permits\" \"private\" \"protected\" \"provides\" \"public\" \"record\" \"requires\" \"sealed\" \"short\" \"static\" \"strictfp\" \"synchronized\" \"to\" \"transient\" \"transitive\" \"uses\" \"void\" \"volatile\" \"with\" \"yield\" \"{\" \"}\" <IDENTIFIER>", problem.getMessage());
+         assertInstanceOf(ParseException.class, problem.getCause().get());
+     }
+ 
+diff --git a/javaparser-core-testing/src/test/java/com/github/javaparser/ast/ParseResultTest.java b/javaparser-core-testing/src/test/java/com/github/javaparser/ast/ParseResultTest.java
+index c6f2e30..ebc08da 100644
+--- a/javaparser-core-testing/src/test/java/com/github/javaparser/ast/ParseResultTest.java
++++ b/javaparser-core-testing/src/test/java/com/github/javaparser/ast/ParseResultTest.java
+@@ -21,12 +21,6 @@
+ 
+ package com.github.javaparser.ast;
+ 
+-import com.github.javaparser.JavaParser;
+-import com.github.javaparser.ParseResult;
+-import com.github.javaparser.ParserConfiguration;
+-import com.github.javaparser.Problem;
+-import org.junit.jupiter.api.Test;
+-
+ import static com.github.javaparser.ParseStart.COMPILATION_UNIT;
+ import static com.github.javaparser.Providers.provider;
+ import static com.github.javaparser.ast.Node.Parsedness.PARSED;
+@@ -34,6 +28,13 @@ import static com.github.javaparser.ast.Node.Parsedness.UNPARSABLE;
+ import static com.github.javaparser.utils.Utils.SYSTEM_EOL;
+ import static org.assertj.core.api.Assertions.assertThat;
+ 
++import org.junit.jupiter.api.Test;
++
++import com.github.javaparser.JavaParser;
++import com.github.javaparser.ParseResult;
++import com.github.javaparser.ParserConfiguration;
++import com.github.javaparser.Problem;
++
+ class ParseResultTest {
+     private final JavaParser javaParser = new JavaParser(new ParserConfiguration());
+ 
+@@ -57,7 +58,7 @@ class ParseResultTest {
+         assertThat(result.getProblems().size()).isEqualTo(1);
+ 
+         Problem problem = result.getProblem(0);
+-        assertThat(problem.getMessage()).isEqualTo("Parse error. Found \"{\", expected one of  \"enum\" \"exports\" \"module\" \"open\" \"opens\" \"provides\" \"record\" \"requires\" \"strictfp\" \"to\" \"transitive\" \"uses\" \"with\" \"yield\" <IDENTIFIER>");
++        assertThat(problem.getMessage()).isEqualTo("Parse error. Found \"{\", expected one of  \"enum\" \"exports\" \"module\" \"open\" \"opens\" \"permits\" \"provides\" \"record\" \"requires\" \"sealed\" \"strictfp\" \"to\" \"transitive\" \"uses\" \"with\" \"yield\" <IDENTIFIER>");
+ 
+         assertThat(result.toString()).startsWith("Parsing failed:" + SYSTEM_EOL + "(line 1,col 1) Parse error.");
+     }
+diff --git a/javaparser-core-testing/src/test/java/com/github/javaparser/ast/body/ClassOrInterfaceDeclarationTest.java b/javaparser-core-testing/src/test/java/com/github/javaparser/ast/body/ClassOrInterfaceDeclarationTest.java
+index a1bed1c..89da70c 100644
+--- a/javaparser-core-testing/src/test/java/com/github/javaparser/ast/body/ClassOrInterfaceDeclarationTest.java
++++ b/javaparser-core-testing/src/test/java/com/github/javaparser/ast/body/ClassOrInterfaceDeclarationTest.java
+@@ -21,17 +21,19 @@
+ 
+ package com.github.javaparser.ast.body;
+ 
++import static com.github.javaparser.StaticJavaParser.parse;
++import static com.github.javaparser.StaticJavaParser.parseBodyDeclaration;
++import static org.junit.jupiter.api.Assertions.*;
++
++import org.junit.jupiter.api.Test;
++import org.junit.jupiter.params.ParameterizedTest;
++import org.junit.jupiter.params.provider.EnumSource;
++import org.opentest4j.AssertionFailedError;
++
+ import com.github.javaparser.ParserConfiguration;
+ import com.github.javaparser.ast.CompilationUnit;
+ import com.github.javaparser.ast.Modifier;
+ import com.github.javaparser.utils.TestParser;
+-import org.junit.jupiter.api.Test;
+-
+-import static com.github.javaparser.StaticJavaParser.parse;
+-import static com.github.javaparser.StaticJavaParser.parseBodyDeclaration;
+-import static org.junit.jupiter.api.Assertions.assertEquals;
+-import static org.junit.jupiter.api.Assertions.assertFalse;
+-import static org.junit.jupiter.api.Assertions.assertTrue;
+ 
+ class ClassOrInterfaceDeclarationTest {
+     @Test
+@@ -109,4 +111,36 @@ class ClassOrInterfaceDeclarationTest {
+         assertTrue(x.hasModifier(Modifier.Keyword.NON_SEALED));
+     }
+ 
++    @ParameterizedTest
++    @EnumSource(value = ParserConfiguration.LanguageLevel.class, names = {"JAVA_8","JAVA_9","JAVA_10","JAVA_11","JAVA_12","JAVA_13","JAVA_14", "JAVA_15", "JAVA_16"})
++    void sealedFieldNamePermitted(ParserConfiguration.LanguageLevel languageLevel) {
++    	assertDoesNotThrow(() -> {
++    		TestParser.parseVariableDeclarationExpr(languageLevel, "boolean sealed");
++        });
++    }
++
++    @ParameterizedTest
++    @EnumSource(value = ParserConfiguration.LanguageLevel.class, names = {"JAVA_17"})
++    void sealedFieldNameNotPermitted(ParserConfiguration.LanguageLevel languageLevel) {
++    	assertThrows(AssertionFailedError.class, () -> {
++    		TestParser.parseVariableDeclarationExpr(languageLevel, "boolean sealed");
++        });
++    }
++
++    @ParameterizedTest
++    @EnumSource(value = ParserConfiguration.LanguageLevel.class, names = {"JAVA_8","JAVA_9","JAVA_10","JAVA_11","JAVA_12","JAVA_13","JAVA_14", "JAVA_15", "JAVA_16"})
++    void permitsFieldNamePermitted(ParserConfiguration.LanguageLevel languageLevel) {
++    	assertDoesNotThrow(() -> {
++    		TestParser.parseVariableDeclarationExpr(languageLevel, "boolean permits");
++        });
++    }
++
++    @ParameterizedTest
++    @EnumSource(value = ParserConfiguration.LanguageLevel.class, names = {"JAVA_17"})
++    void permitsFieldNameNotPermitted(ParserConfiguration.LanguageLevel languageLevel) {
++    	assertThrows(AssertionFailedError.class, () -> {
++    		TestParser.parseVariableDeclarationExpr(languageLevel, "boolean permits");
++        });
++    }
++
+ }

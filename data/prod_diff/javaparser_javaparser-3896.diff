@@ -1,0 +1,28 @@
+diff --git a/javaparser-core/src/main/java/com/github/javaparser/resolution/model/SymbolReference.java b/javaparser-core/src/main/java/com/github/javaparser/resolution/model/SymbolReference.java
+index 8020dd95f..a3f057f9e 100644
+--- a/javaparser-core/src/main/java/com/github/javaparser/resolution/model/SymbolReference.java
++++ b/javaparser-core/src/main/java/com/github/javaparser/resolution/model/SymbolReference.java
+@@ -21,11 +21,12 @@
+ 
+ package com.github.javaparser.resolution.model;
+ 
++import java.util.Optional;
++
+ import com.github.javaparser.quality.Nullable;
++import com.github.javaparser.resolution.UnsolvedSymbolException;
+ import com.github.javaparser.resolution.declarations.ResolvedDeclaration;
+ 
+-import java.util.Optional;
+-
+ /**
+  * A reference to a symbol. It can solved or not solved. If solved the corresponding
+  * declaration will be provided.
+@@ -113,7 +114,7 @@ public class SymbolReference<S extends ResolvedDeclaration> {
+             return declaration.get();
+         }
+ 
+-        throw new UnsupportedOperationException("CorrespondingDeclaration not available for unsolved symbol.");
++        throw new UnsolvedSymbolException("Corresponding declaration not available for unsolved symbol.");
+     }
+ 
+     /**

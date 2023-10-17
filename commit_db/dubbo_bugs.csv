@@ -1,0 +1,2 @@
+bug_id,revision.id.buggy,revision.id.fixed,report.id,report.url
+1,59a62a66b2491d9b8359f0c230813ec4c387f12d,6d28a1a4b1c29034db2a0607db07e05c5544b09f,apache_dubbo-11561,https://github.com/apache/dubbo/issues/11560

@@ -1,0 +1,7 @@
+bug_id,revision.id.buggy,revision.id.fixed,report.id,report.url
+1,9775b98981527834d912e2174bbd3589a9c3362f,e1d9740e37af3ecc2db3489744a19b143cdd508c,Hakky54_sslcontext-kickstart-122,https://github.com/Hakky54/sslcontext-kickstart/issues/121
+2,5f31caee58ff401d45a185aed741256b6b6adc17,cf1bb50f8e2e3e9b605b1b61fc7ddd45d83c7f2c,Hakky54_sslcontext-kickstart-167,https://github.com/Hakky54/sslcontext-kickstart/issues/166
+3,4c152e9339eb8c48fd24062e1215a5c22a0949a0,5effabcf4399cb187cfbdc56ec15072b5e345222,Hakky54_sslcontext-kickstart-197,https://github.com/Hakky54/sslcontext-kickstart/issues/196
+4,1e0d28ae54dd9c0158454ed8939e38b656041218,04d6c0331fae0c783eab3a4d59bc381b75cd9131,Hakky54_sslcontext-kickstart-203,https://github.com/Hakky54/sslcontext-kickstart/issues/194
+5,db2b7ca146d99f661da9cd0bcb7b837708895771,7b1807f98e7292189f39e383110212ba0f7f0b13,Hakky54_sslcontext-kickstart-217,https://github.com/Hakky54/sslcontext-kickstart/issues/196
+6,0e5032f52f687327018d8318ccb69c67816b2b1b,dc300a321670a761a73adb677d49c727dc049deb,Hakky54_sslcontext-kickstart-234,https://github.com/Hakky54/sslcontext-kickstart/issues/230

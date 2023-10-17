@@ -1,0 +1,24 @@
+diff --git a/javaparser-core-testing/src/test/java/com/github/javaparser/printer/PrettyPrintVisitorTest.java b/javaparser-core-testing/src/test/java/com/github/javaparser/printer/PrettyPrintVisitorTest.java
+index 4a6f060..a1af7fb 100644
+--- a/javaparser-core-testing/src/test/java/com/github/javaparser/printer/PrettyPrintVisitorTest.java
++++ b/javaparser-core-testing/src/test/java/com/github/javaparser/printer/PrettyPrintVisitorTest.java
+@@ -381,7 +381,7 @@ class PrettyPrintVisitorTest extends TestParser {
+ 
+         assertEqualsStringIgnoringEol("public class X {\n" +
+                 "\n" +
+-                "    // line1\n" +
++                "    //   line1\n" +
+                 "    void abc() {\n" +
+                 "    }\n" +
+                 "}\n", cu.toString());
+@@ -402,8 +402,8 @@ class PrettyPrintVisitorTest extends TestParser {
+         assertEqualsStringIgnoringEol("class A {\n" +
+                 "\n" +
+                 "    public void helloWorld(String greeting, String name) {\n" +
+-                "        // sdfsdfsdf\n" +
+-                "        // sdfds\n" +
++                "        //sdfsdfsdf\n" +
++                "        //sdfds\n" +
+                 "        /*\n" +
+                 "                            dgfdgfdgfdgfdgfd\n" +
+                 "         */\n" +

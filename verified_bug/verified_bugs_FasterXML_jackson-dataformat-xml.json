@@ -1,0 +1,36 @@
+{
+  "FasterXML_jackson-dataformat-xml-544": {
+    "bug_id": "FasterXML_jackson-dataformat-xml-544",
+    "PR_number": 544,
+    "PR_createdAt": "2022-08-29T10:57:38Z",
+    "merge_commit": "06d787505134304e6e9d5154ae223fcfb26a0b52",
+    "buggy_commits": [
+      {
+        "oid": "6c03760102474a0e38f0f52cdaef2a88e7133598",
+        "message": "Manual pom.xml merge (-> woodstox 6.3.1)"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/FasterXML/jackson-dataformat-xml/issues/545",
+      "createdAt": "2022-08-23T15:48:35Z",
+      "content": "bug_report_all/FasterXML_jackson-dataformat-xml-544.json"
+    },
+    "changed_tests": [
+      "src/test/java/com/fasterxml/jackson/dataformat/xml/misc/XmlTextTest.java",
+      "src/test/java/com/fasterxml/jackson/dataformat/xml/stream/XmlGeneratorTest.java"
+    ],
+    "PR_url": "https://github.com/FasterXML/jackson-dataformat-xml/pull/544",
+    "merge_commit_url": "https://github.com/FasterXML/jackson-dataformat-xml/commit/06d787505134304e6e9d5154ae223fcfb26a0b52",
+    "buggy_commit": "6c03760102474a0e38f0f52cdaef2a88e7133598",
+    "execution_result": {
+      "valid_tests": [
+        ".com.fasterxml.jackson.dataformat.xml.misc.XmlTextTest",
+        ".com.fasterxml.jackson.dataformat.xml.stream.XmlGeneratorTest"
+      ],
+      "success_tests": [
+        ".com.fasterxml.jackson.dataformat.xml.misc.XmlTextTest",
+        ".com.fasterxml.jackson.dataformat.xml.stream.XmlGeneratorTest"
+      ]
+    }
+  }
+}

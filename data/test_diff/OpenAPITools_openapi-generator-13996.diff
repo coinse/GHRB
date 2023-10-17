@@ -1,0 +1,15 @@
+diff --git a/modules/openapi-generator/src/test/java/org/openapitools/codegen/python/PythonClientTest.java b/modules/openapi-generator/src/test/java/org/openapitools/codegen/python/PythonClientTest.java
+index 6e293eb..8034a68 100644
+--- a/modules/openapi-generator/src/test/java/org/openapitools/codegen/python/PythonClientTest.java
++++ b/modules/openapi-generator/src/test/java/org/openapitools/codegen/python/PythonClientTest.java
+@@ -59,8 +59,8 @@ public class PythonClientTest {
+         Assert.assertEquals(exampleValue.trim(), expectedValue.trim());
+     }
+ 
+-    @Test
+-    public void testSpecWithTooLowVersionThrowsException() throws RuntimeException {
++    @Test(expectedExceptions = RuntimeException.class)
++    public void testSpecWithTooLowVersionThrowsException() {
+         final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/2_0/petstore.yaml");
+         final PythonClientCodegen codegen = new PythonClientCodegen();
+         codegen.preprocessOpenAPI(openAPI);

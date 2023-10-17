@@ -1,0 +1,423 @@
+{
+  "google_gson-2060": {
+    "bug_id": "google_gson-2060",
+    "PR_number": 2060,
+    "PR_createdAt": "2022-01-23T00:40:11Z",
+    "merge_commit": "e2e851c9bc692cec68ba7b0cbb002f82b4a229e4",
+    "buggy_commits": [
+      {
+        "oid": "710a76c8b8835e36935c62024001ba6b91ceee01",
+        "message": "Fix JsonReader.hasNext() returning true at end of document (#2061)"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/google/gson/issues/847",
+      "createdAt": "2016-05-06T13:47:41Z",
+      "content": "bug_report_all/google_gson-2060.json"
+    },
+    "changed_tests": [
+      "gson/src/test/java/com/google/gson/functional/PrimitiveTest.java",
+      "gson/src/test/java/com/google/gson/stream/JsonReaderTest.java",
+      "gson/src/test/java/com/google/gson/stream/JsonWriterTest.java"
+    ],
+    "PR_url": "https://github.com/google/gson/pull/2060",
+    "merge_commit_url": "https://github.com/google/gson/commit/e2e851c9bc692cec68ba7b0cbb002f82b4a229e4",
+    "buggy_commit": "710a76c8b8835e36935c62024001ba6b91ceee01",
+    "execution_result": {
+      "valid_tests": [
+        ".com.google.gson.functional.PrimitiveTest",
+        ".com.google.gson.stream.JsonWriterTest"
+      ],
+      "success_tests": [
+        ".com.google.gson.functional.PrimitiveTest",
+        ".com.google.gson.stream.JsonWriterTest"
+      ]
+    }
+  },
+  "google_gson-2061": {
+    "bug_id": "google_gson-2061",
+    "PR_number": 2061,
+    "PR_createdAt": "2022-01-23T01:03:06Z",
+    "merge_commit": "710a76c8b8835e36935c62024001ba6b91ceee01",
+    "buggy_commits": [
+      {
+        "oid": "be0a1f4ff74bcd01580887cc9f3ec592d773f24c",
+        "message": "Remove Gradle build support (#2063)\n\nBuild script was outdated and not actively maintained anymore."
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/google/gson/issues/1049",
+      "createdAt": "2017-03-23T12:51:30Z",
+      "content": "bug_report/google_gson-2061.json"
+    },
+    "changed_tests": [
+      "gson/src/test/java/com/google/gson/internal/bind/JsonTreeReaderTest.java",
+      "gson/src/test/java/com/google/gson/stream/JsonReaderTest.java"
+    ],
+    "PR_url": "https://github.com/google/gson/pull/2061",
+    "merge_commit_url": "https://github.com/google/gson/commit/710a76c8b8835e36935c62024001ba6b91ceee01",
+    "buggy_commit": "be0a1f4ff74bcd01580887cc9f3ec592d773f24c",
+    "execution_result": {
+      "valid_tests": [
+        "com.google.gson.internal.bind.JsonTreeReaderTest",
+        "com.google.gson.stream.JsonReaderTest"
+      ],
+      "success_tests": [
+        "com.google.gson.internal.bind.JsonTreeReaderTest",
+        "com.google.gson.stream.JsonReaderTest"
+      ]
+    }
+  },
+  "google_gson-2071": {
+    "bug_id": "google_gson-2071",
+    "PR_number": 2071,
+    "PR_createdAt": "2022-02-03T23:01:50Z",
+    "merge_commit": "565b7a198e026596c3fd18304f86537ae20f9a3f",
+    "buggy_commits": [
+      {
+        "oid": "e2e851c9bc692cec68ba7b0cbb002f82b4a229e4",
+        "message": "Add LazilyParsedNumber default adapter (#2060)\n\n* Add LazilyParsedNumber default adapter\r\n\r\n* Validate JsonWriter.value(Number) argument\r\n\r\n* Fix incorrect JSON number pattern, extend tests"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/google/gson/issues/2067",
+      "createdAt": "2022-01-29T19:10:34Z",
+      "content": "bug_report_all/google_gson-2071.json"
+    },
+    "changed_tests": [
+      "gson/src/test/java/com/google/gson/functional/EnumTest.java"
+    ],
+    "PR_url": "https://github.com/google/gson/pull/2071",
+    "merge_commit_url": "https://github.com/google/gson/commit/565b7a198e026596c3fd18304f86537ae20f9a3f",
+    "buggy_commit": "e2e851c9bc692cec68ba7b0cbb002f82b4a229e4",
+    "execution_result": {
+      "valid_tests": [
+        ".com.google.gson.functional.EnumTest"
+      ],
+      "success_tests": [
+        ".com.google.gson.functional.EnumTest"
+      ]
+    }
+  },
+  "google_gson-2130": {
+    "bug_id": "google_gson-2130",
+    "PR_number": 2130,
+    "PR_createdAt": "2022-06-08T21:40:03Z",
+    "merge_commit": "96ab171eb48dcea94fd9b8f425f65c531e6c3aad",
+    "buggy_commits": [
+      {
+        "oid": "15b9fa9c31d4137ad6d46f746524a5aa43eefd28",
+        "message": "Bump maven-surefire-plugin from 3.0.0-M6 to 3.0.0-M7 (#2128)\n\nBumps [maven-surefire-plugin](https://github.com/apache/maven-surefire) from 3.0.0-M6 to 3.0.0-M7.\r\n- [Release notes](https://github.com/apache/maven-surefire/releases)\r\n- [Commits](https://github.com/apache/maven-surefire/compare/surefire-3.0.0-M6...surefire-3.0.0-M7)\r\n\r\n---\r\nupdated-dependencies:\r\n- dependency-name: org.apache.maven.plugins:maven-surefire-plugin\r\n  dependency-type: direct:production\r\n  update-type: version-update:semver-patch\r\n...\r\n\r\nSigned-off-by: dependabot[bot] <support@github.com>\r\n\r\nCo-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/google/gson/issues/1127",
+      "createdAt": "2017-07-29T05:33:46Z",
+      "content": "bug_report_all/google_gson-2130.json"
+    },
+    "changed_tests": [
+      "gson/src/test/java/com/google/gson/stream/JsonWriterTest.java"
+    ],
+    "PR_url": "https://github.com/google/gson/pull/2130",
+    "merge_commit_url": "https://github.com/google/gson/commit/96ab171eb48dcea94fd9b8f425f65c531e6c3aad",
+    "buggy_commit": "15b9fa9c31d4137ad6d46f746524a5aa43eefd28",
+    "execution_result": {
+      "valid_tests": [
+        ".com.google.gson.stream.JsonWriterTest"
+      ],
+      "success_tests": [
+        ".com.google.gson.stream.JsonWriterTest"
+      ]
+    }
+  },
+  "google_gson-2134": {
+    "bug_id": "google_gson-2134",
+    "PR_number": 2134,
+    "PR_createdAt": "2022-06-12T20:12:27Z",
+    "merge_commit": "57225c6741ff14db049ebe793ff3d423f2950ac7",
+    "buggy_commits": [
+      {
+        "oid": "96ab171eb48dcea94fd9b8f425f65c531e6c3aad",
+        "message": "Add explicit support for floats in JsonWriter. (#2130)\n\nThis avoids floats being treated as doubles and having an unwarranted level of precision.\r\n\r\nFixes #1127."
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/google/gson/issues/2133",
+      "createdAt": "2022-06-12T00:36:10Z",
+      "content": "bug_report_all/google_gson-2134.json"
+    },
+    "changed_tests": [
+      "gson/src/test/java/com/google/gson/internal/bind/util/ISO8601UtilsTest.java"
+    ],
+    "PR_url": "https://github.com/google/gson/pull/2134",
+    "merge_commit_url": "https://github.com/google/gson/commit/57225c6741ff14db049ebe793ff3d423f2950ac7",
+    "buggy_commit": "96ab171eb48dcea94fd9b8f425f65c531e6c3aad",
+    "execution_result": {
+      "valid_tests": [
+        ".com.google.gson.internal.bind.util.ISO8601UtilsTest"
+      ],
+      "success_tests": [
+        ".com.google.gson.internal.bind.util.ISO8601UtilsTest"
+      ]
+    }
+  },
+  "google_gson-2153": {
+    "bug_id": "google_gson-2153",
+    "PR_number": 2153,
+    "PR_createdAt": "2022-07-25T19:12:13Z",
+    "merge_commit": "4552db2630b6d506ac7e212b337f818169f3c03b",
+    "buggy_commits": [
+      {
+        "oid": "a45c55739f4e5eb25e9b67a8b7e2bfad25851fb6",
+        "message": "Improve ArrayTypeAdapter for Object[] (#1716)\n\n* Improve ArrayTypeAdapter for Object[]\r\n\r\n* Fix typo in test method names"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/google/gson/issues/1831",
+      "createdAt": "2020-12-01T23:27:26Z",
+      "content": "bug_report_all/google_gson-2153.json"
+    },
+    "changed_tests": [
+      "gson/src/test/java/com/google/gson/GsonTest.java"
+    ],
+    "PR_url": "https://github.com/google/gson/pull/2153",
+    "merge_commit_url": "https://github.com/google/gson/commit/4552db2630b6d506ac7e212b337f818169f3c03b",
+    "buggy_commit": "a45c55739f4e5eb25e9b67a8b7e2bfad25851fb6",
+    "execution_result": {
+      "valid_tests": [
+        ".com.google.gson.GsonTest"
+      ],
+      "success_tests": [
+        ".com.google.gson.GsonTest"
+      ]
+    }
+  },
+  "google_gson-2158": {
+    "bug_id": "google_gson-2158",
+    "PR_number": 2158,
+    "PR_createdAt": "2022-07-26T15:20:13Z",
+    "merge_commit": "3e3266cf48f132928225e1561a6ae4cb5503d08f",
+    "buggy_commits": [
+      {
+        "oid": "796193d0326a2f44bc314bf24262732ea3e64014",
+        "message": "Improve versioning support documentation and validate version (#2214)"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/google/gson/issues/2156",
+      "createdAt": "2022-07-25T21:34:00Z",
+      "content": "bug_report_all/google_gson-2158.json"
+    },
+    "changed_tests": [
+      "gson/src/test/java/com/google/gson/functional/PrimitiveTest.java"
+    ],
+    "PR_url": "https://github.com/google/gson/pull/2158",
+    "merge_commit_url": "https://github.com/google/gson/commit/3e3266cf48f132928225e1561a6ae4cb5503d08f",
+    "buggy_commit": "796193d0326a2f44bc314bf24262732ea3e64014",
+    "execution_result": {
+      "valid_tests": [
+        ".com.google.gson.functional.PrimitiveTest"
+      ],
+      "success_tests": [
+        ".com.google.gson.functional.PrimitiveTest"
+      ]
+    }
+  },
+  "google_gson-2214": {
+    "bug_id": "google_gson-2214",
+    "PR_number": 2214,
+    "PR_createdAt": "2022-10-02T18:09:15Z",
+    "merge_commit": "796193d0326a2f44bc314bf24262732ea3e64014",
+    "buggy_commits": [
+      {
+        "oid": "28609089faa747f2ad5730281c14093ab40d6fda",
+        "message": "Add Javadoc since tags for previously added elements (#2211)"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/google/gson/issues/1007",
+      "createdAt": "2017-01-31T17:00:53Z",
+      "content": "bug_report_all/google_gson-2214.json"
+    },
+    "changed_tests": [
+      "gson/src/test/java/com/google/gson/GsonBuilderTest.java",
+      "gson/src/test/java/com/google/gson/VersionExclusionStrategyTest.java",
+      "gson/src/test/java/com/google/gson/functional/VersioningTest.java"
+    ],
+    "PR_url": "https://github.com/google/gson/pull/2214",
+    "merge_commit_url": "https://github.com/google/gson/commit/796193d0326a2f44bc314bf24262732ea3e64014",
+    "buggy_commit": "28609089faa747f2ad5730281c14093ab40d6fda",
+    "execution_result": {
+      "valid_tests": [
+        ".com.google.gson.GsonBuilderTest"
+      ],
+      "success_tests": [
+        ".com.google.gson.GsonBuilderTest"
+      ]
+    }
+  },
+  "google_gson-2364": {
+    "bug_id": "google_gson-2364",
+    "PR_number": 2364,
+    "PR_createdAt": "2023-04-01T16:10:29Z",
+    "merge_commit": "159968acccad958fa95a6f1971f9be66bd9c6bb2",
+    "buggy_commits": [
+      {
+        "oid": "6d9c3566b71900c54644a9f71ce028696ee5d4bd",
+        "message": "Document minimum Android API level and add workflow to check compatibility (#2431)"
+      },
+      {
+        "oid": "3c364b9c945c0e337b51b59fa60fc32355519ed7",
+        "message": "Merge branch 'master' into fix-904"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/google/gson/issues/904",
+      "createdAt": "2016-08-22T10:02:26Z",
+      "content": "bug_report_all/google_gson-2364.json"
+    },
+    "changed_tests": [
+      "gson/src/test/java/com/google/gson/JsonPrimitiveTest.java"
+    ],
+    "PR_url": "https://github.com/google/gson/pull/2364",
+    "merge_commit_url": "https://github.com/google/gson/commit/159968acccad958fa95a6f1971f9be66bd9c6bb2",
+    "buggy_commit": "6d9c3566b71900c54644a9f71ce028696ee5d4bd",
+    "execution_result": {
+      "valid_tests": [
+        ".com.google.gson.JsonPrimitiveTest"
+      ],
+      "success_tests": [
+        ".com.google.gson.JsonPrimitiveTest"
+      ]
+    }
+  },
+  "google_gson-2376": {
+    "bug_id": "google_gson-2376",
+    "PR_number": 2376,
+    "PR_createdAt": "2023-04-16T13:48:42Z",
+    "merge_commit": "533c41462172384efcea97d7939cc2ac9c898a53",
+    "buggy_commits": [
+      {
+        "oid": "6d9c3566b71900c54644a9f71ce028696ee5d4bd",
+        "message": "Document minimum Android API level and add workflow to check compatibility (#2431)"
+      },
+      {
+        "oid": "37fd5d060476a88d9e281dc6760e1bfe6638c4c5",
+        "message": "Rename system property"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/google/gson/issues/1219",
+      "createdAt": "2018-01-01T17:10:33Z",
+      "content": "bug_report_all/google_gson-2376.json"
+    },
+    "changed_tests": [
+      "gson/src/test/java/com/google/gson/reflect/TypeTokenTest.java",
+      "shrinker-test/src/main/java/com/example/ClassWithJsonAdapterAnnotation.java"
+    ],
+    "PR_url": "https://github.com/google/gson/pull/2376",
+    "merge_commit_url": "https://github.com/google/gson/commit/533c41462172384efcea97d7939cc2ac9c898a53",
+    "buggy_commit": "6d9c3566b71900c54644a9f71ce028696ee5d4bd",
+    "execution_result": {
+      "valid_tests": [
+        ".com.google.gson.reflect.TypeTokenTest"
+      ],
+      "success_tests": [
+        ".com.google.gson.reflect.TypeTokenTest"
+      ]
+    }
+  },
+  "google_gson-2410": {
+    "bug_id": "google_gson-2410",
+    "PR_number": 2410,
+    "PR_createdAt": "2023-06-05T20:16:48Z",
+    "merge_commit": "a80bc24e04d0747314bffcc5779a1412c86f6468",
+    "buggy_commits": [
+      {
+        "oid": "e7f85dff8a17928fd3f0451e59f76ee72764430c",
+        "message": "Bump maven-surefire-plugin from 3.1.0 to 3.1.2 (#2411)\n\nBumps [maven-surefire-plugin](https://github.com/apache/maven-surefire) from 3.1.0 to 3.1.2.\r\n- [Release notes](https://github.com/apache/maven-surefire/releases)\r\n- [Commits](https://github.com/apache/maven-surefire/compare/surefire-3.1.0...surefire-3.1.2)\r\n\r\n---\r\nupdated-dependencies:\r\n- dependency-name: org.apache.maven.plugins:maven-surefire-plugin\r\n  dependency-type: direct:production\r\n  update-type: version-update:semver-patch\r\n...\r\n\r\nSigned-off-by: dependabot[bot] <support@github.com>\r\nCo-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/google/gson/issues/2405",
+      "createdAt": "2023-06-01T21:39:33Z",
+      "content": "bug_report_all/google_gson-2410.json"
+    },
+    "changed_tests": [
+      "gson/src/test/java/com/google/gson/functional/DefaultTypeAdaptersTest.java",
+      "gson/src/test/java/com/google/gson/functional/NamingPolicyTest.java",
+      "gson/src/test/java/com/google/gson/functional/ObjectTest.java",
+      "gson/src/test/java/com/google/gson/functional/ReflectionAccessTest.java",
+      "gson/src/test/java/com/google/gson/functional/StreamingTypeAdaptersTest.java",
+      "gson/src/test/java/com/google/gson/reflect/TypeTokenTest.java",
+      "gson/src/test/java/com/google/gson/stream/JsonReaderTest.java",
+      "shrinker-test/src/test/java/com/google/gson/it/ShrinkingIT.java"
+    ],
+    "PR_url": "https://github.com/google/gson/pull/2410",
+    "merge_commit_url": "https://github.com/google/gson/commit/a80bc24e04d0747314bffcc5779a1412c86f6468",
+    "buggy_commit": "e7f85dff8a17928fd3f0451e59f76ee72764430c",
+    "execution_result": {
+      "valid_tests": [
+        ".com.google.gson.ToNumberPolicyTest",
+        ".com.google.gson.functional.DefaultTypeAdaptersTest",
+        ".com.google.gson.functional.NamingPolicyTest",
+        ".com.google.gson.functional.ObjectTest",
+        ".com.google.gson.functional.ReflectionAccessTest",
+        ".com.google.gson.functional.StreamingTypeAdaptersTest",
+        ".com.google.gson.reflect.TypeTokenTest",
+        ".com.google.gson.stream.JsonReaderTest"
+      ],
+      "success_tests": [
+        ".com.google.gson.ToNumberPolicyTest",
+        ".com.google.gson.functional.DefaultTypeAdaptersTest",
+        ".com.google.gson.functional.NamingPolicyTest",
+        ".com.google.gson.functional.ObjectTest",
+        ".com.google.gson.functional.ReflectionAccessTest",
+        ".com.google.gson.functional.StreamingTypeAdaptersTest",
+        ".com.google.gson.reflect.TypeTokenTest",
+        ".com.google.gson.stream.JsonReaderTest"
+      ]
+    }
+  },
+  "google_gson-2420": {
+    "bug_id": "google_gson-2420",
+    "PR_number": 2420,
+    "PR_createdAt": "2023-06-17T14:44:03Z",
+    "merge_commit": "d005b75512b67a49cdce838c551cc3f6bbb1f2c8",
+    "buggy_commits": [
+      {
+        "oid": "6d9c3566b71900c54644a9f71ce028696ee5d4bd",
+        "message": "Document minimum Android API level and add workflow to check compatibility (#2431)"
+      },
+      {
+        "oid": "f5957a224d411d13f8f59fee0557dfb654668693",
+        "message": "Merge remote-tracking branch 'remotes/origin/main' into marcono1234/proguard-default-rules-improvements"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/google/gson/issues/2401",
+      "createdAt": "2023-05-29T12:40:12Z",
+      "content": "bug_report_all/google_gson-2420.json"
+    },
+    "changed_tests": [
+      "gson/src/test/java/com/google/gson/functional/Java17RecordTest.java",
+      "gson/src/test/java/com/google/gson/internal/ConstructorConstructorTest.java",
+      "shrinker-test/src/main/java/com/example/ClassWithJsonAdapterAnnotation.java",
+      "shrinker-test/src/main/java/com/example/DefaultConstructorMain.java",
+      "shrinker-test/src/test/java/com/google/gson/it/ShrinkingIT.java"
+    ],
+    "PR_url": "https://github.com/google/gson/pull/2420",
+    "merge_commit_url": "https://github.com/google/gson/commit/d005b75512b67a49cdce838c551cc3f6bbb1f2c8",
+    "buggy_commit": "6d9c3566b71900c54644a9f71ce028696ee5d4bd",
+    "execution_result": {
+      "valid_tests": [
+        ".com.google.gson.functional.Java17RecordTest",
+        ".com.google.gson.internal.ConstructorConstructorTest"
+      ],
+      "success_tests": [
+        ".com.google.gson.functional.Java17RecordTest",
+        ".com.google.gson.internal.ConstructorConstructorTest"
+      ]
+    }
+  }
+}

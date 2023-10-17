@@ -1,0 +1,114 @@
+{
+    "alibaba_fastjson": {
+        "pr": "alibaba_fastjson-3834",
+        "date": "2021-07-10T14:31:35Z",
+        "found": 0.0563,
+        "longest": 0.0198,
+        "total": 2926
+    },
+    "alibaba_nacos": {
+        "pr": "alibaba_nacos-8202",
+        "date": "2022-04-19T08:25:23Z",
+        "found": 0.3912,
+        "longest": 0.1713,
+        "total": 900
+    },
+    "apache_dubbo": {
+        "pr": "apache_dubbo-11179",
+        "date": "2022-12-20T15:04:09Z",
+        "found": 0.4718,
+        "longest": 0.0781,
+        "total": 2586
+    },
+    "apache_rocketmq": {
+        "pr": "apache_rocketmq-4071",
+        "date": "2022-03-30T11:22:52Z",
+        "found": 0.2544,
+        "longest": 0.1837,
+        "total": 283
+    },
+    "assertj_assertj": {
+        "pr": "assertj_assertj-2324",
+        "date": "2021-08-23T20:36:25Z", 
+        "found": 0.0418,
+        "longest": 0.0248,
+        "total": 2177
+    },
+    "checkstyle_checkstyle": {
+        "pr": "checkstyle_checkstyle-10825",
+        "date": "2021-09-26T07:20:19Z",
+        "found": 0.2945,
+        "longest": 0.0476,
+        "total": 1134
+    },
+    "FasterXML_jackson-core": {
+        "pr": "FasterXML_jackson-core-883",
+        "date": "2022-12-29T13:55:28Z",
+        "found": 0.0697,
+        "longest": 0.0251,
+        "total": 2152
+    },
+    "FasterXML_jackson-databind": {
+        "pr": "FasterXML_jackson-databind-3195",
+        "date": "2021-07-01T09:57:38Z",
+        "found": 0.3452,
+        "longest": 0.032,
+        "total": 3218
+    },
+    "FasterXML_jackson-dataformat": {
+        "pr": "FasterXML_jackson-dataformat-xml-544",
+        "date": "2022-08-29T10:57:38Z",
+        "found": 0.2049,
+        "longest": 0.083,
+        "total": 3616
+    },
+    "google_gson": {
+        "pr": "google_gson-2060",
+        "date": "2022-01-23T00:40:11Z",
+        "found": 0.3873,
+        "longest": 0.0206,
+        "total": 9719
+    },
+    "Hakky54_sslcontext-kickstart": {
+        "pr": "Hakky54_sslcontext-kickstart-122",
+        "date": "2021-10-07T10:31:53Z",
+        "found": 0.6664,
+        "longest": 0.0337,
+        "total": 8864
+    },
+    "iBotPeaches_Apktool": {
+        "pr": "iBotPeaches_Apktool-3113",
+        "date": "2023-07-01T23:44:10Z",
+        "found": 0.5815,
+        "longest": 0.1303,
+        "total": 399
+    },
+    "jhy_jsoup": {
+        "pr": "jhy_jsoup-1648",
+        "date": "2021-09-29T12:27:14Z",
+        "found": 0.3291,
+        "longest": 0.0595,
+        "total": 1665
+    },
+    "OpenAPITools_openapi-generator": {
+        "pr": "OpenAPITools_openapi-generator-13164",
+        "date": "2022-08-11T20:36:53Z",
+        "found": 0.3357,
+        "longest": 0.0508,
+        "total": 2008
+    },
+    "seata_seata": {
+        "pr": "seata_seata-4056",
+        "date": "2021-10-08T09:10:05Z",
+        "found": 0.4942,
+        "longest": 0.1011, 
+        "total": 2483
+    },
+    "square_retrofit": {
+        "pr": "square_retrofit-3759",
+        "date": "2022-08-03T17:23:52Z",
+        "found": 0.1178,
+        "longest": 0.0914,
+        "total": 569
+    }
+}

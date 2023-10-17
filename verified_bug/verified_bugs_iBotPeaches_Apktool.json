@@ -1,0 +1,33 @@
+{
+  "iBotPeaches_Apktool-3113": {
+    "bug_id": "iBotPeaches_Apktool-3113",
+    "PR_number": 3113,
+    "PR_createdAt": "2023-07-01T23:44:10Z",
+    "merge_commit": "70d941d18d6a06c9cc90a7433515176caade9594",
+    "buggy_commits": [
+      {
+        "oid": "5cd94d6aa0bb8824ffa2bfbecb6f4747a0916547",
+        "message": "refactor Apkecoder - streamline decode procedure (#3109)"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/iBotPeaches/Apktool/issues/3112",
+      "createdAt": "2023-07-01T23:36:02Z",
+      "content": "bug_report_all/iBotPeaches_Apktool-3113.json"
+    },
+    "changed_tests": [
+      "brut.apktool/apktool-lib/src/test/java/brut/androlib/androlib/InvalidSdkBoundingTest.java"
+    ],
+    "PR_url": "https://github.com/iBotPeaches/Apktool/pull/3113",
+    "merge_commit_url": "https://github.com/iBotPeaches/Apktool/commit/70d941d18d6a06c9cc90a7433515176caade9594",
+    "buggy_commit": "5cd94d6aa0bb8824ffa2bfbecb6f4747a0916547",
+    "execution_result": {
+      "valid_tests": [
+        "brut.androlib.androlib.InvalidSdkBoundingTest"
+      ],
+      "success_tests": [
+        "brut.androlib.androlib.InvalidSdkBoundingTest"
+      ]
+    }
+  }
+}

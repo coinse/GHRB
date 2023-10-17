@@ -1,0 +1,14 @@
+diff --git a/src/main/java/com/puppycrawl/tools/checkstyle/utils/BlockCommentPosition.java b/src/main/java/com/puppycrawl/tools/checkstyle/utils/BlockCommentPosition.java
+index 0d05ac1b5..064d46de4 100644
+--- a/src/main/java/com/puppycrawl/tools/checkstyle/utils/BlockCommentPosition.java
++++ b/src/main/java/com/puppycrawl/tools/checkstyle/utils/BlockCommentPosition.java
+@@ -184,7 +184,8 @@ public final class BlockCommentPosition {
+     public static boolean isOnConstructor(DetailAST blockComment) {
+         return isOnPlainToken(blockComment, TokenTypes.CTOR_DEF, TokenTypes.IDENT)
+                 || isOnTokenWithModifiers(blockComment, TokenTypes.CTOR_DEF)
+-                || isOnTokenWithAnnotation(blockComment, TokenTypes.CTOR_DEF);
++                || isOnTokenWithAnnotation(blockComment, TokenTypes.CTOR_DEF)
++                || isOnPlainClassMember(blockComment, TokenTypes.CTOR_DEF);
+     }
+ 
+     /**

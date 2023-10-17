@@ -1,0 +1,51 @@
+diff --git a/javaparser-core-testing/src/test/java/com/github/javaparser/printer/DefaultPrettyPrinterTest.java b/javaparser-core-testing/src/test/java/com/github/javaparser/printer/DefaultPrettyPrinterTest.java
+index 62813c2..d7f3e34 100755
+--- a/javaparser-core-testing/src/test/java/com/github/javaparser/printer/DefaultPrettyPrinterTest.java
++++ b/javaparser-core-testing/src/test/java/com/github/javaparser/printer/DefaultPrettyPrinterTest.java
+@@ -576,4 +576,35 @@ class DefaultPrettyPrinterTest {
+         assertTrue(indentation.getType() == IndentType.TABS);
+         assertEquals("\t\t", indentation.getIndent());
+     }
++    
++    @Test
++    public void testIssue3317() {
++
++        String code = "public class Test {\n" + 
++                "  protected void someMethod() {\n" + 
++                "    // Before\n" + 
++                "    System.out\n"+
++                "    // Middle Comment\n" + 
++                "    .println(\"\");\n" + 
++                "    // After\n" + 
++                "  }\n" +
++                "}";
++        
++        String expected = "public class Test {\n" + 
++                "\n" + 
++                "    protected void someMethod() {\n" + 
++                "        // Before\n" + 
++                "        System.out.// Middle Comment\n" + 
++                "        println(\"\");\n" + 
++                "        // After\n" + 
++                "    }\n" + 
++                "}\n";
++
++        StaticJavaParser.setConfiguration(new ParserConfiguration());
++
++        CompilationUnit cu = StaticJavaParser.parse(code);
++        
++        assertEqualsStringIgnoringEol(expected, cu.toString());
++
++    }
+ }
+diff --git a/javaparser-core-testing/src/test/java/com/github/javaparser/printer/lexicalpreservation/Issue3296Test.java b/javaparser-core-testing/src/test/java/com/github/javaparser/printer/lexicalpreservation/Issue3296Test.java
+index 9563b05..228ba6e 100755
+--- a/javaparser-core-testing/src/test/java/com/github/javaparser/printer/lexicalpreservation/Issue3296Test.java
++++ b/javaparser-core-testing/src/test/java/com/github/javaparser/printer/lexicalpreservation/Issue3296Test.java
+@@ -60,6 +60,5 @@ public class Issue3296Test extends AbstractLexicalPreservingTest  {
+                                 }));
+         String changed = LexicalPreservingPrinter.print(cu);
+         assertEqualsStringIgnoringEol(changed, expected);
+-        System.out.println(changed);
+     }
+ }

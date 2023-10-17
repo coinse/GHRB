@@ -1,0 +1,16 @@
+diff --git a/src/main/java/com/alibaba/fastjson/JSONPath.java b/src/main/java/com/alibaba/fastjson/JSONPath.java
+index a8cc592d9..39b87b57f 100644
+--- a/src/main/java/com/alibaba/fastjson/JSONPath.java
++++ b/src/main/java/com/alibaba/fastjson/JSONPath.java
+@@ -1033,10 +1033,9 @@ public class JSONPath implements JSONAware {
+         }
+ 
+         public final void skipWhitespace() {
+-            for (;;) {
++            for (;!isEOF();) {
+                 if (ch <= ' ' && (ch == ' ' || ch == '\r' || ch == '\n' || ch == '\t' || ch == '\f' || ch == '\b')) {
+                     next();
+-                    continue;
+                 } else {
+                     break;
+                 }

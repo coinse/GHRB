@@ -1,0 +1,26 @@
+diff --git a/retrofit/src/test/java/retrofit2/RequestFactoryTest.java b/retrofit/src/test/java/retrofit2/RequestFactoryTest.java
+index e0f4005..7add6e5 100644
+--- a/retrofit/src/test/java/retrofit2/RequestFactoryTest.java
++++ b/retrofit/src/test/java/retrofit2/RequestFactoryTest.java
+@@ -609,10 +609,10 @@ public final class RequestFactoryTest {
+   }
+ 
+   @Test
+-  public void headerMapMustBeAMap() {
++  public void headerMapMustBeAMapOrHeaders() {
+     class Example {
+       @GET("/")
+-      Call<ResponseBody> method(@HeaderMap List<String> headers) {
++      Call<ResponseBody> method(@HeaderMap okhttp3.Headers headers, @HeaderMap List<String> headerMap) {
+         return null;
+       }
+     }
+@@ -622,7 +622,7 @@ public final class RequestFactoryTest {
+     } catch (IllegalArgumentException e) {
+       assertThat(e)
+           .hasMessage(
+-              "@HeaderMap parameter type must be Map. (parameter #1)\n    for method Example.method");
++              "@HeaderMap parameter type must be Map or Headers. (parameter #2)\n    for method Example.method");
+     }
+   }
+ 

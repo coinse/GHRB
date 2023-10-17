@@ -1,0 +1,13 @@
+diff --git a/modules/openapi-generator/src/test/java/org/openapitools/codegen/DefaultCodegenTest.java b/modules/openapi-generator/src/test/java/org/openapitools/codegen/DefaultCodegenTest.java
+index 5d79286..0c90785 100644
+--- a/modules/openapi-generator/src/test/java/org/openapitools/codegen/DefaultCodegenTest.java
++++ b/modules/openapi-generator/src/test/java/org/openapitools/codegen/DefaultCodegenTest.java
+@@ -4716,7 +4716,7 @@ public class DefaultCodegenTest {
+         Assert.assertEquals(inlineEnumSchemaProperty.getName(), "enumType");
+         Assert.assertTrue(inlineEnumSchemaProperty.isEnum);
+         Assert.assertTrue(inlineEnumSchemaProperty.isInnerEnum);
+-        Assert.assertTrue(inlineEnumSchemaProperty.isEnumRef);
++        Assert.assertFalse(inlineEnumSchemaProperty.isEnumRef);
+         Assert.assertTrue(inlineEnumSchemaProperty.getIsEnumOrRef());
+         Assert.assertTrue(inlineEnumSchemaProperty.isString);
+         Assert.assertFalse(inlineEnumSchemaProperty.isContainer);

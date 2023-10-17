@@ -1,0 +1,37 @@
+{
+  "square_retrofit-3759": {
+    "bug_id": "square_retrofit-3759",
+    "PR_number": 3759,
+    "PR_createdAt": "2022-08-03T17:23:52Z",
+    "merge_commit": "5180f481c58b0be80ad81a0c1ec540fe7e91ee81",
+    "buggy_commits": [
+      {
+        "oid": "6cd6f7d8287f73909614cb7300fcde05f5719750",
+        "message": "Merge pull request #3726 from sitamshrijal/master\n\nGson 2.9.0"
+      },
+      {
+        "oid": "296fcd962956c1c806b3bcf08b91edb96a8ada75",
+        "message": "@HeaderMap parameter type must be Map or Headers"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/square/retrofit/issues/3758",
+      "createdAt": "2022-08-01T11:39:32Z",
+      "content": "bug_report_all/square_retrofit-3759.json"
+    },
+    "changed_tests": [
+      "retrofit/src/test/java/retrofit2/RequestFactoryTest.java"
+    ],
+    "PR_url": "https://github.com/square/retrofit/pull/3759",
+    "merge_commit_url": "https://github.com/square/retrofit/commit/5180f481c58b0be80ad81a0c1ec540fe7e91ee81",
+    "buggy_commit": "6cd6f7d8287f73909614cb7300fcde05f5719750",
+    "execution_result": {
+      "valid_tests": [
+        "retrofit2.RequestFactoryTest"
+      ],
+      "success_tests": [
+        "retrofit2.RequestFactoryTest"
+      ]
+    }
+  }
+}

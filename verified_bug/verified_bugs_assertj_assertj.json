@@ -1,0 +1,180 @@
+{
+  "assertj_assertj-2324": {
+    "bug_id": "assertj_assertj-2324",
+    "PR_number": 2324,
+    "PR_createdAt": "2021-08-23T20:36:25Z",
+    "merge_commit": "391b688863002fe50bdf9f7f70e542096fb0ece1",
+    "buggy_commits": [
+      {
+        "oid": "71b9e77976dd089340fd0d996e99cb12dd55a79e",
+        "message": "Use setup-java cache support"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/assertj/assertj/issues/2319",
+      "createdAt": "2021-08-20T17:29:57Z",
+      "content": "bug_report_all/assertj_assertj-2324.json"
+    },
+    "changed_tests": [
+      "src/test/java/org/assertj/core/internal/classes/Classes_assertHasMethods_Test.java"
+    ],
+    "PR_url": "https://github.com/assertj/assertj/pull/2324",
+    "merge_commit_url": "https://github.com/assertj/assertj/commit/391b688863002fe50bdf9f7f70e542096fb0ece1",
+    "buggy_commit": "71b9e77976dd089340fd0d996e99cb12dd55a79e",
+    "execution_result": {
+      "valid_tests": [
+        ".org.assertj.core.internal.classes.Classes_assertHasMethods_Test"
+      ],
+      "success_tests": [
+        ".org.assertj.core.internal.classes.Classes_assertHasMethods_Test"
+      ]
+    }
+  },
+  "assertj_assertj-2364": {
+    "bug_id": "assertj_assertj-2364",
+    "PR_number": 2364,
+    "PR_createdAt": "2021-10-09T21:35:09Z",
+    "merge_commit": "7d78fa8f9f72f4f3b252c21bce9b03d77426a8b6",
+    "buggy_commits": [
+      {
+        "oid": "c91eb66ab36c2d733b1c5ec3bcbb5c8b1410278a",
+        "message": "Bump japicmp-maven-plugin from 0.15.3 to 0.15.4 (#2362)\n\nBumps [japicmp-maven-plugin](https://github.com/siom79/japicmp) from 0.15.3 to 0.15.4.\n- [Release notes](https://github.com/siom79/japicmp/releases)\n- [Changelog](https://github.com/siom79/japicmp/blob/master/release.py)\n- [Commits](https://github.com/siom79/japicmp/compare/japicmp-base-0.15.3...japicmp-base-0.15.4)\n\n---\nupdated-dependencies:\n- dependency-name: com.github.siom79.japicmp:japicmp-maven-plugin\n  dependency-type: direct:production\n  update-type: version-update:semver-patch\n...\n\nSigned-off-by: dependabot[bot] <support@github.com>\n\nCo-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/assertj/assertj/issues/2363",
+      "createdAt": "2021-10-08T18:18:16Z",
+      "content": "bug_report_all/assertj_assertj-2364.json"
+    },
+    "changed_tests": [
+      "src/test/java/org/assertj/core/api/object/ObjectAssert_extracting_with_String_Test.java",
+      "src/test/java/org/assertj/core/util/introspection/PropertyOrFieldSupport_getSimpleValue_with_Map_input_Test.java",
+      "src/test/java/org/assertj/core/util/introspection/PropertyOrFieldSupport_getSimpleValue_with_Optional_input_Test.java"
+    ],
+    "PR_url": "https://github.com/assertj/assertj/pull/2364",
+    "merge_commit_url": "https://github.com/assertj/assertj/commit/7d78fa8f9f72f4f3b252c21bce9b03d77426a8b6",
+    "buggy_commit": "c91eb66ab36c2d733b1c5ec3bcbb5c8b1410278a",
+    "execution_result": {
+      "valid_tests": [
+        ".org.assertj.core.util.introspection.PropertyOrFieldSupport_getSimpleValue_with_Optional_input_Test"
+      ],
+      "success_tests": [
+        ".org.assertj.core.util.introspection.PropertyOrFieldSupport_getSimpleValue_with_Optional_input_Test"
+      ]
+    }
+  },
+  "assertj_assertj-2445": {
+    "bug_id": "assertj_assertj-2445",
+    "PR_number": 2445,
+    "PR_createdAt": "2021-12-19T11:24:00Z",
+    "merge_commit": "ce1113f1c4f3f2d7698c3db189884ce1f8a6bab4",
+    "buggy_commits": [
+      {
+        "oid": "2839906331e8a81566d977d75ccf9dd3d19ed19e",
+        "message": "Treat class cast exception as comparison failure\nFix #2434"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/assertj/assertj/issues/2444",
+      "createdAt": "2021-12-18T18:46:29Z",
+      "content": "bug_report_all/assertj_assertj-2445.json"
+    },
+    "changed_tests": [
+      "src/test/java/org/assertj/core/presentation/StandardRepresentation_toStringOf_Test.java"
+    ],
+    "PR_url": "https://github.com/assertj/assertj/pull/2445",
+    "merge_commit_url": "https://github.com/assertj/assertj/commit/ce1113f1c4f3f2d7698c3db189884ce1f8a6bab4",
+    "buggy_commit": "2839906331e8a81566d977d75ccf9dd3d19ed19e",
+    "execution_result": {
+      "valid_tests": [
+        ".org.assertj.core.presentation.StandardRepresentation_toStringOf_Test"
+      ],
+      "success_tests": [
+        ".org.assertj.core.presentation.StandardRepresentation_toStringOf_Test"
+      ]
+    }
+  },
+  "assertj_assertj-2549": {
+    "bug_id": "assertj_assertj-2549",
+    "PR_number": 2549,
+    "PR_createdAt": "2022-03-30T20:25:27Z",
+    "merge_commit": "aa3fbf8cf56afcb11ebd9e60c4208ec0249bc81e",
+    "buggy_commits": [
+      {
+        "oid": "92548d8916425787c8a60e6dea638b285825ca12",
+        "message": "Bump jackson-databind from 2.13.2.1 to 2.13.2.2 (#2546)\n\nBumps [jackson-databind](https://github.com/FasterXML/jackson) from 2.13.2.1 to 2.13.2.2.\r\n- [Release notes](https://github.com/FasterXML/jackson/releases)\r\n- [Commits](https://github.com/FasterXML/jackson/commits)\r\n\r\n---\r\nupdated-dependencies:\r\n- dependency-name: com.fasterxml.jackson.core:jackson-databind\r\n  dependency-type: direct:development\r\n  update-type: version-update:semver-patch\r\n...\r\n\r\nSigned-off-by: dependabot[bot] <support@github.com>\r\n\r\nCo-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/assertj/assertj/issues/2547",
+      "createdAt": "2022-03-30T14:05:07Z",
+      "content": "bug_report_all/assertj_assertj-2549.json"
+    },
+    "changed_tests": [
+      "src/test/java/org/assertj/core/internal/maps/Maps_assertContainsOnlyKeys_Test.java",
+      "src/test/java/org/assertj/core/internal/maps/Maps_assertContainsOnly_Test.java"
+    ],
+    "PR_url": "https://github.com/assertj/assertj/pull/2549",
+    "merge_commit_url": "https://github.com/assertj/assertj/commit/aa3fbf8cf56afcb11ebd9e60c4208ec0249bc81e",
+    "buggy_commit": "92548d8916425787c8a60e6dea638b285825ca12",
+    "execution_result": {
+      "valid_tests": [
+        ".org.assertj.core.internal.maps.Maps_assertContainsOnlyKeys_Test",
+        ".org.assertj.core.internal.maps.Maps_assertContainsOnly_Test"
+      ],
+      "success_tests": [
+        ".org.assertj.core.internal.maps.Maps_assertContainsOnlyKeys_Test",
+        ".org.assertj.core.internal.maps.Maps_assertContainsOnly_Test"
+      ]
+    }
+  },
+  "assertj_assertj-2685": {
+    "bug_id": "assertj_assertj-2685",
+    "PR_number": 2685,
+    "PR_createdAt": "2022-06-25T14:10:08Z",
+    "merge_commit": "befef07f172031847cbdd7a7e0622d52a64a9033",
+    "buggy_commits": [
+      {
+        "oid": "d5180a6d7c1af6ac7272268ee87dad54ae01ee7c",
+        "message": "Fix incomplete test for given(Duration) in BDDAssumptionsTest (#2686)\n\nFIxed a test that was not asserting anything on the result."
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/assertj/assertj/issues/2666",
+      "createdAt": "2022-06-17T21:38:03Z",
+      "content": "bug_report_all/assertj_assertj-2685.json"
+    },
+    "changed_tests": [
+      "src/test/java/org/assertj/core/internal/strings/Strings_assertContainsIgnoringCase_Test.java",
+      "src/test/java/org/assertj/core/internal/strings/Strings_assertDoesNotContainIgnoringCase_Test.java",
+      "src/test/java/org/assertj/core/internal/strings/Strings_assertDoesNotEndWithIgnoringCase_Test.java",
+      "src/test/java/org/assertj/core/internal/strings/Strings_assertDoesNotStartWithIgnoringCase_Test.java",
+      "src/test/java/org/assertj/core/internal/strings/Strings_assertEndsWithIgnoringCase_Test.java",
+      "src/test/java/org/assertj/core/internal/strings/Strings_assertEqualsIgnoringCase_Test.java",
+      "src/test/java/org/assertj/core/internal/strings/Strings_assertNotEqualsIgnoringCase_Test.java",
+      "src/test/java/org/assertj/core/internal/strings/Strings_assertStartsWithIgnoringCase_Test.java",
+      "src/test/java/org/assertj/core/test/CaseInsensitiveStringComparatorTest.java"
+    ],
+    "PR_url": "https://github.com/assertj/assertj/pull/2685",
+    "merge_commit_url": "https://github.com/assertj/assertj/commit/befef07f172031847cbdd7a7e0622d52a64a9033",
+    "buggy_commit": "d5180a6d7c1af6ac7272268ee87dad54ae01ee7c",
+    "execution_result": {
+      "valid_tests": [
+        ".org.assertj.core.internal.strings.Strings_assertContainsIgnoringCase_Test",
+        ".org.assertj.core.internal.strings.Strings_assertDoesNotContainIgnoringCase_Test",
+        ".org.assertj.core.internal.strings.Strings_assertDoesNotEndWithIgnoringCase_Test",
+        ".org.assertj.core.internal.strings.Strings_assertDoesNotStartWithIgnoringCase_Test",
+        ".org.assertj.core.internal.strings.Strings_assertEndsWithIgnoringCase_Test",
+        ".org.assertj.core.internal.strings.Strings_assertStartsWithIgnoringCase_Test"
+      ],
+      "success_tests": [
+        ".org.assertj.core.internal.strings.Strings_assertContainsIgnoringCase_Test",
+        ".org.assertj.core.internal.strings.Strings_assertDoesNotContainIgnoringCase_Test",
+        ".org.assertj.core.internal.strings.Strings_assertDoesNotEndWithIgnoringCase_Test",
+        ".org.assertj.core.internal.strings.Strings_assertDoesNotStartWithIgnoringCase_Test",
+        ".org.assertj.core.internal.strings.Strings_assertEndsWithIgnoringCase_Test",
+        ".org.assertj.core.internal.strings.Strings_assertStartsWithIgnoringCase_Test"
+      ]
+    }
+  }
+}

@@ -1,0 +1,90 @@
+diff --git a/sslcontext-kickstart/src/main/java/nl/altindag/ssl/trustmanager/CombinableX509TrustManager.java b/sslcontext-kickstart/src/main/java/nl/altindag/ssl/trustmanager/CombinableX509TrustManager.java
+index d49721e..56baeba 100644
+--- a/sslcontext-kickstart/src/main/java/nl/altindag/ssl/trustmanager/CombinableX509TrustManager.java
++++ b/sslcontext-kickstart/src/main/java/nl/altindag/ssl/trustmanager/CombinableX509TrustManager.java
+@@ -36,13 +36,11 @@ interface CombinableX509TrustManager extends X509TrustManager {
+     default void checkTrusted(TrustManagerConsumer callBackConsumer) throws CertificateException {
+         List<CertificateException> certificateExceptions = new ArrayList<>();
+         for (X509ExtendedTrustManager trustManager : getTrustManagers()) {
+-            if (trustManager.getAcceptedIssuers().length > 0) {
+-                try {
+-                    callBackConsumer.checkTrusted(trustManager);
+-                    return;
+-                } catch (CertificateException e) {
+-                    certificateExceptions.add(e);
+-                }
++            try {
++                callBackConsumer.checkTrusted(trustManager);
++                return;
++            } catch (CertificateException e) {
++                certificateExceptions.add(e);
+             }
+         }
+ 
+diff --git a/sslcontext-kickstart/src/main/java/nl/altindag/ssl/util/TrustManagerUtils.java b/sslcontext-kickstart/src/main/java/nl/altindag/ssl/util/TrustManagerUtils.java
+index 26226c0..5829bbd 100644
+--- a/sslcontext-kickstart/src/main/java/nl/altindag/ssl/util/TrustManagerUtils.java
++++ b/sslcontext-kickstart/src/main/java/nl/altindag/ssl/util/TrustManagerUtils.java
+@@ -358,32 +358,42 @@ public final class TrustManagerUtils {
+         public X509ExtendedTrustManager build() {
+             requireNotEmpty(trustManagers, () -> new GenericTrustManagerException(EMPTY_TRUST_MANAGER_EXCEPTION));
+ 
+-            X509ExtendedTrustManager trustManager;
+-            if (trustManagers.size() == 1) {
+-                trustManager = trustManagers.get(0);
+-            } else {
+-                trustManager = trustManagers.stream()
+-                        .map(TrustManagerUtils::unwrapIfPossible)
+-                        .flatMap(Collection::stream)
+-                        .collect(Collectors.collectingAndThen(Collectors.toList(), CompositeX509ExtendedTrustManager::new));
+-            }
++            X509ExtendedTrustManager baseTrustManager;
+ 
+-            if (chainAndAuthTypeValidator != null
+-                    || chainAndAuthTypeWithSocketValidator != null
+-                    || chainAndAuthTypeWithSSLEngineValidator != null) {
+-                trustManager = TrustManagerUtils.createEnhanceableTrustManager(
+-                        trustManager,
+-                        chainAndAuthTypeValidator,
+-                        chainAndAuthTypeWithSocketValidator,
+-                        chainAndAuthTypeWithSSLEngineValidator
+-                );
++            Optional<X509ExtendedTrustManager> unsafeTrustManager = trustManagers.stream()
++                    .filter(UnsafeX509ExtendedTrustManager.class::isInstance)
++                    .findAny();
++
++            if (unsafeTrustManager.isPresent()) {
++                baseTrustManager = unsafeTrustManager.get();
++            } else {
++                if (trustManagers.size() == 1) {
++                    baseTrustManager = trustManagers.get(0);
++                } else {
++                    baseTrustManager = trustManagers.stream()
++                            .map(TrustManagerUtils::unwrapIfPossible)
++                            .flatMap(Collection::stream)
++                            .filter(trustManager -> trustManager.getAcceptedIssuers().length > 0)
++                            .collect(Collectors.collectingAndThen(Collectors.toList(), CompositeX509ExtendedTrustManager::new));
++                }
++
++                if (chainAndAuthTypeValidator != null
++                        || chainAndAuthTypeWithSocketValidator != null
++                        || chainAndAuthTypeWithSSLEngineValidator != null) {
++                    baseTrustManager = TrustManagerUtils.createEnhanceableTrustManager(
++                            baseTrustManager,
++                            chainAndAuthTypeValidator,
++                            chainAndAuthTypeWithSocketValidator,
++                            chainAndAuthTypeWithSSLEngineValidator
++                    );
++                }
+             }
+ 
+             if (swappableTrustManagerEnabled) {
+-                trustManager = TrustManagerUtils.createSwappableTrustManager(trustManager);
++                baseTrustManager = TrustManagerUtils.createSwappableTrustManager(baseTrustManager);
+             }
+ 
+-            return trustManager;
++            return baseTrustManager;
+         }
+     }
+ 

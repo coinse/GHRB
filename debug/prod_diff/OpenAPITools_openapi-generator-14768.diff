@@ -1,0 +1,39 @@
+diff --git a/modules/openapi-generator/src/main/java/org/openapitools/codegen/languages/Swift5ClientCodegen.java b/modules/openapi-generator/src/main/java/org/openapitools/codegen/languages/Swift5ClientCodegen.java
+index 5bd1dfb2db0..584e7720910 100644
+--- a/modules/openapi-generator/src/main/java/org/openapitools/codegen/languages/Swift5ClientCodegen.java
++++ b/modules/openapi-generator/src/main/java/org/openapitools/codegen/languages/Swift5ClientCodegen.java
+@@ -145,7 +145,8 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
+                         "URL",
+                         "AnyObject",
+                         "Any",
+-                        "Decimal")
++                        "Decimal",
++                        "AnyCodable") // from AnyCodable dependency
+         );
+         defaultIncludes = new HashSet<>(
+                 Arrays.asList(
+@@ -731,11 +732,11 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
+         // FIXME parameter should not be assigned. Also declare it as "final"
+         name = sanitizeName(name);
+ 
+-        if (!StringUtils.isEmpty(modelNameSuffix)) { // set model suffix
++        if (!StringUtils.isEmpty(modelNameSuffix) && !isLanguageSpecificType(name)) { // set model suffix
+             name = name + "_" + modelNameSuffix;
+         }
+ 
+-        if (!StringUtils.isEmpty(modelNamePrefix)) { // set model prefix
++        if (!StringUtils.isEmpty(modelNamePrefix) && !isLanguageSpecificType(name)) { // set model prefix
+             name = modelNamePrefix + "_" + name;
+         }
+ 
+@@ -1086,6 +1087,10 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
+                 LOWERCASE_FIRST_LETTER);
+     }
+ 
++    private Boolean isLanguageSpecificType(String name) {
++        return languageSpecificPrimitives.contains(name);
++    }
++
+     private String replaceSpecialCharacters(String name) {
+         for (Map.Entry<String, String> specialCharacters : specialCharReplacements.entrySet()) {
+             String specialChar = specialCharacters.getKey();

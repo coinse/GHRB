@@ -1,0 +1,1330 @@
+diff --git a/modules/openapi-generator/src/main/java/org/openapitools/codegen/DefaultCodegen.java b/modules/openapi-generator/src/main/java/org/openapitools/codegen/DefaultCodegen.java
+index f198bb1c8ae..0d77a20a74d 100644
+--- a/modules/openapi-generator/src/main/java/org/openapitools/codegen/DefaultCodegen.java
++++ b/modules/openapi-generator/src/main/java/org/openapitools/codegen/DefaultCodegen.java
+@@ -5303,14 +5303,6 @@ public class DefaultCodegen implements CodegenConfig {
+             }
+         }
+ 
+-        // sort auth methods to maintain the same order
+-        Collections.sort(codegenSecurities, new Comparator<CodegenSecurity>() {
+-            @Override
+-            public int compare(CodegenSecurity one, CodegenSecurity another) {
+-                return ObjectUtils.compare(one.name, another.name);
+-            }
+-        });
+-
+         return codegenSecurities;
+     }
+ 
+diff --git a/samples/client/petstore/java/apache-httpclient/src/main/java/org/openapitools/client/ApiClient.java b/samples/client/petstore/java/apache-httpclient/src/main/java/org/openapitools/client/ApiClient.java
+index 70b456cadfd..a8620ed4e71 100644
+--- a/samples/client/petstore/java/apache-httpclient/src/main/java/org/openapitools/client/ApiClient.java
++++ b/samples/client/petstore/java/apache-httpclient/src/main/java/org/openapitools/client/ApiClient.java
+@@ -172,12 +172,12 @@ public class ApiClient extends JavaTimeFormatter {
+ 
+     // Setup authentications (key: authentication name, value: authentication).
+     authentications = new HashMap<String, Authentication>();
++    authentications.put("petstore_auth", new OAuth());
+     authentications.put("api_key", new ApiKeyAuth("header", "api_key"));
+     authentications.put("api_key_query", new ApiKeyAuth("query", "api_key_query"));
+-    authentications.put("bearer_test", new HttpBearerAuth("bearer"));
+     authentications.put("http_basic_test", new HttpBasicAuth());
++    authentications.put("bearer_test", new HttpBearerAuth("bearer"));
+     authentications.put("http_signature_test", new HttpBearerAuth("signature"));
+-    authentications.put("petstore_auth", new OAuth());
+     // Prevent the authentications from being modified.
+     authentications = Collections.unmodifiableMap(authentications);
+ 
+diff --git a/samples/client/petstore/java/feign-no-nullable/src/main/java/org/openapitools/client/ApiClient.java b/samples/client/petstore/java/feign-no-nullable/src/main/java/org/openapitools/client/ApiClient.java
+index 41b1d1e5cf8..868c07e3dea 100644
+--- a/samples/client/petstore/java/feign-no-nullable/src/main/java/org/openapitools/client/ApiClient.java
++++ b/samples/client/petstore/java/feign-no-nullable/src/main/java/org/openapitools/client/ApiClient.java
+@@ -58,14 +58,14 @@ public class ApiClient {
+     for(String authName : authNames) {
+       log.log(Level.FINE, "Creating authentication {0}", authName);
+       RequestInterceptor auth;
+-      if ("api_key".equals(authName)) {
++      if ("petstore_auth".equals(authName)) {
++        auth = buildOauthRequestInterceptor(OAuthFlow.IMPLICIT, "http://petstore.swagger.io/api/oauth/dialog", "", "write:pets, read:pets");
++      } else if ("api_key".equals(authName)) {
+         auth = new ApiKeyAuth("header", "api_key");
+       } else if ("api_key_query".equals(authName)) {
+         auth = new ApiKeyAuth("query", "api_key_query");
+       } else if ("http_basic_test".equals(authName)) {
+         auth = new HttpBasicAuth();
+-      } else if ("petstore_auth".equals(authName)) {
+-        auth = buildOauthRequestInterceptor(OAuthFlow.IMPLICIT, "http://petstore.swagger.io/api/oauth/dialog", "", "write:pets, read:pets");
+       } else {
+         throw new RuntimeException("auth name \"" + authName + "\" not found in available auth names");
+       }
+diff --git a/samples/client/petstore/java/feign/src/main/java/org/openapitools/client/ApiClient.java b/samples/client/petstore/java/feign/src/main/java/org/openapitools/client/ApiClient.java
+index 0923b7f67d5..69202216e6b 100644
+--- a/samples/client/petstore/java/feign/src/main/java/org/openapitools/client/ApiClient.java
++++ b/samples/client/petstore/java/feign/src/main/java/org/openapitools/client/ApiClient.java
+@@ -59,18 +59,18 @@ public class ApiClient {
+     for(String authName : authNames) {
+       log.log(Level.FINE, "Creating authentication {0}", authName);
+       RequestInterceptor auth;
+-      if ("api_key".equals(authName)) {
++      if ("petstore_auth".equals(authName)) {
++        auth = buildOauthRequestInterceptor(OAuthFlow.IMPLICIT, "http://petstore.swagger.io/api/oauth/dialog", "", "write:pets, read:pets");
++      } else if ("api_key".equals(authName)) {
+         auth = new ApiKeyAuth("header", "api_key");
+       } else if ("api_key_query".equals(authName)) {
+         auth = new ApiKeyAuth("query", "api_key_query");
+-      } else if ("bearer_test".equals(authName)) {
+-        auth = new HttpBearerAuth("bearer");
+       } else if ("http_basic_test".equals(authName)) {
+         auth = new HttpBasicAuth();
++      } else if ("bearer_test".equals(authName)) {
++        auth = new HttpBearerAuth("bearer");
+       } else if ("http_signature_test".equals(authName)) {
+         auth = new HttpBearerAuth("signature");
+-      } else if ("petstore_auth".equals(authName)) {
+-        auth = buildOauthRequestInterceptor(OAuthFlow.IMPLICIT, "http://petstore.swagger.io/api/oauth/dialog", "", "write:pets, read:pets");
+       } else {
+         throw new RuntimeException("auth name \"" + authName + "\" not found in available auth names");
+       }
+diff --git a/samples/client/petstore/java/jersey1/src/main/java/org/openapitools/client/ApiClient.java b/samples/client/petstore/java/jersey1/src/main/java/org/openapitools/client/ApiClient.java
+index 126f041bdaa..e02dbb80725 100644
+--- a/samples/client/petstore/java/jersey1/src/main/java/org/openapitools/client/ApiClient.java
++++ b/samples/client/petstore/java/jersey1/src/main/java/org/openapitools/client/ApiClient.java
+@@ -102,10 +102,10 @@ public class ApiClient extends JavaTimeFormatter {
+ 
+     // Setup authentications (key: authentication name, value: authentication).
+     authentications = new HashMap<String, Authentication>();
++    authentications.put("petstore_auth", new OAuth());
+     authentications.put("api_key", new ApiKeyAuth("header", "api_key"));
+     authentications.put("api_key_query", new ApiKeyAuth("query", "api_key_query"));
+     authentications.put("http_basic_test", new HttpBasicAuth());
+-    authentications.put("petstore_auth", new OAuth());
+     // Prevent the authentications from being modified.
+     authentications = Collections.unmodifiableMap(authentications);
+ 
+diff --git a/samples/client/petstore/java/jersey2-java8-localdatetime/src/main/java/org/openapitools/client/ApiClient.java b/samples/client/petstore/java/jersey2-java8-localdatetime/src/main/java/org/openapitools/client/ApiClient.java
+index edd349531d9..571478b2b46 100644
+--- a/samples/client/petstore/java/jersey2-java8-localdatetime/src/main/java/org/openapitools/client/ApiClient.java
++++ b/samples/client/petstore/java/jersey2-java8-localdatetime/src/main/java/org/openapitools/client/ApiClient.java
+@@ -127,6 +127,14 @@ public class ApiClient extends JavaTimeFormatter {
+     // Setup authentications (key: authentication name, value: authentication).
+     authentications = new HashMap<String, Authentication>();
+     Authentication auth = null;
++    if (authMap != null) {
++      auth = authMap.get("petstore_auth");
++    }
++    if (auth instanceof OAuth) {
++      authentications.put("petstore_auth", auth);
++    } else {
++      authentications.put("petstore_auth", new OAuth(basePath, ""));
++    }
+     if (authMap != null) {
+       auth = authMap.get("api_key");
+     }
+@@ -151,14 +159,6 @@ public class ApiClient extends JavaTimeFormatter {
+     } else {
+       authentications.put("http_basic_test", new HttpBasicAuth());
+     }
+-    if (authMap != null) {
+-      auth = authMap.get("petstore_auth");
+-    }
+-    if (auth instanceof OAuth) {
+-      authentications.put("petstore_auth", auth);
+-    } else {
+-      authentications.put("petstore_auth", new OAuth(basePath, ""));
+-    }
+     // Prevent the authentications from being modified.
+     authentications = Collections.unmodifiableMap(authentications);
+ 
+diff --git a/samples/client/petstore/java/jersey2-java8/src/main/java/org/openapitools/client/ApiClient.java b/samples/client/petstore/java/jersey2-java8/src/main/java/org/openapitools/client/ApiClient.java
+index edd349531d9..571478b2b46 100644
+--- a/samples/client/petstore/java/jersey2-java8/src/main/java/org/openapitools/client/ApiClient.java
++++ b/samples/client/petstore/java/jersey2-java8/src/main/java/org/openapitools/client/ApiClient.java
+@@ -127,6 +127,14 @@ public class ApiClient extends JavaTimeFormatter {
+     // Setup authentications (key: authentication name, value: authentication).
+     authentications = new HashMap<String, Authentication>();
+     Authentication auth = null;
++    if (authMap != null) {
++      auth = authMap.get("petstore_auth");
++    }
++    if (auth instanceof OAuth) {
++      authentications.put("petstore_auth", auth);
++    } else {
++      authentications.put("petstore_auth", new OAuth(basePath, ""));
++    }
+     if (authMap != null) {
+       auth = authMap.get("api_key");
+     }
+@@ -151,14 +159,6 @@ public class ApiClient extends JavaTimeFormatter {
+     } else {
+       authentications.put("http_basic_test", new HttpBasicAuth());
+     }
+-    if (authMap != null) {
+-      auth = authMap.get("petstore_auth");
+-    }
+-    if (auth instanceof OAuth) {
+-      authentications.put("petstore_auth", auth);
+-    } else {
+-      authentications.put("petstore_auth", new OAuth(basePath, ""));
+-    }
+     // Prevent the authentications from being modified.
+     authentications = Collections.unmodifiableMap(authentications);
+ 
+diff --git a/samples/client/petstore/java/jersey3/src/main/java/org/openapitools/client/ApiClient.java b/samples/client/petstore/java/jersey3/src/main/java/org/openapitools/client/ApiClient.java
+index 838ff0f11cc..420467ff9db 100644
+--- a/samples/client/petstore/java/jersey3/src/main/java/org/openapitools/client/ApiClient.java
++++ b/samples/client/petstore/java/jersey3/src/main/java/org/openapitools/client/ApiClient.java
+@@ -197,6 +197,14 @@ public class ApiClient extends JavaTimeFormatter {
+     // Setup authentications (key: authentication name, value: authentication).
+     authentications = new HashMap<String, Authentication>();
+     Authentication auth = null;
++    if (authMap != null) {
++      auth = authMap.get("petstore_auth");
++    }
++    if (auth instanceof OAuth) {
++      authentications.put("petstore_auth", auth);
++    } else {
++      authentications.put("petstore_auth", new OAuth(basePath, ""));
++    }
+     if (authMap != null) {
+       auth = authMap.get("api_key");
+     }
+@@ -213,14 +221,6 @@ public class ApiClient extends JavaTimeFormatter {
+     } else {
+       authentications.put("api_key_query", new ApiKeyAuth("query", "api_key_query"));
+     }
+-    if (authMap != null) {
+-      auth = authMap.get("bearer_test");
+-    }
+-    if (auth instanceof HttpBearerAuth) {
+-      authentications.put("bearer_test", auth);
+-    } else {
+-      authentications.put("bearer_test", new HttpBearerAuth("bearer"));
+-    }
+     if (authMap != null) {
+       auth = authMap.get("http_basic_test");
+     }
+@@ -230,18 +230,18 @@ public class ApiClient extends JavaTimeFormatter {
+       authentications.put("http_basic_test", new HttpBasicAuth());
+     }
+     if (authMap != null) {
+-      auth = authMap.get("http_signature_test");
++      auth = authMap.get("bearer_test");
+     }
+-    if (auth instanceof HttpSignatureAuth) {
+-      authentications.put("http_signature_test", auth);
++    if (auth instanceof HttpBearerAuth) {
++      authentications.put("bearer_test", auth);
++    } else {
++      authentications.put("bearer_test", new HttpBearerAuth("bearer"));
+     }
+     if (authMap != null) {
+-      auth = authMap.get("petstore_auth");
++      auth = authMap.get("http_signature_test");
+     }
+-    if (auth instanceof OAuth) {
+-      authentications.put("petstore_auth", auth);
+-    } else {
+-      authentications.put("petstore_auth", new OAuth(basePath, ""));
++    if (auth instanceof HttpSignatureAuth) {
++      authentications.put("http_signature_test", auth);
+     }
+     // Prevent the authentications from being modified.
+     authentications = Collections.unmodifiableMap(authentications);
+diff --git a/samples/client/petstore/java/jersey3/src/main/java/org/openapitools/client/api/PetApi.java b/samples/client/petstore/java/jersey3/src/main/java/org/openapitools/client/api/PetApi.java
+index 42eb2a83dc1..273c7ffb489 100644
+--- a/samples/client/petstore/java/jersey3/src/main/java/org/openapitools/client/api/PetApi.java
++++ b/samples/client/petstore/java/jersey3/src/main/java/org/openapitools/client/api/PetApi.java
+@@ -105,7 +105,7 @@ public class PetApi {
+     };
+     final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+ 
+-    String[] localVarAuthNames = new String[] { "http_signature_test", "petstore_auth" };
++    String[] localVarAuthNames = new String[] { "petstore_auth", "http_signature_test" };
+ 
+     return apiClient.invokeAPI("PetApi.addPet", localVarPath, "POST", localVarQueryParams, localVarPostBody,
+                                localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType,
+@@ -242,7 +242,7 @@ public class PetApi {
+     };
+     final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+ 
+-    String[] localVarAuthNames = new String[] { "http_signature_test", "petstore_auth" };
++    String[] localVarAuthNames = new String[] { "petstore_auth", "http_signature_test" };
+ 
+     GenericType<List<Pet>> localVarReturnType = new GenericType<List<Pet>>() {};
+ 
+@@ -316,7 +316,7 @@ public class PetApi {
+     };
+     final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+ 
+-    String[] localVarAuthNames = new String[] { "http_signature_test", "petstore_auth" };
++    String[] localVarAuthNames = new String[] { "petstore_auth", "http_signature_test" };
+ 
+     GenericType<List<Pet>> localVarReturnType = new GenericType<List<Pet>>() {};
+ 
+@@ -458,7 +458,7 @@ public class PetApi {
+     };
+     final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+ 
+-    String[] localVarAuthNames = new String[] { "http_signature_test", "petstore_auth" };
++    String[] localVarAuthNames = new String[] { "petstore_auth", "http_signature_test" };
+ 
+     return apiClient.invokeAPI("PetApi.updatePet", localVarPath, "PUT", localVarQueryParams, localVarPostBody,
+                                localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType,
+diff --git a/samples/client/petstore/java/okhttp-gson-awsv4signature/src/main/java/org/openapitools/client/ApiClient.java b/samples/client/petstore/java/okhttp-gson-awsv4signature/src/main/java/org/openapitools/client/ApiClient.java
+index bd8c1f4b683..46f93839891 100644
+--- a/samples/client/petstore/java/okhttp-gson-awsv4signature/src/main/java/org/openapitools/client/ApiClient.java
++++ b/samples/client/petstore/java/okhttp-gson-awsv4signature/src/main/java/org/openapitools/client/ApiClient.java
+@@ -105,8 +105,8 @@ public class ApiClient {
+         initHttpClient();
+ 
+         // Setup authentications (key: authentication name, value: authentication).
+-        authentications.put("api_key", new ApiKeyAuth("header", "api_key"));
+         authentications.put("petstore_auth", new OAuth());
++        authentications.put("api_key", new ApiKeyAuth("header", "api_key"));
+         authentications.put("AWS4Auth", new AWS4Auth());
+         // Prevent the authentications from being modified.
+         authentications = Collections.unmodifiableMap(authentications);
+@@ -123,8 +123,8 @@ public class ApiClient {
+         httpClient = client;
+ 
+         // Setup authentications (key: authentication name, value: authentication).
+-        authentications.put("api_key", new ApiKeyAuth("header", "api_key"));
+         authentications.put("petstore_auth", new OAuth());
++        authentications.put("api_key", new ApiKeyAuth("header", "api_key"));
+         authentications.put("AWS4Auth", new AWS4Auth());
+         // Prevent the authentications from being modified.
+         authentications = Collections.unmodifiableMap(authentications);
+diff --git a/samples/client/petstore/java/okhttp-gson-dynamicOperations/src/main/java/org/openapitools/client/ApiClient.java b/samples/client/petstore/java/okhttp-gson-dynamicOperations/src/main/java/org/openapitools/client/ApiClient.java
+index 7ddd5940012..24992176187 100644
+--- a/samples/client/petstore/java/okhttp-gson-dynamicOperations/src/main/java/org/openapitools/client/ApiClient.java
++++ b/samples/client/petstore/java/okhttp-gson-dynamicOperations/src/main/java/org/openapitools/client/ApiClient.java
+@@ -112,10 +112,10 @@ public class ApiClient {
+         initHttpClient();
+ 
+         // Setup authentications (key: authentication name, value: authentication).
++        authentications.put("petstore_auth", new OAuth());
+         authentications.put("api_key", new ApiKeyAuth("header", "api_key"));
+         authentications.put("api_key_query", new ApiKeyAuth("query", "api_key_query"));
+         authentications.put("http_basic_test", new HttpBasicAuth());
+-        authentications.put("petstore_auth", new OAuth());
+         // Prevent the authentications from being modified.
+         authentications = Collections.unmodifiableMap(authentications);
+     }
+@@ -131,10 +131,10 @@ public class ApiClient {
+         httpClient = client;
+ 
+         // Setup authentications (key: authentication name, value: authentication).
++        authentications.put("petstore_auth", new OAuth());
+         authentications.put("api_key", new ApiKeyAuth("header", "api_key"));
+         authentications.put("api_key_query", new ApiKeyAuth("query", "api_key_query"));
+         authentications.put("http_basic_test", new HttpBasicAuth());
+-        authentications.put("petstore_auth", new OAuth());
+         // Prevent the authentications from being modified.
+         authentications = Collections.unmodifiableMap(authentications);
+     }
+diff --git a/samples/client/petstore/java/okhttp-gson-group-parameter/src/main/java/org/openapitools/client/ApiClient.java b/samples/client/petstore/java/okhttp-gson-group-parameter/src/main/java/org/openapitools/client/ApiClient.java
+index 159439f226b..0c89459d8b6 100644
+--- a/samples/client/petstore/java/okhttp-gson-group-parameter/src/main/java/org/openapitools/client/ApiClient.java
++++ b/samples/client/petstore/java/okhttp-gson-group-parameter/src/main/java/org/openapitools/client/ApiClient.java
+@@ -104,8 +104,8 @@ public class ApiClient {
+         initHttpClient();
+ 
+         // Setup authentications (key: authentication name, value: authentication).
+-        authentications.put("api_key", new ApiKeyAuth("header", "api_key"));
+         authentications.put("petstore_auth", new OAuth());
++        authentications.put("api_key", new ApiKeyAuth("header", "api_key"));
+         // Prevent the authentications from being modified.
+         authentications = Collections.unmodifiableMap(authentications);
+     }
+@@ -121,8 +121,8 @@ public class ApiClient {
+         httpClient = client;
+ 
+         // Setup authentications (key: authentication name, value: authentication).
+-        authentications.put("api_key", new ApiKeyAuth("header", "api_key"));
+         authentications.put("petstore_auth", new OAuth());
++        authentications.put("api_key", new ApiKeyAuth("header", "api_key"));
+         // Prevent the authentications from being modified.
+         authentications = Collections.unmodifiableMap(authentications);
+     }
+diff --git a/samples/client/petstore/java/okhttp-gson-parcelableModel/src/main/java/org/openapitools/client/ApiClient.java b/samples/client/petstore/java/okhttp-gson-parcelableModel/src/main/java/org/openapitools/client/ApiClient.java
+index 6bf3a6f654b..a3e03f9c9cf 100644
+--- a/samples/client/petstore/java/okhttp-gson-parcelableModel/src/main/java/org/openapitools/client/ApiClient.java
++++ b/samples/client/petstore/java/okhttp-gson-parcelableModel/src/main/java/org/openapitools/client/ApiClient.java
+@@ -104,10 +104,10 @@ public class ApiClient {
+         initHttpClient();
+ 
+         // Setup authentications (key: authentication name, value: authentication).
++        authentications.put("petstore_auth", new OAuth());
+         authentications.put("api_key", new ApiKeyAuth("header", "api_key"));
+         authentications.put("api_key_query", new ApiKeyAuth("query", "api_key_query"));
+         authentications.put("http_basic_test", new HttpBasicAuth());
+-        authentications.put("petstore_auth", new OAuth());
+         // Prevent the authentications from being modified.
+         authentications = Collections.unmodifiableMap(authentications);
+     }
+@@ -123,10 +123,10 @@ public class ApiClient {
+         httpClient = client;
+ 
+         // Setup authentications (key: authentication name, value: authentication).
++        authentications.put("petstore_auth", new OAuth());
+         authentications.put("api_key", new ApiKeyAuth("header", "api_key"));
+         authentications.put("api_key_query", new ApiKeyAuth("query", "api_key_query"));
+         authentications.put("http_basic_test", new HttpBasicAuth());
+-        authentications.put("petstore_auth", new OAuth());
+         // Prevent the authentications from being modified.
+         authentications = Collections.unmodifiableMap(authentications);
+     }
+diff --git a/samples/client/petstore/java/okhttp-gson-swagger1/src/main/java/org/openapitools/client/ApiClient.java b/samples/client/petstore/java/okhttp-gson-swagger1/src/main/java/org/openapitools/client/ApiClient.java
+index 159439f226b..0c89459d8b6 100644
+--- a/samples/client/petstore/java/okhttp-gson-swagger1/src/main/java/org/openapitools/client/ApiClient.java
++++ b/samples/client/petstore/java/okhttp-gson-swagger1/src/main/java/org/openapitools/client/ApiClient.java
+@@ -104,8 +104,8 @@ public class ApiClient {
+         initHttpClient();
+ 
+         // Setup authentications (key: authentication name, value: authentication).
+-        authentications.put("api_key", new ApiKeyAuth("header", "api_key"));
+         authentications.put("petstore_auth", new OAuth());
++        authentications.put("api_key", new ApiKeyAuth("header", "api_key"));
+         // Prevent the authentications from being modified.
+         authentications = Collections.unmodifiableMap(authentications);
+     }
+@@ -121,8 +121,8 @@ public class ApiClient {
+         httpClient = client;
+ 
+         // Setup authentications (key: authentication name, value: authentication).
+-        authentications.put("api_key", new ApiKeyAuth("header", "api_key"));
+         authentications.put("petstore_auth", new OAuth());
++        authentications.put("api_key", new ApiKeyAuth("header", "api_key"));
+         // Prevent the authentications from being modified.
+         authentications = Collections.unmodifiableMap(authentications);
+     }
+diff --git a/samples/client/petstore/java/okhttp-gson/src/main/java/org/openapitools/client/ApiClient.java b/samples/client/petstore/java/okhttp-gson/src/main/java/org/openapitools/client/ApiClient.java
+index ee4f12edb06..cd4e46b4d77 100644
+--- a/samples/client/petstore/java/okhttp-gson/src/main/java/org/openapitools/client/ApiClient.java
++++ b/samples/client/petstore/java/okhttp-gson/src/main/java/org/openapitools/client/ApiClient.java
+@@ -147,12 +147,12 @@ public class ApiClient {
+         initHttpClient();
+ 
+         // Setup authentications (key: authentication name, value: authentication).
++        authentications.put("petstore_auth", new OAuth());
+         authentications.put("api_key", new ApiKeyAuth("header", "api_key"));
+         authentications.put("api_key_query", new ApiKeyAuth("query", "api_key_query"));
+-        authentications.put("bearer_test", new HttpBearerAuth("bearer"));
+         authentications.put("http_basic_test", new HttpBasicAuth());
++        authentications.put("bearer_test", new HttpBearerAuth("bearer"));
+         authentications.put("http_signature_test", new HttpBearerAuth("signature"));
+-        authentications.put("petstore_auth", new OAuth());
+         // Prevent the authentications from being modified.
+         authentications = Collections.unmodifiableMap(authentications);
+     }
+@@ -168,12 +168,12 @@ public class ApiClient {
+         httpClient = client;
+ 
+         // Setup authentications (key: authentication name, value: authentication).
++        authentications.put("petstore_auth", new OAuth());
+         authentications.put("api_key", new ApiKeyAuth("header", "api_key"));
+         authentications.put("api_key_query", new ApiKeyAuth("query", "api_key_query"));
+-        authentications.put("bearer_test", new HttpBearerAuth("bearer"));
+         authentications.put("http_basic_test", new HttpBasicAuth());
++        authentications.put("bearer_test", new HttpBearerAuth("bearer"));
+         authentications.put("http_signature_test", new HttpBearerAuth("signature"));
+-        authentications.put("petstore_auth", new OAuth());
+         // Prevent the authentications from being modified.
+         authentications = Collections.unmodifiableMap(authentications);
+     }
+@@ -241,8 +241,8 @@ public class ApiClient {
+         // Setup authentications (key: authentication name, value: authentication).
+         authentications.put("api_key", new ApiKeyAuth("header", "api_key"));
+         authentications.put("api_key_query", new ApiKeyAuth("query", "api_key_query"));
+-        authentications.put("bearer_test", new HttpBearerAuth("bearer"));
+         authentications.put("http_basic_test", new HttpBasicAuth());
++        authentications.put("bearer_test", new HttpBearerAuth("bearer"));
+         authentications.put("http_signature_test", new HttpBearerAuth("signature"));
+ 
+         // Prevent the authentications from being modified.
+diff --git a/samples/client/petstore/java/okhttp-gson/src/main/java/org/openapitools/client/api/PetApi.java b/samples/client/petstore/java/okhttp-gson/src/main/java/org/openapitools/client/api/PetApi.java
+index 5b6191cd4dc..92afa6c63fa 100644
+--- a/samples/client/petstore/java/okhttp-gson/src/main/java/org/openapitools/client/api/PetApi.java
++++ b/samples/client/petstore/java/okhttp-gson/src/main/java/org/openapitools/client/api/PetApi.java
+@@ -128,7 +128,7 @@ public class PetApi {
+             localVarHeaderParams.put("Content-Type", localVarContentType);
+         }
+ 
+-        String[] localVarAuthNames = new String[] { "http_signature_test", "petstore_auth" };
++        String[] localVarAuthNames = new String[] { "petstore_auth", "http_signature_test" };
+         return localVarApiClient.buildCall(basePath, localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+     }
+ 
+@@ -378,7 +378,7 @@ public class PetApi {
+             localVarHeaderParams.put("Content-Type", localVarContentType);
+         }
+ 
+-        String[] localVarAuthNames = new String[] { "http_signature_test", "petstore_auth" };
++        String[] localVarAuthNames = new String[] { "petstore_auth", "http_signature_test" };
+         return localVarApiClient.buildCall(basePath, localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+     }
+ 
+@@ -511,7 +511,7 @@ public class PetApi {
+             localVarHeaderParams.put("Content-Type", localVarContentType);
+         }
+ 
+-        String[] localVarAuthNames = new String[] { "http_signature_test", "petstore_auth" };
++        String[] localVarAuthNames = new String[] { "petstore_auth", "http_signature_test" };
+         return localVarApiClient.buildCall(basePath, localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+     }
+ 
+@@ -778,7 +778,7 @@ public class PetApi {
+             localVarHeaderParams.put("Content-Type", localVarContentType);
+         }
+ 
+-        String[] localVarAuthNames = new String[] { "http_signature_test", "petstore_auth" };
++        String[] localVarAuthNames = new String[] { "petstore_auth", "http_signature_test" };
+         return localVarApiClient.buildCall(basePath, localVarPath, "PUT", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+     }
+ 
+diff --git a/samples/client/petstore/java/resteasy/src/main/java/org/openapitools/client/ApiClient.java b/samples/client/petstore/java/resteasy/src/main/java/org/openapitools/client/ApiClient.java
+index aa848d48d5e..b1602f36476 100644
+--- a/samples/client/petstore/java/resteasy/src/main/java/org/openapitools/client/ApiClient.java
++++ b/samples/client/petstore/java/resteasy/src/main/java/org/openapitools/client/ApiClient.java
+@@ -81,10 +81,10 @@ public class ApiClient extends JavaTimeFormatter {
+ 
+     // Setup authentications (key: authentication name, value: authentication).
+     authentications = new HashMap<String, Authentication>();
++    authentications.put("petstore_auth", new OAuth());
+     authentications.put("api_key", new ApiKeyAuth("header", "api_key"));
+     authentications.put("api_key_query", new ApiKeyAuth("query", "api_key_query"));
+     authentications.put("http_basic_test", new HttpBasicAuth());
+-    authentications.put("petstore_auth", new OAuth());
+     // Prevent the authentications from being modified.
+     authentications = Collections.unmodifiableMap(authentications);
+   }
+diff --git a/samples/client/petstore/java/resttemplate-jakarta/src/main/java/org/openapitools/client/ApiClient.java b/samples/client/petstore/java/resttemplate-jakarta/src/main/java/org/openapitools/client/ApiClient.java
+index 0e8d6ef6047..c6b8de1d33d 100644
+--- a/samples/client/petstore/java/resttemplate-jakarta/src/main/java/org/openapitools/client/ApiClient.java
++++ b/samples/client/petstore/java/resttemplate-jakarta/src/main/java/org/openapitools/client/ApiClient.java
+@@ -111,8 +111,8 @@ public class ApiClient extends JavaTimeFormatter {
+ 
+         // Setup authentications (key: authentication name, value: authentication).
+         authentications = new HashMap<String, Authentication>();
+-        authentications.put("api_key", new ApiKeyAuth("header", "api_key"));
+         authentications.put("petstore_auth", new OAuth());
++        authentications.put("api_key", new ApiKeyAuth("header", "api_key"));
+         // Prevent the authentications from being modified.
+         authentications = Collections.unmodifiableMap(authentications);
+     }
+diff --git a/samples/client/petstore/java/resttemplate-swagger1/src/main/java/org/openapitools/client/ApiClient.java b/samples/client/petstore/java/resttemplate-swagger1/src/main/java/org/openapitools/client/ApiClient.java
+index dc250a75c79..1adabd0c01a 100644
+--- a/samples/client/petstore/java/resttemplate-swagger1/src/main/java/org/openapitools/client/ApiClient.java
++++ b/samples/client/petstore/java/resttemplate-swagger1/src/main/java/org/openapitools/client/ApiClient.java
+@@ -111,8 +111,8 @@ public class ApiClient extends JavaTimeFormatter {
+ 
+         // Setup authentications (key: authentication name, value: authentication).
+         authentications = new HashMap<String, Authentication>();
+-        authentications.put("api_key", new ApiKeyAuth("header", "api_key"));
+         authentications.put("petstore_auth", new OAuth());
++        authentications.put("api_key", new ApiKeyAuth("header", "api_key"));
+         // Prevent the authentications from being modified.
+         authentications = Collections.unmodifiableMap(authentications);
+     }
+diff --git a/samples/client/petstore/java/resttemplate-withXml/src/main/java/org/openapitools/client/ApiClient.java b/samples/client/petstore/java/resttemplate-withXml/src/main/java/org/openapitools/client/ApiClient.java
+index 8340b6cfa8e..a94b4917a8c 100644
+--- a/samples/client/petstore/java/resttemplate-withXml/src/main/java/org/openapitools/client/ApiClient.java
++++ b/samples/client/petstore/java/resttemplate-withXml/src/main/java/org/openapitools/client/ApiClient.java
+@@ -117,10 +117,10 @@ public class ApiClient extends JavaTimeFormatter {
+ 
+         // Setup authentications (key: authentication name, value: authentication).
+         authentications = new HashMap<String, Authentication>();
++        authentications.put("petstore_auth", new OAuth());
+         authentications.put("api_key", new ApiKeyAuth("header", "api_key"));
+         authentications.put("api_key_query", new ApiKeyAuth("query", "api_key_query"));
+         authentications.put("http_basic_test", new HttpBasicAuth());
+-        authentications.put("petstore_auth", new OAuth());
+         // Prevent the authentications from being modified.
+         authentications = Collections.unmodifiableMap(authentications);
+     }
+diff --git a/samples/client/petstore/java/resttemplate/src/main/java/org/openapitools/client/ApiClient.java b/samples/client/petstore/java/resttemplate/src/main/java/org/openapitools/client/ApiClient.java
+index b1d9b1cf1d2..64b9513ef33 100644
+--- a/samples/client/petstore/java/resttemplate/src/main/java/org/openapitools/client/ApiClient.java
++++ b/samples/client/petstore/java/resttemplate/src/main/java/org/openapitools/client/ApiClient.java
+@@ -112,10 +112,10 @@ public class ApiClient extends JavaTimeFormatter {
+ 
+         // Setup authentications (key: authentication name, value: authentication).
+         authentications = new HashMap<String, Authentication>();
++        authentications.put("petstore_auth", new OAuth());
+         authentications.put("api_key", new ApiKeyAuth("header", "api_key"));
+         authentications.put("api_key_query", new ApiKeyAuth("query", "api_key_query"));
+         authentications.put("http_basic_test", new HttpBasicAuth());
+-        authentications.put("petstore_auth", new OAuth());
+         // Prevent the authentications from being modified.
+         authentications = Collections.unmodifiableMap(authentications);
+     }
+diff --git a/samples/client/petstore/java/retrofit2-play26/src/main/java/org/openapitools/client/ApiClient.java b/samples/client/petstore/java/retrofit2-play26/src/main/java/org/openapitools/client/ApiClient.java
+index fe579c7b817..b5dcb27711e 100644
+--- a/samples/client/petstore/java/retrofit2-play26/src/main/java/org/openapitools/client/ApiClient.java
++++ b/samples/client/petstore/java/retrofit2-play26/src/main/java/org/openapitools/client/ApiClient.java
+@@ -58,10 +58,10 @@ public class ApiClient {
+     public ApiClient() {
+         // Setup authentications (key: authentication name, value: authentication).
+         authentications = new HashMap<>();
++        // authentications.put("petstore_auth", new OAuth());
+         authentications.put("api_key", new ApiKeyAuth("header", "api_key"));
+         authentications.put("api_key_query", new ApiKeyAuth("query", "api_key_query"));
+         // authentications.put("http_basic_test", new HttpBasicAuth());
+-        // authentications.put("petstore_auth", new OAuth());
+         // Prevent the authentications from being modified.
+         authentications = Collections.unmodifiableMap(authentications);
+     }
+diff --git a/samples/client/petstore/java/retrofit2/src/main/java/org/openapitools/client/ApiClient.java b/samples/client/petstore/java/retrofit2/src/main/java/org/openapitools/client/ApiClient.java
+index ae1e0d9476d..7f90cdd6246 100644
+--- a/samples/client/petstore/java/retrofit2/src/main/java/org/openapitools/client/ApiClient.java
++++ b/samples/client/petstore/java/retrofit2/src/main/java/org/openapitools/client/ApiClient.java
+@@ -53,7 +53,10 @@ public class ApiClient {
+     this();
+     for(String authName : authNames) {
+       Interceptor auth;
+-      if ("api_key".equals(authName)) {
++      if ("petstore_auth".equals(authName)) {
++        
++        auth = new OAuth(OAuthFlow.IMPLICIT, "http://petstore.swagger.io/api/oauth/dialog", "", "write:pets, read:pets");
++      } else if ("api_key".equals(authName)) {
+         
+         auth = new ApiKeyAuth("header", "api_key");
+       } else if ("api_key_query".equals(authName)) {
+@@ -63,9 +66,6 @@ public class ApiClient {
+         
+         auth = new HttpBasicAuth();
+         
+-      } else if ("petstore_auth".equals(authName)) {
+-        
+-        auth = new OAuth(OAuthFlow.IMPLICIT, "http://petstore.swagger.io/api/oauth/dialog", "", "write:pets, read:pets");
+       } else {
+         throw new RuntimeException("auth name \"" + authName + "\" not found in available auth names");
+       }
+diff --git a/samples/client/petstore/java/retrofit2rx2/src/main/java/org/openapitools/client/ApiClient.java b/samples/client/petstore/java/retrofit2rx2/src/main/java/org/openapitools/client/ApiClient.java
+index 6077194ccee..3dbf27ad758 100644
+--- a/samples/client/petstore/java/retrofit2rx2/src/main/java/org/openapitools/client/ApiClient.java
++++ b/samples/client/petstore/java/retrofit2rx2/src/main/java/org/openapitools/client/ApiClient.java
+@@ -54,7 +54,10 @@ public class ApiClient {
+     this();
+     for(String authName : authNames) {
+       Interceptor auth;
+-      if ("api_key".equals(authName)) {
++      if ("petstore_auth".equals(authName)) {
++        
++        auth = new OAuth(OAuthFlow.IMPLICIT, "http://petstore.swagger.io/api/oauth/dialog", "", "write:pets, read:pets");
++      } else if ("api_key".equals(authName)) {
+         
+         auth = new ApiKeyAuth("header", "api_key");
+       } else if ("api_key_query".equals(authName)) {
+@@ -64,9 +67,6 @@ public class ApiClient {
+         
+         auth = new HttpBasicAuth();
+         
+-      } else if ("petstore_auth".equals(authName)) {
+-        
+-        auth = new OAuth(OAuthFlow.IMPLICIT, "http://petstore.swagger.io/api/oauth/dialog", "", "write:pets, read:pets");
+       } else {
+         throw new RuntimeException("auth name \"" + authName + "\" not found in available auth names");
+       }
+diff --git a/samples/client/petstore/java/retrofit2rx3/src/main/java/org/openapitools/client/ApiClient.java b/samples/client/petstore/java/retrofit2rx3/src/main/java/org/openapitools/client/ApiClient.java
+index 404a311e73f..c1e9542ea98 100644
+--- a/samples/client/petstore/java/retrofit2rx3/src/main/java/org/openapitools/client/ApiClient.java
++++ b/samples/client/petstore/java/retrofit2rx3/src/main/java/org/openapitools/client/ApiClient.java
+@@ -54,7 +54,10 @@ public class ApiClient {
+     this();
+     for(String authName : authNames) {
+       Interceptor auth;
+-      if ("api_key".equals(authName)) {
++      if ("petstore_auth".equals(authName)) {
++        
++        auth = new OAuth(OAuthFlow.IMPLICIT, "http://petstore.swagger.io/api/oauth/dialog", "", "write:pets, read:pets");
++      } else if ("api_key".equals(authName)) {
+         
+         auth = new ApiKeyAuth("header", "api_key");
+       } else if ("api_key_query".equals(authName)) {
+@@ -64,9 +67,6 @@ public class ApiClient {
+         
+         auth = new HttpBasicAuth();
+         
+-      } else if ("petstore_auth".equals(authName)) {
+-        
+-        auth = new OAuth(OAuthFlow.IMPLICIT, "http://petstore.swagger.io/api/oauth/dialog", "", "write:pets, read:pets");
+       } else {
+         throw new RuntimeException("auth name \"" + authName + "\" not found in available auth names");
+       }
+diff --git a/samples/client/petstore/java/vertx-no-nullable/src/main/java/org/openapitools/client/ApiClient.java b/samples/client/petstore/java/vertx-no-nullable/src/main/java/org/openapitools/client/ApiClient.java
+index 10f7d1935d0..92cd39bf740 100644
+--- a/samples/client/petstore/java/vertx-no-nullable/src/main/java/org/openapitools/client/ApiClient.java
++++ b/samples/client/petstore/java/vertx-no-nullable/src/main/java/org/openapitools/client/ApiClient.java
+@@ -82,10 +82,10 @@ public class ApiClient extends JavaTimeFormatter {
+ 
+         // Setup authentications (key: authentication name, value: authentication).
+         this.authentications = new HashMap<>();
++        authentications.put("petstore_auth", new OAuth());
+         authentications.put("api_key", new ApiKeyAuth("header", "api_key"));
+         authentications.put("api_key_query", new ApiKeyAuth("query", "api_key_query"));
+         authentications.put("http_basic_test", new HttpBasicAuth());
+-        authentications.put("petstore_auth", new OAuth());
+         // Prevent the authentications from being modified.
+         this.authentications = Collections.unmodifiableMap(authentications);
+ 
+@@ -667,6 +667,12 @@ public class ApiClient extends JavaTimeFormatter {
+ 
+         private final Map<String, Authentication> authentications = new LinkedHashMap<>();
+ 
++        public void addPetstore_authAuthentication(String accessToken) {
++           OAuth auth = new OAuth();
++           auth.setAccessToken(accessToken);
++           authentications.put("petstore_auth", auth);
++        }
++
+         public void addApi_keyAuthentication(String apikey, String apiKeyPrefix) {
+            ApiKeyAuth auth = new ApiKeyAuth("header","api_key");
+            auth.setApiKey(apikey);
+@@ -688,10 +694,10 @@ public class ApiClient extends JavaTimeFormatter {
+             authentications.put("http_basic_test", auth);
+         }
+ 
+-        public void addPetstore_authAuthentication(String accessToken) {
+-           OAuth auth = new OAuth();
+-           auth.setAccessToken(accessToken);
+-           authentications.put("petstore_auth", auth);
++        public static AuthInfo forPetstore_authAuthentication(String accessToken) {
++            AuthInfo authInfo = new AuthInfo();
++            authInfo.addPetstore_authAuthentication(accessToken);
++            return authInfo;
+         }
+ 
+         public static AuthInfo forApi_keyAuthentication(String apikey, String apiKeyPrefix) {
+@@ -711,11 +717,5 @@ public class ApiClient extends JavaTimeFormatter {
+             authInfo.addHttp_basic_testAuthentication(username, password);
+             return authInfo;
+         }
+-
+-        public static AuthInfo forPetstore_authAuthentication(String accessToken) {
+-            AuthInfo authInfo = new AuthInfo();
+-            authInfo.addPetstore_authAuthentication(accessToken);
+-            return authInfo;
+-        }
+     }
+ }
+diff --git a/samples/client/petstore/java/vertx/src/main/java/org/openapitools/client/ApiClient.java b/samples/client/petstore/java/vertx/src/main/java/org/openapitools/client/ApiClient.java
+index 7b2ef6e985f..4cba46ae302 100644
+--- a/samples/client/petstore/java/vertx/src/main/java/org/openapitools/client/ApiClient.java
++++ b/samples/client/petstore/java/vertx/src/main/java/org/openapitools/client/ApiClient.java
+@@ -85,10 +85,10 @@ public class ApiClient extends JavaTimeFormatter {
+ 
+         // Setup authentications (key: authentication name, value: authentication).
+         this.authentications = new HashMap<>();
++        authentications.put("petstore_auth", new OAuth());
+         authentications.put("api_key", new ApiKeyAuth("header", "api_key"));
+         authentications.put("api_key_query", new ApiKeyAuth("query", "api_key_query"));
+         authentications.put("http_basic_test", new HttpBasicAuth());
+-        authentications.put("petstore_auth", new OAuth());
+         // Prevent the authentications from being modified.
+         this.authentications = Collections.unmodifiableMap(authentications);
+ 
+@@ -670,6 +670,12 @@ public class ApiClient extends JavaTimeFormatter {
+ 
+         private final Map<String, Authentication> authentications = new LinkedHashMap<>();
+ 
++        public void addPetstore_authAuthentication(String accessToken) {
++           OAuth auth = new OAuth();
++           auth.setAccessToken(accessToken);
++           authentications.put("petstore_auth", auth);
++        }
++
+         public void addApi_keyAuthentication(String apikey, String apiKeyPrefix) {
+            ApiKeyAuth auth = new ApiKeyAuth("header","api_key");
+            auth.setApiKey(apikey);
+@@ -691,10 +697,10 @@ public class ApiClient extends JavaTimeFormatter {
+             authentications.put("http_basic_test", auth);
+         }
+ 
+-        public void addPetstore_authAuthentication(String accessToken) {
+-           OAuth auth = new OAuth();
+-           auth.setAccessToken(accessToken);
+-           authentications.put("petstore_auth", auth);
++        public static AuthInfo forPetstore_authAuthentication(String accessToken) {
++            AuthInfo authInfo = new AuthInfo();
++            authInfo.addPetstore_authAuthentication(accessToken);
++            return authInfo;
+         }
+ 
+         public static AuthInfo forApi_keyAuthentication(String apikey, String apiKeyPrefix) {
+@@ -714,11 +720,5 @@ public class ApiClient extends JavaTimeFormatter {
+             authInfo.addHttp_basic_testAuthentication(username, password);
+             return authInfo;
+         }
+-
+-        public static AuthInfo forPetstore_authAuthentication(String accessToken) {
+-            AuthInfo authInfo = new AuthInfo();
+-            authInfo.addPetstore_authAuthentication(accessToken);
+-            return authInfo;
+-        }
+     }
+ }
+diff --git a/samples/client/petstore/java/webclient-jakarta/src/main/java/org/openapitools/client/ApiClient.java b/samples/client/petstore/java/webclient-jakarta/src/main/java/org/openapitools/client/ApiClient.java
+index 33801c567d1..c5ba27b85c3 100644
+--- a/samples/client/petstore/java/webclient-jakarta/src/main/java/org/openapitools/client/ApiClient.java
++++ b/samples/client/petstore/java/webclient-jakarta/src/main/java/org/openapitools/client/ApiClient.java
+@@ -147,12 +147,12 @@ public class ApiClient extends JavaTimeFormatter {
+     protected void init() {
+         // Setup authentications (key: authentication name, value: authentication).
+         authentications = new HashMap<String, Authentication>();
++        authentications.put("petstore_auth", new OAuth());
+         authentications.put("api_key", new ApiKeyAuth("header", "api_key"));
+         authentications.put("api_key_query", new ApiKeyAuth("query", "api_key_query"));
+-        authentications.put("bearer_test", new HttpBearerAuth("bearer"));
+         authentications.put("http_basic_test", new HttpBasicAuth());
++        authentications.put("bearer_test", new HttpBearerAuth("bearer"));
+         authentications.put("http_signature_test", new HttpBearerAuth("signature"));
+-        authentications.put("petstore_auth", new OAuth());
+         // Prevent the authentications from being modified.
+         authentications = Collections.unmodifiableMap(authentications);
+     }
+diff --git a/samples/client/petstore/java/webclient/src/main/java/org/openapitools/client/ApiClient.java b/samples/client/petstore/java/webclient/src/main/java/org/openapitools/client/ApiClient.java
+index a3b21aac840..009552ddb72 100644
+--- a/samples/client/petstore/java/webclient/src/main/java/org/openapitools/client/ApiClient.java
++++ b/samples/client/petstore/java/webclient/src/main/java/org/openapitools/client/ApiClient.java
+@@ -147,12 +147,12 @@ public class ApiClient extends JavaTimeFormatter {
+     protected void init() {
+         // Setup authentications (key: authentication name, value: authentication).
+         authentications = new HashMap<String, Authentication>();
++        authentications.put("petstore_auth", new OAuth());
+         authentications.put("api_key", new ApiKeyAuth("header", "api_key"));
+         authentications.put("api_key_query", new ApiKeyAuth("query", "api_key_query"));
+-        authentications.put("bearer_test", new HttpBearerAuth("bearer"));
+         authentications.put("http_basic_test", new HttpBasicAuth());
++        authentications.put("bearer_test", new HttpBearerAuth("bearer"));
+         authentications.put("http_signature_test", new HttpBearerAuth("signature"));
+-        authentications.put("petstore_auth", new OAuth());
+         // Prevent the authentications from being modified.
+         authentications = Collections.unmodifiableMap(authentications);
+     }
+diff --git a/samples/client/petstore/spring-cloud-async/src/main/java/org/openapitools/configuration/ClientConfiguration.java b/samples/client/petstore/spring-cloud-async/src/main/java/org/openapitools/configuration/ClientConfiguration.java
+index 4a28661290d..49f1c66c11a 100644
+--- a/samples/client/petstore/spring-cloud-async/src/main/java/org/openapitools/configuration/ClientConfiguration.java
++++ b/samples/client/petstore/spring-cloud-async/src/main/java/org/openapitools/configuration/ClientConfiguration.java
+@@ -15,15 +15,6 @@ import org.springframework.security.oauth2.client.token.grant.implicit.ImplicitR
+ @EnableConfigurationProperties
+ public class ClientConfiguration {
+ 
+-  @Value("${openapipetstore.security.apiKey.key:}")
+-  private String apiKeyKey;
+-
+-  @Bean
+-  @ConditionalOnProperty(name = "openapipetstore.security.apiKey.key")
+-  public ApiKeyRequestInterceptor apiKeyRequestInterceptor() {
+-    return new ApiKeyRequestInterceptor("header", "api_key", this.apiKeyKey);
+-  }
+-
+   @Bean
+   @ConditionalOnProperty("openapipetstore.security.petstoreAuth.client-id")
+   public OAuth2FeignRequestInterceptor petstoreAuthRequestInterceptor(OAuth2ClientContext oAuth2ClientContext) {
+@@ -45,4 +36,13 @@ public class ClientConfiguration {
+     return details;
+   }
+ 
++  @Value("${openapipetstore.security.apiKey.key:}")
++  private String apiKeyKey;
++
++  @Bean
++  @ConditionalOnProperty(name = "openapipetstore.security.apiKey.key")
++  public ApiKeyRequestInterceptor apiKeyRequestInterceptor() {
++    return new ApiKeyRequestInterceptor("header", "api_key", this.apiKeyKey);
++  }
++
+ }
+diff --git a/samples/client/petstore/spring-cloud-feign-without-url/src/main/java/org/openapitools/configuration/ClientConfiguration.java b/samples/client/petstore/spring-cloud-feign-without-url/src/main/java/org/openapitools/configuration/ClientConfiguration.java
+index 4a28661290d..49f1c66c11a 100644
+--- a/samples/client/petstore/spring-cloud-feign-without-url/src/main/java/org/openapitools/configuration/ClientConfiguration.java
++++ b/samples/client/petstore/spring-cloud-feign-without-url/src/main/java/org/openapitools/configuration/ClientConfiguration.java
+@@ -15,15 +15,6 @@ import org.springframework.security.oauth2.client.token.grant.implicit.ImplicitR
+ @EnableConfigurationProperties
+ public class ClientConfiguration {
+ 
+-  @Value("${openapipetstore.security.apiKey.key:}")
+-  private String apiKeyKey;
+-
+-  @Bean
+-  @ConditionalOnProperty(name = "openapipetstore.security.apiKey.key")
+-  public ApiKeyRequestInterceptor apiKeyRequestInterceptor() {
+-    return new ApiKeyRequestInterceptor("header", "api_key", this.apiKeyKey);
+-  }
+-
+   @Bean
+   @ConditionalOnProperty("openapipetstore.security.petstoreAuth.client-id")
+   public OAuth2FeignRequestInterceptor petstoreAuthRequestInterceptor(OAuth2ClientContext oAuth2ClientContext) {
+@@ -45,4 +36,13 @@ public class ClientConfiguration {
+     return details;
+   }
+ 
++  @Value("${openapipetstore.security.apiKey.key:}")
++  private String apiKeyKey;
++
++  @Bean
++  @ConditionalOnProperty(name = "openapipetstore.security.apiKey.key")
++  public ApiKeyRequestInterceptor apiKeyRequestInterceptor() {
++    return new ApiKeyRequestInterceptor("header", "api_key", this.apiKeyKey);
++  }
++
+ }
+diff --git a/samples/client/petstore/spring-cloud-spring-pageable/src/main/java/org/openapitools/configuration/ClientConfiguration.java b/samples/client/petstore/spring-cloud-spring-pageable/src/main/java/org/openapitools/configuration/ClientConfiguration.java
+index 4a28661290d..49f1c66c11a 100644
+--- a/samples/client/petstore/spring-cloud-spring-pageable/src/main/java/org/openapitools/configuration/ClientConfiguration.java
++++ b/samples/client/petstore/spring-cloud-spring-pageable/src/main/java/org/openapitools/configuration/ClientConfiguration.java
+@@ -15,15 +15,6 @@ import org.springframework.security.oauth2.client.token.grant.implicit.ImplicitR
+ @EnableConfigurationProperties
+ public class ClientConfiguration {
+ 
+-  @Value("${openapipetstore.security.apiKey.key:}")
+-  private String apiKeyKey;
+-
+-  @Bean
+-  @ConditionalOnProperty(name = "openapipetstore.security.apiKey.key")
+-  public ApiKeyRequestInterceptor apiKeyRequestInterceptor() {
+-    return new ApiKeyRequestInterceptor("header", "api_key", this.apiKeyKey);
+-  }
+-
+   @Bean
+   @ConditionalOnProperty("openapipetstore.security.petstoreAuth.client-id")
+   public OAuth2FeignRequestInterceptor petstoreAuthRequestInterceptor(OAuth2ClientContext oAuth2ClientContext) {
+@@ -45,4 +36,13 @@ public class ClientConfiguration {
+     return details;
+   }
+ 
++  @Value("${openapipetstore.security.apiKey.key:}")
++  private String apiKeyKey;
++
++  @Bean
++  @ConditionalOnProperty(name = "openapipetstore.security.apiKey.key")
++  public ApiKeyRequestInterceptor apiKeyRequestInterceptor() {
++    return new ApiKeyRequestInterceptor("header", "api_key", this.apiKeyKey);
++  }
++
+ }
+diff --git a/samples/client/petstore/spring-cloud/src/main/java/org/openapitools/configuration/ClientConfiguration.java b/samples/client/petstore/spring-cloud/src/main/java/org/openapitools/configuration/ClientConfiguration.java
+index 4a28661290d..49f1c66c11a 100644
+--- a/samples/client/petstore/spring-cloud/src/main/java/org/openapitools/configuration/ClientConfiguration.java
++++ b/samples/client/petstore/spring-cloud/src/main/java/org/openapitools/configuration/ClientConfiguration.java
+@@ -15,15 +15,6 @@ import org.springframework.security.oauth2.client.token.grant.implicit.ImplicitR
+ @EnableConfigurationProperties
+ public class ClientConfiguration {
+ 
+-  @Value("${openapipetstore.security.apiKey.key:}")
+-  private String apiKeyKey;
+-
+-  @Bean
+-  @ConditionalOnProperty(name = "openapipetstore.security.apiKey.key")
+-  public ApiKeyRequestInterceptor apiKeyRequestInterceptor() {
+-    return new ApiKeyRequestInterceptor("header", "api_key", this.apiKeyKey);
+-  }
+-
+   @Bean
+   @ConditionalOnProperty("openapipetstore.security.petstoreAuth.client-id")
+   public OAuth2FeignRequestInterceptor petstoreAuthRequestInterceptor(OAuth2ClientContext oAuth2ClientContext) {
+@@ -45,4 +36,13 @@ public class ClientConfiguration {
+     return details;
+   }
+ 
++  @Value("${openapipetstore.security.apiKey.key:}")
++  private String apiKeyKey;
++
++  @Bean
++  @ConditionalOnProperty(name = "openapipetstore.security.apiKey.key")
++  public ApiKeyRequestInterceptor apiKeyRequestInterceptor() {
++    return new ApiKeyRequestInterceptor("header", "api_key", this.apiKeyKey);
++  }
++
+ }
+diff --git a/samples/openapi3/client/petstore/java/jersey2-java8-swagger1/src/main/java/org/openapitools/client/ApiClient.java b/samples/openapi3/client/petstore/java/jersey2-java8-swagger1/src/main/java/org/openapitools/client/ApiClient.java
+index 25a50c6bf66..f9ee6b3f184 100644
+--- a/samples/openapi3/client/petstore/java/jersey2-java8-swagger1/src/main/java/org/openapitools/client/ApiClient.java
++++ b/samples/openapi3/client/petstore/java/jersey2-java8-swagger1/src/main/java/org/openapitools/client/ApiClient.java
+@@ -127,14 +127,6 @@ public class ApiClient extends JavaTimeFormatter {
+     // Setup authentications (key: authentication name, value: authentication).
+     authentications = new HashMap<String, Authentication>();
+     Authentication auth = null;
+-    if (authMap != null) {
+-      auth = authMap.get("api_key");
+-    }
+-    if (auth instanceof ApiKeyAuth) {
+-      authentications.put("api_key", auth);
+-    } else {
+-      authentications.put("api_key", new ApiKeyAuth("header", "api_key"));
+-    }
+     if (authMap != null) {
+       auth = authMap.get("petstore_auth");
+     }
+@@ -143,6 +135,14 @@ public class ApiClient extends JavaTimeFormatter {
+     } else {
+       authentications.put("petstore_auth", new OAuth(basePath, ""));
+     }
++    if (authMap != null) {
++      auth = authMap.get("api_key");
++    }
++    if (auth instanceof ApiKeyAuth) {
++      authentications.put("api_key", auth);
++    } else {
++      authentications.put("api_key", new ApiKeyAuth("header", "api_key"));
++    }
+     // Prevent the authentications from being modified.
+     authentications = Collections.unmodifiableMap(authentications);
+ 
+diff --git a/samples/openapi3/client/petstore/java/jersey2-java8/src/main/java/org/openapitools/client/ApiClient.java b/samples/openapi3/client/petstore/java/jersey2-java8/src/main/java/org/openapitools/client/ApiClient.java
+index 76babaff4ac..af933ffdc90 100644
+--- a/samples/openapi3/client/petstore/java/jersey2-java8/src/main/java/org/openapitools/client/ApiClient.java
++++ b/samples/openapi3/client/petstore/java/jersey2-java8/src/main/java/org/openapitools/client/ApiClient.java
+@@ -197,6 +197,14 @@ public class ApiClient extends JavaTimeFormatter {
+     // Setup authentications (key: authentication name, value: authentication).
+     authentications = new HashMap<String, Authentication>();
+     Authentication auth = null;
++    if (authMap != null) {
++      auth = authMap.get("petstore_auth");
++    }
++    if (auth instanceof OAuth) {
++      authentications.put("petstore_auth", auth);
++    } else {
++      authentications.put("petstore_auth", new OAuth(basePath, ""));
++    }
+     if (authMap != null) {
+       auth = authMap.get("api_key");
+     }
+@@ -213,14 +221,6 @@ public class ApiClient extends JavaTimeFormatter {
+     } else {
+       authentications.put("api_key_query", new ApiKeyAuth("query", "api_key_query"));
+     }
+-    if (authMap != null) {
+-      auth = authMap.get("bearer_test");
+-    }
+-    if (auth instanceof HttpBearerAuth) {
+-      authentications.put("bearer_test", auth);
+-    } else {
+-      authentications.put("bearer_test", new HttpBearerAuth("bearer"));
+-    }
+     if (authMap != null) {
+       auth = authMap.get("http_basic_test");
+     }
+@@ -230,18 +230,18 @@ public class ApiClient extends JavaTimeFormatter {
+       authentications.put("http_basic_test", new HttpBasicAuth());
+     }
+     if (authMap != null) {
+-      auth = authMap.get("http_signature_test");
++      auth = authMap.get("bearer_test");
+     }
+-    if (auth instanceof HttpSignatureAuth) {
+-      authentications.put("http_signature_test", auth);
++    if (auth instanceof HttpBearerAuth) {
++      authentications.put("bearer_test", auth);
++    } else {
++      authentications.put("bearer_test", new HttpBearerAuth("bearer"));
+     }
+     if (authMap != null) {
+-      auth = authMap.get("petstore_auth");
++      auth = authMap.get("http_signature_test");
+     }
+-    if (auth instanceof OAuth) {
+-      authentications.put("petstore_auth", auth);
+-    } else {
+-      authentications.put("petstore_auth", new OAuth(basePath, ""));
++    if (auth instanceof HttpSignatureAuth) {
++      authentications.put("http_signature_test", auth);
+     }
+     // Prevent the authentications from being modified.
+     authentications = Collections.unmodifiableMap(authentications);
+diff --git a/samples/openapi3/client/petstore/java/jersey2-java8/src/main/java/org/openapitools/client/api/PetApi.java b/samples/openapi3/client/petstore/java/jersey2-java8/src/main/java/org/openapitools/client/api/PetApi.java
+index e6ec7cfd993..f985d589a3f 100644
+--- a/samples/openapi3/client/petstore/java/jersey2-java8/src/main/java/org/openapitools/client/api/PetApi.java
++++ b/samples/openapi3/client/petstore/java/jersey2-java8/src/main/java/org/openapitools/client/api/PetApi.java
+@@ -105,7 +105,7 @@ public class PetApi {
+     };
+     final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+ 
+-    String[] localVarAuthNames = new String[] { "http_signature_test", "petstore_auth" };
++    String[] localVarAuthNames = new String[] { "petstore_auth", "http_signature_test" };
+ 
+     return apiClient.invokeAPI("PetApi.addPet", localVarPath, "POST", localVarQueryParams, localVarPostBody,
+                                localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType,
+@@ -242,7 +242,7 @@ public class PetApi {
+     };
+     final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+ 
+-    String[] localVarAuthNames = new String[] { "http_signature_test", "petstore_auth" };
++    String[] localVarAuthNames = new String[] { "petstore_auth", "http_signature_test" };
+ 
+     GenericType<List<Pet>> localVarReturnType = new GenericType<List<Pet>>() {};
+ 
+@@ -316,7 +316,7 @@ public class PetApi {
+     };
+     final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+ 
+-    String[] localVarAuthNames = new String[] { "http_signature_test", "petstore_auth" };
++    String[] localVarAuthNames = new String[] { "petstore_auth", "http_signature_test" };
+ 
+     GenericType<List<Pet>> localVarReturnType = new GenericType<List<Pet>>() {};
+ 
+@@ -458,7 +458,7 @@ public class PetApi {
+     };
+     final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+ 
+-    String[] localVarAuthNames = new String[] { "http_signature_test", "petstore_auth" };
++    String[] localVarAuthNames = new String[] { "petstore_auth", "http_signature_test" };
+ 
+     return apiClient.invokeAPI("PetApi.updatePet", localVarPath, "PUT", localVarQueryParams, localVarPostBody,
+                                localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType,
+diff --git a/samples/openapi3/client/petstore/spring-cloud-async/src/main/java/org/openapitools/configuration/ClientConfiguration.java b/samples/openapi3/client/petstore/spring-cloud-async/src/main/java/org/openapitools/configuration/ClientConfiguration.java
+index 4a28661290d..49f1c66c11a 100644
+--- a/samples/openapi3/client/petstore/spring-cloud-async/src/main/java/org/openapitools/configuration/ClientConfiguration.java
++++ b/samples/openapi3/client/petstore/spring-cloud-async/src/main/java/org/openapitools/configuration/ClientConfiguration.java
+@@ -15,15 +15,6 @@ import org.springframework.security.oauth2.client.token.grant.implicit.ImplicitR
+ @EnableConfigurationProperties
+ public class ClientConfiguration {
+ 
+-  @Value("${openapipetstore.security.apiKey.key:}")
+-  private String apiKeyKey;
+-
+-  @Bean
+-  @ConditionalOnProperty(name = "openapipetstore.security.apiKey.key")
+-  public ApiKeyRequestInterceptor apiKeyRequestInterceptor() {
+-    return new ApiKeyRequestInterceptor("header", "api_key", this.apiKeyKey);
+-  }
+-
+   @Bean
+   @ConditionalOnProperty("openapipetstore.security.petstoreAuth.client-id")
+   public OAuth2FeignRequestInterceptor petstoreAuthRequestInterceptor(OAuth2ClientContext oAuth2ClientContext) {
+@@ -45,4 +36,13 @@ public class ClientConfiguration {
+     return details;
+   }
+ 
++  @Value("${openapipetstore.security.apiKey.key:}")
++  private String apiKeyKey;
++
++  @Bean
++  @ConditionalOnProperty(name = "openapipetstore.security.apiKey.key")
++  public ApiKeyRequestInterceptor apiKeyRequestInterceptor() {
++    return new ApiKeyRequestInterceptor("header", "api_key", this.apiKeyKey);
++  }
++
+ }
+diff --git a/samples/openapi3/client/petstore/spring-cloud-spring-pageable/src/main/java/org/openapitools/configuration/ClientConfiguration.java b/samples/openapi3/client/petstore/spring-cloud-spring-pageable/src/main/java/org/openapitools/configuration/ClientConfiguration.java
+index 4a28661290d..49f1c66c11a 100644
+--- a/samples/openapi3/client/petstore/spring-cloud-spring-pageable/src/main/java/org/openapitools/configuration/ClientConfiguration.java
++++ b/samples/openapi3/client/petstore/spring-cloud-spring-pageable/src/main/java/org/openapitools/configuration/ClientConfiguration.java
+@@ -15,15 +15,6 @@ import org.springframework.security.oauth2.client.token.grant.implicit.ImplicitR
+ @EnableConfigurationProperties
+ public class ClientConfiguration {
+ 
+-  @Value("${openapipetstore.security.apiKey.key:}")
+-  private String apiKeyKey;
+-
+-  @Bean
+-  @ConditionalOnProperty(name = "openapipetstore.security.apiKey.key")
+-  public ApiKeyRequestInterceptor apiKeyRequestInterceptor() {
+-    return new ApiKeyRequestInterceptor("header", "api_key", this.apiKeyKey);
+-  }
+-
+   @Bean
+   @ConditionalOnProperty("openapipetstore.security.petstoreAuth.client-id")
+   public OAuth2FeignRequestInterceptor petstoreAuthRequestInterceptor(OAuth2ClientContext oAuth2ClientContext) {
+@@ -45,4 +36,13 @@ public class ClientConfiguration {
+     return details;
+   }
+ 
++  @Value("${openapipetstore.security.apiKey.key:}")
++  private String apiKeyKey;
++
++  @Bean
++  @ConditionalOnProperty(name = "openapipetstore.security.apiKey.key")
++  public ApiKeyRequestInterceptor apiKeyRequestInterceptor() {
++    return new ApiKeyRequestInterceptor("header", "api_key", this.apiKeyKey);
++  }
++
+ }
+diff --git a/samples/openapi3/server/petstore/spring-boot-springdoc/src/main/java/org/openapitools/configuration/SpringDocConfiguration.java b/samples/openapi3/server/petstore/spring-boot-springdoc/src/main/java/org/openapitools/configuration/SpringDocConfiguration.java
+index ea662c09482..2ea502c445a 100644
+--- a/samples/openapi3/server/petstore/spring-boot-springdoc/src/main/java/org/openapitools/configuration/SpringDocConfiguration.java
++++ b/samples/openapi3/server/petstore/spring-boot-springdoc/src/main/java/org/openapitools/configuration/SpringDocConfiguration.java
+@@ -29,14 +29,14 @@ public class SpringDocConfiguration {
+                 )
+                 .components(
+                         new Components()
++                                .addSecuritySchemes("petstore_auth", new SecurityScheme()
++                                        .type(SecurityScheme.Type.OAUTH2)
++                                )
+                                 .addSecuritySchemes("api_key", new SecurityScheme()
+                                         .type(SecurityScheme.Type.APIKEY)
+                                         .in(SecurityScheme.In.HEADER)
+                                         .name("api_key")
+                                 )
+-                                .addSecuritySchemes("petstore_auth", new SecurityScheme()
+-                                        .type(SecurityScheme.Type.OAUTH2)
+-                                )
+                 )
+         ;
+     }
+diff --git a/samples/openapi3/server/petstore/springboot-3/src/main/java/org/openapitools/configuration/SpringDocConfiguration.java b/samples/openapi3/server/petstore/springboot-3/src/main/java/org/openapitools/configuration/SpringDocConfiguration.java
+index ea662c09482..2ea502c445a 100644
+--- a/samples/openapi3/server/petstore/springboot-3/src/main/java/org/openapitools/configuration/SpringDocConfiguration.java
++++ b/samples/openapi3/server/petstore/springboot-3/src/main/java/org/openapitools/configuration/SpringDocConfiguration.java
+@@ -29,14 +29,14 @@ public class SpringDocConfiguration {
+                 )
+                 .components(
+                         new Components()
++                                .addSecuritySchemes("petstore_auth", new SecurityScheme()
++                                        .type(SecurityScheme.Type.OAUTH2)
++                                )
+                                 .addSecuritySchemes("api_key", new SecurityScheme()
+                                         .type(SecurityScheme.Type.APIKEY)
+                                         .in(SecurityScheme.In.HEADER)
+                                         .name("api_key")
+                                 )
+-                                .addSecuritySchemes("petstore_auth", new SecurityScheme()
+-                                        .type(SecurityScheme.Type.OAUTH2)
+-                                )
+                 )
+         ;
+     }
+diff --git a/samples/openapi3/server/petstore/springboot-beanvalidation-no-nullable/src/main/java/org/openapitools/configuration/SpringDocConfiguration.java b/samples/openapi3/server/petstore/springboot-beanvalidation-no-nullable/src/main/java/org/openapitools/configuration/SpringDocConfiguration.java
+index 6001110b504..a32f1f67787 100644
+--- a/samples/openapi3/server/petstore/springboot-beanvalidation-no-nullable/src/main/java/org/openapitools/configuration/SpringDocConfiguration.java
++++ b/samples/openapi3/server/petstore/springboot-beanvalidation-no-nullable/src/main/java/org/openapitools/configuration/SpringDocConfiguration.java
+@@ -29,6 +29,9 @@ public class SpringDocConfiguration {
+                 )
+                 .components(
+                         new Components()
++                                .addSecuritySchemes("petstore_auth", new SecurityScheme()
++                                        .type(SecurityScheme.Type.OAUTH2)
++                                )
+                                 .addSecuritySchemes("api_key", new SecurityScheme()
+                                         .type(SecurityScheme.Type.APIKEY)
+                                         .in(SecurityScheme.In.HEADER)
+@@ -43,9 +46,6 @@ public class SpringDocConfiguration {
+                                         .type(SecurityScheme.Type.HTTP)
+                                         .scheme("basic")
+                                 )
+-                                .addSecuritySchemes("petstore_auth", new SecurityScheme()
+-                                        .type(SecurityScheme.Type.OAUTH2)
+-                                )
+                 )
+         ;
+     }
+diff --git a/samples/openapi3/server/petstore/springboot-delegate/src/main/java/org/openapitools/configuration/SpringDocConfiguration.java b/samples/openapi3/server/petstore/springboot-delegate/src/main/java/org/openapitools/configuration/SpringDocConfiguration.java
+index 6001110b504..a32f1f67787 100644
+--- a/samples/openapi3/server/petstore/springboot-delegate/src/main/java/org/openapitools/configuration/SpringDocConfiguration.java
++++ b/samples/openapi3/server/petstore/springboot-delegate/src/main/java/org/openapitools/configuration/SpringDocConfiguration.java
+@@ -29,6 +29,9 @@ public class SpringDocConfiguration {
+                 )
+                 .components(
+                         new Components()
++                                .addSecuritySchemes("petstore_auth", new SecurityScheme()
++                                        .type(SecurityScheme.Type.OAUTH2)
++                                )
+                                 .addSecuritySchemes("api_key", new SecurityScheme()
+                                         .type(SecurityScheme.Type.APIKEY)
+                                         .in(SecurityScheme.In.HEADER)
+@@ -43,9 +46,6 @@ public class SpringDocConfiguration {
+                                         .type(SecurityScheme.Type.HTTP)
+                                         .scheme("basic")
+                                 )
+-                                .addSecuritySchemes("petstore_auth", new SecurityScheme()
+-                                        .type(SecurityScheme.Type.OAUTH2)
+-                                )
+                 )
+         ;
+     }
+diff --git a/samples/openapi3/server/petstore/springboot-implicitHeaders/src/main/java/org/openapitools/configuration/SpringDocConfiguration.java b/samples/openapi3/server/petstore/springboot-implicitHeaders/src/main/java/org/openapitools/configuration/SpringDocConfiguration.java
+index 6001110b504..a32f1f67787 100644
+--- a/samples/openapi3/server/petstore/springboot-implicitHeaders/src/main/java/org/openapitools/configuration/SpringDocConfiguration.java
++++ b/samples/openapi3/server/petstore/springboot-implicitHeaders/src/main/java/org/openapitools/configuration/SpringDocConfiguration.java
+@@ -29,6 +29,9 @@ public class SpringDocConfiguration {
+                 )
+                 .components(
+                         new Components()
++                                .addSecuritySchemes("petstore_auth", new SecurityScheme()
++                                        .type(SecurityScheme.Type.OAUTH2)
++                                )
+                                 .addSecuritySchemes("api_key", new SecurityScheme()
+                                         .type(SecurityScheme.Type.APIKEY)
+                                         .in(SecurityScheme.In.HEADER)
+@@ -43,9 +46,6 @@ public class SpringDocConfiguration {
+                                         .type(SecurityScheme.Type.HTTP)
+                                         .scheme("basic")
+                                 )
+-                                .addSecuritySchemes("petstore_auth", new SecurityScheme()
+-                                        .type(SecurityScheme.Type.OAUTH2)
+-                                )
+                 )
+         ;
+     }
+diff --git a/samples/openapi3/server/petstore/springboot-useoptional/src/main/java/org/openapitools/configuration/SpringDocConfiguration.java b/samples/openapi3/server/petstore/springboot-useoptional/src/main/java/org/openapitools/configuration/SpringDocConfiguration.java
+index 6001110b504..a32f1f67787 100644
+--- a/samples/openapi3/server/petstore/springboot-useoptional/src/main/java/org/openapitools/configuration/SpringDocConfiguration.java
++++ b/samples/openapi3/server/petstore/springboot-useoptional/src/main/java/org/openapitools/configuration/SpringDocConfiguration.java
+@@ -29,6 +29,9 @@ public class SpringDocConfiguration {
+                 )
+                 .components(
+                         new Components()
++                                .addSecuritySchemes("petstore_auth", new SecurityScheme()
++                                        .type(SecurityScheme.Type.OAUTH2)
++                                )
+                                 .addSecuritySchemes("api_key", new SecurityScheme()
+                                         .type(SecurityScheme.Type.APIKEY)
+                                         .in(SecurityScheme.In.HEADER)
+@@ -43,9 +46,6 @@ public class SpringDocConfiguration {
+                                         .type(SecurityScheme.Type.HTTP)
+                                         .scheme("basic")
+                                 )
+-                                .addSecuritySchemes("petstore_auth", new SecurityScheme()
+-                                        .type(SecurityScheme.Type.OAUTH2)
+-                                )
+                 )
+         ;
+     }
+diff --git a/samples/openapi3/server/petstore/springboot/src/main/java/org/openapitools/configuration/SpringDocConfiguration.java b/samples/openapi3/server/petstore/springboot/src/main/java/org/openapitools/configuration/SpringDocConfiguration.java
+index ea662c09482..2ea502c445a 100644
+--- a/samples/openapi3/server/petstore/springboot/src/main/java/org/openapitools/configuration/SpringDocConfiguration.java
++++ b/samples/openapi3/server/petstore/springboot/src/main/java/org/openapitools/configuration/SpringDocConfiguration.java
+@@ -29,14 +29,14 @@ public class SpringDocConfiguration {
+                 )
+                 .components(
+                         new Components()
++                                .addSecuritySchemes("petstore_auth", new SecurityScheme()
++                                        .type(SecurityScheme.Type.OAUTH2)
++                                )
+                                 .addSecuritySchemes("api_key", new SecurityScheme()
+                                         .type(SecurityScheme.Type.APIKEY)
+                                         .in(SecurityScheme.In.HEADER)
+                                         .name("api_key")
+                                 )
+-                                .addSecuritySchemes("petstore_auth", new SecurityScheme()
+-                                        .type(SecurityScheme.Type.OAUTH2)
+-                                )
+                 )
+         ;
+     }
+diff --git a/samples/server/petstore/springboot-virtualan/src/main/java/org/openapitools/configuration/SpringDocConfiguration.java b/samples/server/petstore/springboot-virtualan/src/main/java/org/openapitools/configuration/SpringDocConfiguration.java
+index 6001110b504..a32f1f67787 100644
+--- a/samples/server/petstore/springboot-virtualan/src/main/java/org/openapitools/configuration/SpringDocConfiguration.java
++++ b/samples/server/petstore/springboot-virtualan/src/main/java/org/openapitools/configuration/SpringDocConfiguration.java
+@@ -29,6 +29,9 @@ public class SpringDocConfiguration {
+                 )
+                 .components(
+                         new Components()
++                                .addSecuritySchemes("petstore_auth", new SecurityScheme()
++                                        .type(SecurityScheme.Type.OAUTH2)
++                                )
+                                 .addSecuritySchemes("api_key", new SecurityScheme()
+                                         .type(SecurityScheme.Type.APIKEY)
+                                         .in(SecurityScheme.In.HEADER)
+@@ -43,9 +46,6 @@ public class SpringDocConfiguration {
+                                         .type(SecurityScheme.Type.HTTP)
+                                         .scheme("basic")
+                                 )
+-                                .addSecuritySchemes("petstore_auth", new SecurityScheme()
+-                                        .type(SecurityScheme.Type.OAUTH2)
+-                                )
+                 )
+         ;
+     }

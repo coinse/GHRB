@@ -1,0 +1,201 @@
+{
+  "Hakky54_sslcontext-kickstart-122": {
+    "bug_id": "Hakky54_sslcontext-kickstart-122",
+    "PR_number": 122,
+    "PR_createdAt": "2021-10-07T10:31:53Z",
+    "merge_commit": "e1d9740e37af3ecc2db3489744a19b143cdd508c",
+    "buggy_commits": [
+      {
+        "oid": "9775b98981527834d912e2174bbd3589a9c3362f",
+        "message": "Added additional route"
+      },
+      {
+        "oid": "3173d3b2f388538923f20f725c6e562dc1f3b5b3",
+        "message": "Disabled logging of UnsafeHostNameVerifier and UnsafeX509ExtendedTrustManager"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/Hakky54/sslcontext-kickstart/issues/121",
+      "createdAt": "2021-10-06T12:02:57Z",
+      "content": "bug_report_all/Hakky54_sslcontext-kickstart-122.json"
+    },
+    "changed_tests": [
+      "sslcontext-kickstart/src/test/java/nl/altindag/ssl/hostnameverifier/UnsafeHostnameVerifierShould.java",
+      "sslcontext-kickstart/src/test/java/nl/altindag/ssl/trustmanager/HotSwappableX509ExtendedTrustManagerIT.java",
+      "sslcontext-kickstart/src/test/java/nl/altindag/ssl/trustmanager/UnsafeX509ExtendedTrustManagerShould.java"
+    ],
+    "PR_url": "https://github.com/Hakky54/sslcontext-kickstart/pull/122",
+    "merge_commit_url": "https://github.com/Hakky54/sslcontext-kickstart/commit/e1d9740e37af3ecc2db3489744a19b143cdd508c",
+    "buggy_commit": "9775b98981527834d912e2174bbd3589a9c3362f",
+    "execution_result": {
+      "valid_tests": [
+        ".nl.altindag.ssl.hostnameverifier.UnsafeHostnameVerifierShould",
+        ".nl.altindag.ssl.trustmanager.HotSwappableX509ExtendedTrustManagerIT"
+      ],
+      "success_tests": [
+        ".nl.altindag.ssl.hostnameverifier.UnsafeHostnameVerifierShould"
+      ]
+    }
+  },
+  "Hakky54_sslcontext-kickstart-167": {
+    "bug_id": "Hakky54_sslcontext-kickstart-167",
+    "PR_number": 167,
+    "PR_createdAt": "2022-04-09T15:12:09Z",
+    "merge_commit": "cf1bb50f8e2e3e9b605b1b61fc7ddd45d83c7f2c",
+    "buggy_commits": [
+      {
+        "oid": "5f31caee58ff401d45a185aed741256b6b6adc17",
+        "message": "Improved extracting server certificates"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/Hakky54/sslcontext-kickstart/issues/166",
+      "createdAt": "2022-04-09T14:35:40Z",
+      "content": "bug_report_all/Hakky54_sslcontext-kickstart-167.json"
+    },
+    "changed_tests": [
+      "sslcontext-kickstart/src/test/java/nl/altindag/ssl/util/CertificateUtilsShould.java"
+    ],
+    "PR_url": "https://github.com/Hakky54/sslcontext-kickstart/pull/167",
+    "merge_commit_url": "https://github.com/Hakky54/sslcontext-kickstart/commit/cf1bb50f8e2e3e9b605b1b61fc7ddd45d83c7f2c",
+    "buggy_commit": "5f31caee58ff401d45a185aed741256b6b6adc17",
+    "execution_result": {
+      "valid_tests": [
+        ".nl.altindag.ssl.util.CertificateUtilsShould"
+      ],
+      "success_tests": [
+        ".nl.altindag.ssl.util.CertificateUtilsShould"
+      ]
+    }
+  },
+  "Hakky54_sslcontext-kickstart-197": {
+    "bug_id": "Hakky54_sslcontext-kickstart-197",
+    "PR_number": 197,
+    "PR_createdAt": "2022-07-07T05:46:05Z",
+    "merge_commit": "5effabcf4399cb187cfbdc56ec15072b5e345222",
+    "buggy_commits": [
+      {
+        "oid": "4c152e9339eb8c48fd24062e1215a5c22a0949a0",
+        "message": "Bump jetty-reactive-httpclient from 1.1.11 to 1.1.12 (#195)\n\nBumps [jetty-reactive-httpclient](https://github.com/jetty-project/jetty-reactive-httpclient) from 1.1.11 to 1.1.12.\r\n- [Release notes](https://github.com/jetty-project/jetty-reactive-httpclient/releases)\r\n- [Commits](https://github.com/jetty-project/jetty-reactive-httpclient/compare/1.1.11...1.1.12)\r\n\r\n---\r\nupdated-dependencies:\r\n- dependency-name: org.eclipse.jetty:jetty-reactive-httpclient\r\n  dependency-type: direct:production\r\n  update-type: version-update:semver-patch\r\n...\r\n\r\nSigned-off-by: dependabot[bot] <support@github.com>\r\n\r\nCo-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/Hakky54/sslcontext-kickstart/issues/196",
+      "createdAt": "2022-07-04T14:51:36Z",
+      "content": "bug_report_all/Hakky54_sslcontext-kickstart-197.json"
+    },
+    "changed_tests": [
+      "sslcontext-kickstart/src/test/java/nl/altindag/ssl/util/TrustManagerUtilsShould.java"
+    ],
+    "PR_url": "https://github.com/Hakky54/sslcontext-kickstart/pull/197",
+    "merge_commit_url": "https://github.com/Hakky54/sslcontext-kickstart/commit/5effabcf4399cb187cfbdc56ec15072b5e345222",
+    "buggy_commit": "4c152e9339eb8c48fd24062e1215a5c22a0949a0",
+    "execution_result": {
+      "valid_tests": [
+        ".nl.altindag.ssl.util.TrustManagerUtilsShould"
+      ],
+      "success_tests": [
+        ".nl.altindag.ssl.util.TrustManagerUtilsShould"
+      ]
+    }
+  },
+  "Hakky54_sslcontext-kickstart-203": {
+    "bug_id": "Hakky54_sslcontext-kickstart-203",
+    "PR_number": 203,
+    "PR_createdAt": "2022-08-02T14:58:48Z",
+    "merge_commit": "04d6c0331fae0c783eab3a4d59bc381b75cd9131",
+    "buggy_commits": [
+      {
+        "oid": "1e0d28ae54dd9c0158454ed8939e38b656041218",
+        "message": "Bump version.junit from 5.8.2 to 5.9.0 (#202)\n\nBumps `version.junit` from 5.8.2 to 5.9.0.\r\n\r\nUpdates `junit-jupiter-api` from 5.8.2 to 5.9.0\r\n- [Release notes](https://github.com/junit-team/junit5/releases)\r\n- [Commits](https://github.com/junit-team/junit5/compare/r5.8.2...r5.9.0)\r\n\r\nUpdates `junit-jupiter-engine` from 5.8.2 to 5.9.0\r\n- [Release notes](https://github.com/junit-team/junit5/releases)\r\n- [Commits](https://github.com/junit-team/junit5/compare/r5.8.2...r5.9.0)\r\n\r\n---\r\nupdated-dependencies:\r\n- dependency-name: org.junit.jupiter:junit-jupiter-api\r\n  dependency-type: direct:development\r\n  update-type: version-update:semver-minor\r\n- dependency-name: org.junit.jupiter:junit-jupiter-engine\r\n  dependency-type: direct:development\r\n  update-type: version-update:semver-minor\r\n...\r\n\r\nSigned-off-by: dependabot[bot] <support@github.com>\r\n\r\nCo-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/Hakky54/sslcontext-kickstart/issues/194",
+      "createdAt": "2022-06-24T14:33:32Z",
+      "content": "bug_report_all/Hakky54_sslcontext-kickstart-203.json"
+    },
+    "changed_tests": [
+      "sslcontext-kickstart/src/test/java/nl/altindag/ssl/util/KeyStoreUtilsShould.java"
+    ],
+    "PR_url": "https://github.com/Hakky54/sslcontext-kickstart/pull/203",
+    "merge_commit_url": "https://github.com/Hakky54/sslcontext-kickstart/commit/04d6c0331fae0c783eab3a4d59bc381b75cd9131",
+    "buggy_commit": "1e0d28ae54dd9c0158454ed8939e38b656041218",
+    "execution_result": {
+      "valid_tests": [
+        ".nl.altindag.ssl.util.KeyStoreUtilsShould"
+      ],
+      "success_tests": [
+        ".nl.altindag.ssl.util.KeyStoreUtilsShould"
+      ]
+    }
+  },
+  "Hakky54_sslcontext-kickstart-217": {
+    "bug_id": "Hakky54_sslcontext-kickstart-217",
+    "PR_number": 217,
+    "PR_createdAt": "2022-08-30T09:09:01Z",
+    "merge_commit": "7b1807f98e7292189f39e383110212ba0f7f0b13",
+    "buggy_commits": [
+      {
+        "oid": "db2b7ca146d99f661da9cd0bcb7b837708895771",
+        "message": "Bump version.netty-handler from 4.1.79.Final to 4.1.80.Final (#216)\n\nBumps `version.netty-handler` from 4.1.79.Final to 4.1.80.Final.\r\n\r\nUpdates `netty-handler` from 4.1.79.Final to 4.1.80.Final\r\n- [Release notes](https://github.com/netty/netty/releases)\r\n- [Commits](https://github.com/netty/netty/compare/netty-4.1.79.Final...netty-4.1.80.Final)\r\n\r\nUpdates `netty-resolver-dns` from 4.1.79.Final to 4.1.80.Final\r\n- [Release notes](https://github.com/netty/netty/releases)\r\n- [Commits](https://github.com/netty/netty/compare/netty-4.1.79.Final...netty-4.1.80.Final)\r\n\r\nUpdates `netty-transport-native-epoll` from 4.1.79.Final to 4.1.80.Final\r\n- [Release notes](https://github.com/netty/netty/releases)\r\n- [Commits](https://github.com/netty/netty/compare/netty-4.1.79.Final...netty-4.1.80.Final)\r\n\r\nUpdates `netty-codec-http2` from 4.1.79.Final to 4.1.80.Final\r\n- [Release notes](https://github.com/netty/netty/releases)\r\n- [Commits](https://github.com/netty/netty/compare/netty-4.1.79.Final...netty-4.1.80.Final)\r\n\r\nUpdates `netty-transport-native-unix-common` from 4.1.79.Final to 4.1.80.Final\r\n- [Release notes](https://github.com/netty/netty/releases)\r\n- [Commits](https://github.com/netty/netty/compare/netty-4.1.79.Final...netty-4.1.80.Final)\r\n\r\nUpdates `netty-resolver-dns-native-macos` from 4.1.79.Final to 4.1.80.Final\r\n- [Release notes](https://github.com/netty/netty/releases)\r\n- [Commits](https://github.com/netty/netty/compare/netty-4.1.79.Final...netty-4.1.80.Final)\r\n\r\nUpdates `netty-buffer` from 4.1.79.Final to 4.1.80.Final\r\n- [Release notes](https://github.com/netty/netty/releases)\r\n- [Commits](https://github.com/netty/netty/compare/netty-4.1.79.Final...netty-4.1.80.Final)\r\n\r\nUpdates `netty-codec` from 4.1.79.Final to 4.1.80.Final\r\n- [Release notes](https://github.com/netty/netty/releases)\r\n- [Commits](https://github.com/netty/netty/compare/netty-4.1.79.Final...netty-4.1.80.Final)\r\n\r\nUpdates `netty-common` from 4.1.79.Final to 4.1.80.Final\r\n- [Release notes](https://github.com/netty/netty/releases)\r\n- [Commits](https://github.com/netty/netty/compare/netty-4.1.79.Final...netty-4.1.80.Final)\r\n\r\nUpdates `netty-transport` from 4.1.79.Final to 4.1.80.Final\r\n- [Release notes](https://github.com/netty/netty/releases)\r\n- [Commits](https://github.com/netty/netty/compare/netty-4.1.79.Final...netty-4.1.80.Final)\r\n\r\n---\r\nupdated-dependencies:\r\n- dependency-name: io.netty:netty-handler\r\n  dependency-type: direct:production\r\n  update-type: version-update:semver-patch\r\n- dependency-name: io.netty:netty-resolver-dns\r\n  dependency-type: direct:development\r\n  update-type: version-update:semver-patch\r\n- dependency-name: io.netty:netty-transport-native-epoll\r\n  dependency-type: direct:development\r\n  update-type: version-update:semver-patch\r\n- dependency-name: io.netty:netty-codec-http2\r\n  dependency-type: direct:development\r\n  update-type: version-update:semver-patch\r\n- dependency-name: io.netty:netty-transport-native-unix-common\r\n  dependency-type: direct:development\r\n  update-type: version-update:semver-patch\r\n- dependency-name: io.netty:netty-resolver-dns-native-macos\r\n  dependency-type: direct:development\r\n  update-type: version-update:semver-patch\r\n- dependency-name: io.netty:netty-buffer\r\n  dependency-type: direct:development\r\n  update-type: version-update:semver-patch\r\n- dependency-name: io.netty:netty-codec\r\n  dependency-type: direct:development\r\n  update-type: version-update:semver-patch\r\n- dependency-name: io.netty:netty-common\r\n  dependency-type: direct:development\r\n  update-type: version-update:semver-patch\r\n- dependency-name: io.netty:netty-transport\r\n  dependency-type: direct:development\r\n  update-type: version-update:semver-patch\r\n...\r\n\r\nSigned-off-by: dependabot[bot] <support@github.com>\r\n\r\nSigned-off-by: dependabot[bot] <support@github.com>\r\nCo-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/Hakky54/sslcontext-kickstart/issues/196",
+      "createdAt": "2022-07-04T14:51:36Z",
+      "content": "bug_report_all/Hakky54_sslcontext-kickstart-217.json"
+    },
+    "changed_tests": [
+      "sslcontext-kickstart-for-apache4/src/test/java/nl/altindag/ssl/SSLFactoryIT.java",
+      "sslcontext-kickstart-for-apache5/src/test/java/nl/altindag/ssl/SSLFactoryIT.java",
+      "sslcontext-kickstart-for-jetty/src/test/java/nl/altindag/ssl/SSLFactoryIT.java",
+      "sslcontext-kickstart-for-netty/src/test/java/nl/altindag/ssl/SSLFactoryIT.java",
+      "sslcontext-kickstart-for-pem/src/test/java/nl/altindag/ssl/SSLFactoryIT.java",
+      "sslcontext-kickstart/src/test/java/nl/altindag/ssl/SSLFactoryIT.java",
+      "sslcontext-kickstart/src/test/java/nl/altindag/ssl/util/TrustManagerUtilsShould.java"
+    ],
+    "PR_url": "https://github.com/Hakky54/sslcontext-kickstart/pull/217",
+    "merge_commit_url": "https://github.com/Hakky54/sslcontext-kickstart/commit/7b1807f98e7292189f39e383110212ba0f7f0b13",
+    "buggy_commit": "db2b7ca146d99f661da9cd0bcb7b837708895771",
+    "execution_result": {
+      "valid_tests": [
+        ".nl.altindag.ssl.util.TrustManagerUtilsShould"
+      ],
+      "success_tests": [
+        ".nl.altindag.ssl.util.TrustManagerUtilsShould"
+      ]
+    }
+  },
+  "Hakky54_sslcontext-kickstart-234": {
+    "bug_id": "Hakky54_sslcontext-kickstart-234",
+    "PR_number": 234,
+    "PR_createdAt": "2022-09-26T13:52:39Z",
+    "merge_commit": "dc300a321670a761a73adb677d49c727dc049deb",
+    "buggy_commits": [
+      {
+        "oid": "0e5032f52f687327018d8318ccb69c67816b2b1b",
+        "message": "Bump version.junit from 5.9.0 to 5.9.1 (#231)\n\nBumps `version.junit` from 5.9.0 to 5.9.1.\r\n\r\nUpdates `junit-jupiter-api` from 5.9.0 to 5.9.1\r\n- [Release notes](https://github.com/junit-team/junit5/releases)\r\n- [Commits](https://github.com/junit-team/junit5/compare/r5.9.0...r5.9.1)\r\n\r\nUpdates `junit-jupiter-engine` from 5.9.0 to 5.9.1\r\n- [Release notes](https://github.com/junit-team/junit5/releases)\r\n- [Commits](https://github.com/junit-team/junit5/compare/r5.9.0...r5.9.1)\r\n\r\n---\r\nupdated-dependencies:\r\n- dependency-name: org.junit.jupiter:junit-jupiter-api\r\n  dependency-type: direct:development\r\n  update-type: version-update:semver-patch\r\n- dependency-name: org.junit.jupiter:junit-jupiter-engine\r\n  dependency-type: direct:development\r\n  update-type: version-update:semver-patch\r\n...\r\n\r\nSigned-off-by: dependabot[bot] <support@github.com>\r\n\r\nSigned-off-by: dependabot[bot] <support@github.com>\r\nCo-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/Hakky54/sslcontext-kickstart/issues/230",
+      "createdAt": "2022-09-23T17:09:15Z",
+      "content": "bug_report_all/Hakky54_sslcontext-kickstart-234.json"
+    },
+    "changed_tests": [
+      "sslcontext-kickstart/src/test/java/nl/altindag/ssl/hostnameverifier/FenixHostnameVerifierShould.java"
+    ],
+    "PR_url": "https://github.com/Hakky54/sslcontext-kickstart/pull/234",
+    "merge_commit_url": "https://github.com/Hakky54/sslcontext-kickstart/commit/dc300a321670a761a73adb677d49c727dc049deb",
+    "buggy_commit": "0e5032f52f687327018d8318ccb69c67816b2b1b",
+    "execution_result": {
+      "valid_tests": [
+        ".nl.altindag.ssl.hostnameverifier.FenixHostnameVerifierShould"
+      ],
+      "success_tests": [
+        ".nl.altindag.ssl.hostnameverifier.FenixHostnameVerifierShould"
+      ]
+    }
+  }
+}

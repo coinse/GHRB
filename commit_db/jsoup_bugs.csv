@@ -1,0 +1,6 @@
+bug_id,revision.id.buggy,revision.id.fixed,report.id,report.url
+1,9ce6ae1ae21fb49afcc0700084fc4366490bc421,6b1fbb51b501de87049b250fecc9a5076a186f6d,jhy_jsoup-1648,https://github.com/jhy/jsoup/issues/1647
+2,72612480cfc5a8b3c6ca31097cfd908121a638da,eaf5028718840d71c9a7f94f538b65b135012702,jhy_jsoup-1763,https://github.com/jhy/jsoup/issues/1764
+3,23ea77ef4b0b79b7a0033ea218a45c0d4e45af83,4a278e9b8e9c0515ee005775703a40d7b0a86d2f,jhy_jsoup-1848,https://github.com/jhy/jsoup/issues/1837
+4,1762412a28fa7b08ccf71d93fc4c98dc73086e03,4100d302cfb3f7cbcc722ebe694c9c8a2c2d3c05,jhy_jsoup-1871,https://github.com/jhy/jsoup/issues/499
+5,f284d35658a8ec46a4caca07b495dc66691cbc17,401c8b010e01a03d5af00b88387e0dc3a8c1c8a4,jhy_jsoup-1950,https://github.com/jhy/jsoup/issues/1949

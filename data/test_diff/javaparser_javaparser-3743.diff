@@ -1,0 +1,47 @@
+diff --git a/javaparser-core-testing/src/test/java/com/github/javaparser/version/Java10PostProcessorTest.java b/javaparser-core-testing/src/test/java/com/github/javaparser/version/Java10PostProcessorTest.java
+index 7cd6d5b..10b1043 100644
+--- a/javaparser-core-testing/src/test/java/com/github/javaparser/version/Java10PostProcessorTest.java
++++ b/javaparser-core-testing/src/test/java/com/github/javaparser/version/Java10PostProcessorTest.java
+@@ -21,19 +21,20 @@
+ 
+ package com.github.javaparser.version;
+ 
++import static com.github.javaparser.ParseStart.STATEMENT;
++import static com.github.javaparser.ParserConfiguration.LanguageLevel.JAVA_10;
++import static com.github.javaparser.Providers.provider;
++import static org.junit.jupiter.api.Assertions.assertEquals;
++
++import java.util.List;
++
++import org.junit.jupiter.api.Test;
++
+ import com.github.javaparser.JavaParser;
+ import com.github.javaparser.ParseResult;
+ import com.github.javaparser.ParserConfiguration;
+ import com.github.javaparser.ast.stmt.Statement;
+ import com.github.javaparser.ast.type.VarType;
+-import org.junit.jupiter.api.Test;
+-
+-import java.util.List;
+-
+-import static com.github.javaparser.ParseStart.STATEMENT;
+-import static com.github.javaparser.ParserConfiguration.LanguageLevel.JAVA_10;
+-import static com.github.javaparser.Providers.provider;
+-import static org.junit.jupiter.api.Assertions.assertEquals;
+ 
+ class Java10PostProcessorTest {
+     public static final JavaParser javaParser = new JavaParser(new ParserConfiguration().setLanguageLevel(JAVA_10));
+@@ -46,4 +47,13 @@ class Java10PostProcessorTest {
+ 
+         assertEquals(1, allVarTypes.size());
+     }
++    
++    @Test
++    void expressionThatShouldNotBeInterpretedAsAVarType() {
++        ParseResult<Statement> result = javaParser.parse(STATEMENT, provider("var.class.getName();"));
++
++        List<VarType> allVarTypes = result.getResult().get().findAll(VarType.class);
++
++        assertEquals(0, allVarTypes.size());
++    }
+ }

@@ -1,0 +1,13 @@
+diff --git a/common/src/main/java/com/alibaba/nacos/common/remote/client/RpcClient.java b/common/src/main/java/com/alibaba/nacos/common/remote/client/RpcClient.java
+index 16481c22e..6cc879951 100644
+--- a/common/src/main/java/com/alibaba/nacos/common/remote/client/RpcClient.java
++++ b/common/src/main/java/com/alibaba/nacos/common/remote/client/RpcClient.java
+@@ -469,7 +469,7 @@ public abstract class RpcClient implements Closeable {
+             return false;
+         }
+         int reTryTimes = healthCheckRetryTimes;
+-        while (reTryTimes > 0) {
++        while (reTryTimes >= 0) {
+             reTryTimes--;
+             try {
+                 Response response = this.currentConnection.request(healthCheckRequest, healthCheckTimeOut);

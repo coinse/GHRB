@@ -1,0 +1,2 @@
+bug_id,revision.id.buggy,revision.id.fixed,report.id,report.url
+1,6cd6f7d8287f73909614cb7300fcde05f5719750,5180f481c58b0be80ad81a0c1ec540fe7e91ee81,square_retrofit-3759,https://github.com/square/retrofit/issues/3758

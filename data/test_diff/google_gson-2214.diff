@@ -1,0 +1,390 @@
+diff --git a/gson/src/test/java/com/google/gson/GsonBuilderTest.java b/gson/src/test/java/com/google/gson/GsonBuilderTest.java
+index 9a7adba..e1a013b 100644
+--- a/gson/src/test/java/com/google/gson/GsonBuilderTest.java
++++ b/gson/src/test/java/com/google/gson/GsonBuilderTest.java
+@@ -16,20 +16,25 @@
+ 
+ package com.google.gson;
+ 
++import static org.junit.Assert.assertEquals;
++import static org.junit.Assert.assertNotNull;
++import static org.junit.Assert.assertNotSame;
++import static org.junit.Assert.fail;
++
+ import com.google.gson.stream.JsonReader;
+ import com.google.gson.stream.JsonWriter;
+ import java.io.IOException;
+ import java.lang.reflect.Field;
+ import java.lang.reflect.Modifier;
+ import java.lang.reflect.Type;
+-import junit.framework.TestCase;
++import org.junit.Test;
+ 
+ /**
+  * Unit tests for {@link GsonBuilder}.
+  *
+  * @author Inderjeet Singh
+  */
+-public class GsonBuilderTest extends TestCase {
++public class GsonBuilderTest {
+   private static final TypeAdapter<Object> NULL_TYPE_ADAPTER = new TypeAdapter<Object>() {
+     @Override public void write(JsonWriter out, Object value) {
+       throw new AssertionError();
+@@ -39,6 +44,7 @@ public class GsonBuilderTest extends TestCase {
+     }
+   };
+ 
++  @Test
+   public void testCreatingMoreThanOnce() {
+     GsonBuilder builder = new GsonBuilder();
+     Gson gson = builder.create();
+@@ -61,6 +67,7 @@ public class GsonBuilderTest extends TestCase {
+    * Gson instances should not be affected by subsequent modification of GsonBuilder
+    * which created them.
+    */
++  @Test
+   public void testModificationAfterCreate() {
+     GsonBuilder gsonBuilder = new GsonBuilder();
+     Gson gson = gsonBuilder.create();
+@@ -136,6 +143,7 @@ public class GsonBuilderTest extends TestCase {
+     }
+   }
+ 
++  @Test
+   public void testExcludeFieldsWithModifiers() {
+     Gson gson = new GsonBuilder()
+         .excludeFieldsWithModifiers(Modifier.VOLATILE, Modifier.PRIVATE)
+@@ -151,6 +159,7 @@ public class GsonBuilderTest extends TestCase {
+     String d = "d";
+   }
+ 
++  @Test
+   public void testTransientFieldExclusion() {
+     Gson gson = new GsonBuilder()
+         .excludeFieldsWithModifiers()
+@@ -162,6 +171,7 @@ public class GsonBuilderTest extends TestCase {
+     transient String a = "a";
+   }
+ 
++  @Test
+   public void testRegisterTypeAdapterForCoreType() {
+     Type[] types = {
+         byte.class,
+@@ -176,6 +186,7 @@ public class GsonBuilderTest extends TestCase {
+     }
+   }
+ 
++  @Test
+   public void testDisableJdkUnsafe() {
+     Gson gson = new GsonBuilder()
+         .disableJdkUnsafe()
+@@ -198,4 +209,22 @@ public class GsonBuilderTest extends TestCase {
+     public ClassWithoutNoArgsConstructor(String s) {
+     }
+   }
++
++  @Test
++  public void testSetVersionInvalid() {
++    GsonBuilder builder = new GsonBuilder();
++    try {
++      builder.setVersion(Double.NaN);
++      fail();
++    } catch (IllegalArgumentException e) {
++      assertEquals("Invalid version: NaN", e.getMessage());
++    }
++
++    try {
++      builder.setVersion(-0.1);
++      fail();
++    } catch (IllegalArgumentException e) {
++      assertEquals("Invalid version: -0.1", e.getMessage());
++    }
++  }
+ }
+diff --git a/gson/src/test/java/com/google/gson/VersionExclusionStrategyTest.java b/gson/src/test/java/com/google/gson/VersionExclusionStrategyTest.java
+index d878850..2b3fbaf 100644
+--- a/gson/src/test/java/com/google/gson/VersionExclusionStrategyTest.java
++++ b/gson/src/test/java/com/google/gson/VersionExclusionStrategyTest.java
+@@ -16,40 +16,82 @@
+ 
+ package com.google.gson;
+ 
++import static org.junit.Assert.assertFalse;
++import static org.junit.Assert.assertTrue;
++
+ import com.google.gson.annotations.Since;
++import com.google.gson.annotations.Until;
+ import com.google.gson.internal.Excluder;
+-import junit.framework.TestCase;
++import org.junit.Test;
+ 
+ /**
+  * Unit tests for the {@link Excluder} class.
+  *
+  * @author Joel Leitch
+  */
+-public class VersionExclusionStrategyTest extends TestCase {
++public class VersionExclusionStrategyTest {
+   private static final double VERSION = 5.0D;
+ 
+-  public void testClassAndFieldAreAtSameVersion() throws Exception {
++  @Test
++  public void testSameVersion() throws Exception {
+     Excluder excluder = Excluder.DEFAULT.withVersion(VERSION);
+-    assertFalse(excluder.excludeClass(MockObject.class, true));
+-    assertFalse(excluder.excludeField(MockObject.class.getField("someField"), true));
++    assertFalse(excluder.excludeClass(MockClassSince.class, true));
++    assertFalse(excluder.excludeField(MockClassSince.class.getField("someField"), true));
++
++    // Until version is exclusive
++    assertTrue(excluder.excludeClass(MockClassUntil.class, true));
++    assertTrue(excluder.excludeField(MockClassUntil.class.getField("someField"), true));
++
++    assertFalse(excluder.excludeClass(MockClassBoth.class, true));
++    assertFalse(excluder.excludeField(MockClassBoth.class.getField("someField"), true));
+   }
+ 
+-  public void testClassAndFieldAreBehindInVersion() throws Exception {
+-    Excluder excluder = Excluder.DEFAULT.withVersion(VERSION + 1);
+-    assertFalse(excluder.excludeClass(MockObject.class, true));
+-    assertFalse(excluder.excludeField(MockObject.class.getField("someField"), true));
++  @Test
++  public void testNewerVersion() throws Exception {
++    Excluder excluder = Excluder.DEFAULT.withVersion(VERSION + 5);
++    assertFalse(excluder.excludeClass(MockClassSince.class, true));
++    assertFalse(excluder.excludeField(MockClassSince.class.getField("someField"), true));
++
++    assertTrue(excluder.excludeClass(MockClassUntil.class, true));
++    assertTrue(excluder.excludeField(MockClassUntil.class.getField("someField"), true));
++
++    assertTrue(excluder.excludeClass(MockClassBoth.class, true));
++    assertTrue(excluder.excludeField(MockClassBoth.class.getField("someField"), true));
++  }
++
++  @Test
++  public void testOlderVersion() throws Exception {
++    Excluder excluder = Excluder.DEFAULT.withVersion(VERSION - 5);
++    assertTrue(excluder.excludeClass(MockClassSince.class, true));
++    assertTrue(excluder.excludeField(MockClassSince.class.getField("someField"), true));
++
++    assertFalse(excluder.excludeClass(MockClassUntil.class, true));
++    assertFalse(excluder.excludeField(MockClassUntil.class.getField("someField"), true));
++
++    assertTrue(excluder.excludeClass(MockClassBoth.class, true));
++    assertTrue(excluder.excludeField(MockClassBoth.class.getField("someField"), true));
+   }
+ 
+-  public void testClassAndFieldAreAheadInVersion() throws Exception {
+-    Excluder excluder = Excluder.DEFAULT.withVersion(VERSION - 1);
+-    assertTrue(excluder.excludeClass(MockObject.class, true));
+-    assertTrue(excluder.excludeField(MockObject.class.getField("someField"), true));
++  @Since(VERSION)
++  private static class MockClassSince {
++
++    @Since(VERSION)
++    public final int someField = 0;
++  }
++
++  @Until(VERSION)
++  private static class MockClassUntil {
++
++    @Until(VERSION)
++    public final int someField = 0;
+   }
+ 
+   @Since(VERSION)
+-  private static class MockObject {
++  @Until(VERSION + 2)
++  private static class MockClassBoth {
+ 
+     @Since(VERSION)
++    @Until(VERSION + 2)
+     public final int someField = 0;
+   }
+ }
+diff --git a/gson/src/test/java/com/google/gson/functional/VersioningTest.java b/gson/src/test/java/com/google/gson/functional/VersioningTest.java
+index 2416fc0..49dabca 100644
+--- a/gson/src/test/java/com/google/gson/functional/VersioningTest.java
++++ b/gson/src/test/java/com/google/gson/functional/VersioningTest.java
+@@ -15,13 +15,17 @@
+  */
+ package com.google.gson.functional;
+ 
++import static org.junit.Assert.assertEquals;
++import static org.junit.Assert.assertFalse;
++import static org.junit.Assert.assertNull;
++import static org.junit.Assert.assertTrue;
++
+ import com.google.gson.Gson;
+ import com.google.gson.GsonBuilder;
+ import com.google.gson.annotations.Since;
+ import com.google.gson.annotations.Until;
+ import com.google.gson.common.TestTypes.BagOfPrimitives;
+-
+-import junit.framework.TestCase;
++import org.junit.Test;
+ 
+ /**
+  * Functional tests for versioning support in Gson.
+@@ -29,47 +33,60 @@ import junit.framework.TestCase;
+  * @author Inderjeet Singh
+  * @author Joel Leitch
+  */
+-public class VersioningTest extends TestCase {
++public class VersioningTest {
+   private static final int A = 0;
+   private static final int B = 1;
+   private static final int C = 2;
+   private static final int D = 3;
+ 
+-  private GsonBuilder builder;
+-
+-  @Override
+-  protected void setUp() throws Exception {
+-    super.setUp();
+-    builder = new GsonBuilder();
++  private static Gson gsonWithVersion(double version) {
++    return new GsonBuilder().setVersion(version).create();
+   }
+ 
++  @Test
+   public void testVersionedUntilSerialization() {
+     Version1 target = new Version1();
+-    Gson gson = builder.setVersion(1.29).create();
++    Gson gson = gsonWithVersion(1.29);
+     String json = gson.toJson(target);
+     assertTrue(json.contains("\"a\":" + A));
+ 
+-    gson = builder.setVersion(1.3).create();
++    gson = gsonWithVersion(1.3);
++    json = gson.toJson(target);
++    assertFalse(json.contains("\"a\":" + A));
++
++    gson = gsonWithVersion(1.31);
+     json = gson.toJson(target);
+     assertFalse(json.contains("\"a\":" + A));
+   }
+ 
++  @Test
+   public void testVersionedUntilDeserialization() {
+-    Gson gson = builder.setVersion(1.3).create();
+     String json = "{\"a\":3,\"b\":4,\"c\":5}";
++
++    Gson gson = gsonWithVersion(1.29);
+     Version1 version1 = gson.fromJson(json, Version1.class);
++    assertEquals(3, version1.a);
++
++    gson = gsonWithVersion(1.3);
++    version1 = gson.fromJson(json, Version1.class);
++    assertEquals(A, version1.a);
++
++    gson = gsonWithVersion(1.31);
++    version1 = gson.fromJson(json, Version1.class);
+     assertEquals(A, version1.a);
+   }
+ 
++  @Test
+   public void testVersionedClassesSerialization() {
+-    Gson gson = builder.setVersion(1.0).create();
++    Gson gson = gsonWithVersion(1.0);
+     String json1 = gson.toJson(new Version1());
+     String json2 = gson.toJson(new Version1_1());
+     assertEquals(json1, json2);
+   }
+ 
++  @Test
+   public void testVersionedClassesDeserialization() {
+-    Gson gson = builder.setVersion(1.0).create();
++    Gson gson = gsonWithVersion(1.0);
+     String json = "{\"a\":3,\"b\":4,\"c\":5}";
+     Version1 version1 = gson.fromJson(json, Version1.class);
+     assertEquals(3, version1.a);
+@@ -80,13 +97,15 @@ public class VersioningTest extends TestCase {
+     assertEquals(C, version1_1.c);
+   }
+ 
++  @Test
+   public void testIgnoreLaterVersionClassSerialization() {
+-    Gson gson = builder.setVersion(1.0).create();
++    Gson gson = gsonWithVersion(1.0);
+     assertEquals("null", gson.toJson(new Version1_2()));
+   }
+ 
++  @Test
+   public void testIgnoreLaterVersionClassDeserialization() {
+-    Gson gson = builder.setVersion(1.0).create();
++    Gson gson = gsonWithVersion(1.0);
+     String json = "{\"a\":3,\"b\":4,\"c\":5,\"d\":6}";
+     Version1_2 version1_2 = gson.fromJson(json, Version1_2.class);
+     // Since the class is versioned to be after 1.0, we expect null
+@@ -94,14 +113,16 @@ public class VersioningTest extends TestCase {
+     assertNull(version1_2);
+   }
+ 
++  @Test
+   public void testVersionedGsonWithUnversionedClassesSerialization() {
+-    Gson gson = builder.setVersion(1.0).create();
++    Gson gson = gsonWithVersion(1.0);
+     BagOfPrimitives target = new BagOfPrimitives(10, 20, false, "stringValue");
+     assertEquals(target.getExpectedJson(), gson.toJson(target));
+   }
+ 
++  @Test
+   public void testVersionedGsonWithUnversionedClassesDeserialization() {
+-    Gson gson = builder.setVersion(1.0).create();
++    Gson gson = gsonWithVersion(1.0);
+     String json = "{\"longValue\":10,\"intValue\":20,\"booleanValue\":false}";
+ 
+     BagOfPrimitives expected = new BagOfPrimitives();
+@@ -112,34 +133,45 @@ public class VersioningTest extends TestCase {
+     assertEquals(expected, actual);
+   }
+ 
++  @Test
+   public void testVersionedGsonMixingSinceAndUntilSerialization() {
+-    Gson gson = builder.setVersion(1.0).create();
++    Gson gson = gsonWithVersion(1.0);
+     SinceUntilMixing target = new SinceUntilMixing();
+     String json = gson.toJson(target);
+     assertFalse(json.contains("\"b\":" + B));
+ 
+-    gson = builder.setVersion(1.2).create();
++    gson = gsonWithVersion(1.2);
+     json = gson.toJson(target);
+     assertTrue(json.contains("\"b\":" + B));
+ 
+-    gson = builder.setVersion(1.3).create();
++    gson = gsonWithVersion(1.3);
++    json = gson.toJson(target);
++    assertFalse(json.contains("\"b\":" + B));
++
++    gson = gsonWithVersion(1.4);
+     json = gson.toJson(target);
+     assertFalse(json.contains("\"b\":" + B));
+   }
+ 
++  @Test
+   public void testVersionedGsonMixingSinceAndUntilDeserialization() {
+     String json = "{\"a\":5,\"b\":6}";
+-    Gson gson = builder.setVersion(1.0).create();
++    Gson gson = gsonWithVersion(1.0);
+     SinceUntilMixing result = gson.fromJson(json, SinceUntilMixing.class);
+     assertEquals(5, result.a);
+     assertEquals(B, result.b);
+ 
+-    gson = builder.setVersion(1.2).create();
++    gson = gsonWithVersion(1.2);
+     result = gson.fromJson(json, SinceUntilMixing.class);
+     assertEquals(5, result.a);
+     assertEquals(6, result.b);
+ 
+-    gson = builder.setVersion(1.3).create();
++    gson = gsonWithVersion(1.3);
++    result = gson.fromJson(json, SinceUntilMixing.class);
++    assertEquals(5, result.a);
++    assertEquals(B, result.b);
++
++    gson = gsonWithVersion(1.4);
+     result = gson.fromJson(json, SinceUntilMixing.class);
+     assertEquals(5, result.a);
+     assertEquals(B, result.b);

@@ -1,0 +1,19 @@
+diff --git a/javaparser-core/src/main/java/com/github/javaparser/ast/body/FieldDeclaration.java b/javaparser-core/src/main/java/com/github/javaparser/ast/body/FieldDeclaration.java
+index 3c7cf1c49..31b583b35 100644
+--- a/javaparser-core/src/main/java/com/github/javaparser/ast/body/FieldDeclaration.java
++++ b/javaparser-core/src/main/java/com/github/javaparser/ast/body/FieldDeclaration.java
+@@ -267,8 +267,12 @@ public class FieldDeclaration extends BodyDeclaration<FieldDeclaration> implemen
+      * Returns true if the field is declared in an interface
+      */
+     private boolean isDeclaredInInterface() {
+-    	Optional<ClassOrInterfaceDeclaration> parentClass = findAncestor(ClassOrInterfaceDeclaration.class);
+-    	return parentClass.map(parent -> parent.isInterface()).orElse(false);
++    	Optional<TypeDeclaration> parentType = findAncestor(TypeDeclaration.class);
++        return parentType
++                .filter(BodyDeclaration::isClassOrInterfaceDeclaration)
++                .map(BodyDeclaration::asClassOrInterfaceDeclaration)
++                .map(ClassOrInterfaceDeclaration::isInterface)
++                .orElse(false);
+     }
+ 
+     @Override

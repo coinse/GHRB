@@ -1,0 +1,13 @@
+bug_id,revision.id.buggy,revision.id.fixed,report.id,report.url
+1,710a76c8b8835e36935c62024001ba6b91ceee01,e2e851c9bc692cec68ba7b0cbb002f82b4a229e4,google_gson-2060,https://github.com/google/gson/issues/847
+2,be0a1f4ff74bcd01580887cc9f3ec592d773f24c,710a76c8b8835e36935c62024001ba6b91ceee01,google_gson-2061,https://github.com/google/gson/issues/1049
+3,e2e851c9bc692cec68ba7b0cbb002f82b4a229e4,565b7a198e026596c3fd18304f86537ae20f9a3f,google_gson-2071,https://github.com/google/gson/issues/2067
+4,15b9fa9c31d4137ad6d46f746524a5aa43eefd28,96ab171eb48dcea94fd9b8f425f65c531e6c3aad,google_gson-2130,https://github.com/google/gson/issues/1127
+5,96ab171eb48dcea94fd9b8f425f65c531e6c3aad,57225c6741ff14db049ebe793ff3d423f2950ac7,google_gson-2134,https://github.com/google/gson/issues/2133
+6,a45c55739f4e5eb25e9b67a8b7e2bfad25851fb6,4552db2630b6d506ac7e212b337f818169f3c03b,google_gson-2153,https://github.com/google/gson/issues/1831
+7,796193d0326a2f44bc314bf24262732ea3e64014,3e3266cf48f132928225e1561a6ae4cb5503d08f,google_gson-2158,https://github.com/google/gson/issues/2156
+8,28609089faa747f2ad5730281c14093ab40d6fda,796193d0326a2f44bc314bf24262732ea3e64014,google_gson-2214,https://github.com/google/gson/issues/1007
+9,6d9c3566b71900c54644a9f71ce028696ee5d4bd,159968acccad958fa95a6f1971f9be66bd9c6bb2,google_gson-2364,https://github.com/google/gson/issues/904
+10,6d9c3566b71900c54644a9f71ce028696ee5d4bd,533c41462172384efcea97d7939cc2ac9c898a53,google_gson-2376,https://github.com/google/gson/issues/1219
+11,e7f85dff8a17928fd3f0451e59f76ee72764430c,a80bc24e04d0747314bffcc5779a1412c86f6468,google_gson-2410,https://github.com/google/gson/issues/2405
+12,6d9c3566b71900c54644a9f71ce028696ee5d4bd,d005b75512b67a49cdce838c551cc3f6bbb1f2c8,google_gson-2420,https://github.com/google/gson/issues/2401

@@ -1,0 +1,545 @@
+{
+  "checkstyle_checkstyle-10825": {
+    "bug_id": "checkstyle_checkstyle-10825",
+    "PR_number": 10825,
+    "PR_createdAt": "2021-09-26T07:20:19Z",
+    "merge_commit": "79cea7464f36e004310d58aeb9e2610bd26c8a88",
+    "buggy_commits": [
+      {
+        "oid": "171f5d1ce51dfbae5715319b58fdbb11cf0de3e8",
+        "message": "Issue #9462: updated example of AST for TokenTypes.LITERAL_ASSERT"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/checkstyle/checkstyle/issues/10810",
+      "createdAt": "2021-09-21T21:04:56Z",
+      "content": "bug_report_all/checkstyle_checkstyle-10825.json"
+    },
+    "changed_tests": [
+      "src/test/java/com/puppycrawl/tools/checkstyle/checks/indentation/IndentationCheckTest.java",
+      "src/test/resources/com/puppycrawl/tools/checkstyle/checks/indentation/indentation/InputIndentationLineBreakVariableDeclaration.java",
+      "src/test/resources/com/puppycrawl/tools/checkstyle/checks/indentation/indentation/InputIndentationLongConcatenatedString.java"
+    ],
+    "PR_url": "https://github.com/checkstyle/checkstyle/pull/10825",
+    "merge_commit_url": "https://github.com/checkstyle/checkstyle/commit/79cea7464f36e004310d58aeb9e2610bd26c8a88",
+    "buggy_commit": "171f5d1ce51dfbae5715319b58fdbb11cf0de3e8",
+    "execution_result": {
+      "valid_tests": [
+        ".com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheckTest.java"
+      ],
+      "success_tests": [
+        ".com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheckTest.java"
+      ]
+    }
+  },
+  "checkstyle_checkstyle-10839": {
+    "bug_id": "checkstyle_checkstyle-10839",
+    "PR_number": 10839,
+    "PR_createdAt": "2021-10-02T09:26:56Z",
+    "merge_commit": "e2c6e148a92e01b3c6037b33440ee7006f742793",
+    "buggy_commits": [
+      {
+        "oid": "eeee48f2a6d9884304e871e682d24c309e488731",
+        "message": "Issue #10778: activate no-error hibernate"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/checkstyle/checkstyle/issues/10144",
+      "createdAt": "2021-06-21T12:23:57Z",
+      "content": "bug_report_all/checkstyle_checkstyle-10839.json"
+    },
+    "changed_tests": [
+      "src/test/java/com/puppycrawl/tools/checkstyle/checks/metrics/ClassFanOutComplexityCheckTest.java",
+      "src/test/java/com/puppycrawl/tools/checkstyle/utils/CheckUtilTest.java",
+      "src/test/resources/com/puppycrawl/tools/checkstyle/checks/metrics/classfanoutcomplexity/InputClassFanOutComplexityImplementsAndNestedCount.java",
+      "src/test/resources/com/puppycrawl/tools/checkstyle/checks/metrics/classfanoutcomplexity/InputClassFanOutComplexityMultiCatchBitwiseOr.java"
+    ],
+    "PR_url": "https://github.com/checkstyle/checkstyle/pull/10839",
+    "merge_commit_url": "https://github.com/checkstyle/checkstyle/commit/e2c6e148a92e01b3c6037b33440ee7006f742793",
+    "buggy_commit": "eeee48f2a6d9884304e871e682d24c309e488731",
+    "execution_result": {
+      "valid_tests": [
+        ".com.puppycrawl.tools.checkstyle.checks.metrics.ClassFanOutComplexityCheckTest.java"
+      ],
+      "success_tests": [
+        ".com.puppycrawl.tools.checkstyle.checks.metrics.ClassFanOutComplexityCheckTest.java"
+      ]
+    }
+  },
+  "checkstyle_checkstyle-10840": {
+    "bug_id": "checkstyle_checkstyle-10840",
+    "PR_number": 10840,
+    "PR_createdAt": "2021-10-02T11:47:14Z",
+    "merge_commit": "d1419f300cdb2e671b894ca16fdba5790a8e2d1e",
+    "buggy_commits": [
+      {
+        "oid": "2a6a18a31978aa468db669b564929efd00c321c4",
+        "message": "dependency: bump pitest-maven from 1.7.2 to 1.7.3\n\nBumps [pitest-maven](https://github.com/hcoles/pitest) from 1.7.2 to 1.7.3.\n- [Release notes](https://github.com/hcoles/pitest/releases)\n- [Commits](https://github.com/hcoles/pitest/compare/1.7.2...1.7.3)\n\n---\nupdated-dependencies:\n- dependency-name: org.pitest:pitest-maven\n  dependency-type: direct:production\n  update-type: version-update:semver-patch\n...\n\nSigned-off-by: dependabot[bot] <support@github.com>"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/checkstyle/checkstyle/issues/10835",
+      "createdAt": "2021-09-29T10:37:02Z",
+      "content": "bug_report_all/checkstyle_checkstyle-10840.json"
+    },
+    "changed_tests": [
+      "src/test/java/com/puppycrawl/tools/checkstyle/checks/javadoc/JavadocMethodCheckTest.java",
+      "src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocmethod/InputJavadocMethodDefaultAccessModifier.java",
+      "src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocmethod/InputJavadocMethodEnum.java"
+    ],
+    "PR_url": "https://github.com/checkstyle/checkstyle/pull/10840",
+    "merge_commit_url": "https://github.com/checkstyle/checkstyle/commit/d1419f300cdb2e671b894ca16fdba5790a8e2d1e",
+    "buggy_commit": "2a6a18a31978aa468db669b564929efd00c321c4",
+    "execution_result": {
+      "valid_tests": [
+        ".com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocMethodCheckTest.java"
+      ],
+      "success_tests": [
+        ".com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocMethodCheckTest.java"
+      ]
+    }
+  },
+  "checkstyle_checkstyle-10857": {
+    "bug_id": "checkstyle_checkstyle-10857",
+    "PR_number": 10857,
+    "PR_createdAt": "2021-10-11T18:05:43Z",
+    "merge_commit": "073289a4ad02d468bf814b689e7ec1b04cc669ef",
+    "buggy_commits": [
+      {
+        "oid": "825af33e45611897b464af0718633ab803514514",
+        "message": "Issue #10872: Make violations diff readable"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/checkstyle/checkstyle/issues/10855",
+      "createdAt": "2021-10-11T13:20:37Z",
+      "content": "bug_report_all/checkstyle_checkstyle-10857.json"
+    },
+    "changed_tests": [
+      "src/test/java/com/puppycrawl/tools/checkstyle/checks/imports/UnusedImportsCheckTest.java",
+      "src/test/resources/com/puppycrawl/tools/checkstyle/checks/imports/unusedimports/InputUnusedImportsArrayRef.java"
+    ],
+    "PR_url": "https://github.com/checkstyle/checkstyle/pull/10857",
+    "merge_commit_url": "https://github.com/checkstyle/checkstyle/commit/073289a4ad02d468bf814b689e7ec1b04cc669ef",
+    "buggy_commit": "825af33e45611897b464af0718633ab803514514",
+    "execution_result": {
+      "valid_tests": [
+        ".com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheckTest.java"
+      ],
+      "success_tests": [
+        ".com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheckTest.java"
+      ]
+    }
+  },
+  "checkstyle_checkstyle-10958": {
+    "bug_id": "checkstyle_checkstyle-10958",
+    "PR_number": 10958,
+    "PR_createdAt": "2021-11-17T16:25:27Z",
+    "merge_commit": "e4297c298f4fd7c8cac43009f17127763aa375c8",
+    "buggy_commits": [
+      {
+        "oid": "7a9913aa64f911e41eae958b757e73a5d2f93205",
+        "message": "Issue #11001: False positive for Whitespace Before Paren After String with Emojis"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/checkstyle/checkstyle/issues/10817",
+      "createdAt": "2021-09-23T13:24:52Z",
+      "content": "bug_report_all/checkstyle_checkstyle-10958.json"
+    },
+    "changed_tests": [
+      "src/test/java/com/puppycrawl/tools/checkstyle/checks/coding/IllegalTypeCheckTest.java",
+      "src/test/resources-noncompilable/com/puppycrawl/tools/checkstyle/checks/coding/illegaltype/InputIllegalTypeRecordsWithMemberModifiersDefault.java",
+      "src/test/resources-noncompilable/com/puppycrawl/tools/checkstyle/checks/coding/illegaltype/InputIllegalTypeRecordsWithMemberModifiersFinal.java",
+      "src/test/resources-noncompilable/com/puppycrawl/tools/checkstyle/checks/coding/illegaltype/InputIllegalTypeRecordsWithMemberModifiersPrivateFinal.java",
+      "src/test/resources-noncompilable/com/puppycrawl/tools/checkstyle/checks/coding/illegaltype/InputIllegalTypeRecordsWithMemberModifiersPublicProtectedStatic.java"
+    ],
+    "PR_url": "https://github.com/checkstyle/checkstyle/pull/10958",
+    "merge_commit_url": "https://github.com/checkstyle/checkstyle/commit/e4297c298f4fd7c8cac43009f17127763aa375c8",
+    "buggy_commit": "7a9913aa64f911e41eae958b757e73a5d2f93205",
+    "execution_result": {
+      "valid_tests": [
+        ".com.puppycrawl.tools.checkstyle.checks.coding.IllegalTypeCheckTest.java"
+      ],
+      "success_tests": [
+        ".com.puppycrawl.tools.checkstyle.checks.coding.IllegalTypeCheckTest.java"
+      ]
+    }
+  },
+  "checkstyle_checkstyle-10963": {
+    "bug_id": "checkstyle_checkstyle-10963",
+    "PR_number": 10963,
+    "PR_createdAt": "2021-11-19T15:34:25Z",
+    "merge_commit": "e2e3a1d492db0c1addb4ef4d4724b7c0e2d897df",
+    "buggy_commits": [
+      {
+        "oid": "f37c34ba5bde9e876d89bb15e3bf340c17f73470",
+        "message": "minor: refactor few if statements to simplify them"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/checkstyle/checkstyle/issues/10962",
+      "createdAt": "2021-11-19T15:07:04Z",
+      "content": "bug_report_all/checkstyle_checkstyle-10963.json"
+    },
+    "changed_tests": [
+      "src/test/java/com/puppycrawl/tools/checkstyle/checks/coding/EqualsAvoidNullCheckTest.java",
+      "src/test/resources/com/puppycrawl/tools/checkstyle/checks/coding/equalsavoidnull/InputEqualsAvoidNullSuperClass.java"
+    ],
+    "PR_url": "https://github.com/checkstyle/checkstyle/pull/10963",
+    "merge_commit_url": "https://github.com/checkstyle/checkstyle/commit/e2e3a1d492db0c1addb4ef4d4724b7c0e2d897df",
+    "buggy_commit": "f37c34ba5bde9e876d89bb15e3bf340c17f73470",
+    "execution_result": {
+      "valid_tests": [
+        ".com.puppycrawl.tools.checkstyle.checks.coding.EqualsAvoidNullCheckTest.java"
+      ],
+      "success_tests": [
+        ".com.puppycrawl.tools.checkstyle.checks.coding.EqualsAvoidNullCheckTest.java"
+      ]
+    }
+  },
+  "checkstyle_checkstyle-10967": {
+    "bug_id": "checkstyle_checkstyle-10967",
+    "PR_number": 10967,
+    "PR_createdAt": "2021-11-20T14:36:47Z",
+    "merge_commit": "c323c17910cd43a1c6309c90b4269738da10247b",
+    "buggy_commits": [
+      {
+        "oid": "988cbe38621df6cf079c975fc9ca87b45a3c4af9",
+        "message": "Issue #9372: Added example of AST for TokenTypes.ANNOTATION_MEMBER_VALUE_PAIR"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/checkstyle/checkstyle/issues/10945",
+      "createdAt": "2021-11-13T17:34:25Z",
+      "content": "bug_report_all/checkstyle_checkstyle-10967.json"
+    },
+    "changed_tests": [
+      "src/test/java/com/puppycrawl/tools/checkstyle/checks/whitespace/OperatorWrapCheckTest.java",
+      "src/test/resources/com/puppycrawl/tools/checkstyle/checks/whitespace/operatorwrap/InputOperatorWrapArrayAssign.java"
+    ],
+    "PR_url": "https://github.com/checkstyle/checkstyle/pull/10967",
+    "merge_commit_url": "https://github.com/checkstyle/checkstyle/commit/c323c17910cd43a1c6309c90b4269738da10247b",
+    "buggy_commit": "988cbe38621df6cf079c975fc9ca87b45a3c4af9",
+    "execution_result": {
+      "valid_tests": [
+        ".com.puppycrawl.tools.checkstyle.checks.whitespace.OperatorWrapCheckTest.java"
+      ],
+      "success_tests": [
+        ".com.puppycrawl.tools.checkstyle.checks.whitespace.OperatorWrapCheckTest.java"
+      ]
+    }
+  },
+  "checkstyle_checkstyle-11020": {
+    "bug_id": "checkstyle_checkstyle-11020",
+    "PR_number": 11020,
+    "PR_createdAt": "2021-12-10T06:29:12Z",
+    "merge_commit": "c1b172b417210a94b4b767f7f5aef1cff5f009a9",
+    "buggy_commits": [
+      {
+        "oid": "216d45526c00eaa478b415d59064894a1e1efdae",
+        "message": "minor: Vertically alligned comments for ease of reading"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/checkstyle/checkstyle/issues/11015",
+      "createdAt": "2021-12-08T07:36:01Z",
+      "content": "bug_report_all/checkstyle_checkstyle-11020.json"
+    },
+    "changed_tests": [
+      "src/test/java/com/puppycrawl/tools/checkstyle/checks/coding/SimplifyBooleanExpressionCheckTest.java",
+      "src/test/java/com/puppycrawl/tools/checkstyle/utils/TokenUtilTest.java",
+      "src/test/resources/com/puppycrawl/tools/checkstyle/checks/coding/simplifybooleanexpression/InputSimplifyBooleanExpression.java"
+    ],
+    "PR_url": "https://github.com/checkstyle/checkstyle/pull/11020",
+    "merge_commit_url": "https://github.com/checkstyle/checkstyle/commit/c1b172b417210a94b4b767f7f5aef1cff5f009a9",
+    "buggy_commit": "216d45526c00eaa478b415d59064894a1e1efdae",
+    "execution_result": {
+      "valid_tests": [
+        ".com.puppycrawl.tools.checkstyle.checks.coding.SimplifyBooleanExpressionCheckTest.java"
+      ],
+      "success_tests": [
+        ".com.puppycrawl.tools.checkstyle.checks.coding.SimplifyBooleanExpressionCheckTest.java"
+      ]
+    }
+  },
+  "checkstyle_checkstyle-11085": {
+    "bug_id": "checkstyle_checkstyle-11085",
+    "PR_number": 11085,
+    "PR_createdAt": "2021-12-21T17:06:30Z",
+    "merge_commit": "9bddea673ca6d082b8f91d47d94e7528bceba205",
+    "buggy_commits": [
+      {
+        "oid": "34cd8fa5972319051cab258e7eb9055cb5c3377e",
+        "message": "infra: extend wercker no response timeout"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/checkstyle/checkstyle/issues/11031",
+      "createdAt": "2021-12-12T06:56:42Z",
+      "content": "bug_report_all/checkstyle_checkstyle-11085.json"
+    },
+    "changed_tests": [
+      "src/test/java/com/puppycrawl/tools/checkstyle/checks/coding/StringLiteralEqualityCheckTest.java",
+      "src/test/resources-noncompilable/com/puppycrawl/tools/checkstyle/checks/coding/stringliteralequality/InputStringLiteralEqualityConcatenatedTextBlocks.java",
+      "src/test/resources/com/puppycrawl/tools/checkstyle/checks/coding/stringliteralequality/InputStringLiteralEqualityConcatenatedString.java"
+    ],
+    "PR_url": "https://github.com/checkstyle/checkstyle/pull/11085",
+    "merge_commit_url": "https://github.com/checkstyle/checkstyle/commit/9bddea673ca6d082b8f91d47d94e7528bceba205",
+    "buggy_commit": "34cd8fa5972319051cab258e7eb9055cb5c3377e",
+    "execution_result": {
+      "valid_tests": [
+        ".com.puppycrawl.tools.checkstyle.checks.coding.StringLiteralEqualityCheckTest.java"
+      ],
+      "success_tests": [
+        ".com.puppycrawl.tools.checkstyle.checks.coding.StringLiteralEqualityCheckTest.java"
+      ]
+    }
+  },
+  "checkstyle_checkstyle-11270": {
+    "bug_id": "checkstyle_checkstyle-11270",
+    "PR_number": 11270,
+    "PR_createdAt": "2022-02-01T19:33:46Z",
+    "merge_commit": "466a1668f4b132a2f9029b1a035c6de304779e6b",
+    "buggy_commits": [
+      {
+        "oid": "f2381d045c5f4ff4b8ef1ec3bba8ada6332dfb30",
+        "message": "Issue #6207: Add Xpath Regression Test for RedundantImport"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/checkstyle/checkstyle/issues/11268",
+      "createdAt": "2022-02-01T17:09:33Z",
+      "content": "bug_report_all/checkstyle_checkstyle-11270.json"
+    },
+    "changed_tests": [
+      "src/test/java/com/puppycrawl/tools/checkstyle/checks/modifier/RedundantModifierCheckTest.java",
+      "src/test/resources/com/puppycrawl/tools/checkstyle/checks/modifier/redundantmodifier/InputRedundantModifierNestedClassInPublicInterfaceRedundantModifiers.java",
+      "src/test/resources/com/puppycrawl/tools/checkstyle/checks/modifier/redundantmodifier/InputRedundantModifierNestedDef.java"
+    ],
+    "PR_url": "https://github.com/checkstyle/checkstyle/pull/11270",
+    "merge_commit_url": "https://github.com/checkstyle/checkstyle/commit/466a1668f4b132a2f9029b1a035c6de304779e6b",
+    "buggy_commit": "f2381d045c5f4ff4b8ef1ec3bba8ada6332dfb30",
+    "execution_result": {
+      "valid_tests": [
+        ".com.puppycrawl.tools.checkstyle.checks.modifier.RedundantModifierCheckTest.java"
+      ],
+      "success_tests": [
+        ".com.puppycrawl.tools.checkstyle.checks.modifier.RedundantModifierCheckTest.java"
+      ]
+    }
+  },
+  "checkstyle_checkstyle-11383": {
+    "bug_id": "checkstyle_checkstyle-11383",
+    "PR_number": 11383,
+    "PR_createdAt": "2022-03-09T18:42:49Z",
+    "merge_commit": "0f3620329667200f70bf7d38de2523802eada195",
+    "buggy_commits": [
+      {
+        "oid": "9c6881011d156f5bf03b15561243656095acee82",
+        "message": "minor: Renamed field PERIOD to prevent any misunderstanding/clash with the field period"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/checkstyle/checkstyle/issues/11213",
+      "createdAt": "2022-01-17T16:18:29Z",
+      "content": "bug_report_all/checkstyle_checkstyle-11383.json"
+    },
+    "changed_tests": [
+      "src/test/java/com/puppycrawl/tools/checkstyle/checks/javadoc/SummaryJavadocCheckTest.java",
+      "src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/summaryjavadoc/InputSummaryJavadocIncorrect.java",
+      "src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/summaryjavadoc/InputSummaryJavadocIncorrect3.java",
+      "src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/summaryjavadoc/InputSummaryJavadocInlineCorrect.java",
+      "src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/summaryjavadoc/InputSummaryJavadocInlineForbidden.java"
+    ],
+    "PR_url": "https://github.com/checkstyle/checkstyle/pull/11383",
+    "merge_commit_url": "https://github.com/checkstyle/checkstyle/commit/0f3620329667200f70bf7d38de2523802eada195",
+    "buggy_commit": "9c6881011d156f5bf03b15561243656095acee82",
+    "execution_result": {
+      "valid_tests": [
+        ".com.puppycrawl.tools.checkstyle.checks.javadoc.SummaryJavadocCheckTest.java"
+      ],
+      "success_tests": [
+        ".com.puppycrawl.tools.checkstyle.checks.javadoc.SummaryJavadocCheckTest.java"
+      ]
+    }
+  },
+  "checkstyle_checkstyle-11468": {
+    "bug_id": "checkstyle_checkstyle-11468",
+    "PR_number": 11468,
+    "PR_createdAt": "2022-03-26T08:08:48Z",
+    "merge_commit": "cd28d8c7ebbe51464d96c05db33e7a1f1b3ad86a",
+    "buggy_commits": [
+      {
+        "oid": "cffefba904f8d47f7bf9a9d9b053f5d33ea2afff",
+        "message": "minor: add comment with explanation of manual setting of JAVA_HOME in travis"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/checkstyle/checkstyle/issues/11365",
+      "createdAt": "2022-03-06T09:58:23Z",
+      "content": "bug_report_all/checkstyle_checkstyle-11468.json"
+    },
+    "changed_tests": [
+      "src/test/java/com/puppycrawl/tools/checkstyle/checks/design/FinalClassCheckTest.java",
+      "src/test/resources-noncompilable/com/puppycrawl/tools/checkstyle/checks/design/finalclass/InputFinalClassNestedInRecord.java",
+      "src/test/resources/com/puppycrawl/tools/checkstyle/checks/design/finalclass/InputFinalClassAnonymousInnerClass.java",
+      "src/test/resources/com/puppycrawl/tools/checkstyle/checks/design/finalclass/InputFinalClassInnerAndNestedClass.java",
+      "src/test/resources/com/puppycrawl/tools/checkstyle/checks/design/finalclass/InputFinalClassNestedInEnumWithAnonInnerClass.java",
+      "src/test/resources/com/puppycrawl/tools/checkstyle/checks/design/finalclass/InputFinalClassNestedInInterfaceWithAnonInnerClass.java"
+    ],
+    "PR_url": "https://github.com/checkstyle/checkstyle/pull/11468",
+    "merge_commit_url": "https://github.com/checkstyle/checkstyle/commit/cd28d8c7ebbe51464d96c05db33e7a1f1b3ad86a",
+    "buggy_commit": "cffefba904f8d47f7bf9a9d9b053f5d33ea2afff",
+    "execution_result": {
+      "valid_tests": [
+        ".com.puppycrawl.tools.checkstyle.checks.design.FinalClassCheckTest.java"
+      ],
+      "success_tests": [
+        ".com.puppycrawl.tools.checkstyle.checks.design.FinalClassCheckTest.java"
+      ]
+    }
+  },
+  "checkstyle_checkstyle-11926": {
+    "bug_id": "checkstyle_checkstyle-11926",
+    "PR_number": 11926,
+    "PR_createdAt": "2022-07-20T07:50:19Z",
+    "merge_commit": "2937a249221d873a8250bad2f4a597db1540b1ee",
+    "buggy_commits": [
+      {
+        "oid": "39686271628948d1cc0f7c894af1766e05b66a4a",
+        "message": "Issue #11758: Adding CheckForVariable function to util.sh"
+      },
+      {
+        "oid": "098417fa9f9587e48ec5ebc35dfb13de4f1e0eaa",
+        "message": "Issue #11605: Fix false positive for generic constructor without access modifier in InvalidJavadocPosition"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/checkstyle/checkstyle/issues/11605",
+      "createdAt": "2022-05-04T14:39:46Z",
+      "content": "bug_report_all/checkstyle_checkstyle-11926.json"
+    },
+    "changed_tests": [
+      "src/test/java/com/puppycrawl/tools/checkstyle/checks/javadoc/InvalidJavadocPositionCheckTest.java",
+      "src/test/java/com/puppycrawl/tools/checkstyle/utils/BlockCommentPositionTest.java",
+      "src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/invalidjavadocposition/InputInvalidJavadocPosition.java",
+      "src/test/resources/com/puppycrawl/tools/checkstyle/utils/blockcommentposition/InputBlockCommentPositionOnConstructor.java"
+    ],
+    "PR_url": "https://github.com/checkstyle/checkstyle/pull/11926",
+    "merge_commit_url": "https://github.com/checkstyle/checkstyle/commit/2937a249221d873a8250bad2f4a597db1540b1ee",
+    "buggy_commit": "39686271628948d1cc0f7c894af1766e05b66a4a",
+    "execution_result": {
+      "valid_tests": [
+        "com.puppycrawl.tools.checkstyle.checks.javadoc.InvalidJavadocPositionCheckTest",
+        "com.puppycrawl.tools.checkstyle.utils.BlockCommentPositionTest"
+      ],
+      "success_tests": [
+        "com.puppycrawl.tools.checkstyle.checks.javadoc.InvalidJavadocPositionCheckTest",
+        "com.puppycrawl.tools.checkstyle.utils.BlockCommentPositionTest"
+      ]
+    }
+  },
+  "checkstyle_checkstyle-12372": {
+    "bug_id": "checkstyle_checkstyle-12372",
+    "PR_number": 12372,
+    "PR_createdAt": "2022-11-05T13:26:32Z",
+    "merge_commit": "8bf2481311820f6913d5bd2df9bfc1ee1d44436e",
+    "buggy_commits": [
+      {
+        "oid": "31d820c0315aeacddb78beb84ada60e8d2dd13ac",
+        "message": "Issue #12081: Add Github action 'Copy site to sourceforge'"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/checkstyle/checkstyle/issues/12345",
+      "createdAt": "2022-10-26T11:19:01Z",
+      "content": "bug_report_all/checkstyle_checkstyle-12372.json"
+    },
+    "changed_tests": [
+      "src/test/java/com/puppycrawl/tools/checkstyle/checks/whitespace/NoWhitespaceAfterCheckTest.java",
+      "src/test/resources/com/puppycrawl/tools/checkstyle/checks/whitespace/nowhitespaceafter/InputNoWhitespaceAfterTestAssignment.java",
+      "src/test/resources/com/puppycrawl/tools/checkstyle/checks/whitespace/nowhitespaceafter/InputNoWhitespaceAfterTestDefault.java"
+    ],
+    "PR_url": "https://github.com/checkstyle/checkstyle/pull/12372",
+    "merge_commit_url": "https://github.com/checkstyle/checkstyle/commit/8bf2481311820f6913d5bd2df9bfc1ee1d44436e",
+    "buggy_commit": "31d820c0315aeacddb78beb84ada60e8d2dd13ac",
+    "execution_result": {
+      "valid_tests": [
+        ".com.puppycrawl.tools.checkstyle.checks.whitespace.NoWhitespaceAfterCheckTest.java"
+      ],
+      "success_tests": [
+        ".com.puppycrawl.tools.checkstyle.checks.whitespace.NoWhitespaceAfterCheckTest.java"
+      ]
+    }
+  },
+  "checkstyle_checkstyle-12444": {
+    "bug_id": "checkstyle_checkstyle-12444",
+    "PR_number": 12444,
+    "PR_createdAt": "2022-11-23T04:52:55Z",
+    "merge_commit": "7855254a0f847e53ef87ca8d9fdfcfc9fcaa8052",
+    "buggy_commits": [
+      {
+        "oid": "f1275666a544f4d3c30f1e7b7c3ac72565278da9",
+        "message": "infra: remove --fail-with-body from pr-description.sh"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/checkstyle/checkstyle/issues/12443",
+      "createdAt": "2022-11-22T22:53:14Z",
+      "content": "bug_report_all/checkstyle_checkstyle-12444.json"
+    },
+    "changed_tests": [
+      "src/test/java/com/puppycrawl/tools/checkstyle/checks/coding/IllegalTypeCheckTest.java",
+      "src/test/java/com/puppycrawl/tools/checkstyle/checks/naming/ParameterNameCheckTest.java",
+      "src/test/resources/com/puppycrawl/tools/checkstyle/checks/coding/illegaltype/InputIllegalTypeWhitespaceInConfig.java",
+      "src/test/resources/com/puppycrawl/tools/checkstyle/checks/naming/parametername/InputParameterNameWhitespaceInConfig.java"
+    ],
+    "PR_url": "https://github.com/checkstyle/checkstyle/pull/12444",
+    "merge_commit_url": "https://github.com/checkstyle/checkstyle/commit/7855254a0f847e53ef87ca8d9fdfcfc9fcaa8052",
+    "buggy_commit": "f1275666a544f4d3c30f1e7b7c3ac72565278da9",
+    "execution_result": {
+      "valid_tests": [
+        ".com.puppycrawl.tools.checkstyle.checks.coding.IllegalTypeCheckTest.java",
+        ".com.puppycrawl.tools.checkstyle.checks.naming.ParameterNameCheckTest.java"
+      ],
+      "success_tests": [
+        ".com.puppycrawl.tools.checkstyle.checks.coding.IllegalTypeCheckTest.java",
+        ".com.puppycrawl.tools.checkstyle.checks.naming.ParameterNameCheckTest.java"
+      ]
+    }
+  },
+  "checkstyle_checkstyle-12831": {
+    "bug_id": "checkstyle_checkstyle-12831",
+    "PR_number": 12831,
+    "PR_createdAt": "2023-03-12T19:24:51Z",
+    "merge_commit": "5ceb64bc7b14e74d07c6a77477f690aae89d3fc8",
+    "buggy_commits": [
+      {
+        "oid": "fdcc63fac125d4b8caa657512b4894727b1c1a4b",
+        "message": "minor: move run key at last spot"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/checkstyle/checkstyle/issues/11569",
+      "createdAt": "2022-04-24T07:08:46Z",
+      "content": "bug_report_all/checkstyle_checkstyle-12831.json"
+    },
+    "changed_tests": [
+      "src/test/java/com/puppycrawl/tools/checkstyle/checks/modifier/ClassMemberImpliedModifierCheckTest.java",
+      "src/test/resources-noncompilable/com/puppycrawl/tools/checkstyle/checks/modifier/classmemberimpliedmodifier/InputClassMemberImpliedModifierNoViolationRecords.java",
+      "src/test/resources-noncompilable/com/puppycrawl/tools/checkstyle/checks/modifier/classmemberimpliedmodifier/InputClassMemberImpliedModifierRecords.java"
+    ],
+    "PR_url": "https://github.com/checkstyle/checkstyle/pull/12831",
+    "merge_commit_url": "https://github.com/checkstyle/checkstyle/commit/5ceb64bc7b14e74d07c6a77477f690aae89d3fc8",
+    "buggy_commit": "fdcc63fac125d4b8caa657512b4894727b1c1a4b",
+    "execution_result": {
+      "valid_tests": [
+        ".com.puppycrawl.tools.checkstyle.checks.modifier.ClassMemberImpliedModifierCheckTest.java"
+      ],
+      "success_tests": [
+        ".com.puppycrawl.tools.checkstyle.checks.modifier.ClassMemberImpliedModifierCheckTest.java"
+      ]
+    }
+  }
+}

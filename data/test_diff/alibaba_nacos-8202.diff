@@ -1,0 +1,39 @@
+diff --git a/client/src/test/java/com/alibaba/nacos/client/config/http/ServerHttpAgentTest.java b/client/src/test/java/com/alibaba/nacos/client/config/http/ServerHttpAgentTest.java
+index 634946a..09b9535 100644
+--- a/client/src/test/java/com/alibaba/nacos/client/config/http/ServerHttpAgentTest.java
++++ b/client/src/test/java/com/alibaba/nacos/client/config/http/ServerHttpAgentTest.java
+@@ -59,7 +59,7 @@ public class ServerHttpAgentTest {
+         Assert.assertNull(encode);
+         Assert.assertEquals("namespace1", namespace);
+         Assert.assertEquals("namespace1", tenant);
+-        Assert.assertEquals("aaa-namespace1", name);
++        Assert.assertEquals("custom-aaa_8080_nacos_serverlist_namespace1", name);
+         
+     }
+     
+diff --git a/client/src/test/java/com/alibaba/nacos/client/config/impl/ClientWorkerTest.java b/client/src/test/java/com/alibaba/nacos/client/config/impl/ClientWorkerTest.java
+index 4c9657d..cf99559 100644
+--- a/client/src/test/java/com/alibaba/nacos/client/config/impl/ClientWorkerTest.java
++++ b/client/src/test/java/com/alibaba/nacos/client/config/impl/ClientWorkerTest.java
+@@ -172,7 +172,7 @@ public class ClientWorkerTest {
+         agent1.setAccessible(false);
+         
+         Assert.assertTrue(clientWorker.isHealthServer());
+-        Assert.assertEquals("config_rpc_client", clientWorker.getAgentName());
++        Assert.assertEquals(null, clientWorker.getAgentName());
+     }
+     
+ }
+diff --git a/client/src/test/java/com/alibaba/nacos/client/config/impl/ServerListManagerTest.java b/client/src/test/java/com/alibaba/nacos/client/config/impl/ServerListManagerTest.java
+index 583a7e2..600f725 100644
+--- a/client/src/test/java/com/alibaba/nacos/client/config/impl/ServerListManagerTest.java
++++ b/client/src/test/java/com/alibaba/nacos/client/config/impl/ServerListManagerTest.java
+@@ -36,7 +36,7 @@ public class ServerListManagerTest {
+             Assert.fail();
+         } catch (NacosException e) {
+             Assert.assertEquals(
+-                    "fail to get NACOS-server serverlist! env:custom-localhost-0, not connnect url:http://localhost:0/nacos/serverlist",
++                    "fail to get NACOS-server serverlist! env:custom-localhost_0_nacos_serverlist, not connnect url:http://localhost:0/nacos/serverlist",
+                     e.getErrMsg());
+         }
+         mgr.shutdown();

@@ -1,0 +1,63 @@
+diff --git a/javaparser-core-testing/src/test/java/com/github/javaparser/ast/expr/ArrayCreationExprTest.java b/javaparser-core-testing/src/test/java/com/github/javaparser/ast/expr/ArrayCreationExprTest.java
+new file mode 100644
+index 0000000..06cfe6c
+--- /dev/null
++++ b/javaparser-core-testing/src/test/java/com/github/javaparser/ast/expr/ArrayCreationExprTest.java
+@@ -0,0 +1,37 @@
++package com.github.javaparser.ast.expr;
++
++import com.github.javaparser.ast.ArrayCreationLevel;
++import com.github.javaparser.ast.NodeList;
++import com.github.javaparser.ast.type.PrimitiveType;
++import org.junit.jupiter.api.Test;
++
++import static org.junit.jupiter.api.Assertions.assertEquals;
++
++class ArrayCreationExprTest {
++
++    @Test
++    void correctlyCreatesExpressionWithDefaultConstructor() {
++        ArrayCreationExpr expr = new ArrayCreationExpr();
++
++        assertEquals("new empty[] {}", expr.toString());
++    }
++
++    @Test
++    void correctlyCreatesExpressionWithSimpleConstructor() {
++        ArrayCreationExpr expr = new ArrayCreationExpr(PrimitiveType.byteType());
++
++        assertEquals("new byte[] {}", expr.toString());
++    }
++
++    @Test
++    void correctlyCreatesExpressionWithFullConstructor() {
++        ArrayInitializerExpr initializer = new ArrayInitializerExpr(new NodeList<>(
++                new IntegerLiteralExpr("1"),
++                new IntegerLiteralExpr("2"),
++                new IntegerLiteralExpr("3")
++        ));
++        ArrayCreationExpr expr = new ArrayCreationExpr(PrimitiveType.intType(), new NodeList<>(new ArrayCreationLevel()), initializer);
++
++        assertEquals("new int[] { 1, 2, 3 }", expr.toString());
++    }
++}
+\ No newline at end of file
+diff --git a/javaparser-core-testing/src/test/java/com/github/javaparser/ast/validator/Java1_0ValidatorTest.java b/javaparser-core-testing/src/test/java/com/github/javaparser/ast/validator/Java1_0ValidatorTest.java
+index ef7da49..4ba1bb6 100644
+--- a/javaparser-core-testing/src/test/java/com/github/javaparser/ast/validator/Java1_0ValidatorTest.java
++++ b/javaparser-core-testing/src/test/java/com/github/javaparser/ast/validator/Java1_0ValidatorTest.java
+@@ -111,14 +111,6 @@ class Java1_0ValidatorTest {
+     }
+ 
+     @Test
+-    void nonEmptyList() {
+-        ArrayCreationExpr expr = new ArrayCreationExpr(PrimitiveType.booleanType());
+-        List<Problem> problems = new ArrayList<>();
+-        new Java1_0Validator().accept(expr, new ProblemReporter(problems::add));
+-        assertEquals("ArrayCreationExpr.levels can not be empty.", problems.get(0).getMessage());
+-    }
+-
+-    @Test
+     void noForEach() {
+         ParseResult<Statement> result = javaParser.parse(STATEMENT, provider("for(X x : xs){}"));
+         assertProblems(result, "(line 1,col 1) For-each loops are not supported.");

@@ -1,0 +1,24 @@
+diff --git a/src/main/java/com/fasterxml/jackson/core/filter/FilteringParserDelegate.java b/src/main/java/com/fasterxml/jackson/core/filter/FilteringParserDelegate.java
+index f421a24d..3ec78c3a 100644
+--- a/src/main/java/com/fasterxml/jackson/core/filter/FilteringParserDelegate.java
++++ b/src/main/java/com/fasterxml/jackson/core/filter/FilteringParserDelegate.java
+@@ -754,6 +754,9 @@ public class FilteringParserDelegate extends JsonParserDelegate
+                     if (returnEnd) {
+                         return t;
+                     }
++                    if (gotEnd) {
++                        return null;
++                    }
+                 }
+                 continue main_loop;
+             case ID_END_OBJECT:
+@@ -781,6 +784,9 @@ public class FilteringParserDelegate extends JsonParserDelegate
+                 if (returnEnd) {
+                     return t;
+                 }
++                if (gotEnd) {
++                    return null;
++                }
+             }
+             continue main_loop;
+ 

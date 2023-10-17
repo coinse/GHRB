@@ -1,0 +1,77 @@
+diff --git a/naming/src/test/java/com/alibaba/nacos/naming/core/v2/client/AbstractClientTest.java b/naming/src/test/java/com/alibaba/nacos/naming/core/v2/client/AbstractClientTest.java
+index 4544809..a38508c 100644
+--- a/naming/src/test/java/com/alibaba/nacos/naming/core/v2/client/AbstractClientTest.java
++++ b/naming/src/test/java/com/alibaba/nacos/naming/core/v2/client/AbstractClientTest.java
+@@ -27,13 +27,6 @@ import org.mockito.junit.MockitoJUnitRunner;
+ 
+ import java.util.Collection;
+ 
+-/**
+- * AbstractClient test.
+- * @ClassName: AbstractClientTest
+- * @Author: ChenHao26
+- * @Date: 2022/8/3 16:22
+- * @Description: TODO
+- */
+ @RunWith(MockitoJUnitRunner.class)
+ public class AbstractClientTest {
+     
+diff --git a/naming/src/test/java/com/alibaba/nacos/naming/core/v2/client/MockAbstractClient.java b/naming/src/test/java/com/alibaba/nacos/naming/core/v2/client/MockAbstractClient.java
+index e38baf9..f9d2a26 100644
+--- a/naming/src/test/java/com/alibaba/nacos/naming/core/v2/client/MockAbstractClient.java
++++ b/naming/src/test/java/com/alibaba/nacos/naming/core/v2/client/MockAbstractClient.java
+@@ -16,13 +16,6 @@
+ 
+ package com.alibaba.nacos.naming.core.v2.client;
+ 
+-/**
+- * Mock AbstractClient.
+- * @ClassName: MockAbstractClient
+- * @Author: ChenHao26
+- * @Date: 2022/8/3 16:25
+- * @Description: TODO
+- */
+ public class MockAbstractClient extends AbstractClient {
+     
+     public MockAbstractClient(Long revision) {
+diff --git a/naming/src/test/java/com/alibaba/nacos/naming/core/v2/client/impl/ConnectionBasedClientTest.java b/naming/src/test/java/com/alibaba/nacos/naming/core/v2/client/impl/ConnectionBasedClientTest.java
+index 3492fa3..0b9fc0a 100644
+--- a/naming/src/test/java/com/alibaba/nacos/naming/core/v2/client/impl/ConnectionBasedClientTest.java
++++ b/naming/src/test/java/com/alibaba/nacos/naming/core/v2/client/impl/ConnectionBasedClientTest.java
+@@ -20,6 +20,9 @@ import com.alibaba.nacos.naming.misc.ClientConfig;
+ import org.junit.Before;
+ import org.junit.Test;
+ 
++import java.util.concurrent.TimeUnit;
++
++import static org.junit.Assert.assertEquals;
+ import static org.junit.Assert.assertTrue;
+ 
+ public class ConnectionBasedClientTest {
+@@ -47,4 +50,26 @@ public class ConnectionBasedClientTest {
+                 connectionBasedClient.getLastRenewTime() + 2 * ClientConfig.getInstance().getClientExpiredTime();
+         assertTrue(connectionBasedClient.isExpire(mustExpireTime));
+     }
++    
++    @Test
++    public void testRecalculateRevision() {
++        assertEquals(0, connectionBasedClient.getRevision());
++        connectionBasedClient.recalculateRevision();
++        assertEquals(1, connectionBasedClient.getRevision());
++    }
++    
++    @Test
++    public void testRecalculateRevisionAsync() throws InterruptedException {
++        assertEquals(0, connectionBasedClient.getRevision());
++        for (int i = 0; i < 10; i++) {
++            Thread thread = new Thread(() -> {
++                for (int j = 0; j < 10; j++) {
++                    connectionBasedClient.recalculateRevision();
++                }
++            });
++            thread.start();
++        }
++        TimeUnit.SECONDS.sleep(1);
++        assertEquals(100, connectionBasedClient.getRevision());
++    }
+ }

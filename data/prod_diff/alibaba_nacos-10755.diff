@@ -1,0 +1,1314 @@
+diff --git a/config/src/main/java/com/alibaba/nacos/config/server/service/AggrWhitelist.java b/config/src/main/java/com/alibaba/nacos/config/server/service/AggrWhitelist.java
+index 250352c6f..c80bd1495 100644
+--- a/config/src/main/java/com/alibaba/nacos/config/server/service/AggrWhitelist.java
++++ b/config/src/main/java/com/alibaba/nacos/config/server/service/AggrWhitelist.java
+@@ -67,7 +67,7 @@ public class AggrWhitelist {
+      */
+     public static void load(String content) {
+         if (StringUtils.isBlank(content)) {
+-            FATAL_LOG.error("aggr dataId whitelist is blank.");
++            FATAL_LOG.warn("aggr dataId whitelist is blank.");
+             return;
+         }
+         DEFAULT_LOG.warn("[aggr-dataIds] {}", content);
+diff --git a/config/src/main/java/com/alibaba/nacos/config/server/service/ConfigCacheService.java b/config/src/main/java/com/alibaba/nacos/config/server/service/ConfigCacheService.java
+index 965f3651c..171a3b1a4 100644
+--- a/config/src/main/java/com/alibaba/nacos/config/server/service/ConfigCacheService.java
++++ b/config/src/main/java/com/alibaba/nacos/config/server/service/ConfigCacheService.java
+@@ -44,8 +44,6 @@ import java.util.List;
+ import java.util.Map.Entry;
+ import java.util.concurrent.ConcurrentHashMap;
+ 
+-import static com.alibaba.nacos.config.server.constant.Constants.ENCODE;
+-import static com.alibaba.nacos.config.server.constant.Constants.ENCODE_GBK;
+ import static com.alibaba.nacos.config.server.constant.Constants.ENCODE_UTF8;
+ import static com.alibaba.nacos.config.server.utils.LogUtil.DEFAULT_LOG;
+ import static com.alibaba.nacos.config.server.utils.LogUtil.DUMP_LOG;
+@@ -120,7 +118,7 @@ public class ConfigCacheService {
+             boolean newLastModified = lastModifiedTs > ConfigCacheService.getLastModifiedTs(groupKey);
+             
+             if (md5 == null) {
+-                md5 = MD5Utils.md5Hex(content, ENCODE);
++                md5 = MD5Utils.md5Hex(content, ENCODE_UTF8);
+             }
+             
+             //check md5 & update local disk cache.
+@@ -314,7 +312,7 @@ public class ConfigCacheService {
+             
+             boolean timestampChanged = lastModifiedTs > localTagLastModifiedTs;
+             
+-            final String md5 = MD5Utils.md5Hex(content, ENCODE_GBK);
++            final String md5 = MD5Utils.md5Hex(content, ENCODE_UTF8);
+             
+             String localContentTagMd5 = ConfigCacheService.getContentTagMd5(groupKey, tag);
+             boolean md5Changed = !md5.equals(localContentTagMd5);
+@@ -328,11 +326,10 @@ public class ConfigCacheService {
+             }
+             
+             if (md5Changed) {
+-                String md5Utf8 = MD5Utils.md5Hex(content, ENCODE_UTF8);
+                 DUMP_LOG.warn(
+-                        "[dump-tag] md5 changed, update local jvm cache, groupKey={},tag={}, md5UTF8={},oldMd5={},lastModifiedTs={}",
+-                        new Object[] {groupKey, tag, md5Utf8, localContentTagMd5, lastModifiedTs});
+-                updateTagMd5(groupKey, tag, md5Utf8, lastModifiedTs, encryptedDataKey4Tag);
++                        "[dump-tag] md5 changed, update local jvm cache, groupKey={},tag={}, newMd5={},oldMd5={},lastModifiedTs={}",
++                        new Object[] {groupKey, tag, md5, localContentTagMd5, lastModifiedTs});
++                updateTagMd5(groupKey, tag, md5, lastModifiedTs, encryptedDataKey4Tag);
+             } else if (timestampChanged) {
+                 DUMP_LOG.warn(
+                         "[dump-tag] timestamp changed, update last modified in local jvm cache, groupKey={},tag={},"
+@@ -379,35 +376,33 @@ public class ConfigCacheService {
+             
+             boolean newLastModified = lastModifiedTs > ConfigCacheService.getLastModifiedTs(groupKey);
+             
+-            String md5Gbk = MD5Utils.md5Hex(content, ENCODE_GBK);
+-            String md5Utf8 = MD5Utils.md5Hex(content, ENCODE_UTF8);
++            String md5 = MD5Utils.md5Hex(content, ENCODE_UTF8);
+             
+             //check md5 & update local disk cache.
+             String localContentMd5 = ConfigCacheService.getContentMd5(groupKey);
+-            boolean md5Changed = !md5Gbk.equals(localContentMd5);
++            boolean md5Changed = !md5.equals(localContentMd5);
+             if (md5Changed) {
+                 if (!PropertyUtil.isDirectRead()) {
+-                    DUMP_LOG.info("[dump-change] md5 changed, save to disk cache ,groupKey={}, md5={}", groupKey,
+-                            md5Gbk);
++                    DUMP_LOG.info("[dump-change] md5 changed, save to disk cache ,groupKey={}, md5={}", groupKey, md5);
+                     ConfigDiskServiceFactory.getInstance().saveToDisk(dataId, group, tenant, content);
+                 } else {
+                     //ignore to save disk cache in direct model
+                 }
+             } else {
+                 DUMP_LOG.warn("[dump-change-ignore] ignore to save to disk cache. md5 consistent,groupKey={}, md5={}",
+-                        groupKey, md5Gbk);
++                        groupKey, md5);
+             }
+             
+             //check  md5 and timestamp & update local jvm cache.
+             if (md5Changed) {
+                 DUMP_LOG.info(
+-                        "[dump-change] md5 changed, update md5 and timestamp in jvm cache ,groupKey={},newMd5UTF8={},oldMd5={},lastModifiedTs={}",
+-                        groupKey, md5Utf8, localContentMd5, lastModifiedTs);
+-                updateMd5(groupKey, md5Utf8, lastModifiedTs, encryptedDataKey);
++                        "[dump-change] md5 changed, update md5 and timestamp in jvm cache ,groupKey={},newMd5={},oldMd5={},lastModifiedTs={}",
++                        groupKey, md5, localContentMd5, lastModifiedTs);
++                updateMd5(groupKey, md5, lastModifiedTs, encryptedDataKey);
+             } else if (newLastModified) {
+                 DUMP_LOG.info(
+                         "[dump-change] md5 consistent ,timestamp changed, update timestamp only in jvm cache ,groupKey={}, md5={},lastModifiedTs={}",
+-                        groupKey, md5Utf8, lastModifiedTs);
++                        groupKey, md5, lastModifiedTs);
+                 updateTimeStamp(groupKey, lastModifiedTs, encryptedDataKey);
+             } else {
+                 DUMP_LOG.warn(
+diff --git a/config/src/main/java/com/alibaba/nacos/config/server/service/SwitchService.java b/config/src/main/java/com/alibaba/nacos/config/server/service/SwitchService.java
+index 337718e15..1d1aace7c 100755
+--- a/config/src/main/java/com/alibaba/nacos/config/server/service/SwitchService.java
++++ b/config/src/main/java/com/alibaba/nacos/config/server/service/SwitchService.java
+@@ -85,7 +85,7 @@ public class SwitchService {
+      */
+     public static void load(String config) {
+         if (StringUtils.isBlank(config)) {
+-            FATAL_LOG.error("switch config is blank.");
++            FATAL_LOG.warn("switch config is blank.");
+             return;
+         }
+         FATAL_LOG.warn("[switch-config] {}", config);
+diff --git a/config/src/main/java/com/alibaba/nacos/config/server/service/dump/DumpChangeConfigWorker.java b/config/src/main/java/com/alibaba/nacos/config/server/service/dump/DumpChangeConfigWorker.java
+new file mode 100644
+index 000000000..8ca8e9528
+--- /dev/null
++++ b/config/src/main/java/com/alibaba/nacos/config/server/service/dump/DumpChangeConfigWorker.java
+@@ -0,0 +1,123 @@
++/*
++ * Copyright 1999-2018 Alibaba Group Holding Ltd.
++ *
++ * Licensed under the Apache License, Version 2.0 (the "License");
++ * you may not use this file except in compliance with the License.
++ * You may obtain a copy of the License at
++ *
++ *      http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software
++ * distributed under the License is distributed on an "AS IS" BASIS,
++ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++ * See the License for the specific language governing permissions and
++ * limitations under the License.
++ */
++
++package com.alibaba.nacos.config.server.service.dump;
++
++import com.alibaba.nacos.common.utils.MD5Utils;
++import com.alibaba.nacos.config.server.constant.Constants;
++import com.alibaba.nacos.config.server.model.ConfigInfo;
++import com.alibaba.nacos.config.server.model.ConfigInfoWrapper;
++import com.alibaba.nacos.config.server.service.ConfigCacheService;
++import com.alibaba.nacos.config.server.service.repository.ConfigInfoPersistService;
++import com.alibaba.nacos.config.server.service.repository.HistoryConfigInfoPersistService;
++import com.alibaba.nacos.config.server.utils.GroupKey2;
++import com.alibaba.nacos.config.server.utils.LogUtil;
++
++import java.sql.Timestamp;
++import java.util.List;
++
++/**
++ * Dump change processor.
++ *
++ * @author Nacos
++ * @date 2020/7/5 12:19 PM
++ */
++public class DumpChangeConfigWorker implements Runnable {
++    
++    private ConfigInfoPersistService configInfoPersistService;
++    
++    private HistoryConfigInfoPersistService historyConfigInfoPersistService;
++    
++    Timestamp startTime;
++    
++    public DumpChangeConfigWorker(DumpService dumpService, Timestamp startTime) {
++        this.configInfoPersistService = dumpService.getConfigInfoPersistService();
++        this.historyConfigInfoPersistService = dumpService.getHistoryConfigInfoPersistService();
++        this.startTime = startTime;
++    }
++    
++    /**
++     * do check change.
++     */
++    public void run() {
++        
++        try {
++            Timestamp currentTime = new Timestamp(System.currentTimeMillis());
++            LogUtil.DEFAULT_LOG.info("DumpChange start ,from time {},current time {}", startTime, currentTime);
++            
++            LogUtil.DEFAULT_LOG.info("Start to check delete configs from  time {}", startTime);
++            
++            int pageSize = 100;
++            long startDeletedConfigTime = System.currentTimeMillis();
++            LogUtil.DEFAULT_LOG.info("Check delete configs from  time {}", startTime);
++            
++            long deleteCursorId = 0L;
++            
++            while (true) {
++                List<ConfigInfoWrapper> configDeleted = historyConfigInfoPersistService.findDeletedConfig(startTime,
++                        deleteCursorId, pageSize);
++                for (ConfigInfo configInfo : configDeleted) {
++                    if (configInfoPersistService.findConfigInfo(configInfo.getDataId(), configInfo.getGroup(),
++                            configInfo.getTenant()) == null) {
++                        ConfigCacheService.remove(configInfo.getDataId(), configInfo.getGroup(),
++                                configInfo.getTenant());
++                        LogUtil.DEFAULT_LOG.info("[dump-delete-ok] {}",
++                                new Object[] {GroupKey2.getKey(configInfo.getDataId(), configInfo.getGroup())});
++                    }
++                }
++                if (configDeleted.size() < pageSize) {
++                    break;
++                }
++                deleteCursorId = configDeleted.get(configDeleted.size() - 1).getId();
++                
++            }
++            LogUtil.DEFAULT_LOG.info("Check delete configs finished,cost:{}",
++                    System.currentTimeMillis() - startDeletedConfigTime);
++            
++            LogUtil.DEFAULT_LOG.info("Check changeConfig start");
++            long startChangeConfigTime = System.currentTimeMillis();
++            
++            long changeCursorId = 0L;
++            while (true) {
++                LogUtil.DEFAULT_LOG.info("Check changed configs from  time {},lastMaxId={}", startTime, changeCursorId);
++                List<ConfigInfoWrapper> changeConfigs = configInfoPersistService.findChangeConfig(startTime,
++                        changeCursorId, pageSize);
++                for (ConfigInfoWrapper cf : changeConfigs) {
++                    ConfigCacheService.dumpChange(cf.getDataId(), cf.getGroup(), cf.getTenant(), cf.getContent(),
++                            cf.getLastModified(), cf.getEncryptedDataKey());
++                    final String content = cf.getContent();
++                    final String md5 = MD5Utils.md5Hex(content, Constants.ENCODE_UTF8);
++                    
++                    LogUtil.DEFAULT_LOG.info("[dump-change-check-ok] {}, {}, length={}, md5={}",
++                            new Object[] {GroupKey2.getKey(cf.getDataId(), cf.getGroup()), cf.getLastModified(),
++                                    content.length(), md5});
++                }
++                if (changeConfigs.size() < pageSize) {
++                    break;
++                }
++                changeCursorId = changeConfigs.get(changeConfigs.size() - 1).getId();
++            }
++            
++            ConfigCacheService.reloadConfig();
++            long endChangeConfigTime = System.currentTimeMillis();
++            LogUtil.DEFAULT_LOG.info("Check changed configs finished,cost:{},set next start time to {}",
++                    endChangeConfigTime - startChangeConfigTime, currentTime);
++            startTime = currentTime;
++        } catch (Throwable e) {
++            LogUtil.DEFAULT_LOG.error("Check changed configs error", e);
++        }
++    }
++}
+diff --git a/config/src/main/java/com/alibaba/nacos/config/server/service/dump/DumpService.java b/config/src/main/java/com/alibaba/nacos/config/server/service/dump/DumpService.java
+index 312e56654..75ad824dc 100755
+--- a/config/src/main/java/com/alibaba/nacos/config/server/service/dump/DumpService.java
++++ b/config/src/main/java/com/alibaba/nacos/config/server/service/dump/DumpService.java
+@@ -17,7 +17,6 @@
+ package com.alibaba.nacos.config.server.service.dump;
+ 
+ import com.alibaba.nacos.api.exception.NacosException;
+-import com.alibaba.nacos.common.utils.IoUtils;
+ import com.alibaba.nacos.common.utils.MD5Utils;
+ import com.alibaba.nacos.common.utils.StringUtils;
+ import com.alibaba.nacos.config.server.constant.Constants;
+@@ -25,20 +24,14 @@ import com.alibaba.nacos.config.server.manager.TaskManager;
+ import com.alibaba.nacos.config.server.model.ConfigInfo;
+ import com.alibaba.nacos.config.server.model.ConfigInfoAggr;
+ import com.alibaba.nacos.config.server.model.ConfigInfoChanged;
+-import com.alibaba.nacos.config.server.model.ConfigInfoWrapper;
+-import com.alibaba.nacos.core.namespace.repository.NamespacePersistService;
+-import com.alibaba.nacos.persistence.model.Page;
+ import com.alibaba.nacos.config.server.service.ConfigCacheService;
+-import com.alibaba.nacos.persistence.datasource.DynamicDataSource;
+ import com.alibaba.nacos.config.server.service.dump.processor.DumpAllBetaProcessor;
+ import com.alibaba.nacos.config.server.service.dump.processor.DumpAllProcessor;
+ import com.alibaba.nacos.config.server.service.dump.processor.DumpAllTagProcessor;
+-import com.alibaba.nacos.config.server.service.dump.processor.DumpChangeProcessor;
+ import com.alibaba.nacos.config.server.service.dump.processor.DumpProcessor;
+ import com.alibaba.nacos.config.server.service.dump.task.DumpAllBetaTask;
+ import com.alibaba.nacos.config.server.service.dump.task.DumpAllTagTask;
+ import com.alibaba.nacos.config.server.service.dump.task.DumpAllTask;
+-import com.alibaba.nacos.config.server.service.dump.task.DumpChangeTask;
+ import com.alibaba.nacos.config.server.service.dump.task.DumpTask;
+ import com.alibaba.nacos.config.server.service.merge.MergeTaskProcessor;
+ import com.alibaba.nacos.config.server.service.repository.ConfigInfoAggrPersistService;
+@@ -54,14 +47,15 @@ import com.alibaba.nacos.config.server.utils.GroupKey2;
+ import com.alibaba.nacos.config.server.utils.LogUtil;
+ import com.alibaba.nacos.config.server.utils.TimeUtils;
+ import com.alibaba.nacos.core.cluster.ServerMemberManager;
++import com.alibaba.nacos.core.namespace.repository.NamespacePersistService;
++import com.alibaba.nacos.persistence.datasource.DynamicDataSource;
++import com.alibaba.nacos.persistence.model.Page;
+ import com.alibaba.nacos.sys.env.EnvUtil;
+ import com.alibaba.nacos.sys.utils.InetUtils;
+ import com.alibaba.nacos.sys.utils.TimerContext;
+ import org.slf4j.Logger;
+ import org.slf4j.LoggerFactory;
+ 
+-import java.io.File;
+-import java.io.FileInputStream;
+ import java.io.IOException;
+ import java.sql.Timestamp;
+ import java.text.SimpleDateFormat;
+@@ -112,6 +106,11 @@ public abstract class DumpService {
+      */
+     static final int DUMP_ALL_INTERVAL_IN_MINUTE = 6 * 60;
+     
++    /**
++     * full dump interval.
++     */
++    static final int DUMP_CHANGE_INTERVAL_IN_SECONDS = 15;
++    
+     /**
+      * full dump delay.
+      */
+@@ -227,6 +226,8 @@ public abstract class DumpService {
+                 }
+             };
+             
++            Timestamp currentTime = new Timestamp(System.currentTimeMillis());
++            
+             try {
+                 dumpConfigInfo(dumpAllProcessor);
+                 
+@@ -284,6 +285,9 @@ public abstract class DumpService {
+                 
+                 ConfigExecutor.scheduleConfigTask(dumpAllTag, initialDelay, DUMP_ALL_INTERVAL_IN_MINUTE,
+                         TimeUnit.MINUTES);
++                ConfigExecutor.scheduleConfigTask(new DumpChangeConfigWorker(this, currentTime), 0,
++                        DUMP_CHANGE_INTERVAL_IN_SECONDS, TimeUnit.SECONDS);
++                
+             }
+             
+             ConfigExecutor.scheduleConfigTask(clearConfigHistory, 10, 10, TimeUnit.MINUTES);
+@@ -294,60 +298,14 @@ public abstract class DumpService {
+     }
+     
+     private void dumpConfigInfo(DumpAllProcessor dumpAllProcessor) throws IOException {
+-        int timeStep = 6;
+-        boolean isAllDump = true;
+-        // initial dump all
+-        FileInputStream fis = null;
+-        Timestamp heartheatLastStamp = null;
++        
+         try {
+-            if (isQuickStart()) {
+-                File heartbeatFile = DiskUtil.heartBeatFile();
+-                if (heartbeatFile.exists()) {
+-                    fis = new FileInputStream(heartbeatFile);
+-                    String heartheatTempLast = IoUtils.toString(fis, Constants.ENCODE);
+-                    heartheatLastStamp = Timestamp.valueOf(heartheatTempLast);
+-                    if (TimeUtils.getCurrentTime().getTime() - heartheatLastStamp.getTime()
+-                            < timeStep * 60 * 60 * 1000) {
+-                        isAllDump = false;
+-                    }
+-                }
+-            }
+-            if (isAllDump) {
+-                LogUtil.DEFAULT_LOG.info("start clear all config-info.");
+-                DiskUtil.clearAll();
+-                dumpAllProcessor.process(new DumpAllTask());
+-            } else {
+-                Timestamp beforeTimeStamp = getBeforeStamp(heartheatLastStamp, timeStep);
+-                DumpChangeProcessor dumpChangeProcessor = new DumpChangeProcessor(this, beforeTimeStamp,
+-                        TimeUtils.getCurrentTime());
+-                dumpChangeProcessor.process(new DumpChangeTask());
+-                Runnable checkMd5Task = () -> {
+-                    LogUtil.DEFAULT_LOG.error("start checkMd5Task");
+-                    List<String> diffList = ConfigCacheService.checkMd5();
+-                    for (String groupKey : diffList) {
+-                        String[] dg = GroupKey.parseKey(groupKey);
+-                        String dataId = dg[0];
+-                        String group = dg[1];
+-                        String tenant = dg[2];
+-                        ConfigInfoWrapper configInfo = configInfoPersistService.queryConfigInfo(dataId, group, tenant);
+-                        ConfigCacheService.dumpChange(dataId, group, tenant, configInfo.getContent(),
+-                                configInfo.getLastModified(), configInfo.getEncryptedDataKey());
+-                    }
+-                    LogUtil.DEFAULT_LOG.error("end checkMd5Task");
+-                };
+-                ConfigExecutor.scheduleConfigTask(checkMd5Task, 0, 12, TimeUnit.HOURS);
+-            }
+-        } catch (IOException e) {
++            LogUtil.DEFAULT_LOG.info("start clear all config-info.");
++            DiskUtil.clearAll();
++            dumpAllProcessor.process(new DumpAllTask());
++        } catch (Exception e) {
+             LogUtil.FATAL_LOG.error("dump config fail" + e.getMessage());
+             throw e;
+-        } finally {
+-            if (null != fis) {
+-                try {
+-                    fis.close();
+-                } catch (IOException e) {
+-                    LogUtil.DEFAULT_LOG.warn("close file failed");
+-                }
+-            }
+         }
+     }
+     
+@@ -360,20 +318,6 @@ public abstract class DumpService {
+         return Timestamp.valueOf(format.format(cal.getTime()));
+     }
+     
+-    private Boolean isQuickStart() {
+-        try {
+-            String val;
+-            val = EnvUtil.getProperty("isQuickStart");
+-            if (TRUE_STR.equals(val)) {
+-                isQuickStart = true;
+-            }
+-            FATAL_LOG.warn("isQuickStart:{}", isQuickStart);
+-        } catch (Exception e) {
+-            FATAL_LOG.error("read application.properties wrong", e);
+-        }
+-        return isQuickStart;
+-    }
+-    
+     private int getRetentionDays() {
+         String val = EnvUtil.getProperty("nacos.config.retention.days");
+         if (null == val) {
+diff --git a/config/src/main/java/com/alibaba/nacos/config/server/service/dump/processor/DumpChangeProcessor.java b/config/src/main/java/com/alibaba/nacos/config/server/service/dump/processor/DumpChangeProcessor.java
+deleted file mode 100644
+index 0de63f03b..000000000
+--- a/config/src/main/java/com/alibaba/nacos/config/server/service/dump/processor/DumpChangeProcessor.java
++++ /dev/null
+@@ -1,109 +0,0 @@
+-/*
+- * Copyright 1999-2018 Alibaba Group Holding Ltd.
+- *
+- * Licensed under the Apache License, Version 2.0 (the "License");
+- * you may not use this file except in compliance with the License.
+- * You may obtain a copy of the License at
+- *
+- *      http://www.apache.org/licenses/LICENSE-2.0
+- *
+- * Unless required by applicable law or agreed to in writing, software
+- * distributed under the License is distributed on an "AS IS" BASIS,
+- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+- * See the License for the specific language governing permissions and
+- * limitations under the License.
+- */
+-
+-package com.alibaba.nacos.config.server.service.dump.processor;
+-
+-import com.alibaba.nacos.common.task.NacosTask;
+-import com.alibaba.nacos.common.task.NacosTaskProcessor;
+-import com.alibaba.nacos.common.utils.MD5Utils;
+-import com.alibaba.nacos.config.server.constant.Constants;
+-import com.alibaba.nacos.config.server.model.ConfigInfo;
+-import com.alibaba.nacos.config.server.model.ConfigInfoWrapper;
+-import com.alibaba.nacos.config.server.service.ConfigCacheService;
+-import com.alibaba.nacos.config.server.service.dump.DumpService;
+-import com.alibaba.nacos.config.server.service.repository.ConfigInfoPersistService;
+-import com.alibaba.nacos.config.server.service.repository.HistoryConfigInfoPersistService;
+-import com.alibaba.nacos.config.server.utils.GroupKey2;
+-import com.alibaba.nacos.config.server.utils.LogUtil;
+-
+-import java.sql.Timestamp;
+-import java.util.List;
+-
+-/**
+- * Dump change processor.
+- *
+- * @author Nacos
+- * @date 2020/7/5 12:19 PM
+- */
+-public class DumpChangeProcessor implements NacosTaskProcessor {
+-    
+-    final DumpService dumpService;
+-    
+-    final ConfigInfoPersistService configInfoPersistService;
+-    
+-    final HistoryConfigInfoPersistService historyConfigInfoPersistService;
+-    
+-    final Timestamp startTime;
+-    
+-    final Timestamp endTime;
+-    
+-    public DumpChangeProcessor(DumpService dumpService, Timestamp startTime, Timestamp endTime) {
+-        this.dumpService = dumpService;
+-        this.configInfoPersistService = dumpService.getConfigInfoPersistService();
+-        this.historyConfigInfoPersistService = dumpService.getHistoryConfigInfoPersistService();
+-        this.startTime = startTime;
+-        this.endTime = endTime;
+-    }
+-    
+-    @Override
+-    public boolean process(NacosTask task) {
+-        LogUtil.DEFAULT_LOG.warn("quick start; startTime:{},endTime:{}", startTime, endTime);
+-        LogUtil.DEFAULT_LOG.warn("updateMd5 start");
+-        long startUpdateMd5 = System.currentTimeMillis();
+-        List<ConfigInfoWrapper> updateMd5List = configInfoPersistService.listAllGroupKeyMd5();
+-        LogUtil.DEFAULT_LOG.warn("updateMd5 count:{}", updateMd5List.size());
+-        for (ConfigInfoWrapper config : updateMd5List) {
+-            final String groupKey = GroupKey2.getKey(config.getDataId(), config.getGroup());
+-            ConfigCacheService
+-                    .updateMd5(groupKey, config.getMd5(), config.getLastModified(), config.getEncryptedDataKey());
+-        }
+-        long endUpdateMd5 = System.currentTimeMillis();
+-        LogUtil.DEFAULT_LOG.warn("updateMd5 done,cost:{}", endUpdateMd5 - startUpdateMd5);
+-        
+-        LogUtil.DEFAULT_LOG.warn("deletedConfig start");
+-        long startDeletedConfigTime = System.currentTimeMillis();
+-        List<ConfigInfo> configDeleted = historyConfigInfoPersistService.findDeletedConfig(startTime, endTime);
+-        LogUtil.DEFAULT_LOG.warn("deletedConfig count:{}", configDeleted.size());
+-        for (ConfigInfo configInfo : configDeleted) {
+-            if (configInfoPersistService.findConfigInfo(configInfo.getDataId(), configInfo.getGroup(), configInfo.getTenant())
+-                    == null) {
+-                ConfigCacheService.remove(configInfo.getDataId(), configInfo.getGroup(), configInfo.getTenant());
+-            }
+-        }
+-        long endDeletedConfigTime = System.currentTimeMillis();
+-        LogUtil.DEFAULT_LOG.warn("deletedConfig done,cost:{}", endDeletedConfigTime - startDeletedConfigTime);
+-        
+-        LogUtil.DEFAULT_LOG.warn("changeConfig start");
+-        final long startChangeConfigTime = System.currentTimeMillis();
+-        List<ConfigInfoWrapper> changeConfigs = configInfoPersistService.findChangeConfig(startTime, endTime);
+-        LogUtil.DEFAULT_LOG.warn("changeConfig count:{}", changeConfigs.size());
+-        for (ConfigInfoWrapper cf : changeConfigs) {
+-          
+-            ConfigCacheService.dumpChange(cf.getDataId(), cf.getGroup(), cf.getTenant(), cf.getContent(),
+-                    cf.getLastModified(), cf.getEncryptedDataKey());            
+-          
+-            final String content = cf.getContent();
+-            final String md5 = MD5Utils.md5Hex(content, Constants.ENCODE);
+-            LogUtil.DEFAULT_LOG
+-                    .info("[dump-change-ok] {}, {}, length={}, md5={}", GroupKey2.getKey(cf.getDataId(), cf.getGroup()),
+-                            cf.getLastModified(), content.length(), md5);
+-        }
+-        ConfigCacheService.reloadConfig();
+-        long endChangeConfigTime = System.currentTimeMillis();
+-        LogUtil.DEFAULT_LOG.warn("changeConfig done,cost:{}", endChangeConfigTime - startChangeConfigTime);
+-        return true;
+-    }
+-}
+diff --git a/config/src/main/java/com/alibaba/nacos/config/server/service/dump/processor/DumpProcessor.java b/config/src/main/java/com/alibaba/nacos/config/server/service/dump/processor/DumpProcessor.java
+index d0640e927..9215bcdb2 100644
+--- a/config/src/main/java/com/alibaba/nacos/config/server/service/dump/processor/DumpProcessor.java
++++ b/config/src/main/java/com/alibaba/nacos/config/server/service/dump/processor/DumpProcessor.java
+@@ -18,9 +18,10 @@ package com.alibaba.nacos.config.server.service.dump.processor;
+ 
+ import com.alibaba.nacos.common.task.NacosTask;
+ import com.alibaba.nacos.common.task.NacosTaskProcessor;
+-import com.alibaba.nacos.config.server.model.ConfigInfo;
+-import com.alibaba.nacos.config.server.model.ConfigInfo4Beta;
+-import com.alibaba.nacos.config.server.model.ConfigInfo4Tag;
++import com.alibaba.nacos.common.utils.StringUtils;
++import com.alibaba.nacos.config.server.model.ConfigInfoBetaWrapper;
++import com.alibaba.nacos.config.server.model.ConfigInfoTagWrapper;
++import com.alibaba.nacos.config.server.model.ConfigInfoWrapper;
+ import com.alibaba.nacos.config.server.model.event.ConfigDumpEvent;
+ import com.alibaba.nacos.config.server.service.dump.DumpConfigHandler;
+ import com.alibaba.nacos.config.server.service.dump.DumpService;
+@@ -29,7 +30,7 @@ import com.alibaba.nacos.config.server.service.repository.ConfigInfoBetaPersistS
+ import com.alibaba.nacos.config.server.service.repository.ConfigInfoPersistService;
+ import com.alibaba.nacos.config.server.service.repository.ConfigInfoTagPersistService;
+ import com.alibaba.nacos.config.server.utils.GroupKey2;
+-import com.alibaba.nacos.common.utils.StringUtils;
++import com.alibaba.nacos.config.server.utils.LogUtil;
+ 
+ import java.util.Objects;
+ 
+@@ -63,39 +64,50 @@ public class DumpProcessor implements NacosTaskProcessor {
+         String dataId = pair[0];
+         String group = pair[1];
+         String tenant = pair[2];
+-        long lastModified = dumpTask.getLastModified();
++        long lastModifiedOut = dumpTask.getLastModified();
+         String handleIp = dumpTask.getHandleIp();
+         boolean isBeta = dumpTask.isBeta();
+         String tag = dumpTask.getTag();
+-        
++        boolean isBatch = dumpTask.isBatch();
+         ConfigDumpEvent.ConfigDumpEventBuilder build = ConfigDumpEvent.builder().namespaceId(tenant).dataId(dataId)
+-                .group(group).isBeta(isBeta).tag(tag).lastModifiedTs(lastModified).handleIp(handleIp);
+-        
++                .group(group).isBatch(isBatch).isBeta(isBeta).tag(tag).handleIp(handleIp);
++        String type = "formal";
++        if (isBeta) {
++            type = "beta";
++        } else if (StringUtils.isNotBlank(tag)) {
++            type = "tag-" + tag;
++        }
++        LogUtil.DUMP_LOG.info("[dump] process {} task. groupKey={}", type, dumpTask.getGroupKey());
++    
+         if (isBeta) {
+             // if publish beta, then dump config, update beta cache
+-            ConfigInfo4Beta cf = configInfoBetaPersistService.findConfigInfo4Beta(dataId, group, tenant);
+-            
++            ConfigInfoBetaWrapper cf = configInfoBetaPersistService.findConfigInfo4Beta(dataId, group, tenant);
+             build.remove(Objects.isNull(cf));
+             build.betaIps(Objects.isNull(cf) ? null : cf.getBetaIps());
+             build.content(Objects.isNull(cf) ? null : cf.getContent());
++            build.type(Objects.isNull(cf) ? null : cf.getType());
+             build.encryptedDataKey(Objects.isNull(cf) ? null : cf.getEncryptedDataKey());
+-            
++            build.lastModifiedTs(Objects.isNull(cf) ? lastModifiedOut : cf.getLastModified());
+             return DumpConfigHandler.configDump(build.build());
+         }
+-        if (StringUtils.isBlank(tag)) {
+-            ConfigInfo cf = configInfoPersistService.findConfigInfo(dataId, group, tenant);
+-            
++    
++        if (StringUtils.isNotBlank(tag)) {
++            ConfigInfoTagWrapper cf = configInfoTagPersistService.findConfigInfo4Tag(dataId, group, tenant, tag);
+             build.remove(Objects.isNull(cf));
+             build.content(Objects.isNull(cf) ? null : cf.getContent());
+             build.type(Objects.isNull(cf) ? null : cf.getType());
+             build.encryptedDataKey(Objects.isNull(cf) ? null : cf.getEncryptedDataKey());
+-        } else {
+-            ConfigInfo4Tag cf = configInfoTagPersistService.findConfigInfo4Tag(dataId, group, tenant, tag);
+-            
+-            build.remove(Objects.isNull(cf));
+-            build.content(Objects.isNull(cf) ? null : cf.getContent());
+-            
++            build.lastModifiedTs(Objects.isNull(cf) ? lastModifiedOut : cf.getLastModified());
++            return DumpConfigHandler.configDump(build.build());
+         }
++    
++        ConfigInfoWrapper cf = configInfoPersistService.findConfigInfo(dataId, group, tenant);
++        build.remove(Objects.isNull(cf));
++        build.content(Objects.isNull(cf) ? null : cf.getContent());
++        build.type(Objects.isNull(cf) ? null : cf.getType());
++        build.encryptedDataKey(Objects.isNull(cf) ? null : cf.getEncryptedDataKey());
++        build.lastModifiedTs(Objects.isNull(cf) ? lastModifiedOut : cf.getLastModified());
+         return DumpConfigHandler.configDump(build.build());
++    
+     }
+ }
+diff --git a/config/src/main/java/com/alibaba/nacos/config/server/service/dump/task/DumpChangeTask.java b/config/src/main/java/com/alibaba/nacos/config/server/service/dump/task/DumpChangeTask.java
+deleted file mode 100644
+index a8e524d38..000000000
+--- a/config/src/main/java/com/alibaba/nacos/config/server/service/dump/task/DumpChangeTask.java
++++ /dev/null
+@@ -1,34 +0,0 @@
+-/*
+- * Copyright 1999-2018 Alibaba Group Holding Ltd.
+- *
+- * Licensed under the Apache License, Version 2.0 (the "License");
+- * you may not use this file except in compliance with the License.
+- * You may obtain a copy of the License at
+- *
+- *      http://www.apache.org/licenses/LICENSE-2.0
+- *
+- * Unless required by applicable law or agreed to in writing, software
+- * distributed under the License is distributed on an "AS IS" BASIS,
+- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+- * See the License for the specific language governing permissions and
+- * limitations under the License.
+- */
+-
+-package com.alibaba.nacos.config.server.service.dump.task;
+-
+-import com.alibaba.nacos.common.task.AbstractDelayTask;
+-
+-/**
+- * Dump change task.
+- *
+- * @author Nacos
+- * @date 2020/7/5 12:19 PM
+- */
+-public class DumpChangeTask extends AbstractDelayTask {
+-    
+-    @Override
+-    public void merge(AbstractDelayTask task) {
+-    }
+-    
+-    public static final String TASK_ID = "dumpChangeConfigTask";
+-}
+diff --git a/config/src/main/java/com/alibaba/nacos/config/server/service/repository/ConfigInfoPersistService.java b/config/src/main/java/com/alibaba/nacos/config/server/service/repository/ConfigInfoPersistService.java
+index 21c5af4cd..aa760709d 100644
+--- a/config/src/main/java/com/alibaba/nacos/config/server/service/repository/ConfigInfoPersistService.java
++++ b/config/src/main/java/com/alibaba/nacos/config/server/service/repository/ConfigInfoPersistService.java
+@@ -433,13 +433,14 @@ public interface ConfigInfoPersistService {
+             final String group, final String content) throws IOException;
+     
+     /**
+-     * Query change config.
++     * Query change config.order by id asc.
+      *
+      * @param startTime start time
+-     * @param endTime   end time
++     * @param lastMaxId lastMaxId
++     * @param pageSize  pageSize
+      * @return {@link ConfigInfoWrapper} list
+      */
+-    List<ConfigInfoWrapper> findChangeConfig(final Timestamp startTime, final Timestamp endTime);
++    List<ConfigInfoWrapper> findChangeConfig(final Timestamp startTime, long lastMaxId, final int pageSize);
+     
+     /**
+      * According to the time period and configuration conditions to query the eligible configuration.
+diff --git a/config/src/main/java/com/alibaba/nacos/config/server/service/repository/HistoryConfigInfoPersistService.java b/config/src/main/java/com/alibaba/nacos/config/server/service/repository/HistoryConfigInfoPersistService.java
+index 29c238942..f680028ef 100644
+--- a/config/src/main/java/com/alibaba/nacos/config/server/service/repository/HistoryConfigInfoPersistService.java
++++ b/config/src/main/java/com/alibaba/nacos/config/server/service/repository/HistoryConfigInfoPersistService.java
+@@ -18,6 +18,7 @@ package com.alibaba.nacos.config.server.service.repository;
+ 
+ import com.alibaba.nacos.config.server.model.ConfigHistoryInfo;
+ import com.alibaba.nacos.config.server.model.ConfigInfo;
++import com.alibaba.nacos.config.server.model.ConfigInfoWrapper;
+ import com.alibaba.nacos.persistence.model.Page;
+ import com.alibaba.nacos.persistence.repository.PaginationHelper;
+ 
+@@ -46,7 +47,7 @@ public interface HistoryConfigInfoPersistService {
+      * @param list origin data
+      * @return {@link ConfigInfo} list
+      */
+-    List<ConfigInfo> convertDeletedConfig(List<Map<String, Object>> list);
++    List<ConfigInfoWrapper> convertDeletedConfig(List<Map<String, Object>> list);
+     
+     //------------------------------------------insert---------------------------------------------//
+     
+@@ -78,10 +79,11 @@ public interface HistoryConfigInfoPersistService {
+      * Query deleted config.
+      *
+      * @param startTime start time
+-     * @param endTime   end time
++     * @param startId   last max id
++     * @param size      page size
+      * @return {@link ConfigInfo} list
+      */
+-    List<ConfigInfo> findDeletedConfig(final Timestamp startTime, final Timestamp endTime);
++    List<ConfigInfoWrapper> findDeletedConfig(final Timestamp startTime, final long startId, int size);
+     
+     /**
+      * List configuration history change record.
+diff --git a/config/src/main/java/com/alibaba/nacos/config/server/service/repository/embedded/EmbeddedConfigInfoPersistServiceImpl.java b/config/src/main/java/com/alibaba/nacos/config/server/service/repository/embedded/EmbeddedConfigInfoPersistServiceImpl.java
+index 1bb257b1b..97514ca00 100644
+--- a/config/src/main/java/com/alibaba/nacos/config/server/service/repository/embedded/EmbeddedConfigInfoPersistServiceImpl.java
++++ b/config/src/main/java/com/alibaba/nacos/config/server/service/repository/embedded/EmbeddedConfigInfoPersistServiceImpl.java
+@@ -1105,13 +1105,15 @@ public class EmbeddedConfigInfoPersistServiceImpl implements ConfigInfoPersistSe
+     }
+     
+     @Override
+-    public List<ConfigInfoWrapper> findChangeConfig(final Timestamp startTime, final Timestamp endTime) {
++    public List<ConfigInfoWrapper> findChangeConfig(final Timestamp startTime, long lastMaxId, final int pageSize) {
+         ConfigInfoMapper configInfoMapper = mapperManager.findMapper(dataSourceService.getDataSourceType(),
+                 TableConstant.CONFIG_INFO);
+         
+         MapperContext context = new MapperContext();
+         context.putWhereParameter(FieldConstant.START_TIME, startTime);
+-        context.putWhereParameter(FieldConstant.END_TIME, endTime);
++        context.putWhereParameter(FieldConstant.PAGE_SIZE, pageSize);
++        context.putWhereParameter(FieldConstant.LAST_MAX_ID, lastMaxId);
++        
+         MapperResult mapperResult = configInfoMapper.findChangeConfig(context);
+         List<Map<String, Object>> list = databaseOperate.queryMany(mapperResult.getSql(),
+                 mapperResult.getParamList().toArray());
+diff --git a/config/src/main/java/com/alibaba/nacos/config/server/service/repository/embedded/EmbeddedHistoryConfigInfoPersistServiceImpl.java b/config/src/main/java/com/alibaba/nacos/config/server/service/repository/embedded/EmbeddedHistoryConfigInfoPersistServiceImpl.java
+index f89bdea11..283eb2fdf 100644
+--- a/config/src/main/java/com/alibaba/nacos/config/server/service/repository/embedded/EmbeddedHistoryConfigInfoPersistServiceImpl.java
++++ b/config/src/main/java/com/alibaba/nacos/config/server/service/repository/embedded/EmbeddedHistoryConfigInfoPersistServiceImpl.java
+@@ -19,6 +19,7 @@ package com.alibaba.nacos.config.server.service.repository.embedded;
+ import com.alibaba.nacos.common.notify.NotifyCenter;
+ import com.alibaba.nacos.common.utils.MD5Utils;
+ import com.alibaba.nacos.common.utils.StringUtils;
++import com.alibaba.nacos.config.server.model.ConfigInfoWrapper;
+ import com.alibaba.nacos.persistence.configuration.condition.ConditionOnEmbeddedStorage;
+ import com.alibaba.nacos.config.server.constant.Constants;
+ import com.alibaba.nacos.config.server.model.ConfigHistoryInfo;
+@@ -44,6 +45,8 @@ import org.springframework.context.annotation.Conditional;
+ import org.springframework.stereotype.Service;
+ 
+ import java.sql.Timestamp;
++import java.time.LocalDateTime;
++import java.time.ZoneOffset;
+ import java.util.ArrayList;
+ import java.util.Arrays;
+ import java.util.Collections;
+@@ -89,16 +92,18 @@ public class EmbeddedHistoryConfigInfoPersistServiceImpl implements HistoryConfi
+     }
+     
+     @Override
+-    public List<ConfigInfo> convertDeletedConfig(List<Map<String, Object>> list) {
+-        List<ConfigInfo> configs = new ArrayList<>();
++    public List<ConfigInfoWrapper> convertDeletedConfig(List<Map<String, Object>> list) {
++        List<ConfigInfoWrapper> configs = new ArrayList<>();
+         for (Map<String, Object> map : list) {
+             String dataId = (String) map.get("data_id");
+             String group = (String) map.get("group_id");
+             String tenant = (String) map.get("tenant_id");
+-            ConfigInfo config = new ConfigInfo();
++            long mTime = ((LocalDateTime) map.get("gmt_modified")).toInstant(ZoneOffset.ofHours(8)).toEpochMilli();
++            ConfigInfoWrapper config = new ConfigInfoWrapper();
+             config.setDataId(dataId);
+             config.setGroup(group);
+             config.setTenant(tenant);
++            config.setLastModified(mTime);
+             configs.add(config);
+         }
+         return configs;
+@@ -137,12 +142,14 @@ public class EmbeddedHistoryConfigInfoPersistServiceImpl implements HistoryConfi
+     }
+     
+     @Override
+-    public List<ConfigInfo> findDeletedConfig(final Timestamp startTime, final Timestamp endTime) {
++    public List<ConfigInfoWrapper> findDeletedConfig(final Timestamp startTime, long lastMaxId, final int pageSize) {
+         HistoryConfigInfoMapper historyConfigInfoMapper = mapperManager.findMapper(
+                 dataSourceService.getDataSourceType(), TableConstant.HIS_CONFIG_INFO);
+         MapperContext context = new MapperContext();
+         context.putWhereParameter(FieldConstant.START_TIME, startTime);
+-        context.putWhereParameter(FieldConstant.END_TIME, endTime);
++        context.putWhereParameter(FieldConstant.PAGE_SIZE, pageSize);
++        context.putWhereParameter(FieldConstant.LAST_MAX_ID, lastMaxId);
++        
+         MapperResult mapperResult = historyConfigInfoMapper.findDeletedConfig(context);
+         List<Map<String, Object>> list = databaseOperate.queryMany(mapperResult.getSql(),
+                 mapperResult.getParamList().toArray());
+diff --git a/config/src/main/java/com/alibaba/nacos/config/server/service/repository/extrnal/ExternalConfigInfoPersistServiceImpl.java b/config/src/main/java/com/alibaba/nacos/config/server/service/repository/extrnal/ExternalConfigInfoPersistServiceImpl.java
+index b376b3eeb..14c52edcd 100644
+--- a/config/src/main/java/com/alibaba/nacos/config/server/service/repository/extrnal/ExternalConfigInfoPersistServiceImpl.java
++++ b/config/src/main/java/com/alibaba/nacos/config/server/service/repository/extrnal/ExternalConfigInfoPersistServiceImpl.java
+@@ -74,6 +74,8 @@ import java.sql.Connection;
+ import java.sql.PreparedStatement;
+ import java.sql.SQLException;
+ import java.sql.Timestamp;
++import java.time.LocalDateTime;
++import java.time.ZoneOffset;
+ import java.util.ArrayList;
+ import java.util.Arrays;
+ import java.util.Collections;
+@@ -749,7 +751,7 @@ public class ExternalConfigInfoPersistServiceImpl implements ConfigInfoPersistSe
+                     TableConstant.CONFIG_INFO);
+             return this.jt.queryForObject(configInfoMapper.select(
+                             Arrays.asList("id", "data_id", "group_id", "tenant_id", "app_name", "content", "md5", "type",
+-                                    "encrypted_data_key"), Arrays.asList("data_id", "group_id", "tenant_id")),
++                                    "encrypted_data_key", "gmt_modified"), Arrays.asList("data_id", "group_id", "tenant_id")),
+                     new Object[] {dataId, group, tenantTmp}, CONFIG_INFO_WRAPPER_ROW_MAPPER);
+         } catch (EmptyResultDataAccessException e) { // Indicates that the data does not exist, returns null.
+             return null;
+@@ -1171,15 +1173,16 @@ public class ExternalConfigInfoPersistServiceImpl implements ConfigInfoPersistSe
+     }
+     
+     @Override
+-    public List<ConfigInfoWrapper> findChangeConfig(final Timestamp startTime, final Timestamp endTime) {
++    public List<ConfigInfoWrapper> findChangeConfig(final Timestamp startTime, long lastMaxId, final int pageSize) {
+         try {
+             ConfigInfoMapper configInfoMapper = mapperManager.findMapper(dataSourceService.getDataSourceType(),
+                     TableConstant.CONFIG_INFO);
+             
+             MapperContext context = new MapperContext();
+             context.putWhereParameter(FieldConstant.START_TIME, startTime);
+-            context.putWhereParameter(FieldConstant.END_TIME, endTime);
+-            
++            context.putWhereParameter(FieldConstant.PAGE_SIZE, pageSize);
++            context.putWhereParameter(FieldConstant.LAST_MAX_ID, lastMaxId);
++    
+             MapperResult mapperResult = configInfoMapper.findChangeConfig(context);
+             List<Map<String, Object>> list = jt.queryForList(mapperResult.getSql(),
+                     mapperResult.getParamList().toArray());
+@@ -1360,12 +1363,14 @@ public class ExternalConfigInfoPersistServiceImpl implements ConfigInfoPersistSe
+     public List<ConfigInfoWrapper> convertChangeConfig(List<Map<String, Object>> list) {
+         List<ConfigInfoWrapper> configs = new ArrayList<>();
+         for (Map<String, Object> map : list) {
++            Long id = (Long) map.get("id");
+             String dataId = (String) map.get("data_id");
+             String group = (String) map.get("group_id");
+             String tenant = (String) map.get("tenant_id");
+             String content = (String) map.get("content");
+-            long mTime = ((Timestamp) map.get("gmt_modified")).getTime();
++            long mTime = ((LocalDateTime) map.get("gmt_modified")).toInstant(ZoneOffset.ofHours(8)).toEpochMilli();
+             ConfigInfoWrapper config = new ConfigInfoWrapper();
++            config.setId(id);
+             config.setDataId(dataId);
+             config.setGroup(group);
+             config.setTenant(tenant);
+diff --git a/config/src/main/java/com/alibaba/nacos/config/server/service/repository/extrnal/ExternalHistoryConfigInfoPersistServiceImpl.java b/config/src/main/java/com/alibaba/nacos/config/server/service/repository/extrnal/ExternalHistoryConfigInfoPersistServiceImpl.java
+index 76f53ed5c..95a29eda5 100644
+--- a/config/src/main/java/com/alibaba/nacos/config/server/service/repository/extrnal/ExternalHistoryConfigInfoPersistServiceImpl.java
++++ b/config/src/main/java/com/alibaba/nacos/config/server/service/repository/extrnal/ExternalHistoryConfigInfoPersistServiceImpl.java
+@@ -18,6 +18,7 @@ package com.alibaba.nacos.config.server.service.repository.extrnal;
+ 
+ import com.alibaba.nacos.common.utils.MD5Utils;
+ import com.alibaba.nacos.common.utils.StringUtils;
++import com.alibaba.nacos.config.server.model.ConfigInfoWrapper;
+ import com.alibaba.nacos.persistence.configuration.condition.ConditionOnExternalStorage;
+ import com.alibaba.nacos.config.server.constant.Constants;
+ import com.alibaba.nacos.config.server.model.ConfigHistoryInfo;
+@@ -43,7 +44,10 @@ import org.springframework.jdbc.core.JdbcTemplate;
+ import org.springframework.stereotype.Service;
+ import org.springframework.transaction.support.TransactionTemplate;
+ 
++import java.math.BigInteger;
+ import java.sql.Timestamp;
++import java.time.LocalDateTime;
++import java.time.ZoneOffset;
+ import java.util.ArrayList;
+ import java.util.Arrays;
+ import java.util.Collections;
+@@ -86,16 +90,20 @@ public class ExternalHistoryConfigInfoPersistServiceImpl implements HistoryConfi
+     }
+     
+     @Override
+-    public List<ConfigInfo> convertDeletedConfig(List<Map<String, Object>> list) {
+-        List<ConfigInfo> configs = new ArrayList<>();
++    public List<ConfigInfoWrapper> convertDeletedConfig(List<Map<String, Object>> list) {
++        List<ConfigInfoWrapper> configs = new ArrayList<>();
+         for (Map<String, Object> map : list) {
++            BigInteger id = (BigInteger) map.get("nid");
+             String dataId = (String) map.get("data_id");
+             String group = (String) map.get("group_id");
+             String tenant = (String) map.get("tenant_id");
+-            ConfigInfo config = new ConfigInfo();
++            long mTime = ((LocalDateTime) map.get("gmt_modified")).toInstant(ZoneOffset.ofHours(8)).toEpochMilli();
++            ConfigInfoWrapper config = new ConfigInfoWrapper();
++            config.setId(id.longValue());
+             config.setDataId(dataId);
+             config.setGroup(group);
+             config.setTenant(tenant);
++            config.setLastModified(mTime);
+             configs.add(config);
+         }
+         return configs;
+@@ -137,13 +145,14 @@ public class ExternalHistoryConfigInfoPersistServiceImpl implements HistoryConfi
+     }
+     
+     @Override
+-    public List<ConfigInfo> findDeletedConfig(final Timestamp startTime, final Timestamp endTime) {
++    public List<ConfigInfoWrapper> findDeletedConfig(final Timestamp startTime, long startId, int pageSize) {
+         try {
+             HistoryConfigInfoMapper historyConfigInfoMapper = mapperManager.findMapper(
+                     dataSourceService.getDataSourceType(), TableConstant.HIS_CONFIG_INFO);
+             MapperContext context = new MapperContext();
+             context.putWhereParameter(FieldConstant.START_TIME, startTime);
+-            context.putWhereParameter(FieldConstant.END_TIME, endTime);
++            context.putWhereParameter(FieldConstant.PAGE_SIZE, pageSize);
++            context.putWhereParameter(FieldConstant.LAST_MAX_ID, startId);
+             
+             MapperResult mapperResult = historyConfigInfoMapper.findDeletedConfig(context);
+             List<Map<String, Object>> list = jt.queryForList(mapperResult.getSql(),
+diff --git a/plugin/datasource/src/main/java/com/alibaba/nacos/plugin/datasource/mapper/ConfigInfoMapper.java b/plugin/datasource/src/main/java/com/alibaba/nacos/plugin/datasource/mapper/ConfigInfoMapper.java
+index 3ce2c7624..014aab877 100644
+--- a/plugin/datasource/src/main/java/com/alibaba/nacos/plugin/datasource/mapper/ConfigInfoMapper.java
++++ b/plugin/datasource/src/main/java/com/alibaba/nacos/plugin/datasource/mapper/ConfigInfoMapper.java
+@@ -38,9 +38,7 @@ import java.util.List;
+ public interface ConfigInfoMapper extends Mapper {
+     
+     /**
+-     * Get the maxId.
+-     * The default sql:
+-     * SELECT max(id) FROM config_info
++     * Get the maxId. The default sql: SELECT max(id) FROM config_info
+      *
+      * @param context sql paramMap
+      * @return the sql of getting the maxId.
+@@ -50,9 +48,7 @@ public interface ConfigInfoMapper extends Mapper {
+     }
+     
+     /**
+-     * Find all dataId and group.
+-     * The default sql:
+-     * SELECT DISTINCT data_id, group_id FROM config_info
++     * Find all dataId and group. The default sql: SELECT DISTINCT data_id, group_id FROM config_info
+      *
+      * @param context sql paramMap
+      * @return The sql of finding all dataId and group.
+@@ -62,9 +58,8 @@ public interface ConfigInfoMapper extends Mapper {
+     }
+     
+     /**
+-     * Query the count of config_info by tenantId and appName.
+-     * The default sql:
+-     * SELECT count(*) FROM config_info WHERE tenant_id LIKE ? AND app_name=?
++     * Query the count of config_info by tenantId and appName. The default sql: SELECT count(*) FROM config_info WHERE
++     * tenant_id LIKE ? AND app_name=?
+      *
+      * @param context sql paramMap
+      * @return The sql of querying the count of config_info.
+@@ -86,9 +81,8 @@ public interface ConfigInfoMapper extends Mapper {
+     MapperResult findConfigInfoByAppFetchRows(MapperContext context);
+     
+     /**
+-     * Returns the number of configuration items.
+-     * The default sql:
+-     * SELECT count(*) FROM config_info WHERE tenant_id LIKE ?
++     * Returns the number of configuration items. The default sql: SELECT count(*) FROM config_info WHERE tenant_id LIKE
++     * ?
+      *
+      * @param context sql paramMap
+      * @return The sql of querying the number of configuration items.
+@@ -100,9 +94,8 @@ public interface ConfigInfoMapper extends Mapper {
+     }
+     
+     /**
+-     * Get tenant id list  by page.
+-     * The default sql:
+-     * SELECT tenant_id FROM config_info WHERE tenant_id != '' GROUP BY tenant_id LIMIT startRow, pageSize
++     * Get tenant id list  by page. The default sql: SELECT tenant_id FROM config_info WHERE tenant_id != '' GROUP BY
++     * tenant_id LIMIT startRow, pageSize
+      *
+      * @param context The context of startRow, pageSize
+      * @return The sql of getting tenant id list  by page.
+@@ -110,10 +103,8 @@ public interface ConfigInfoMapper extends Mapper {
+     MapperResult getTenantIdList(MapperContext context);
+     
+     /**
+-     * Get group id list  by page.
+-     * The default sql:
+-     * SELECT group_id FROM config_info WHERE tenant_id ='{defaultNamespaceId}' GROUP BY group_id LIMIT startRow,
+-     * pageSize
++     * Get group id list  by page. The default sql: SELECT group_id FROM config_info WHERE tenant_id
++     * ='{defaultNamespaceId}' GROUP BY group_id LIMIT startRow, pageSize
+      *
+      * @param context The context of startRow, pageSize
+      * @return The sql of getting group id list  by page.
+@@ -121,11 +112,9 @@ public interface ConfigInfoMapper extends Mapper {
+     MapperResult getGroupIdList(MapperContext context);
+     
+     /**
+-     * Query all configuration information by page.
+-     * The default sql:
+-     * SELECT data_id,group_id,app_name  FROM (
+-     * SELECT id FROM config_info WHERE tenant_id LIKE ? ORDER BY id LIMIT startRow, pageSize ) g,
+-     * config_info t WHERE g.id = t.id "
++     * Query all configuration information by page. The default sql: SELECT data_id,group_id,app_name  FROM ( SELECT id
++     * FROM config_info WHERE tenant_id LIKE ? ORDER BY id LIMIT startRow, pageSize ) g, config_info t WHERE g.id = t.id
++     * "
+      *
+      * @param context The context of startRow, pageSize
+      * @return The sql of querying all configuration information.
+@@ -133,11 +122,8 @@ public interface ConfigInfoMapper extends Mapper {
+     MapperResult findAllConfigKey(MapperContext context);
+     
+     /**
+-     * Query all configuration information by page.
+-     * The default sql:
+-     * SELECT t.id,data_id,group_id,content,md5 FROM (
+-     * SELECT id FROM config_info ORDER BY id LIMIT ?,?) g,
+-     * config_info t  WHERE g.id = t.id
++     * Query all configuration information by page. The default sql: SELECT t.id,data_id,group_id,content,md5 FROM (
++     * SELECT id FROM config_info ORDER BY id LIMIT ?,?) g, config_info t  WHERE g.id = t.id
+      *
+      * @param context The context of startRow, pageSize
+      * @return The sql of querying all configuration information by page.
+@@ -145,10 +131,9 @@ public interface ConfigInfoMapper extends Mapper {
+     MapperResult findAllConfigInfoBaseFetchRows(MapperContext context);
+     
+     /**
+-     * Query all config info.
+-     * The default sql:
+-     * SELECT id,data_id,group_id,tenant_id,app_name,content,md5,gmt_modified,type,encrypted_data_key
+-     * FROM config_info WHERE id > ? ORDER BY id ASC LIMIT startRow,pageSize
++     * Query all config info. The default sql: SELECT
++     * id,data_id,group_id,tenant_id,app_name,content,md5,gmt_modified,type,encrypted_data_key FROM config_info WHERE id
++     * > ? ORDER BY id ASC LIMIT startRow,pageSize
+      *
+      * @param context The context of startRow, pageSize
+      * @return The sql of querying all config info.
+@@ -164,16 +149,15 @@ public interface ConfigInfoMapper extends Mapper {
+      */
+     default MapperResult findChangeConfig(MapperContext context) {
+         String sql =
+-                "SELECT data_id, group_id, tenant_id, app_name, content, gmt_modified, encrypted_data_key FROM config_info WHERE "
+-                        + "gmt_modified >= ? AND gmt_modified <= ?";
++                "SELECT id, data_id, group_id, tenant_id, app_name, content, gmt_modified, encrypted_data_key FROM config_info WHERE "
++                        + "gmt_modified >= ? and id > ? order by id  limit ? ";
+         return new MapperResult(sql, CollectionUtils.list(context.getWhereParameter(FieldConstant.START_TIME),
+-                context.getWhereParameter(FieldConstant.END_TIME)));
++                context.getWhereParameter(FieldConstant.LAST_MAX_ID),
++                context.getWhereParameter(FieldConstant.PAGE_SIZE)));
+     }
+     
+     /**
+-     * Get the count of config information.
+-     * The default sql:
+-     * SELECT count(*) FROM config_info WHERE ...
++     * Get the count of config information. The default sql: SELECT count(*) FROM config_info WHERE ...
+      *
+      * @param context The map of params, the key is the parameter name(dataId, groupId, tenantId, appName, startTime,
+      *                endTime, content), the value is the key's value.
+@@ -222,22 +206,19 @@ public interface ConfigInfoMapper extends Mapper {
+     }
+     
+     /**
+-     * According to the time period and configuration conditions to query the eligible configuration.
+-     * The default sql:
++     * According to the time period and configuration conditions to query the eligible configuration. The default sql:
+      * SELECT id,data_id,group_id,tenant_id,app_name,content,type,md5,gmt_modified FROM config_info WHERE ...
+      *
+-     * @param context The map of params, the key is the parameter name(dataId, groupId, tenantId, appName,
+-     *                startTime, endTime, content, startTime, endTime), the value is the key's value.
++     * @param context The map of params, the key is the parameter name(dataId, groupId, tenantId, appName, startTime,
++     *                endTime, content, startTime, endTime), the value is the key's value.
+      * @return The sql of getting config information according to the time period.
+      */
+     MapperResult findChangeConfigFetchRows(MapperContext context);
+     
+     /**
+-     * list group key md5 by page.
+-     * The default sql:
+-     * SELECT t.id,data_id,group_id,tenant_id,app_name,md5,type,gmt_modified,encrypted_data_key FROM (
+-     * SELECT id FROM config_info ORDER BY id LIMIT ?,?  ) g, config_info t
+-     * WHERE g.id = t.id
++     * list group key md5 by page. The default sql: SELECT
++     * t.id,data_id,group_id,tenant_id,app_name,md5,type,gmt_modified,encrypted_data_key FROM ( SELECT id FROM
++     * config_info ORDER BY id LIMIT ?,?  ) g, config_info t WHERE g.id = t.id
+      *
+      * @param context The context of startRow, pageSize
+      * @return The sql of listing group key md5 by page.
+@@ -245,11 +226,9 @@ public interface ConfigInfoMapper extends Mapper {
+     MapperResult listGroupKeyMd5ByPageFetchRows(MapperContext context);
+     
+     /**
+-     * query all configuration information according to group, appName, tenant (for export).
+-     * The default sql:
+-     * SELECT id,data_id,group_id,tenant_id,app_name,content,type,md5,gmt_create,gmt_modified,
+-     * src_user,src_ip,c_desc,c_use,effect,c_schema,encrypted_data_key
+-     * FROM config_info WHERE ...
++     * query all configuration information according to group, appName, tenant (for export). The default sql: SELECT
++     * id,data_id,group_id,tenant_id,app_name,content,type,md5,gmt_create,gmt_modified,
++     * src_user,src_ip,c_desc,c_use,effect,c_schema,encrypted_data_key FROM config_info WHERE ...
+      *
+      * @param context The map of params, the key is the parameter name(dataId, group, appName), the value is the key's
+      *                value.
+@@ -298,9 +277,7 @@ public interface ConfigInfoMapper extends Mapper {
+     }
+     
+     /**
+-     * Get the count of config information.
+-     * The default sql:
+-     * SELECT count(*) FROM config_info WHERE ...
++     * Get the count of config information. The default sql: SELECT count(*) FROM config_info WHERE ...
+      *
+      * @param context The map of params, the key is the parameter name(dataId, groupId, tenant_id, content), the value
+      *                is the arbitrary object.
+@@ -331,9 +308,8 @@ public interface ConfigInfoMapper extends Mapper {
+     }
+     
+     /**
+-     * Get the config information.
+-     * The default sql:
+-     * SELECT id,data_id,group_id,tenant_id,content FROM config_info WHERE ...
++     * Get the config information. The default sql: SELECT id,data_id,group_id,tenant_id,content FROM config_info WHERE
++     * ...
+      *
+      * @param context The map of params, the key is the parameter name(dataId, groupId, tenant_id, content), the value
+      *                is the key's value.
+@@ -342,9 +318,7 @@ public interface ConfigInfoMapper extends Mapper {
+     MapperResult findConfigInfoBaseLikeFetchRows(MapperContext context);
+     
+     /**
+-     * find the count of config info.
+-     * The default sql:
+-     * SELECT count(*) FROM config_info ...
++     * find the count of config info. The default sql: SELECT count(*) FROM config_info ...
+      *
+      * @param context The mpa of dataId, groupId and appName.
+      * @return The count of config info.
+@@ -381,9 +355,8 @@ public interface ConfigInfoMapper extends Mapper {
+     }
+     
+     /**
+-     * find config info.
+-     * The default sql:
+-     * SELECT id,data_id,group_id,tenant_id,app_name,content,type,encrypted_data_key FROM config_info ...
++     * find config info. The default sql: SELECT id,data_id,group_id,tenant_id,app_name,content,type,encrypted_data_key
++     * FROM config_info ...
+      *
+      * @param context The mpa of dataId, groupId and appName.
+      * @return The sql of finding config info.
+@@ -391,9 +364,8 @@ public interface ConfigInfoMapper extends Mapper {
+     MapperResult findConfigInfo4PageFetchRows(MapperContext context);
+     
+     /**
+-     * Query configuration information based on group.
+-     * The default sql:
+-     * SELECT id,data_id,group_id,content FROM config_info WHERE group_id=? AND tenant_id=?
++     * Query configuration information based on group. The default sql: SELECT id,data_id,group_id,content FROM
++     * config_info WHERE group_id=? AND tenant_id=?
+      *
+      * @param context The context of startRow, pageSize
+      * @return Query configuration information based on group.
+@@ -401,9 +373,7 @@ public interface ConfigInfoMapper extends Mapper {
+     MapperResult findConfigInfoBaseByGroupFetchRows(MapperContext context);
+     
+     /**
+-     * Query config info count.
+-     * The default sql:
+-     * SELECT count(*) FROM config_info ...
++     * Query config info count. The default sql: SELECT count(*) FROM config_info ...
+      *
+      * @param context The map of dataId, group, appName, content
+      * @return The sql of querying config info count
+@@ -441,9 +411,8 @@ public interface ConfigInfoMapper extends Mapper {
+     }
+     
+     /**
+-     * Query config info.
+-     * <br/>The default sql:
+-     * <br/>SELECT id,data_id,group_id,tenant_id,app_name,content,encrypted_data_key FROM config_info ...
++     * Query config info. <br/>The default sql: <br/>SELECT
++     * id,data_id,group_id,tenant_id,app_name,content,encrypted_data_key FROM config_info ...
+      *
+      * @param context The context of startRow, pageSize
+      * @return The sql of querying config info
+@@ -451,10 +420,9 @@ public interface ConfigInfoMapper extends Mapper {
+     MapperResult findConfigInfoLike4PageFetchRows(MapperContext context);
+     
+     /**
+-     * Query all configuration information by page.
+-     * <br/>The default sql:
+-     * <br/>SELECT t.id,data_id,group_id,tenant_id,app_name,content,md5 " + " FROM (  SELECT id FROM config_info WHERE
+-     * tenant_id LIKE ? ORDER BY id LIMIT ?,? )" + " g, config_info t  WHERE g.id = t.id
++     * Query all configuration information by page. <br/>The default sql: <br/>SELECT
++     * t.id,data_id,group_id,tenant_id,app_name,content,md5 " + " FROM (  SELECT id FROM config_info WHERE tenant_id
++     * LIKE ? ORDER BY id LIMIT ?,? )" + " g, config_info t  WHERE g.id = t.id
+      *
+      * @param context The context of startRow, pageSize
+      * @return Query all configuration information by page.
+@@ -462,9 +430,8 @@ public interface ConfigInfoMapper extends Mapper {
+     MapperResult findAllConfigInfoFetchRows(MapperContext context);
+     
+     /**
+-     * find ConfigInfo by ids.
+-     * <br/>The default sql:
+-     * <br/>SELECT ID,data_id,group_id,tenant_id,app_name,content,md5 FROM config_info WHERE id IN (...)
++     * find ConfigInfo by ids. <br/>The default sql: <br/>SELECT ID,data_id,group_id,tenant_id,app_name,content,md5 FROM
++     * config_info WHERE id IN (...)
+      *
+      * @param context the size of ids.
+      * @return find ConfigInfo by ids.
+@@ -511,8 +478,7 @@ public interface ConfigInfoMapper extends Mapper {
+     }
+     
+     /**
+-     * Update configuration; database atomic operation, minimum SQL action, no business encapsulation.
+-     * The default sql:
++     * Update configuration; database atomic operation, minimum SQL action, no business encapsulation. The default sql:
+      * UPDATE config_info SET content=?, md5 = ?, src_ip=?,src_user=?,gmt_modified=?, app_name=?,c_desc=?,c_use=?,
+      * effect=?,type=?,c_schema=? WHERE data_id=? AND group_id=? AND tenant_id=? AND (md5=? OR md5 IS NULL OR md5='')
+      *
+diff --git a/plugin/datasource/src/main/java/com/alibaba/nacos/plugin/datasource/mapper/HistoryConfigInfoMapper.java b/plugin/datasource/src/main/java/com/alibaba/nacos/plugin/datasource/mapper/HistoryConfigInfoMapper.java
+index 0aa964cab..33067cb56 100644
+--- a/plugin/datasource/src/main/java/com/alibaba/nacos/plugin/datasource/mapper/HistoryConfigInfoMapper.java
++++ b/plugin/datasource/src/main/java/com/alibaba/nacos/plugin/datasource/mapper/HistoryConfigInfoMapper.java
+@@ -33,9 +33,7 @@ import java.util.Collections;
+ public interface HistoryConfigInfoMapper extends Mapper {
+     
+     /**
+-     * Delete data before startTime.
+-     * The default sql:
+-     * DELETE FROM his_config_info WHERE gmt_modified < ? LIMIT ?
++     * Delete data before startTime. The default sql: DELETE FROM his_config_info WHERE gmt_modified < ? LIMIT ?
+      *
+      * @param context sql paramMap
+      * @return The sql of deleting data before startTime.
+@@ -43,9 +41,8 @@ public interface HistoryConfigInfoMapper extends Mapper {
+     MapperResult removeConfigHistory(MapperContext context);
+     
+     /**
+-     * Get the number of configurations before the specified time.
+-     * The default sql:
+-     * SELECT count(*) FROM his_config_info WHERE gmt_modified < ?
++     * Get the number of configurations before the specified time. The default sql: SELECT count(*) FROM his_config_info
++     * WHERE gmt_modified < ?
+      *
+      * @param context sql paramMap
+      * @return The sql of getting the number of configurations before the specified time.
+@@ -56,27 +53,24 @@ public interface HistoryConfigInfoMapper extends Mapper {
+     }
+     
+     /**
+-     * Query deleted config.
+-     * The default sql:
+-     * SELECT DISTINCT data_id, group_id, tenant_id FROM his_config_info WHERE op_type = 'D' AND gmt_modified >=? AND
+-     * gmt_modified <= ?
++     * Query deleted config. The default sql: SELECT DISTINCT data_id, group_id, tenant_id FROM his_config_info WHERE
++     * op_type = 'D' AND gmt_modified >=? AND gmt_modified <= ?
+      *
+      * @param context sql paramMap
+      * @return The sql of querying deleted config.
+      */
+     default MapperResult findDeletedConfig(MapperContext context) {
+         return new MapperResult(
+-                "SELECT DISTINCT data_id, group_id, tenant_id FROM his_config_info WHERE op_type = 'D' AND "
+-                        + "gmt_modified >= ? AND gmt_modified <= ?",
++                "SELECT data_id, group_id, tenant_id,gmt_modified,nid FROM his_config_info WHERE op_type = 'D' AND "
++                        + "gmt_modified >= ? and nid > ? order by nid limit ? ",
+                 CollectionUtils.list(context.getWhereParameter(FieldConstant.START_TIME),
+-                        context.getWhereParameter(FieldConstant.END_TIME)));
++                        context.getWhereParameter(FieldConstant.LAST_MAX_ID),
++                        context.getWhereParameter(FieldConstant.PAGE_SIZE)));
+     }
+     
+     /**
+-     * List configuration history change record.
+-     * The default sql:
+-     * SELECT nid,data_id,group_id,tenant_id,app_name,src_ip,src_user,op_type,gmt_create,gmt_modified FROM
+-     * his_config_info
++     * List configuration history change record. The default sql: SELECT
++     * nid,data_id,group_id,tenant_id,app_name,src_ip,src_user,op_type,gmt_create,gmt_modified FROM his_config_info
+      * WHERE data_id = ? AND group_id = ? AND tenant_id = ? ORDER BY nid DESC
+      *
+      * @param context sql paramMap
+@@ -92,9 +86,8 @@ public interface HistoryConfigInfoMapper extends Mapper {
+     }
+     
+     /**
+-     * page search List configuration history.
+-     * SELECT nid,data_id,group_id,tenant_id,app_name,src_ip,src_user,op_type,gmt_create,gmt_modified FROM
+-     * his_config_info
++     * page search List configuration history. SELECT
++     * nid,data_id,group_id,tenant_id,app_name,src_ip,src_user,op_type,gmt_create,gmt_modified FROM his_config_info
+      * WHERE data_id = ? AND group_id = ? AND tenant_id = ? ORDER BY nid DESC limit ?,?
+      *
+      * @param context pageNo
+@@ -103,10 +96,9 @@ public interface HistoryConfigInfoMapper extends Mapper {
+     MapperResult pageFindConfigHistoryFetchRows(MapperContext context);
+     
+     /**
+-     * Get previous config detail.
+-     * The default sql:
+-     * SELECT nid,data_id,group_id,tenant_id,app_name,content,md5,src_user,src_ip,op_type,gmt_create,gmt_modified
+-     * FROM his_config_info WHERE nid = (SELECT max(nid) FROM his_config_info WHERE id = ?)
++     * Get previous config detail. The default sql: SELECT
++     * nid,data_id,group_id,tenant_id,app_name,content,md5,src_user,src_ip,op_type,gmt_create,gmt_modified FROM
++     * his_config_info WHERE nid = (SELECT max(nid) FROM his_config_info WHERE id = ?)
+      *
+      * @param context sql paramMap
+      * @return The sql of getting previous config detail.

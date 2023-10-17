@@ -1,0 +1,26 @@
+diff --git a/modules/openapi-generator/src/test/java/org/openapitools/codegen/java/spring/SpringCodegenTest.java b/modules/openapi-generator/src/test/java/org/openapitools/codegen/java/spring/SpringCodegenTest.java
+index 872c48c..6713250 100644
+--- a/modules/openapi-generator/src/test/java/org/openapitools/codegen/java/spring/SpringCodegenTest.java
++++ b/modules/openapi-generator/src/test/java/org/openapitools/codegen/java/spring/SpringCodegenTest.java
+@@ -596,7 +596,7 @@ public class SpringCodegenTest {
+ 
+         // Check that api validates mixed multipart request
+         JavaFileAssert.assertThat(files.get("MultipartMixedApi.java"))
+-                .assertMethod("multipartMixed", "MultipartMixedStatus", "MultipartFile", "MultipartMixedRequestMarker")
++                .assertMethod("multipartMixed", "MultipartMixedStatus", "MultipartFile", "MultipartMixedRequestMarker", "List<MultipartMixedStatus>")
+                 .hasParameter("status").withType("MultipartMixedStatus")
+                 .assertParameterAnnotations()
+                 .containsWithName("Valid")
+@@ -609,7 +609,11 @@ public class SpringCodegenTest {
+                 .toParameter().toMethod()
+                 .hasParameter("marker").withType("MultipartMixedRequestMarker")
+                 .assertParameterAnnotations()
+-                .containsWithNameAndAttributes("RequestPart", ImmutableMap.of("value", "\"marker\"", "required", "false"));
++                .containsWithNameAndAttributes("RequestPart", ImmutableMap.of("value", "\"marker\"", "required", "false"))
++                .toParameter().toMethod()
++                .hasParameter("statusArray").withType("List<MultipartMixedStatus>")
++                .assertParameterAnnotations()
++                .containsWithNameAndAttributes("RequestPart", ImmutableMap.of("value", "\"statusArray\"", "required", "false"));
+     }
+ 
+     @Test

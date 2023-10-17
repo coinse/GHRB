@@ -1,0 +1,13 @@
+diff --git a/src/main/java/com/puppycrawl/tools/checkstyle/checks/coding/EqualsAvoidNullCheck.java b/src/main/java/com/puppycrawl/tools/checkstyle/checks/coding/EqualsAvoidNullCheck.java
+index a2464324c..0d01bc153 100644
+--- a/src/main/java/com/puppycrawl/tools/checkstyle/checks/coding/EqualsAvoidNullCheck.java
++++ b/src/main/java/com/puppycrawl/tools/checkstyle/checks/coding/EqualsAvoidNullCheck.java
+@@ -478,7 +478,7 @@ public class EqualsAvoidNullCheck extends AbstractCheck {
+     private boolean isStringFieldOrVariableFromThisInstance(DetailAST objCalledOn) {
+         final String name = objCalledOn.getText();
+         final DetailAST field = getObjectFrame(currentFrame).findField(name);
+-        return STRING.equals(getFieldType(field));
++        return field != null && STRING.equals(getFieldType(field));
+     }
+ 
+     /**

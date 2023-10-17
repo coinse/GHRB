@@ -1,0 +1,5 @@
+bug_id,revision.id.buggy,revision.id.fixed,report.id,report.url
+1,2c221ad9015cd82fc36b91b55904acb07546408f,2b5a31996d9ca2170cbd61b465332863b0f291d7,FasterXML_jackson-databind-3195,https://github.com/FasterXML/jackson-databind/issues/3187
+2,851172ceb14a4c3843df0dabde8a404de4e4a67a,9f68b5101542c186c61debb7222646c29d6b3c04,FasterXML_jackson-databind-3418,https://github.com/FasterXML/jackson-dataformat-xml/issues/513
+3,d8f17b9b388eb1cc6f7bd20626a45d384cb88d5a,325d129810a7ebe58549cd8940ed93cc94752c7a,FasterXML_jackson-databind-3868,https://github.com/FasterXML/jackson-databind/issues/3838
+4,17eb07afd308d8923779addc0b654db53b869587,404d64b0ccc5581da711302b0f774c605431d1ff,FasterXML_jackson-databind-3962,https://github.com/FasterXML/jackson-databind/issues/3924

@@ -1,0 +1,201 @@
+diff --git a/seata-spring-autoconfigure/seata-spring-autoconfigure-core/src/main/java/io/seata/spring/boot/autoconfigure/properties/config/ConfigApolloProperties.java b/seata-spring-autoconfigure/seata-spring-autoconfigure-core/src/main/java/io/seata/spring/boot/autoconfigure/properties/config/ConfigApolloProperties.java
+index e1a569ca..4b42e6ef 100644
+--- a/seata-spring-autoconfigure/seata-spring-autoconfigure-core/src/main/java/io/seata/spring/boot/autoconfigure/properties/config/ConfigApolloProperties.java
++++ b/seata-spring-autoconfigure/seata-spring-autoconfigure-core/src/main/java/io/seata/spring/boot/autoconfigure/properties/config/ConfigApolloProperties.java
+@@ -29,7 +29,7 @@ public class ConfigApolloProperties {
+     private String appId = "seata-server";
+     private String apolloMeta;
+     private String namespace = "application";
+-    private String apolloAccessKeySecret = "";
++    private String apolloAccessKeySecret;
+     private String apolloConfigService;
+     private String cluster;
+ 
+diff --git a/seata-spring-autoconfigure/seata-spring-autoconfigure-core/src/main/java/io/seata/spring/boot/autoconfigure/properties/config/ConfigConsulProperties.java b/seata-spring-autoconfigure/seata-spring-autoconfigure-core/src/main/java/io/seata/spring/boot/autoconfigure/properties/config/ConfigConsulProperties.java
+index effd8db1..876ac475 100644
+--- a/seata-spring-autoconfigure/seata-spring-autoconfigure-core/src/main/java/io/seata/spring/boot/autoconfigure/properties/config/ConfigConsulProperties.java
++++ b/seata-spring-autoconfigure/seata-spring-autoconfigure-core/src/main/java/io/seata/spring/boot/autoconfigure/properties/config/ConfigConsulProperties.java
+@@ -28,7 +28,7 @@ import static io.seata.spring.boot.autoconfigure.StarterConstants.CONFIG_CONSUL_
+ public class ConfigConsulProperties {
+     private String serverAddr;
+     private String key = "seata.properties";
+-    private String aclToken = "";
++    private String aclToken;
+ 
+     public String getServerAddr() {
+         return serverAddr;
+diff --git a/seata-spring-autoconfigure/seata-spring-autoconfigure-core/src/main/java/io/seata/spring/boot/autoconfigure/properties/config/ConfigCustomProperties.java b/seata-spring-autoconfigure/seata-spring-autoconfigure-core/src/main/java/io/seata/spring/boot/autoconfigure/properties/config/ConfigCustomProperties.java
+index eff9649c..915cdcf8 100644
+--- a/seata-spring-autoconfigure/seata-spring-autoconfigure-core/src/main/java/io/seata/spring/boot/autoconfigure/properties/config/ConfigCustomProperties.java
++++ b/seata-spring-autoconfigure/seata-spring-autoconfigure-core/src/main/java/io/seata/spring/boot/autoconfigure/properties/config/ConfigCustomProperties.java
+@@ -26,7 +26,7 @@ import static io.seata.spring.boot.autoconfigure.StarterConstants.CONFIG_CUSTOM_
+ @Component
+ @ConfigurationProperties(prefix = CONFIG_CUSTOM_PREFIX)
+ public class ConfigCustomProperties {
+-    private String name = "";
++    private String name;
+ 
+     public String getName() {
+         return name;
+diff --git a/seata-spring-autoconfigure/seata-spring-autoconfigure-core/src/main/java/io/seata/spring/boot/autoconfigure/properties/config/ConfigNacosProperties.java b/seata-spring-autoconfigure/seata-spring-autoconfigure-core/src/main/java/io/seata/spring/boot/autoconfigure/properties/config/ConfigNacosProperties.java
+index 5680f658..06c46252 100644
+--- a/seata-spring-autoconfigure/seata-spring-autoconfigure-core/src/main/java/io/seata/spring/boot/autoconfigure/properties/config/ConfigNacosProperties.java
++++ b/seata-spring-autoconfigure/seata-spring-autoconfigure-core/src/main/java/io/seata/spring/boot/autoconfigure/properties/config/ConfigNacosProperties.java
+@@ -27,14 +27,14 @@ import static io.seata.spring.boot.autoconfigure.StarterConstants.CONFIG_NACOS_P
+ @ConfigurationProperties(prefix = CONFIG_NACOS_PREFIX)
+ public class ConfigNacosProperties {
+     private String serverAddr;
+-    private String namespace = "";
++    private String namespace;
+     private String group = "SEATA_GROUP";
+-    private String username = "";
+-    private String password = "";
+-    private String accessKey = "";
+-    private String secretKey = "";
++    private String username;
++    private String password;
++    private String accessKey;
++    private String secretKey;
+     private String dataId = "seata.properties";
+-    private String contextPath = "";
++    private String contextPath;
+ 
+     public String getServerAddr() {
+         return serverAddr;
+diff --git a/seata-spring-autoconfigure/seata-spring-autoconfigure-core/src/main/java/io/seata/spring/boot/autoconfigure/properties/config/ConfigZooKeeperProperties.java b/seata-spring-autoconfigure/seata-spring-autoconfigure-core/src/main/java/io/seata/spring/boot/autoconfigure/properties/config/ConfigZooKeeperProperties.java
+index 12a70c0c..897f97eb 100644
+--- a/seata-spring-autoconfigure/seata-spring-autoconfigure-core/src/main/java/io/seata/spring/boot/autoconfigure/properties/config/ConfigZooKeeperProperties.java
++++ b/seata-spring-autoconfigure/seata-spring-autoconfigure-core/src/main/java/io/seata/spring/boot/autoconfigure/properties/config/ConfigZooKeeperProperties.java
+@@ -29,8 +29,8 @@ public class ConfigZooKeeperProperties {
+     private String serverAddr;
+     private long sessionTimeout = 6000L;
+     private long connectTimeout = 2000L;
+-    private String username = "";
+-    private String password = "";
++    private String username;
++    private String password;
+     private String nodePath = "/seata/seata.properties";
+ 
+     public String getServerAddr() {
+diff --git a/seata-spring-autoconfigure/seata-spring-autoconfigure-core/src/main/java/io/seata/spring/boot/autoconfigure/properties/registry/RegistryConsulProperties.java b/seata-spring-autoconfigure/seata-spring-autoconfigure-core/src/main/java/io/seata/spring/boot/autoconfigure/properties/registry/RegistryConsulProperties.java
+index a597cdf4..35ef0949 100644
+--- a/seata-spring-autoconfigure/seata-spring-autoconfigure-core/src/main/java/io/seata/spring/boot/autoconfigure/properties/registry/RegistryConsulProperties.java
++++ b/seata-spring-autoconfigure/seata-spring-autoconfigure-core/src/main/java/io/seata/spring/boot/autoconfigure/properties/registry/RegistryConsulProperties.java
+@@ -28,7 +28,7 @@ import static io.seata.spring.boot.autoconfigure.StarterConstants.REGISTRY_CONSU
+ public class RegistryConsulProperties {
+     private String cluster = "default";
+     private String serverAddr = "127.0.0.1:8500";
+-    private String aclToken = "";
++    private String aclToken;
+ 
+     public String getCluster() {
+         return cluster;
+diff --git a/seata-spring-autoconfigure/seata-spring-autoconfigure-core/src/main/java/io/seata/spring/boot/autoconfigure/properties/registry/RegistryCustomProperties.java b/seata-spring-autoconfigure/seata-spring-autoconfigure-core/src/main/java/io/seata/spring/boot/autoconfigure/properties/registry/RegistryCustomProperties.java
+index 4f503a80..a9d9182b 100644
+--- a/seata-spring-autoconfigure/seata-spring-autoconfigure-core/src/main/java/io/seata/spring/boot/autoconfigure/properties/registry/RegistryCustomProperties.java
++++ b/seata-spring-autoconfigure/seata-spring-autoconfigure-core/src/main/java/io/seata/spring/boot/autoconfigure/properties/registry/RegistryCustomProperties.java
+@@ -26,7 +26,7 @@ import static io.seata.spring.boot.autoconfigure.StarterConstants.REGISTRY_CUSTO
+ @Component
+ @ConfigurationProperties(prefix = REGISTRY_CUSTOM_PREFIX)
+ public class RegistryCustomProperties {
+-    private String name = "";
++    private String name;
+ 
+     public String getName() {
+         return name;
+diff --git a/seata-spring-autoconfigure/seata-spring-autoconfigure-core/src/main/java/io/seata/spring/boot/autoconfigure/properties/registry/RegistryNacosProperties.java b/seata-spring-autoconfigure/seata-spring-autoconfigure-core/src/main/java/io/seata/spring/boot/autoconfigure/properties/registry/RegistryNacosProperties.java
+index aec1910d..1d881b7f 100644
+--- a/seata-spring-autoconfigure/seata-spring-autoconfigure-core/src/main/java/io/seata/spring/boot/autoconfigure/properties/registry/RegistryNacosProperties.java
++++ b/seata-spring-autoconfigure/seata-spring-autoconfigure-core/src/main/java/io/seata/spring/boot/autoconfigure/properties/registry/RegistryNacosProperties.java
+@@ -27,16 +27,16 @@ import static io.seata.spring.boot.autoconfigure.StarterConstants.REGISTRY_NACOS
+ @ConfigurationProperties(prefix = REGISTRY_NACOS_PREFIX)
+ public class RegistryNacosProperties {
+     private String serverAddr = "localhost:8848";
+-    private String namespace = "";
++    private String namespace;
+     private String group = "SEATA_GROUP";
+     private String cluster = "default";
+-    private String username = "";
+-    private String password = "";
+-    private String accessKey = "";
+-    private String secretKey = "";
++    private String username;
++    private String password;
++    private String accessKey;
++    private String secretKey;
+     private String application = "seata-server";
+-    private String slbPattern = "";
+-    private String contextPath = "";
++    private String slbPattern;
++    private String contextPath;
+ 
+     public String getServerAddr() {
+         return serverAddr;
+diff --git a/seata-spring-autoconfigure/seata-spring-autoconfigure-core/src/main/java/io/seata/spring/boot/autoconfigure/properties/registry/RegistryRedisProperties.java b/seata-spring-autoconfigure/seata-spring-autoconfigure-core/src/main/java/io/seata/spring/boot/autoconfigure/properties/registry/RegistryRedisProperties.java
+index 03cacad8..33f4ad78 100644
+--- a/seata-spring-autoconfigure/seata-spring-autoconfigure-core/src/main/java/io/seata/spring/boot/autoconfigure/properties/registry/RegistryRedisProperties.java
++++ b/seata-spring-autoconfigure/seata-spring-autoconfigure-core/src/main/java/io/seata/spring/boot/autoconfigure/properties/registry/RegistryRedisProperties.java
+@@ -28,7 +28,7 @@ import static io.seata.spring.boot.autoconfigure.StarterConstants.REGISTRY_REDIS
+ public class RegistryRedisProperties {
+     private String serverAddr = "localhost:6379";
+     private int db = 0;
+-    private String password = "";
++    private String password;
+     private String cluster = "default";
+     private int timeout = 0;
+ 
+diff --git a/seata-spring-autoconfigure/seata-spring-autoconfigure-core/src/main/java/io/seata/spring/boot/autoconfigure/properties/registry/RegistryZooKeeperProperties.java b/seata-spring-autoconfigure/seata-spring-autoconfigure-core/src/main/java/io/seata/spring/boot/autoconfigure/properties/registry/RegistryZooKeeperProperties.java
+index b96d2587..dcb0c407 100644
+--- a/seata-spring-autoconfigure/seata-spring-autoconfigure-core/src/main/java/io/seata/spring/boot/autoconfigure/properties/registry/RegistryZooKeeperProperties.java
++++ b/seata-spring-autoconfigure/seata-spring-autoconfigure-core/src/main/java/io/seata/spring/boot/autoconfigure/properties/registry/RegistryZooKeeperProperties.java
+@@ -30,8 +30,8 @@ public class RegistryZooKeeperProperties {
+     private String serverAddr = "127.0.0.1:2181";
+     private long sessionTimeout = 6000L;
+     private long connectTimeout = 2000L;
+-    private String username = "";
+-    private String password = "";
++    private String username;
++    private String password;
+ 
+     public String getCluster() {
+         return cluster;
+diff --git a/seata-spring-autoconfigure/seata-spring-autoconfigure-server/src/main/java/io/seata/spring/boot/autoconfigure/properties/server/store/StoreProperties.java b/seata-spring-autoconfigure/seata-spring-autoconfigure-server/src/main/java/io/seata/spring/boot/autoconfigure/properties/server/store/StoreProperties.java
+index 11de509c..19000a12 100644
+--- a/seata-spring-autoconfigure/seata-spring-autoconfigure-server/src/main/java/io/seata/spring/boot/autoconfigure/properties/server/store/StoreProperties.java
++++ b/seata-spring-autoconfigure/seata-spring-autoconfigure-server/src/main/java/io/seata/spring/boot/autoconfigure/properties/server/store/StoreProperties.java
+@@ -33,7 +33,7 @@ public class StoreProperties {
+      */
+     private String mode = "file";
+ 
+-    private String publicKey = "";
++    private String publicKey;
+ 
+     public String getMode() {
+         return mode;
+diff --git a/seata-spring-autoconfigure/seata-spring-autoconfigure-server/src/main/java/io/seata/spring/boot/autoconfigure/properties/server/store/StoreRedisProperties.java b/seata-spring-autoconfigure/seata-spring-autoconfigure-server/src/main/java/io/seata/spring/boot/autoconfigure/properties/server/store/StoreRedisProperties.java
+index d7d28e11..d695699a 100644
+--- a/seata-spring-autoconfigure/seata-spring-autoconfigure-server/src/main/java/io/seata/spring/boot/autoconfigure/properties/server/store/StoreRedisProperties.java
++++ b/seata-spring-autoconfigure/seata-spring-autoconfigure-server/src/main/java/io/seata/spring/boot/autoconfigure/properties/server/store/StoreRedisProperties.java
+@@ -32,7 +32,7 @@ public class StoreRedisProperties {
+      * single, sentinel
+      */
+     private String mode = "single";
+-    private String password = null;
++    private String password;
+     private Integer maxConn = 10;
+     private Integer minConn = 1;
+     private Integer database = 0;
+@@ -133,11 +133,11 @@ public class StoreRedisProperties {
+     @Component
+     @ConfigurationProperties(prefix = STORE_REDIS_SENTINEL_PREFIX)
+     public static class Sentinel {
+-        private String masterName = "";
++        private String masterName;
+         /**
+          * such as "10.28.235.65:26379,10.28.235.65:26380,10.28.235.65:26381"
+          */
+-        private String sentinelHosts = "";
++        private String sentinelHosts;
+ 
+         public String getMasterName() {
+             return masterName;

@@ -1,0 +1,45 @@
+diff --git a/javaparser-core/src/main/java/com/github/javaparser/printer/lexicalpreservation/Difference.java b/javaparser-core/src/main/java/com/github/javaparser/printer/lexicalpreservation/Difference.java
+index 5fae55002..de373e3f8 100644
+--- a/javaparser-core/src/main/java/com/github/javaparser/printer/lexicalpreservation/Difference.java
++++ b/javaparser-core/src/main/java/com/github/javaparser/printer/lexicalpreservation/Difference.java
+@@ -419,6 +419,10 @@ public class Difference {
+             diffIndex++;
+         } else if (originalElementIsToken && originalElement.isWhiteSpaceOrComment()) {
+             originalIndex++;
++            // skip the newline token which may be generated unnecessarily by the concrete syntax pattern
++            if (removed.isNewLine()) { 
++            	diffIndex++;
++            }
+         } else if (originalElement.isLiteral()) {
+             nodeText.removeElement(originalIndex);
+             diffIndex++;
+@@ -464,6 +468,11 @@ public class Difference {
+                         nodeText.removeElement(originalIndex - 1);
+                         originalIndex--;
+                     }
++                    // Remove remaining newline character if needed
++                    if (nodeText.getTextElement(originalIndex).isNewline()) {
++                    	nodeText.removeElement(originalIndex);
++                    	originalIndex = originalIndex > 0 ? originalIndex-- : 0;
++                    }
+                 }
+             }
+             // Mark RemovedGroup as processed
+diff --git a/javaparser-core/src/main/java/com/github/javaparser/printer/lexicalpreservation/DifferenceElementCalculator.java b/javaparser-core/src/main/java/com/github/javaparser/printer/lexicalpreservation/DifferenceElementCalculator.java
+index 099e5403d..a06369c77 100644
+--- a/javaparser-core/src/main/java/com/github/javaparser/printer/lexicalpreservation/DifferenceElementCalculator.java
++++ b/javaparser-core/src/main/java/com/github/javaparser/printer/lexicalpreservation/DifferenceElementCalculator.java
+@@ -52,7 +52,12 @@ class DifferenceElementCalculator {
+             // verify that the node content and the position are equal
+             // because we can have nodes with the same content but in different lines
+             // in this case we consider that nodes are not equals
+-            return this.node.equals(cpi.node) && this.node.hasRange() && cpi.node.hasRange() && this.node.getRange().get().contains(cpi.node.getRange().get());
++            // If the nodes have no declared position they are considered equal.
++            return this.node.equals(cpi.node) 
++            		&& (this.node.hasRange() == false && cpi.node.hasRange() == false
++            			||	(this.node.hasRange() && cpi.node.hasRange() && this.node.getRange().get().contains(cpi.node.getRange().get())
++            			)
++            		);
+         }
+ 
+         @Override

@@ -1,0 +1,41 @@
+diff --git a/proxy/src/test/java/org/apache/rocketmq/proxy/grpc/v2/route/RouteActivityTest.java b/proxy/src/test/java/org/apache/rocketmq/proxy/grpc/v2/route/RouteActivityTest.java
+index 30ff1c1..ce98b74 100644
+--- a/proxy/src/test/java/org/apache/rocketmq/proxy/grpc/v2/route/RouteActivityTest.java
++++ b/proxy/src/test/java/org/apache/rocketmq/proxy/grpc/v2/route/RouteActivityTest.java
+@@ -44,6 +44,7 @@ import org.apache.rocketmq.proxy.service.metadata.MetadataService;
+ import org.apache.rocketmq.proxy.service.route.ProxyTopicRouteData;
+ import org.apache.rocketmq.remoting.protocol.ResponseCode;
+ import org.apache.rocketmq.remoting.protocol.route.QueueData;
++import org.apache.rocketmq.remoting.protocol.subscription.SubscriptionGroupConfig;
+ import org.junit.Before;
+ import org.junit.Test;
+ import org.mockito.ArgumentCaptor;
+@@ -191,6 +192,28 @@ public class RouteActivityTest extends BaseActivityTest {
+         assertEquals(grpcEndpoints, response.getAssignments(0).getMessageQueue().getBroker().getEndpoints());
+     }
+ 
++    @Test
++    public void testQueryFifoAssignment() throws Throwable {
++        when(this.messagingProcessor.getTopicRouteDataForProxy(any(), any(), anyString()))
++            .thenReturn(createProxyTopicRouteData(2, 2, 6));
++        SubscriptionGroupConfig subscriptionGroupConfig = new SubscriptionGroupConfig();
++        subscriptionGroupConfig.setConsumeMessageOrderly(true);
++        when(this.messagingProcessor.getSubscriptionGroupConfig(any(), anyString())).thenReturn(subscriptionGroupConfig);
++
++        QueryAssignmentResponse response = this.routeActivity.queryAssignment(
++            createContext(),
++            QueryAssignmentRequest.newBuilder()
++                .setEndpoints(grpcEndpoints)
++                .setTopic(GRPC_TOPIC)
++                .setGroup(GRPC_GROUP)
++                .build()
++        ).get();
++
++        assertEquals(Code.OK, response.getStatus().getCode());
++        assertEquals(2, response.getAssignmentsCount());
++        assertEquals(grpcEndpoints, response.getAssignments(0).getMessageQueue().getBroker().getEndpoints());
++    }
++
+     private static ProxyTopicRouteData createProxyTopicRouteData(int r, int w, int p) {
+         ProxyTopicRouteData proxyTopicRouteData = new ProxyTopicRouteData();
+         proxyTopicRouteData.getQueueDatas().add(createQueueData(r, w, p));

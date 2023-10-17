@@ -1,0 +1,6 @@
+bug_id,revision.id.buggy,revision.id.fixed,report.id,report.url
+1,028075138c7f8fef66c0f5bdd476bafdcc99a2c5,2e9c09d3678b45cbca576cda87262db008fc54e3,alibaba_nacos-8202,https://github.com/alibaba/nacos/issues/8163
+2,44538d131335f720f27cbd7fd036e4d8858321a1,40651f650fcc738daea327652d752ddef5554e53,alibaba_nacos-9024,https://github.com/alibaba/nacos/issues/9023
+3,cdb11448ac09b2a4f83efb96b971e88ee717657c,b8bd1cb90d3722d91c8f9cd830e7ebd289258fc7,alibaba_nacos-9080,https://github.com/alibaba/nacos/issues/9079
+4,af22d35d6f5bd15d0a5a9f3cbfeed7c820566388,f272c36df70b749b67d34519d7f295e4cdc80446,alibaba_nacos-9239,https://github.com/alibaba/nacos/issues/9210
+5,c7a20bd13217bb795e5848293ebece1f196a6f62,a83e2cc5425641177c804a6a4ab61d931e932d31,alibaba_nacos-10755,https://github.com/alibaba/nacos/issues/10769

@@ -1,0 +1,21 @@
+diff --git a/src/test/java/com/puppycrawl/tools/checkstyle/checks/coding/EqualsAvoidNullCheckTest.java b/src/test/java/com/puppycrawl/tools/checkstyle/checks/coding/EqualsAvoidNullCheckTest.java
+index 3c5a64e..f00d986 100644
+--- a/src/test/java/com/puppycrawl/tools/checkstyle/checks/coding/EqualsAvoidNullCheckTest.java
++++ b/src/test/java/com/puppycrawl/tools/checkstyle/checks/coding/EqualsAvoidNullCheckTest.java
+@@ -179,6 +179,16 @@ public class EqualsAvoidNullCheckTest extends AbstractModuleTestSupport {
+     }
+ 
+     @Test
++    public void testEqualsSuperClass() throws Exception {
++
++        final String[] expected = {
++            "23:35: " + getCheckMessage(MSG_EQUALS_AVOID_NULL),
++        };
++        verifyWithInlineConfigParser(
++                getPath("InputEqualsAvoidNullSuperClass.java"), expected);
++    }
++
++    @Test
+     public void testInputEqualsAvoidNullEnhancedInstanceof() throws Exception {
+ 
+         final String[] expected = {

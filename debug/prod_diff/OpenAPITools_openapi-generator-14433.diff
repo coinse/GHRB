@@ -1,0 +1,26 @@
+diff --git a/modules/openapi-generator/src/main/java/org/openapitools/codegen/DefaultGenerator.java b/modules/openapi-generator/src/main/java/org/openapitools/codegen/DefaultGenerator.java
+index e13a7809676..9646e555663 100644
+--- a/modules/openapi-generator/src/main/java/org/openapitools/codegen/DefaultGenerator.java
++++ b/modules/openapi-generator/src/main/java/org/openapitools/codegen/DefaultGenerator.java
+@@ -727,14 +727,17 @@ public class DefaultGenerator implements Generator {
+                     outputFolder += File.separator + support.getFolder();
+                 }
+                 File of = new File(outputFolder);
++                String outputFilename = new File(support.getDestinationFilename()).isAbsolute() // split
++                        ? support.getDestinationFilename()
++                        : outputFolder + File.separator + support.getDestinationFilename().replace('/', File.separatorChar);
++
+                 if (!of.isDirectory()) {
+-                    if (!dryRun && !of.mkdirs()) {
++                    // check that its not a dryrun and the files in the directory aren't ignored before we make the directory
++                    if (!dryRun && ignoreProcessor.allowsFile(new File(outputFilename)) && !of.mkdirs()) {
+                         once(LOGGER).debug("Output directory {} not created. It {}.", outputFolder, of.exists() ? "already exists." : "may not have appropriate permissions.");
+                     }
+                 }
+-                String outputFilename = new File(support.getDestinationFilename()).isAbsolute() // split
+-                        ? support.getDestinationFilename()
+-                        : outputFolder + File.separator + support.getDestinationFilename().replace('/', File.separatorChar);
++
+ 
+                 boolean shouldGenerate = true;
+                 if (supportingFilesToGenerate != null && !supportingFilesToGenerate.isEmpty()) {

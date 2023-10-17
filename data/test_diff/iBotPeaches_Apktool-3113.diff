@@ -1,0 +1,13 @@
+diff --git a/brut.apktool/apktool-lib/src/test/java/brut/androlib/androlib/InvalidSdkBoundingTest.java b/brut.apktool/apktool-lib/src/test/java/brut/androlib/androlib/InvalidSdkBoundingTest.java
+index 345ada3..5cd1574 100644
+--- a/brut.apktool/apktool-lib/src/test/java/brut/androlib/androlib/InvalidSdkBoundingTest.java
++++ b/brut.apktool/apktool-lib/src/test/java/brut/androlib/androlib/InvalidSdkBoundingTest.java
+@@ -101,7 +101,7 @@ public class InvalidSdkBoundingTest extends BaseTest {
+         AndrolibResources androlibResources = new AndrolibResources();
+ 
+         Map<String, String> sdkInfo = new LinkedHashMap<>();
+-        sdkInfo.put("targetSdkVersion", "T");
++        sdkInfo.put("targetSdkVersion", "VANILLAICECREAM");
+ 
+         androlibResources.setSdkInfo(sdkInfo);
+         assertEquals("10000", androlibResources.checkTargetSdkVersionBounds());

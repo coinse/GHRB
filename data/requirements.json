@@ -1,0 +1,160 @@
+{
+    "jackson-dataformat-xml": {
+        "build": "maven",
+        "wrapper": false,
+        "version": "3.8.6",
+        "jdk": "17",
+        "extra": {
+
+        }
+    },
+    "checkstyle": {
+        "build": "maven",
+        "wrapper": false,
+        "version": "3.8.6",
+        "jdk": "17",
+        "extra": {
+
+        }
+    },
+    "jackson-core": {
+        "build": "maven",
+        "wrapper": false,
+        "version": "3.8.6",
+        "jdk": "17",
+        "extra": {
+
+        }
+    },
+    "dubbo": {
+        "build": "maven",
+        "wrapper": false,
+        "version": "3.8.6",
+        "jdk": "8",
+        "extra": {
+
+        }
+    },
+    "jackson-databind": {
+        "build": "maven",
+        "wrapper": false,
+        "version": "3.8.6",
+        "jdk": "17",
+        "extra": {
+
+        }
+    },
+    "seata": {
+        "build": "maven",
+        "wrapper": false,
+        "version": "3.8.6",
+        "jdk": "11",
+        "extra": {
+
+        }
+    },
+    "jsoup": {
+        "build": "maven",
+        "wrapper": false,
+        "version": "3.8.6",
+        "jdk": "17",
+        "extra": {
+
+        }
+    },
+    "gson": {
+        "build": "maven",
+        "wrapper": false,
+        "version": "3.8.6",
+        "jdk": "11",
+        "extra": {
+
+        }
+    },
+    "nacos": {
+        "build": "maven",
+        "wrapper": false,
+        "version": "3.8.6",
+        "jdk": "8",
+        "extra": {
+
+        }
+    },
+    "fastjson": {
+        "build": "maven",
+        "wrapper": false,
+        "version": "3.8.6",
+        "jdk": "8",
+        "extra": {
+
+        }
+    },
+    "assertj": {
+        "build": "maven",
+        "wrapper": false,
+        "version": "3.8.6",
+        "jdk": "17",
+        "extra": {
+
+        }
+    },
+    "sslcontext-kickstart": {
+        "build": "maven",
+        "wrapper": false,
+        "version": "3.8.6",
+        "jdk": "17",
+        "extra": {
+            "command": "-Dsurefire.failIfNoSpecifiedTests=false"
+        }
+    },
+    "rocketmq": {
+        "build": "maven",
+        "wrapper": false,
+        "version": "3.8.1",
+        "jdk": "8",
+        "extra": {
+            "command": "-Dargline='-Xmx1024m' -Dcheckstyle.skip"
+        }
+    },
+    "openapi-generator": {
+        "build": "maven",
+        "wrapper": true,
+        "jdk": "11",
+        "extra": {
+            "command": "-Dsurefire.failIfNoSpecifiedTests=false"
+        }
+    },
+    "apache_shardingsphere": {
+        "build": "maven",
+        "wrapper": true,
+        "jdk": "11",
+        "extra": {
+            "command": "-T1C -Denforcer.skip=true -Djacoco.skip=true -Dcheckstyle.skip=true -Dmaven.javadoc.skip=true -Dargline='-Xmx1024m'"
+        }
+    },
+    "Apktool": {
+        "build": "gradle",
+        "wrapper": true,
+        "jdk": "17",
+        "extra": {
+
+        }
+    },
+    "retrofit": {
+        "build": "gradle",
+        "wrapper": true,
+        "jdk": "17",
+        "extra": {
+            "command": ":retrofit:test"
+
+        }
+    },
+    "javaparser": {
+        "build": "maven",
+        "wrapper": true,
+        "jdk": "11",
+        "extra": {
+            "command": "-DskipTests=javaparser-core,javaparser-core-testing,javaparser-core-testing-bdd"
+        }
+    }
+  }

@@ -1,0 +1,95 @@
+{
+  "FasterXML_jackson-core-883": {
+    "bug_id": "FasterXML_jackson-core-883",
+    "PR_number": 883,
+    "PR_createdAt": "2022-12-29T13:55:28Z",
+    "merge_commit": "9fd899d449eb57edc3cf6bb9a36582ee1e940f30",
+    "buggy_commits": [
+      {
+        "oid": "7910a8b9bfe9ce921a258a7b4c136631c21867cf",
+        "message": "Update release notes wrt #886"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/FasterXML/jackson-core/issues/882",
+      "createdAt": "2022-12-29T13:50:45Z",
+      "content": "bug_report_all/FasterXML_jackson-core-883.json"
+    },
+    "changed_tests": [
+      "src/test/java/com/fasterxml/jackson/core/filter/BasicParserFilteringTest.java"
+    ],
+    "PR_url": "https://github.com/FasterXML/jackson-core/pull/883",
+    "merge_commit_url": "https://github.com/FasterXML/jackson-core/commit/9fd899d449eb57edc3cf6bb9a36582ee1e940f30",
+    "buggy_commit": "7910a8b9bfe9ce921a258a7b4c136631c21867cf",
+    "execution_result": {
+      "valid_tests": [
+        ".com.fasterxml.jackson.core.filter.BasicParserFilteringTest"
+      ],
+      "success_tests": [
+        ".com.fasterxml.jackson.core.filter.BasicParserFilteringTest"
+      ]
+    }
+  },
+  "FasterXML_jackson-core-923": {
+    "bug_id": "FasterXML_jackson-core-923",
+    "PR_number": 923,
+    "PR_createdAt": "2023-02-20T10:05:54Z",
+    "merge_commit": "df8e14e9e05902c5d0a24fe1d25cbef47c2d63aa",
+    "buggy_commits": [
+      {
+        "oid": "4619d7b7483a1ca495d8dbd7e132d11e6bee2380",
+        "message": "Update release notes wrt #921"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/FasterXML/jackson-dataformats-text/issues/384",
+      "createdAt": "2023-02-14T19:23:36Z",
+      "content": "bug_report_all/FasterXML_jackson-core-923.json"
+    },
+    "changed_tests": [
+      "src/test/java/com/fasterxml/jackson/core/util/ReadConstrainedTextBufferTest.java"
+    ],
+    "PR_url": "https://github.com/FasterXML/jackson-core/pull/923",
+    "merge_commit_url": "https://github.com/FasterXML/jackson-core/commit/df8e14e9e05902c5d0a24fe1d25cbef47c2d63aa",
+    "buggy_commit": "4619d7b7483a1ca495d8dbd7e132d11e6bee2380",
+    "execution_result": {
+      "valid_tests": [
+        ".com.fasterxml.jackson.core.util.ReadConstrainedTextBufferTest"
+      ],
+      "success_tests": [
+        ".com.fasterxml.jackson.core.util.ReadConstrainedTextBufferTest"
+      ]
+    }
+  },
+  "FasterXML_jackson-core-1053": {
+    "bug_id": "FasterXML_jackson-core-1053",
+    "PR_number": 1053,
+    "PR_createdAt": "2023-06-16T21:07:19Z",
+    "merge_commit": "cd513f4bbabe384b860f21419df5dc33de0379df",
+    "buggy_commits": [
+      {
+        "oid": "bb778a0a4d6d492ca0a39d7d0e32b6e44e90e7aa",
+        "message": "Minor clean up post #1042 (root separator field not deprecated)"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/FasterXML/jackson-core/issues/1050",
+      "createdAt": "2023-06-14T15:08:41Z",
+      "content": "bug_report_all/FasterXML_jackson-core-1053.json"
+    },
+    "changed_tests": [
+      "src/test/java/com/fasterxml/jackson/core/VersionTest.java"
+    ],
+    "PR_url": "https://github.com/FasterXML/jackson-core/pull/1053",
+    "merge_commit_url": "https://github.com/FasterXML/jackson-core/commit/cd513f4bbabe384b860f21419df5dc33de0379df",
+    "buggy_commit": "bb778a0a4d6d492ca0a39d7d0e32b6e44e90e7aa",
+    "execution_result": {
+      "valid_tests": [
+        ".com.fasterxml.jackson.core.VersionTest"
+      ],
+      "success_tests": [
+        ".com.fasterxml.jackson.core.VersionTest"
+      ]
+    }
+  }
+}

@@ -1,0 +1,1164 @@
+{
+  "javaparser_javaparser-3312": {
+    "bug_id": "javaparser_javaparser-3312",
+    "PR_number": 3312,
+    "PR_createdAt": "2021-07-11T19:47:24Z",
+    "merge_commit": "d97ec44b5d6b96e1c7bcec93b8553a4e9dd21b1f",
+    "buggy_commits": [
+      {
+        "oid": "4dee93b032aecb2ece79b24fe58efdb4fc8e2699",
+        "message": "Merge pull request #3221 from matozoid/issue_3219\n\nFix Javadoc comment * escaping problem."
+      },
+      {
+        "oid": "36192d316e22c7e93effbec0531ac1c29164a6df",
+        "message": "changed pre-existing tests to reflect that an `UnsolvedSymbolException` is now thrown, not an `IllegalStateException`"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/javaparser/javaparser/issues/3308",
+      "createdAt": "2021-06-22T09:02:41Z",
+      "content": "bug_report_all/javaparser_javaparser-3312.json"
+    },
+    "changed_tests": [
+      "javaparser-symbol-solver-testing/src/test/java/com/github/javaparser/symbolsolver/Issue3308Test.java",
+      "javaparser-symbol-solver-testing/src/test/java/com/github/javaparser/symbolsolver/Issue343Test.java"
+    ],
+    "PR_url": "https://github.com/javaparser/javaparser/pull/3312",
+    "merge_commit_url": "https://github.com/javaparser/javaparser/commit/d97ec44b5d6b96e1c7bcec93b8553a4e9dd21b1f",
+    "buggy_commit": "4dee93b032aecb2ece79b24fe58efdb4fc8e2699",
+    "execution_result": {
+      "valid_tests": [
+        ".com.github.javaparser.symbolsolver.Issue343Test.java",
+        ".com.github.javaparser.symbolsolver.Issue3308Test.java"
+      ],
+      "success_tests": [
+        ".com.github.javaparser.symbolsolver.Issue343Test.java",
+        ".com.github.javaparser.symbolsolver.Issue3308Test.java"
+      ]
+    }
+  },
+  "javaparser_javaparser-3316": {
+    "bug_id": "javaparser_javaparser-3316",
+    "PR_number": 3316,
+    "PR_createdAt": "2021-07-15T14:14:45Z",
+    "merge_commit": "324875703e11933484c0ab33828fb0fac059eed7",
+    "buggy_commits": [
+      {
+        "oid": "a662417acb04040c2c7ee0492cd6e62ee01a64c8",
+        "message": "Merge pull request #3315 from jlerbsc/demandParentNode\n\nImproving toString on cms classes"
+      },
+      {
+        "oid": "ee4200e8a2c87e2047372bab59a374a041aa428a",
+        "message": "Merge branch 'master' into demandParentNode"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/javaparser/javaparser/issues/3296",
+      "createdAt": "2021-06-15T20:52:14Z",
+      "content": "bug_report_all/javaparser_javaparser-3316.json"
+    },
+    "changed_tests": [
+      "javaparser-core-testing/src/test/java/com/github/javaparser/printer/lexicalpreservation/Issue3296Test.java"
+    ],
+    "PR_url": "https://github.com/javaparser/javaparser/pull/3316",
+    "merge_commit_url": "https://github.com/javaparser/javaparser/commit/324875703e11933484c0ab33828fb0fac059eed7",
+    "buggy_commit": "a662417acb04040c2c7ee0492cd6e62ee01a64c8",
+    "execution_result": {
+      "valid_tests": [
+        ".com.github.javaparser.printer.lexicalpreservation.Issue3296Test.java"
+      ],
+      "success_tests": [
+        ".com.github.javaparser.printer.lexicalpreservation.Issue3296Test.java"
+      ]
+    }
+  },
+  "javaparser_javaparser-3318": {
+    "bug_id": "javaparser_javaparser-3318",
+    "PR_number": 3318,
+    "PR_createdAt": "2021-07-19T13:32:28Z",
+    "merge_commit": "5edf7f789a5c9756c70cdd63d2018c2d7ec0f374",
+    "buggy_commits": [
+      {
+        "oid": "324875703e11933484c0ab33828fb0fac059eed7",
+        "message": "Merge pull request #3316 from jlerbsc/demandParentNode\n\nFix issue 3296 LexicalPreservation bug for array brackets"
+      },
+      {
+        "oid": "314293422fd674e504f417fe6cf720238f123641",
+        "message": "Fix issue in unit tests by disabling comments on parser configuration"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/javaparser/javaparser/issues/3317",
+      "createdAt": "2021-07-18T16:59:33Z",
+      "content": "bug_report_all/javaparser_javaparser-3318.json"
+    },
+    "changed_tests": [
+      "javaparser-core-testing/src/test/java/com/github/javaparser/printer/DefaultPrettyPrinterTest.java",
+      "javaparser-core-testing/src/test/java/com/github/javaparser/printer/lexicalpreservation/Issue3296Test.java",
+      "javaparser-symbol-solver-testing/src/test/java/com/github/javaparser/symbolsolver/resolution/AnalyseJavaSymbolSolver060Test.java"
+    ],
+    "PR_url": "https://github.com/javaparser/javaparser/pull/3318",
+    "merge_commit_url": "https://github.com/javaparser/javaparser/commit/5edf7f789a5c9756c70cdd63d2018c2d7ec0f374",
+    "buggy_commit": "324875703e11933484c0ab33828fb0fac059eed7",
+    "execution_result": {
+      "valid_tests": [
+        ".com.github.javaparser.printer.DefaultPrettyPrinterTest.java",
+        ".com.github.javaparser.printer.lexicalpreservation.Issue3296Test.java"
+      ],
+      "success_tests": [
+        ".com.github.javaparser.printer.DefaultPrettyPrinterTest.java",
+        ".com.github.javaparser.printer.lexicalpreservation.Issue3296Test.java"
+      ]
+    }
+  },
+  "javaparser_javaparser-3362": {
+    "bug_id": "javaparser_javaparser-3362",
+    "PR_number": 3362,
+    "PR_createdAt": "2021-09-02T09:14:06Z",
+    "merge_commit": "f1f6bafb7016412857ed648ff84b9b477c2f9337",
+    "buggy_commits": [
+      {
+        "oid": "87845665a927b3427808c5fe98a5c724317fa1e9",
+        "message": "chore(deps): update dependency org.apache.maven.plugins:maven-javadoc-plugin to v3.3.1"
+      },
+      {
+        "oid": "72219761cc2825ff1879384ca2c4cbf826173e98",
+        "message": "Merge branch 'master' into add-record-test"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/javaparser/javaparser/issues/3366",
+      "createdAt": "2021-09-02T17:05:36Z",
+      "content": "bug_report_all/javaparser_javaparser-3362.json"
+    },
+    "changed_tests": [
+      "javaparser-core-testing/src/test/java/com/github/javaparser/ast/body/RecordDeclarationTest.java",
+      "javaparser-core-testing/src/test/java/com/github/javaparser/ast/validator/Java14PreviewValidatorTest.java",
+      "javaparser-core-testing/src/test/java/com/github/javaparser/ast/validator/Java15PreviewValidatorTest.java",
+      "javaparser-core-testing/src/test/java/com/github/javaparser/ast/validator/Java16ValidatorTest.java",
+      "javaparser-core-testing/src/test/java/com/github/javaparser/issues/Issue3255Test.java"
+    ],
+    "PR_url": "https://github.com/javaparser/javaparser/pull/3362",
+    "merge_commit_url": "https://github.com/javaparser/javaparser/commit/f1f6bafb7016412857ed648ff84b9b477c2f9337",
+    "buggy_commit": "87845665a927b3427808c5fe98a5c724317fa1e9",
+    "execution_result": {
+      "valid_tests": [
+        ".com.github.javaparser.ast.body.RecordDeclarationTest.java",
+        ".com.github.javaparser.ast.validator.Java14PreviewValidatorTest.java",
+        ".com.github.javaparser.ast.validator.Java15PreviewValidatorTest.java",
+        ".com.github.javaparser.ast.validator.Java16ValidatorTest.java",
+        ".com.github.javaparser.issues.Issue3255Test.java"
+      ],
+      "success_tests": [
+        ".com.github.javaparser.ast.body.RecordDeclarationTest.java",
+        ".com.github.javaparser.ast.validator.Java14PreviewValidatorTest.java",
+        ".com.github.javaparser.ast.validator.Java15PreviewValidatorTest.java",
+        ".com.github.javaparser.ast.validator.Java16ValidatorTest.java",
+        ".com.github.javaparser.issues.Issue3255Test.java"
+      ]
+    }
+  },
+  "javaparser_javaparser-3392": {
+    "bug_id": "javaparser_javaparser-3392",
+    "PR_number": 3392,
+    "PR_createdAt": "2021-10-05T11:26:39Z",
+    "merge_commit": "8cf73af93a163e3864ce701700326504dcec18b7",
+    "buggy_commits": [
+      {
+        "oid": "1eeae2c9a04f9d5581cc2b492b8930f512f7b0b3",
+        "message": "Merge pull request #3389 from javaparser/renovate/biz.aqute.bnd-bnd-maven-plugin-6.x\n\nchore(deps): update dependency biz.aqute.bnd:bnd-maven-plugin to v6"
+      },
+      {
+        "oid": "13b29f819069b05180e6018c3ff4148ffa416274",
+        "message": "Merge branch 'master' into master"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/javaparser/javaparser/issues/3387",
+      "createdAt": "2021-09-30T08:57:49Z",
+      "content": "bug_report_all/javaparser_javaparser-3392.json"
+    },
+    "changed_tests": [
+      "javaparser-core-testing/src/test/java/com/github/javaparser/printer/lexicalpreservation/Issue3387Test.java"
+    ],
+    "PR_url": "https://github.com/javaparser/javaparser/pull/3392",
+    "merge_commit_url": "https://github.com/javaparser/javaparser/commit/8cf73af93a163e3864ce701700326504dcec18b7",
+    "buggy_commit": "1eeae2c9a04f9d5581cc2b492b8930f512f7b0b3",
+    "execution_result": {
+      "valid_tests": [
+        ".com.github.javaparser.printer.lexicalpreservation.Issue3387Test.java"
+      ],
+      "success_tests": [
+        ".com.github.javaparser.printer.lexicalpreservation.Issue3387Test.java"
+      ]
+    }
+  },
+  "javaparser_javaparser-3397": {
+    "bug_id": "javaparser_javaparser-3397",
+    "PR_number": 3397,
+    "PR_createdAt": "2021-10-25T08:25:48Z",
+    "merge_commit": "f04904808d61b8cf2756d39bed9f788d9190fb87",
+    "buggy_commits": [
+      {
+        "oid": "ede3355d4c94131b765a5e30d75d4f73f63c3614",
+        "message": "Update changelog.md"
+      },
+      {
+        "oid": "078514a55b089149886c7ab8db1f38471d62e2f8",
+        "message": "Fix issue 2259 Type resolution issue when type of formal parameter is Object"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/javaparser/javaparser/issues/2259",
+      "createdAt": "2019-06-06T20:15:01Z",
+      "content": "bug_report_all/javaparser_javaparser-3397.json"
+    },
+    "changed_tests": [
+      "javaparser-symbol-solver-testing/src/test/java/com/github/javaparser/symbolsolver/Issue2259Test.java"
+    ],
+    "PR_url": "https://github.com/javaparser/javaparser/pull/3397",
+    "merge_commit_url": "https://github.com/javaparser/javaparser/commit/f04904808d61b8cf2756d39bed9f788d9190fb87",
+    "buggy_commit": "ede3355d4c94131b765a5e30d75d4f73f63c3614",
+    "execution_result": {
+      "valid_tests": [
+        ".com.github.javaparser.symbolsolver.Issue2259Test.java"
+      ],
+      "success_tests": [
+        ".com.github.javaparser.symbolsolver.Issue2259Test.java"
+      ]
+    }
+  },
+  "javaparser_javaparser-3407": {
+    "bug_id": "javaparser_javaparser-3407",
+    "PR_number": 3407,
+    "PR_createdAt": "2021-11-13T19:14:27Z",
+    "merge_commit": "ec11a2bb67d4bd3602a26aa2c6b2b56dc8410fa9",
+    "buggy_commits": [
+      {
+        "oid": "d142a52ff800ee25fb0905516fc3255ea554667b",
+        "message": "Update / document `codecov.yml` (#3418)\n\nadded documentation comments and ignores to `codecov.yml`"
+      },
+      {
+        "oid": "0bc15caf78b410ebab59a07a59d2a6035d148ee3",
+        "message": "Merge branch 'master' into master"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/javaparser/javaparser/issues/3406",
+      "createdAt": "2021-11-12T06:30:41Z",
+      "content": "bug_report_all/javaparser_javaparser-3407.json"
+    },
+    "changed_tests": [
+      "javaparser-core-testing/src/test/java/com/github/javaparser/ExpectedTokensTest.java",
+      "javaparser-core-testing/src/test/java/com/github/javaparser/utils/ExtractingVisitors.java",
+      "javaparser-core-testing/src/test/java/com/github/javaparser/utils/TestUtils.java",
+      "javaparser-core-testing/src/test/resources/com/github/javaparser/EscapeSequences.java"
+    ],
+    "PR_url": "https://github.com/javaparser/javaparser/pull/3407",
+    "merge_commit_url": "https://github.com/javaparser/javaparser/commit/ec11a2bb67d4bd3602a26aa2c6b2b56dc8410fa9",
+    "buggy_commit": "d142a52ff800ee25fb0905516fc3255ea554667b",
+    "execution_result": {
+      "valid_tests": [
+        ".com.github.javaparser.utils.TestUtils.java",
+        ".com.github.javaparser.ExpectedTokensTest.java",
+        ".com.github.javaparser.utils.ExtractingVisitors.java"
+      ],
+      "success_tests": [
+        ".com.github.javaparser.utils.TestUtils.java",
+        ".com.github.javaparser.ExpectedTokensTest.java",
+        ".com.github.javaparser.utils.ExtractingVisitors.java"
+      ]
+    }
+  },
+  "javaparser_javaparser-3429": {
+    "bug_id": "javaparser_javaparser-3429",
+    "PR_number": 3429,
+    "PR_createdAt": "2021-12-04T20:03:25Z",
+    "merge_commit": "2035acf5762bd1cef20acdd21d5139fd605b2632",
+    "buggy_commits": [
+      {
+        "oid": "e909d721d2286d1ba86e0d8c506f41bfdd4f2c3c",
+        "message": "Merge pull request #3428 from 4everTheOne/fix/3419\n\nIssue #3419 - Fixed bug in `Difference.java`"
+      },
+      {
+        "oid": "89531c10e5d99e8010b41b2da1089d61d88e7d85",
+        "message": "Fix issue 3408 LexicalPreservationPrinter fails to add annotation to a class field decalared with fully qualified name"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/javaparser/javaparser/issues/3408",
+      "createdAt": "2021-11-18T19:53:20Z",
+      "content": "bug_report_all/javaparser_javaparser-3429.json"
+    },
+    "changed_tests": [
+      "javaparser-core-testing/src/test/java/com/github/javaparser/printer/lexicalpreservation/LexicalPreservingPrinterTest.java"
+    ],
+    "PR_url": "https://github.com/javaparser/javaparser/pull/3429",
+    "merge_commit_url": "https://github.com/javaparser/javaparser/commit/2035acf5762bd1cef20acdd21d5139fd605b2632",
+    "buggy_commit": "e909d721d2286d1ba86e0d8c506f41bfdd4f2c3c",
+    "execution_result": {
+      "valid_tests": [
+        ".com.github.javaparser.printer.lexicalpreservation.LexicalPreservingPrinterTest.java"
+      ],
+      "success_tests": [
+        ".com.github.javaparser.printer.lexicalpreservation.LexicalPreservingPrinterTest.java"
+      ]
+    }
+  },
+  "javaparser_javaparser-3437": {
+    "bug_id": "javaparser_javaparser-3437",
+    "PR_number": 3437,
+    "PR_createdAt": "2021-12-12T16:25:42Z",
+    "merge_commit": "6fb81aa003d64d15d4f5869c4b7a1f8652df5d3f",
+    "buggy_commits": [
+      {
+        "oid": "493f5dfa6e27d6e3b5662e19c6e2cdc6df57a129",
+        "message": "Merge pull request #3432 from msridhar/add-hashcode\n\nAdd a missing hashCode() method"
+      },
+      {
+        "oid": "008d1ee546346f95ca87079237b4b9b1c2c3bc77",
+        "message": "Fix issue #3436 getAncestors()/getAllAncestors() does not work if base class starts with the same name"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/javaparser/javaparser/issues/3436",
+      "createdAt": "2021-12-12T13:38:19Z",
+      "content": "bug_report_all/javaparser_javaparser-3437.json"
+    },
+    "changed_tests": [
+      "javaparser-symbol-solver-testing/src/test/java/com/github/javaparser/symbolsolver/javaparsermodel/declarations/JavaParserClassDeclarationTest.java"
+    ],
+    "PR_url": "https://github.com/javaparser/javaparser/pull/3437",
+    "merge_commit_url": "https://github.com/javaparser/javaparser/commit/6fb81aa003d64d15d4f5869c4b7a1f8652df5d3f",
+    "buggy_commit": "493f5dfa6e27d6e3b5662e19c6e2cdc6df57a129",
+    "execution_result": {
+      "valid_tests": [
+        ".com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserClassDeclarationTest.java"
+      ],
+      "success_tests": [
+        ".com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserClassDeclarationTest.java"
+      ]
+    }
+  },
+  "javaparser_javaparser-3473": {
+    "bug_id": "javaparser_javaparser-3473",
+    "PR_number": 3473,
+    "PR_createdAt": "2022-01-13T15:19:10Z",
+    "merge_commit": "eae3bf3b0a6ca55d2037499e2ab387a30aad81c7",
+    "buggy_commits": [
+      {
+        "oid": "bfaf955c0ae98b66044ddef22158c4657268aae6",
+        "message": "chore(deps): update dependency org.codehaus.mojo:versions-maven-plugin to v2.9.0"
+      },
+      {
+        "oid": "bb8166d125d31b821a8acae3ef1458417fd60934",
+        "message": "Added explicit ArrayCreationLevel to constructors"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/javaparser/javaparser/issues/3467",
+      "createdAt": "2022-01-10T14:23:40Z",
+      "content": "bug_report_all/javaparser_javaparser-3473.json"
+    },
+    "changed_tests": [
+      "javaparser-core-testing/src/test/java/com/github/javaparser/ast/expr/ArrayCreationExprTest.java",
+      "javaparser-core-testing/src/test/java/com/github/javaparser/ast/validator/Java1_0ValidatorTest.java"
+    ],
+    "PR_url": "https://github.com/javaparser/javaparser/pull/3473",
+    "merge_commit_url": "https://github.com/javaparser/javaparser/commit/eae3bf3b0a6ca55d2037499e2ab387a30aad81c7",
+    "buggy_commit": "bfaf955c0ae98b66044ddef22158c4657268aae6",
+    "execution_result": {
+      "valid_tests": [
+        ".com.github.javaparser.ast.validator.Java1_0ValidatorTest.java",
+        ".com.github.javaparser.ast.expr.ArrayCreationExprTest.java"
+      ],
+      "success_tests": [
+        ".com.github.javaparser.ast.validator.Java1_0ValidatorTest.java",
+        ".com.github.javaparser.ast.expr.ArrayCreationExprTest.java"
+      ]
+    }
+  },
+  "javaparser_javaparser-3743": {
+    "bug_id": "javaparser_javaparser-3743",
+    "PR_number": 3743,
+    "PR_createdAt": "2022-11-01T09:27:30Z",
+    "merge_commit": "106f730ea12c3b04bee48589c43f5504d1cd4445",
+    "buggy_commits": [
+      {
+        "oid": "99507dc422d3161c9fc8a7daae3c14718faace70",
+        "message": "Merge pull request #3741 from jlerbsc/master\n\nRemove or comment system.out.println statement in unit tests"
+      },
+      {
+        "oid": "7b0123e8912ce3c03468586045c5acb41a0e30ae",
+        "message": "Merge branch 'master' into master"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/javaparser/javaparser/issues/3728",
+      "createdAt": "2022-10-25T09:56:48Z",
+      "content": "bug_report_all/javaparser_javaparser-3743.json"
+    },
+    "changed_tests": [
+      "javaparser-core-testing/src/test/java/com/github/javaparser/version/Java10PostProcessorTest.java"
+    ],
+    "PR_url": "https://github.com/javaparser/javaparser/pull/3743",
+    "merge_commit_url": "https://github.com/javaparser/javaparser/commit/106f730ea12c3b04bee48589c43f5504d1cd4445",
+    "buggy_commit": "99507dc422d3161c9fc8a7daae3c14718faace70",
+    "execution_result": {
+      "valid_tests": [
+        ".com.github.javaparser.version.Java10PostProcessorTest.java"
+      ],
+      "success_tests": [
+        ".com.github.javaparser.version.Java10PostProcessorTest.java"
+      ]
+    }
+  },
+  "javaparser_javaparser-3752": {
+    "bug_id": "javaparser_javaparser-3752",
+    "PR_number": 3752,
+    "PR_createdAt": "2022-11-14T12:36:32Z",
+    "merge_commit": "3498ba2da195e16deca08be98dc68ae187057b60",
+    "buggy_commits": [
+      {
+        "oid": "c34290da9e82ef4b56da9de9cfb159b38b8e73f7",
+        "message": "Merge pull request #3747 from 4everTheOne/improvement/quick-javaparser-api\n\nSuggestion to restructure APIs"
+      },
+      {
+        "oid": "93b897e19512aa2ea6e636db98c575eeefd14c06",
+        "message": "Merge branch 'master' into master"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/javaparser/javaparser/issues/1827",
+      "createdAt": "2018-09-04T06:46:50Z",
+      "content": "bug_report_all/javaparser_javaparser-3752.json"
+    },
+    "changed_tests": [
+      "javaparser-symbol-solver-testing/src/test/java/com/github/javaparser/symbolsolver/Issue1827Test.java",
+      "javaparser-symbol-solver-testing/src/test/java/com/github/javaparser/symbolsolver/model/typesystem/LazyTypeTest.java"
+    ],
+    "PR_url": "https://github.com/javaparser/javaparser/pull/3752",
+    "merge_commit_url": "https://github.com/javaparser/javaparser/commit/3498ba2da195e16deca08be98dc68ae187057b60",
+    "buggy_commit": "c34290da9e82ef4b56da9de9cfb159b38b8e73f7",
+    "execution_result": {
+      "valid_tests": [
+        ".com.github.javaparser.symbolsolver.Issue1827Test.java",
+        ".com.github.javaparser.symbolsolver.model.typesystem.LazyTypeTest.java"
+      ],
+      "success_tests": [
+        ".com.github.javaparser.symbolsolver.Issue1827Test.java",
+        ".com.github.javaparser.symbolsolver.model.typesystem.LazyTypeTest.java"
+      ]
+    }
+  },
+  "javaparser_javaparser-3759": {
+    "bug_id": "javaparser_javaparser-3759",
+    "PR_number": 3759,
+    "PR_createdAt": "2022-11-21T09:14:27Z",
+    "merge_commit": "c9b4362ab890fe1c284a5742d0ff608dc31ddebf",
+    "buggy_commits": [
+      {
+        "oid": "340a3c685cfd97f899976cad20d3258c769e1a08",
+        "message": "Merge pull request #3758 from jlerbsc/master\n\nFix: Fix the indentation generated by the LexicalPreservingPrinter wh\u2026"
+      },
+      {
+        "oid": "5f6e3ebff60a5f5e265dfa5cbcfd3bfe877eb61f",
+        "message": "Merge branch 'master' into master"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/javaparser/javaparser/issues/3750",
+      "createdAt": "2022-11-11T09:26:40Z",
+      "content": "bug_report_all/javaparser_javaparser-3759.json"
+    },
+    "changed_tests": [
+      "javaparser-core-testing/src/test/java/com/github/javaparser/printer/lexicalpreservation/Issue3746Test.java",
+      "javaparser-core-testing/src/test/java/com/github/javaparser/printer/lexicalpreservation/Issue3750Test.java",
+      "javaparser-core-testing/src/test/java/com/github/javaparser/printer/lexicalpreservation/LexicalPreservingPrinterTest.java"
+    ],
+    "PR_url": "https://github.com/javaparser/javaparser/pull/3759",
+    "merge_commit_url": "https://github.com/javaparser/javaparser/commit/c9b4362ab890fe1c284a5742d0ff608dc31ddebf",
+    "buggy_commit": "340a3c685cfd97f899976cad20d3258c769e1a08",
+    "execution_result": {
+      "valid_tests": [
+        ".com.github.javaparser.printer.lexicalpreservation.LexicalPreservingPrinterTest.java",
+        ".com.github.javaparser.printer.lexicalpreservation.Issue3746Test.java",
+        ".com.github.javaparser.printer.lexicalpreservation.Issue3750Test.java"
+      ],
+      "success_tests": [
+        ".com.github.javaparser.printer.lexicalpreservation.LexicalPreservingPrinterTest.java",
+        ".com.github.javaparser.printer.lexicalpreservation.Issue3746Test.java",
+        ".com.github.javaparser.printer.lexicalpreservation.Issue3750Test.java"
+      ]
+    }
+  },
+  "javaparser_javaparser-3760": {
+    "bug_id": "javaparser_javaparser-3760",
+    "PR_number": 3760,
+    "PR_createdAt": "2022-11-22T15:45:53Z",
+    "merge_commit": "2f7479d6956d78b1c9a6d2466ac6f8557804084c",
+    "buggy_commits": [
+      {
+        "oid": "c9b4362ab890fe1c284a5742d0ff608dc31ddebf",
+        "message": "Merge pull request #3759 from jlerbsc/master\n\nFix: #3750 Lexical preserving corrupts source"
+      },
+      {
+        "oid": "5fd2b5e47e16dfe450dd3b11fceb4f897e373d26",
+        "message": "Fix: #3693 Removing modifiers from method declaration results in loss of white space"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/javaparser/javaparser/issues/3693",
+      "createdAt": "2022-09-15T17:27:42Z",
+      "content": "bug_report_all/javaparser_javaparser-3760.json"
+    },
+    "changed_tests": [
+      "javaparser-core-testing/src/test/java/com/github/javaparser/printer/lexicalpreservation/transformations/ast/body/MethodDeclarationTransformationsTest.java"
+    ],
+    "PR_url": "https://github.com/javaparser/javaparser/pull/3760",
+    "merge_commit_url": "https://github.com/javaparser/javaparser/commit/2f7479d6956d78b1c9a6d2466ac6f8557804084c",
+    "buggy_commit": "c9b4362ab890fe1c284a5742d0ff608dc31ddebf",
+    "execution_result": {
+      "valid_tests": [
+        ".com.github.javaparser.printer.lexicalpreservation.transformations.ast.body.MethodDeclarationTransformationsTest.java"
+      ],
+      "success_tests": [
+        ".com.github.javaparser.printer.lexicalpreservation.transformations.ast.body.MethodDeclarationTransformationsTest.java"
+      ]
+    }
+  },
+  "javaparser_javaparser-3762": {
+    "bug_id": "javaparser_javaparser-3762",
+    "PR_number": 3762,
+    "PR_createdAt": "2022-11-24T12:29:34Z",
+    "merge_commit": "7025bb79569a6b5a7fec12d4cc621c2480530f06",
+    "buggy_commits": [
+      {
+        "oid": "2f7479d6956d78b1c9a6d2466ac6f8557804084c",
+        "message": "Merge pull request #3760 from jlerbsc/master\n\nFix: #3693 Removing modifiers from method declaration results in loss\u2026"
+      },
+      {
+        "oid": "14eeb65d4a3b4b88668db796643d7b13279577ee",
+        "message": "Removing useless class WrappingRangeIterator"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/javaparser/javaparser/issues/3761",
+      "createdAt": "2022-11-22T19:28:22Z",
+      "content": "bug_report_all/javaparser_javaparser-3762.json"
+    },
+    "changed_tests": [
+      "javaparser-core-testing/src/test/java/com/github/javaparser/printer/lexicalpreservation/Issue3761Test.java"
+    ],
+    "PR_url": "https://github.com/javaparser/javaparser/pull/3762",
+    "merge_commit_url": "https://github.com/javaparser/javaparser/commit/7025bb79569a6b5a7fec12d4cc621c2480530f06",
+    "buggy_commit": "2f7479d6956d78b1c9a6d2466ac6f8557804084c",
+    "execution_result": {
+      "valid_tests": [
+        ".com.github.javaparser.printer.lexicalpreservation.Issue3761Test.java"
+      ],
+      "success_tests": [
+        ".com.github.javaparser.printer.lexicalpreservation.Issue3761Test.java"
+      ]
+    }
+  },
+  "javaparser_javaparser-3764": {
+    "bug_id": "javaparser_javaparser-3764",
+    "PR_number": 3764,
+    "PR_createdAt": "2022-11-25T15:11:11Z",
+    "merge_commit": "cf27d5e466f1380476d4ed0ee557133e8ebb13af",
+    "buggy_commits": [
+      {
+        "oid": "e3cbb0388b6b5240d3d1a6898c899814574c2b37",
+        "message": "Merge pull request #3763 from jlerbsc/master\n\nFix: #2137 ClassOrInterfaceDeclaration addMember using index"
+      },
+      {
+        "oid": "cf3d95dfb30169397039ce06c11524d81333bc5f",
+        "message": "Fix: #3441 LexicalPreservingPrinter prints wrong output with line comments"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/javaparser/javaparser/issues/3441",
+      "createdAt": "2021-12-14T11:45:53Z",
+      "content": "bug_report_all/javaparser_javaparser-3764.json"
+    },
+    "changed_tests": [
+      "javaparser-core-testing/src/test/java/com/github/javaparser/printer/lexicalpreservation/Issue3441Test.java"
+    ],
+    "PR_url": "https://github.com/javaparser/javaparser/pull/3764",
+    "merge_commit_url": "https://github.com/javaparser/javaparser/commit/cf27d5e466f1380476d4ed0ee557133e8ebb13af",
+    "buggy_commit": "e3cbb0388b6b5240d3d1a6898c899814574c2b37",
+    "execution_result": {
+      "valid_tests": [
+        ".com.github.javaparser.printer.lexicalpreservation.Issue3441Test.java"
+      ],
+      "success_tests": [
+        ".com.github.javaparser.printer.lexicalpreservation.Issue3441Test.java"
+      ]
+    }
+  },
+  "javaparser_javaparser-3766": {
+    "bug_id": "javaparser_javaparser-3766",
+    "PR_number": 3766,
+    "PR_createdAt": "2022-11-26T09:25:00Z",
+    "merge_commit": "d3b54a0f7b44f07a9fee0b72e2a620b952557e00",
+    "buggy_commits": [
+      {
+        "oid": "897f01ccc2704b61798aba96f536336b22fcb7fe",
+        "message": "Merge pull request #3765 from jlerbsc/master\n\nFix: #3472 Line comment removal causes IllegalStateException with LexicalPreservingPrinter"
+      },
+      {
+        "oid": "52f65028f89834098a50a37c4b36aa549613f632",
+        "message": "Minor refactoring"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/javaparser/javaparser/issues/3216",
+      "createdAt": "2021-04-02T06:59:14Z",
+      "content": "bug_report_all/javaparser_javaparser-3766.json"
+    },
+    "changed_tests": [
+      "javaparser-core-testing/src/test/java/com/github/javaparser/printer/lexicalpreservation/LexicalPreservingPrinterTest.java",
+      "javaparser-core-testing/src/test/java/com/github/javaparser/printer/lexicalpreservation/transformations/ast/body/AnnotationMemberDeclarationTransformationsTest.java"
+    ],
+    "PR_url": "https://github.com/javaparser/javaparser/pull/3766",
+    "merge_commit_url": "https://github.com/javaparser/javaparser/commit/d3b54a0f7b44f07a9fee0b72e2a620b952557e00",
+    "buggy_commit": "897f01ccc2704b61798aba96f536336b22fcb7fe",
+    "execution_result": {
+      "valid_tests": [
+        ".com.github.javaparser.printer.lexicalpreservation.LexicalPreservingPrinterTest.java",
+        ".com.github.javaparser.printer.lexicalpreservation.transformations.ast.body.AnnotationMemberDeclarationTransformationsTest.java"
+      ],
+      "success_tests": [
+        ".com.github.javaparser.printer.lexicalpreservation.LexicalPreservingPrinterTest.java",
+        ".com.github.javaparser.printer.lexicalpreservation.transformations.ast.body.AnnotationMemberDeclarationTransformationsTest.java"
+      ]
+    }
+  },
+  "javaparser_javaparser-3777": {
+    "bug_id": "javaparser_javaparser-3777",
+    "PR_number": 3777,
+    "PR_createdAt": "2022-12-05T10:35:49Z",
+    "merge_commit": "378978de5b6ea86082c434e9c7adafaca7791444",
+    "buggy_commits": [
+      {
+        "oid": "28bd049cf84f79815f019836fa39e4d20029e4ad",
+        "message": "Merge pull request #3776 from jlerbsc/master\n\nFix: #3773 Replacing nodes causes error in lexical preserving printer\u2026"
+      },
+      {
+        "oid": "92a5a6d95d3ec6ddc6075157e4d09ebc0feb8227",
+        "message": "Fix comment in jbehave unit test"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/javaparser/javaparser/issues/3681",
+      "createdAt": "2022-09-07T15:26:11Z",
+      "content": "bug_report_all/javaparser_javaparser-3777.json"
+    },
+    "changed_tests": [
+      "javaparser-core-testing/src/test/java/com/github/javaparser/printer/PrettyPrintVisitorTest.java"
+    ],
+    "PR_url": "https://github.com/javaparser/javaparser/pull/3777",
+    "merge_commit_url": "https://github.com/javaparser/javaparser/commit/378978de5b6ea86082c434e9c7adafaca7791444",
+    "buggy_commit": "28bd049cf84f79815f019836fa39e4d20029e4ad",
+    "execution_result": {
+      "valid_tests": [
+        ".com.github.javaparser.printer.PrettyPrintVisitorTest.java"
+      ],
+      "success_tests": [
+        ".com.github.javaparser.printer.PrettyPrintVisitorTest.java"
+      ]
+    }
+  },
+  "javaparser_javaparser-3810": {
+    "bug_id": "javaparser_javaparser-3810",
+    "PR_number": 3810,
+    "PR_createdAt": "2022-12-19T10:11:36Z",
+    "merge_commit": "02fc8fc0f1f6efd8e1175afa39c91ab97eeb5ba9",
+    "buggy_commits": [
+      {
+        "oid": "e72e340ca1cf9d9a14b69057f8a531b0b55a405b",
+        "message": "Merge pull request #3802 from 4everTheOne/improvement/organized-imports-core-testing\n\nPart 2 | Import organization"
+      },
+      {
+        "oid": "966e091ceddcebf424fbe5f08d2852d49e426897",
+        "message": "Adapt actual unit tests"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/javaparser/javaparser/issues/3796",
+      "createdAt": "2022-12-15T14:21:36Z",
+      "content": "bug_report_all/javaparser_javaparser-3810.json"
+    },
+    "changed_tests": [
+      "javaparser-core-testing/src/test/java/com/github/javaparser/printer/lexicalpreservation/Issue3796Test.java",
+      "javaparser-core-testing/src/test/java/com/github/javaparser/printer/lexicalpreservation/LexicalPreservingPrinterTest.java",
+      "javaparser-core-testing/src/test/java/com/github/javaparser/printer/lexicalpreservation/transformations/ast/body/ClassOrInterfaceDeclarationTransformationsTest.java",
+      "javaparser-core-testing/src/test/java/com/github/javaparser/printer/lexicalpreservation/transformations/ast/body/MethodDeclarationTransformationsTest.java"
+    ],
+    "PR_url": "https://github.com/javaparser/javaparser/pull/3810",
+    "merge_commit_url": "https://github.com/javaparser/javaparser/commit/02fc8fc0f1f6efd8e1175afa39c91ab97eeb5ba9",
+    "buggy_commit": "e72e340ca1cf9d9a14b69057f8a531b0b55a405b",
+    "execution_result": {
+      "valid_tests": [
+        ".com.github.javaparser.printer.lexicalpreservation.LexicalPreservingPrinterTest.java",
+        ".com.github.javaparser.printer.lexicalpreservation.transformations.ast.body.ClassOrInterfaceDeclarationTransformationsTest.java",
+        ".com.github.javaparser.printer.lexicalpreservation.transformations.ast.body.MethodDeclarationTransformationsTest.java",
+        ".com.github.javaparser.printer.lexicalpreservation.Issue3796Test.java"
+      ],
+      "success_tests": [
+        ".com.github.javaparser.printer.lexicalpreservation.LexicalPreservingPrinterTest.java",
+        ".com.github.javaparser.printer.lexicalpreservation.transformations.ast.body.ClassOrInterfaceDeclarationTransformationsTest.java",
+        ".com.github.javaparser.printer.lexicalpreservation.transformations.ast.body.MethodDeclarationTransformationsTest.java",
+        ".com.github.javaparser.printer.lexicalpreservation.Issue3796Test.java"
+      ]
+    }
+  },
+  "javaparser_javaparser-3865": {
+    "bug_id": "javaparser_javaparser-3865",
+    "PR_number": 3865,
+    "PR_createdAt": "2023-01-21T11:32:05Z",
+    "merge_commit": "24596d87841eaef84d30d923967535e67f36917d",
+    "buggy_commits": [
+      {
+        "oid": "133962bb19eec03bf4c21e261d53d19bc43769c8",
+        "message": "Merge pull request #3864 from jlerbsc/master\n\nFix: One must be able to know if any resolved type is a boxed primiti\u2026"
+      },
+      {
+        "oid": "9ae8fd7ddbf3a8b1e02a2d6417ad59fdd39b9298",
+        "message": "Merge branch 'javaparser:master' into master"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/javaparser/javaparser/issues/3703",
+      "createdAt": "2022-09-19T23:45:34Z",
+      "content": "bug_report_all/javaparser_javaparser-3865.json"
+    },
+    "changed_tests": [
+      "javaparser-core-testing/src/test/java/com/github/javaparser/printer/lexicalpreservation/LexicalPreservingPrinterTest.java",
+      "javaparser-core-testing/src/test/java/com/github/javaparser/printer/lexicalpreservation/transformations/ast/ArrayCreationLevelTransformationsTest.java",
+      "javaparser-core-testing/src/test/java/com/github/javaparser/printer/lexicalpreservation/transformations/ast/body/AnnotationMemberDeclarationTransformationsTest.java"
+    ],
+    "PR_url": "https://github.com/javaparser/javaparser/pull/3865",
+    "merge_commit_url": "https://github.com/javaparser/javaparser/commit/24596d87841eaef84d30d923967535e67f36917d",
+    "buggy_commit": "133962bb19eec03bf4c21e261d53d19bc43769c8",
+    "execution_result": {
+      "valid_tests": [
+        ".com.github.javaparser.printer.lexicalpreservation.LexicalPreservingPrinterTest.java",
+        ".com.github.javaparser.printer.lexicalpreservation.transformations.ast.ArrayCreationLevelTransformationsTest.java",
+        ".com.github.javaparser.printer.lexicalpreservation.transformations.ast.body.AnnotationMemberDeclarationTransformationsTest.java"
+      ],
+      "success_tests": [
+        ".com.github.javaparser.printer.lexicalpreservation.LexicalPreservingPrinterTest.java",
+        ".com.github.javaparser.printer.lexicalpreservation.transformations.ast.ArrayCreationLevelTransformationsTest.java",
+        ".com.github.javaparser.printer.lexicalpreservation.transformations.ast.body.AnnotationMemberDeclarationTransformationsTest.java"
+      ]
+    }
+  },
+  "javaparser_javaparser-3896": {
+    "bug_id": "javaparser_javaparser-3896",
+    "PR_number": 3896,
+    "PR_createdAt": "2023-02-10T14:37:41Z",
+    "merge_commit": "736401f84ede413f781fdbb0466115a11bf8aa2e",
+    "buggy_commits": [
+      {
+        "oid": "43207a9b9f725dd97ed91b229e4fc9c6cc8e3fc0",
+        "message": "chore(deps): update dependency maven-wrapper to v3.1.1"
+      },
+      {
+        "oid": "ccebf56c3622ff33b892f57c07295b2964510cc1",
+        "message": "Fix issues on unit tests"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/javaparser/javaparser/issues/3045",
+      "createdAt": "2021-01-21T18:11:24Z",
+      "content": "bug_report_all/javaparser_javaparser-3896.json"
+    },
+    "changed_tests": [
+      "javaparser-symbol-solver-testing/src/test/java/com/github/javaparser/symbolsolver/Issue2162Test.java",
+      "javaparser-symbol-solver-testing/src/test/java/com/github/javaparser/symbolsolver/Issue3045Test.java",
+      "javaparser-symbol-solver-testing/src/test/java/com/github/javaparser/symbolsolver/model/resolution/SymbolReferenceTest.java",
+      "javaparser-symbol-solver-testing/src/test/java/com/github/javaparser/symbolsolver/resolution/SymbolSolverWithJavassistClassTest.java",
+      "javaparser-symbol-solver-testing/src/test/java/com/github/javaparser/symbolsolver/resolution/SymbolSolverWithJavassistEnumTest.java",
+      "javaparser-symbol-solver-testing/src/test/java/com/github/javaparser/symbolsolver/resolution/SymbolSolverWithJavassistInterfaceTest.java"
+    ],
+    "PR_url": "https://github.com/javaparser/javaparser/pull/3896",
+    "merge_commit_url": "https://github.com/javaparser/javaparser/commit/736401f84ede413f781fdbb0466115a11bf8aa2e",
+    "buggy_commit": "43207a9b9f725dd97ed91b229e4fc9c6cc8e3fc0",
+    "execution_result": {
+      "valid_tests": [
+        ".com.github.javaparser.symbolsolver.Issue2162Test.java",
+        ".com.github.javaparser.symbolsolver.model.resolution.SymbolReferenceTest.java",
+        ".com.github.javaparser.symbolsolver.resolution.SymbolSolverWithJavassistClassTest.java",
+        ".com.github.javaparser.symbolsolver.resolution.SymbolSolverWithJavassistEnumTest.java",
+        ".com.github.javaparser.symbolsolver.resolution.SymbolSolverWithJavassistInterfaceTest.java",
+        ".com.github.javaparser.symbolsolver.Issue3045Test.java"
+      ],
+      "success_tests": [
+        ".com.github.javaparser.symbolsolver.Issue2162Test.java",
+        ".com.github.javaparser.symbolsolver.model.resolution.SymbolReferenceTest.java",
+        ".com.github.javaparser.symbolsolver.resolution.SymbolSolverWithJavassistClassTest.java",
+        ".com.github.javaparser.symbolsolver.resolution.SymbolSolverWithJavassistEnumTest.java",
+        ".com.github.javaparser.symbolsolver.resolution.SymbolSolverWithJavassistInterfaceTest.java",
+        ".com.github.javaparser.symbolsolver.Issue3045Test.java"
+      ]
+    }
+  },
+  "javaparser_javaparser-3903": {
+    "bug_id": "javaparser_javaparser-3903",
+    "PR_number": 3903,
+    "PR_createdAt": "2023-02-15T10:05:29Z",
+    "merge_commit": "8f655b9bd56a9db7f3894c58f3a61b864f572bd7",
+    "buggy_commits": [
+      {
+        "oid": "736401f84ede413f781fdbb0466115a11bf8aa2e",
+        "message": "Merge pull request #3896 from jlerbsc/master\n\nFix: Issue 3045 Unexpected exception when solving type inside an Anonymous class"
+      },
+      {
+        "oid": "1367347421aaff737846b65061e9862c02daa621",
+        "message": "Merge branch 'javaparser:master' into master"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/javaparser/javaparser/issues/3577",
+      "createdAt": "2022-05-04T09:33:31Z",
+      "content": "bug_report_all/javaparser_javaparser-3903.json"
+    },
+    "changed_tests": [
+      "javaparser-core-testing/src/test/java/com/github/javaparser/Issue3577Test.java"
+    ],
+    "PR_url": "https://github.com/javaparser/javaparser/pull/3903",
+    "merge_commit_url": "https://github.com/javaparser/javaparser/commit/8f655b9bd56a9db7f3894c58f3a61b864f572bd7",
+    "buggy_commit": "736401f84ede413f781fdbb0466115a11bf8aa2e",
+    "execution_result": {
+      "valid_tests": [
+        ".com.github.javaparser.Issue3577Test.java"
+      ],
+      "success_tests": [
+        ".com.github.javaparser.Issue3577Test.java"
+      ]
+    }
+  },
+  "javaparser_javaparser-3917": {
+    "bug_id": "javaparser_javaparser-3917",
+    "PR_number": 3917,
+    "PR_createdAt": "2023-02-23T10:35:57Z",
+    "merge_commit": "38b0278f7d6c9bcaab040dbc53f3463dfdbd7e9e",
+    "buggy_commits": [
+      {
+        "oid": "69fa82b65a97753d7d550ef7d22e402463f3d309",
+        "message": "Merge pull request #3914 from javaparser/dependabot/maven/org.codehaus.mojo-versions-maven-plugin-2.15.0\n\nchore(deps): bump versions-maven-plugin from 2.14.2 to 2.15.0"
+      },
+      {
+        "oid": "5e2a997c63810f289d3c0ab5c94a36ad8b335023",
+        "message": "Fix: issue 3911\njava.lang.UnsupportedOperationException: T[] while resolving generic method with type parameter with arrays like List<T[]>"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/javaparser/javaparser/issues/3911",
+      "createdAt": "2023-02-20T21:33:03Z",
+      "content": "bug_report_all/javaparser_javaparser-3917.json"
+    },
+    "changed_tests": [
+      "javaparser-symbol-solver-testing/src/test/java/com/github/javaparser/symbolsolver/resolution/JavaParserFacadeResolutionTest.java"
+    ],
+    "PR_url": "https://github.com/javaparser/javaparser/pull/3917",
+    "merge_commit_url": "https://github.com/javaparser/javaparser/commit/38b0278f7d6c9bcaab040dbc53f3463dfdbd7e9e",
+    "buggy_commit": "69fa82b65a97753d7d550ef7d22e402463f3d309",
+    "execution_result": {
+      "valid_tests": [
+        ".com.github.javaparser.symbolsolver.resolution.JavaParserFacadeResolutionTest.java"
+      ],
+      "success_tests": [
+        ".com.github.javaparser.symbolsolver.resolution.JavaParserFacadeResolutionTest.java"
+      ]
+    }
+  },
+  "javaparser_javaparser-3920": {
+    "bug_id": "javaparser_javaparser-3920",
+    "PR_number": 3920,
+    "PR_createdAt": "2023-02-24T22:02:06Z",
+    "merge_commit": "ca25249a89ef11665496bca45a1c601ca99c8db4",
+    "buggy_commits": [
+      {
+        "oid": "545a732b825e7ca206ee162fadeff14de108d170",
+        "message": "chore(deps): update dependency maven to v3.9.0"
+      },
+      {
+        "oid": "26da2026648c9bb6345526a81ccae79387028df3",
+        "message": "Fix issue an array of Object is assignable by any array of primitive type"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/javaparser/javaparser/issues/3919",
+      "createdAt": "2023-02-24T17:31:28Z",
+      "content": "bug_report_all/javaparser_javaparser-3920.json"
+    },
+    "changed_tests": [
+      "javaparser-symbol-solver-testing/src/test/java/com/github/javaparser/symbolsolver/resolution/types/ResolvedArrayTypeTest.java"
+    ],
+    "PR_url": "https://github.com/javaparser/javaparser/pull/3920",
+    "merge_commit_url": "https://github.com/javaparser/javaparser/commit/ca25249a89ef11665496bca45a1c601ca99c8db4",
+    "buggy_commit": "545a732b825e7ca206ee162fadeff14de108d170",
+    "execution_result": {
+      "valid_tests": [
+        ".com.github.javaparser.symbolsolver.resolution.types.ResolvedArrayTypeTest.java"
+      ],
+      "success_tests": [
+        ".com.github.javaparser.symbolsolver.resolution.types.ResolvedArrayTypeTest.java"
+      ]
+    }
+  },
+  "javaparser_javaparser-3933": {
+    "bug_id": "javaparser_javaparser-3933",
+    "PR_number": 3933,
+    "PR_createdAt": "2023-02-28T17:42:36Z",
+    "merge_commit": "2d78d98738cadf0397111b13bd3178ffe4f75896",
+    "buggy_commits": [
+      {
+        "oid": "e53ce0d34818304c8d5bb87e26a352d96b42300d",
+        "message": "[maven-release-plugin] prepare for next development iteration"
+      },
+      {
+        "oid": "6ac5b8a092230570ab847de7aac176228c2a5333",
+        "message": "Fix the method resolution logic by better handling the variable arity methods in the case where the last parameter of the expected method is an array of objects and the actual parameter is an array"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/javaparser/javaparser/issues/3919",
+      "createdAt": "2023-02-24T17:31:28Z",
+      "content": "bug_report_all/javaparser_javaparser-3933.json"
+    },
+    "changed_tests": [
+      "javaparser-symbol-solver-testing/src/test/java/com/github/javaparser/symbolsolver/resolution/types/ResolvedArrayTypeTest.java"
+    ],
+    "PR_url": "https://github.com/javaparser/javaparser/pull/3933",
+    "merge_commit_url": "https://github.com/javaparser/javaparser/commit/2d78d98738cadf0397111b13bd3178ffe4f75896",
+    "buggy_commit": "e53ce0d34818304c8d5bb87e26a352d96b42300d",
+    "execution_result": {
+      "valid_tests": [
+        ".com.github.javaparser.symbolsolver.resolution.types.ResolvedArrayTypeTest.java"
+      ],
+      "success_tests": [
+        ".com.github.javaparser.symbolsolver.resolution.types.ResolvedArrayTypeTest.java"
+      ]
+    }
+  },
+  "javaparser_javaparser-3938": {
+    "bug_id": "javaparser_javaparser-3938",
+    "PR_number": 3938,
+    "PR_createdAt": "2023-03-03T08:22:16Z",
+    "merge_commit": "1c7027dd3a13ad14a51808b2c1938195be00ced4",
+    "buggy_commits": [
+      {
+        "oid": "409341c51c0d61452bbb5cb848128fc04a25d79f",
+        "message": "Merge pull request #3943 from jlerbsc/master\n\nFix: Unit test since Return-Type-Substituable is fully implemented on reference type"
+      },
+      {
+        "oid": "9117915aba46a09423cbd499b2a5f63ba1344f42",
+        "message": "Merge branch 'master' into FixLambdaSwapBlockByExpr"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/javaparser/javaparser/issues/3930",
+      "createdAt": "2023-02-28T11:07:02Z",
+      "content": "bug_report_all/javaparser_javaparser-3938.json"
+    },
+    "changed_tests": [
+      "javaparser-core-testing/src/test/java/com/github/javaparser/printer/lexicalpreservation/Issue3937Test.java"
+    ],
+    "PR_url": "https://github.com/javaparser/javaparser/pull/3938",
+    "merge_commit_url": "https://github.com/javaparser/javaparser/commit/1c7027dd3a13ad14a51808b2c1938195be00ced4",
+    "buggy_commit": "409341c51c0d61452bbb5cb848128fc04a25d79f",
+    "execution_result": {
+      "valid_tests": [
+        ".com.github.javaparser.printer.lexicalpreservation.Issue3937Test.java"
+      ],
+      "success_tests": [
+        ".com.github.javaparser.printer.lexicalpreservation.Issue3937Test.java"
+      ]
+    }
+  },
+  "javaparser_javaparser-3959": {
+    "bug_id": "javaparser_javaparser-3959",
+    "PR_number": 3959,
+    "PR_createdAt": "2023-03-17T07:37:11Z",
+    "merge_commit": "d9af8a91d31e51a86edd93eb3614bce4e4ed548f",
+    "buggy_commits": [
+      {
+        "oid": "2195a4229d6c4684f74ad3e9ac1f314a8d27fd1c",
+        "message": "chore(deps): update dependency com.puppycrawl.tools:checkstyle to v10.8.1"
+      },
+      {
+        "oid": "e82fde337bcb81d3e44eaa5e2a6a9aec0ec89056",
+        "message": "Improve explanation on LPP behavior"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/javaparser/javaparser/issues/3949",
+      "createdAt": "2023-03-14T13:57:31Z",
+      "content": "bug_report_all/javaparser_javaparser-3959.json"
+    },
+    "changed_tests": [
+      "javaparser-core-testing/src/test/java/com/github/javaparser/printer/lexicalpreservation/Issue3949Test.java"
+    ],
+    "PR_url": "https://github.com/javaparser/javaparser/pull/3959",
+    "merge_commit_url": "https://github.com/javaparser/javaparser/commit/d9af8a91d31e51a86edd93eb3614bce4e4ed548f",
+    "buggy_commit": "2195a4229d6c4684f74ad3e9ac1f314a8d27fd1c",
+    "execution_result": {
+      "valid_tests": [
+        ".com.github.javaparser.printer.lexicalpreservation.Issue3949Test.java"
+      ],
+      "success_tests": [
+        ".com.github.javaparser.printer.lexicalpreservation.Issue3949Test.java"
+      ]
+    }
+  },
+  "javaparser_javaparser-4039": {
+    "bug_id": "javaparser_javaparser-4039",
+    "PR_number": 4039,
+    "PR_createdAt": "2023-05-25T08:03:13Z",
+    "merge_commit": "74d9ed83be171348ef51bc2884c202ef15c0a564",
+    "buggy_commits": [
+      {
+        "oid": "30ec68d0e881b94a43d9a19a85a7f1eac9c77c7c",
+        "message": "Merge pull request #4035 from javaparser/dependabot/maven/org.apache.maven.plugins-maven-dependency-plugin-3.6.0\n\nchore(deps): bump maven-dependency-plugin from 3.5.0 to 3.6.0"
+      },
+      {
+        "oid": "ddc72f3674d50a4feb456ba48ea301145ffeb782",
+        "message": "Fix errors in unit tests whose assertions are based on the error message generated by the parser"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/javaparser/javaparser/issues/4016",
+      "createdAt": "2023-04-29T19:55:29Z",
+      "content": "bug_report_all/javaparser_javaparser-4039.json"
+    },
+    "changed_tests": [
+      "javaparser-core-testing/src/test/java/com/github/javaparser/JavaParserTest.java",
+      "javaparser-core-testing/src/test/java/com/github/javaparser/ast/ParseResultTest.java",
+      "javaparser-core-testing/src/test/java/com/github/javaparser/ast/body/ClassOrInterfaceDeclarationTest.java"
+    ],
+    "PR_url": "https://github.com/javaparser/javaparser/pull/4039",
+    "merge_commit_url": "https://github.com/javaparser/javaparser/commit/74d9ed83be171348ef51bc2884c202ef15c0a564",
+    "buggy_commit": "30ec68d0e881b94a43d9a19a85a7f1eac9c77c7c",
+    "execution_result": {
+      "valid_tests": [
+        ".com.github.javaparser.JavaParserTest.java",
+        ".com.github.javaparser.ast.ParseResultTest.java",
+        ".com.github.javaparser.ast.body.ClassOrInterfaceDeclarationTest.java"
+      ],
+      "success_tests": [
+        ".com.github.javaparser.JavaParserTest.java",
+        ".com.github.javaparser.ast.ParseResultTest.java",
+        ".com.github.javaparser.ast.body.ClassOrInterfaceDeclarationTest.java"
+      ]
+    }
+  },
+  "javaparser_javaparser-4046": {
+    "bug_id": "javaparser_javaparser-4046",
+    "PR_number": 4046,
+    "PR_createdAt": "2023-05-30T19:28:59Z",
+    "merge_commit": "12cf7c845e61742cde2692fc264417988daa81a6",
+    "buggy_commits": [
+      {
+        "oid": "fa02315cb4ed3c46280f39755cb735c803063890",
+        "message": "Add PR 'add Java 17 sealed/non-sealed classes'  in changelog"
+      },
+      {
+        "oid": "c09efcfc5937ff33058e0a3f674422e774068785",
+        "message": "Add unrelated commit to unlock PR validation"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/javaparser/javaparser/issues/4037",
+      "createdAt": "2023-05-24T08:32:38Z",
+      "content": "bug_report_all/javaparser_javaparser-4046.json"
+    },
+    "changed_tests": [
+      "javaparser-symbol-solver-testing/src/test/java/com/github/javaparser/symbolsolver/Issue4037Test.java"
+    ],
+    "PR_url": "https://github.com/javaparser/javaparser/pull/4046",
+    "merge_commit_url": "https://github.com/javaparser/javaparser/commit/12cf7c845e61742cde2692fc264417988daa81a6",
+    "buggy_commit": "fa02315cb4ed3c46280f39755cb735c803063890",
+    "execution_result": {
+      "valid_tests": [
+        ".com.github.javaparser.symbolsolver.Issue4037Test.java"
+      ],
+      "success_tests": [
+        ".com.github.javaparser.symbolsolver.Issue4037Test.java"
+      ]
+    }
+  },
+  "javaparser_javaparser-4057": {
+    "bug_id": "javaparser_javaparser-4057",
+    "PR_number": 4057,
+    "PR_createdAt": "2023-06-07T17:22:44Z",
+    "merge_commit": "76866eac710f206bf97cd4a58cc529f2c9198029",
+    "buggy_commits": [
+      {
+        "oid": "cfc1bcdf1fbd596ac11cbf14be565ffdee8903a5",
+        "message": "Merge pull request #4073 from jlerbsc/master\n\nFix: issue 3978 typesolver can't parse in parallel"
+      },
+      {
+        "oid": "15e9de4f090d9fcb107592d5f2bf5b09eed167e6",
+        "message": "Merge branch 'master' into master"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/javaparser/javaparser/issues/4056",
+      "createdAt": "2023-06-07T16:04:30Z",
+      "content": "bug_report_all/javaparser_javaparser-4057.json"
+    },
+    "changed_tests": [
+      "javaparser-core-testing/src/test/java/com/github/javaparser/ast/body/FieldDeclarationTest.java"
+    ],
+    "PR_url": "https://github.com/javaparser/javaparser/pull/4057",
+    "merge_commit_url": "https://github.com/javaparser/javaparser/commit/76866eac710f206bf97cd4a58cc529f2c9198029",
+    "buggy_commit": "cfc1bcdf1fbd596ac11cbf14be565ffdee8903a5",
+    "execution_result": {
+      "valid_tests": [
+        ".com.github.javaparser.ast.body.FieldDeclarationTest.java"
+      ],
+      "success_tests": [
+        ".com.github.javaparser.ast.body.FieldDeclarationTest.java"
+      ]
+    }
+  },
+  "javaparser_javaparser-4114": {
+    "bug_id": "javaparser_javaparser-4114",
+    "PR_number": 4114,
+    "PR_createdAt": "2023-08-10T12:46:56Z",
+    "merge_commit": "20b1debf9606776e7d25ffc105605d787c14eb57",
+    "buggy_commits": [
+      {
+        "oid": "c542b43e1b8ed74a5f4cea54d0532dc12c70a2c8",
+        "message": "Merge pull request #4109 from javaparser/dependabot/maven/com.google.guava-guava-32.1.2-jre\n\nchore(deps): bump com.google.guava:guava from 32.1.1-jre to 32.1.2-jre"
+      },
+      {
+        "oid": "dd96c06b3623a03b71cdaa860cef3ae9ea55e528",
+        "message": "Fix: issue 4113 Orphan comment added when using lexical preservation is not printed"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/javaparser/javaparser/issues/4113",
+      "createdAt": "2023-08-07T16:32:44Z",
+      "content": "bug_report_all/javaparser_javaparser-4114.json"
+    },
+    "changed_tests": [
+      "javaparser-core-testing/src/test/java/com/github/javaparser/printer/lexicalpreservation/LexicalPreservingPrinterTest.java"
+    ],
+    "PR_url": "https://github.com/javaparser/javaparser/pull/4114",
+    "merge_commit_url": "https://github.com/javaparser/javaparser/commit/20b1debf9606776e7d25ffc105605d787c14eb57",
+    "buggy_commit": "c542b43e1b8ed74a5f4cea54d0532dc12c70a2c8",
+    "execution_result": {
+      "valid_tests": [
+        ".com.github.javaparser.printer.lexicalpreservation.LexicalPreservingPrinterTest.java"
+      ],
+      "success_tests": [
+        ".com.github.javaparser.printer.lexicalpreservation.LexicalPreservingPrinterTest.java"
+      ]
+    }
+  }
+}

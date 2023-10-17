@@ -1,0 +1,65 @@
+{
+  "seata_seata-4056": {
+    "bug_id": "seata_seata-4056",
+    "PR_number": 4056,
+    "PR_createdAt": "2021-10-08T09:10:05Z",
+    "merge_commit": "177502221625e0165147f6bcb3cfc7e7ca89e976",
+    "buggy_commits": [
+      {
+        "oid": "9d5ff402d3b25f7e360cb6ebae40148d23dfdf72",
+        "message": "optimize: NetUtil#getLocalAddress0 (#4055)"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/seata/seata/issues/4048",
+      "createdAt": "2021-09-28T14:48:11Z",
+      "content": "bug_report_all/seata_seata-4056.json"
+    },
+    "changed_tests": [
+      "common/src/test/java/io/seata/common/util/DurationUtilTest.java"
+    ],
+    "PR_url": "https://github.com/seata/seata/pull/4056",
+    "merge_commit_url": "https://github.com/seata/seata/commit/177502221625e0165147f6bcb3cfc7e7ca89e976",
+    "buggy_commit": "9d5ff402d3b25f7e360cb6ebae40148d23dfdf72",
+    "execution_result": {
+      "valid_tests": [
+        ".io.seata.common.util.DurationUtilTest.java"
+      ],
+      "success_tests": [
+        ".io.seata.common.util.DurationUtilTest.java"
+      ]
+    }
+  },
+  "seata_seata-5120": {
+    "bug_id": "seata_seata-5120",
+    "PR_number": 5120,
+    "PR_createdAt": "2022-12-03T10:01:42Z",
+    "merge_commit": "80001959a6d2702d1c9336fe78e44082e884bc3d",
+    "buggy_commits": [
+      {
+        "oid": "0827ee514d778ec2e6d2d96dfc698ddebe0287c3",
+        "message": "optimize: change the version to 1.6.1-SNAPSHOT (#5166)"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/seata/seata/issues/5117",
+      "createdAt": "2022-12-03T08:33:24Z",
+      "content": "bug_report_all/seata_seata-5120.json"
+    },
+    "changed_tests": [
+      "seata-spring-autoconfigure/seata-spring-autoconfigure-core/src/test/java/io/seata/spring/boot/autoconfigure/CorePropertiesTest.java",
+      "seata-spring-autoconfigure/seata-spring-autoconfigure-server/src/test/java/io/seata/spring/boot/autoconfigure/ServerPropertiesTest.java"
+    ],
+    "PR_url": "https://github.com/seata/seata/pull/5120",
+    "merge_commit_url": "https://github.com/seata/seata/commit/80001959a6d2702d1c9336fe78e44082e884bc3d",
+    "buggy_commit": "0827ee514d778ec2e6d2d96dfc698ddebe0287c3",
+    "execution_result": {
+      "valid_tests": [
+        ".io.seata.spring.boot.autoconfigure.CorePropertiesTest.java"
+      ],
+      "success_tests": [
+        ".io.seata.spring.boot.autoconfigure.CorePropertiesTest.java"
+      ]
+    }
+  }
+}

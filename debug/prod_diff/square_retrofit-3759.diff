@@ -1,0 +1,13 @@
+diff --git a/retrofit/src/main/java/retrofit2/RequestFactory.java b/retrofit/src/main/java/retrofit2/RequestFactory.java
+index 745e5242..36b9d0eb 100644
+--- a/retrofit/src/main/java/retrofit2/RequestFactory.java
++++ b/retrofit/src/main/java/retrofit2/RequestFactory.java
+@@ -543,7 +543,7 @@ final class RequestFactory {
+         validateResolvableType(p, type);
+         Class<?> rawParameterType = Utils.getRawType(type);
+         if (!Map.class.isAssignableFrom(rawParameterType)) {
+-          throw parameterError(method, p, "@HeaderMap parameter type must be Map.");
++          throw parameterError(method, p, "@HeaderMap parameter type must be Map or Headers.");
+         }
+         Type mapType = Utils.getSupertype(type, rawParameterType, Map.class);
+         if (!(mapType instanceof ParameterizedType)) {

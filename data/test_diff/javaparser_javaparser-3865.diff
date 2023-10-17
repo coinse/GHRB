@@ -1,0 +1,97 @@
+diff --git a/javaparser-core-testing/src/test/java/com/github/javaparser/printer/lexicalpreservation/LexicalPreservingPrinterTest.java b/javaparser-core-testing/src/test/java/com/github/javaparser/printer/lexicalpreservation/LexicalPreservingPrinterTest.java
+index cceaab4..d120eeb 100644
+--- a/javaparser-core-testing/src/test/java/com/github/javaparser/printer/lexicalpreservation/LexicalPreservingPrinterTest.java
++++ b/javaparser-core-testing/src/test/java/com/github/javaparser/printer/lexicalpreservation/LexicalPreservingPrinterTest.java
+@@ -634,7 +634,7 @@ class LexicalPreservingPrinterTest extends AbstractLexicalPreservingTest {
+                         }));
+         assertEquals("public class TestPage extends Page {" + SYSTEM_EOL +
+                 SYSTEM_EOL +
+-                "   @Override()" + SYSTEM_EOL +
++                "   @Override" + SYSTEM_EOL +
+                 "   protected void test() {}" + SYSTEM_EOL +
+                 SYSTEM_EOL +
+                 "   @Override" + SYSTEM_EOL +
+@@ -1013,10 +1013,10 @@ class LexicalPreservingPrinterTest extends AbstractLexicalPreservingTest {
+                                 methodDeclaration -> methodDeclaration.addAnnotation("Override"))));
+         assertEquals("public class TestPage extends Page {" + SYSTEM_EOL +
+                 SYSTEM_EOL +
+-                "   @Override()" + SYSTEM_EOL +
++                "   @Override" + SYSTEM_EOL +
+                 "   protected void test() {}" + SYSTEM_EOL +
+                 SYSTEM_EOL +
+-                "   @Override()" + SYSTEM_EOL +
++                "   @Override" + SYSTEM_EOL +
+                 "   protected void initializePage() {}" + SYSTEM_EOL +
+                 "}", LexicalPreservingPrinter.print(cu));
+     }
+@@ -1037,7 +1037,7 @@ class LexicalPreservingPrinterTest extends AbstractLexicalPreservingTest {
+ 
+         cu.getTypes().forEach(type -> type.addAndGetAnnotation(Deprecated.class));
+ 
+-        assertEquals("@Deprecated()" + SYSTEM_EOL +
++        assertEquals("@Deprecated" + SYSTEM_EOL +
+                 "public final class A {}", LexicalPreservingPrinter.print(cu));
+ 
+     }
+@@ -1048,7 +1048,7 @@ class LexicalPreservingPrinterTest extends AbstractLexicalPreservingTest {
+ 
+         cu.getTypes().forEach(type -> type.addAndGetAnnotation(Deprecated.class));
+ 
+-        assertEquals("@Deprecated()" + SYSTEM_EOL +
++        assertEquals("@Deprecated" + SYSTEM_EOL +
+                 "public abstract class A {}", LexicalPreservingPrinter.print(cu));
+     }
+ 
+diff --git a/javaparser-core-testing/src/test/java/com/github/javaparser/printer/lexicalpreservation/transformations/ast/ArrayCreationLevelTransformationsTest.java b/javaparser-core-testing/src/test/java/com/github/javaparser/printer/lexicalpreservation/transformations/ast/ArrayCreationLevelTransformationsTest.java
+index 3e3fb05..8436b6f 100644
+--- a/javaparser-core-testing/src/test/java/com/github/javaparser/printer/lexicalpreservation/transformations/ast/ArrayCreationLevelTransformationsTest.java
++++ b/javaparser-core-testing/src/test/java/com/github/javaparser/printer/lexicalpreservation/transformations/ast/ArrayCreationLevelTransformationsTest.java
+@@ -71,7 +71,7 @@ class ArrayCreationLevelTransformationsTest extends AbstractLexicalPreservingTes
+     void addingAnnotation() {
+         ArrayCreationLevel it = consider("[]");
+         it.addAnnotation("myAnno");
+-        assertTransformedToString("@myAnno()"+ Utils.SYSTEM_EOL +"[]", it);
++        assertTransformedToString("@myAnno"+ Utils.SYSTEM_EOL +"[]", it);
+     }
+ 
+     @Test
+@@ -85,7 +85,7 @@ class ArrayCreationLevelTransformationsTest extends AbstractLexicalPreservingTes
+     void replacingAnnotation() {
+         ArrayCreationLevel it = consider("@myAnno []");
+         it.getAnnotations().set(0, new NormalAnnotationExpr(new Name("myOtherAnno"), new NodeList<>()));
+-        assertTransformedToString("@myOtherAnno() []", it);
++        assertTransformedToString("@myOtherAnno []", it);
+     }
+ 
+ }
+diff --git a/javaparser-core-testing/src/test/java/com/github/javaparser/printer/lexicalpreservation/transformations/ast/body/AnnotationMemberDeclarationTransformationsTest.java b/javaparser-core-testing/src/test/java/com/github/javaparser/printer/lexicalpreservation/transformations/ast/body/AnnotationMemberDeclarationTransformationsTest.java
+index 3b4e56b..6c39064 100644
+--- a/javaparser-core-testing/src/test/java/com/github/javaparser/printer/lexicalpreservation/transformations/ast/body/AnnotationMemberDeclarationTransformationsTest.java
++++ b/javaparser-core-testing/src/test/java/com/github/javaparser/printer/lexicalpreservation/transformations/ast/body/AnnotationMemberDeclarationTransformationsTest.java
+@@ -115,7 +115,7 @@ class AnnotationMemberDeclarationTransformationsTest extends AbstractLexicalPres
+     void addingAnnotation() {
+         AnnotationMemberDeclaration it = consider("int foo();");
+         it.addAnnotation("myAnno");
+-        assertTransformedToString("@myAnno()" + SYSTEM_EOL + "int foo();", it);
++        assertTransformedToString("@myAnno" + SYSTEM_EOL + "int foo();", it);
+     }
+ 
+     @Test
+@@ -123,7 +123,7 @@ class AnnotationMemberDeclarationTransformationsTest extends AbstractLexicalPres
+         AnnotationMemberDeclaration it = consider("int foo();");
+         it.addAnnotation("myAnno");
+         it.addAnnotation("myAnno2");
+-        assertTransformedToString("@myAnno()" + SYSTEM_EOL + "@myAnno2()" + SYSTEM_EOL + "int foo();", it);
++        assertTransformedToString("@myAnno" + SYSTEM_EOL + "@myAnno2" + SYSTEM_EOL + "int foo();", it);
+     }
+ 
+     @Test
+@@ -144,7 +144,7 @@ class AnnotationMemberDeclarationTransformationsTest extends AbstractLexicalPres
+     void replacingAnnotation() {
+         AnnotationMemberDeclaration it = consider("@myAnno int foo();");
+         it.getAnnotations().set(0, new NormalAnnotationExpr(new Name("myOtherAnno"), new NodeList<>()));
+-        assertTransformedToString("@myOtherAnno() int foo();", it);
++        assertTransformedToString("@myOtherAnno int foo();", it);
+     }
+ 
+     // Javadoc

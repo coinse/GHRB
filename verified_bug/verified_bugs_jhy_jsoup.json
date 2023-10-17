@@ -1,0 +1,161 @@
+{
+  "jhy_jsoup-1648": {
+    "bug_id": "jhy_jsoup-1648",
+    "PR_number": 1648,
+    "PR_createdAt": "2021-09-29T12:27:14Z",
+    "merge_commit": "6b1fbb51b501de87049b250fecc9a5076a186f6d",
+    "buggy_commits": [
+      {
+        "oid": "9ce6ae1ae21fb49afcc0700084fc4366490bc421",
+        "message": "Bump jetty-server from 9.4.43.v20210629 to 9.4.44.v20210927 (#1649)\n\nBumps [jetty-server](https://github.com/eclipse/jetty.project) from 9.4.43.v20210629 to 9.4.44.v20210927.\r\n- [Release notes](https://github.com/eclipse/jetty.project/releases)\r\n- [Commits](https://github.com/eclipse/jetty.project/compare/jetty-9.4.43.v20210629...jetty-9.4.44.v20210927)\r\n\r\n---\r\nupdated-dependencies:\r\n- dependency-name: org.eclipse.jetty:jetty-server\r\n  dependency-type: direct:development\r\n  update-type: version-update:semver-patch\r\n...\r\n\r\nSigned-off-by: dependabot[bot] <support@github.com>\r\n\r\nCo-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/jhy/jsoup/issues/1647",
+      "createdAt": "2021-09-29T11:29:14Z",
+      "content": "bug_report_all/jhy_jsoup-1648.json"
+    },
+    "changed_tests": [
+      "src/test/java/org/jsoup/helper/W3CDomTest.java"
+    ],
+    "PR_url": "https://github.com/jhy/jsoup/pull/1648",
+    "merge_commit_url": "https://github.com/jhy/jsoup/commit/6b1fbb51b501de87049b250fecc9a5076a186f6d",
+    "buggy_commit": "9ce6ae1ae21fb49afcc0700084fc4366490bc421",
+    "execution_result": {
+      "valid_tests": [
+        ".org.jsoup.helper.W3CDomTest"
+      ],
+      "success_tests": [
+        ".org.jsoup.helper.W3CDomTest"
+      ]
+    }
+  },
+  "jhy_jsoup-1763": {
+    "bug_id": "jhy_jsoup-1763",
+    "PR_number": 1763,
+    "PR_createdAt": "2022-05-05T16:44:56Z",
+    "merge_commit": "eaf5028718840d71c9a7f94f538b65b135012702",
+    "buggy_commits": [
+      {
+        "oid": "72612480cfc5a8b3c6ca31097cfd908121a638da",
+        "message": "Bump maven-bundle-plugin from 5.1.5 to 5.1.6 (#1768)\n\nBumps maven-bundle-plugin from 5.1.5 to 5.1.6.\r\n\r\n---\r\nupdated-dependencies:\r\n- dependency-name: org.apache.felix:maven-bundle-plugin\r\n  dependency-type: direct:production\r\n  update-type: version-update:semver-patch\r\n...\r\n\r\nSigned-off-by: dependabot[bot] <support@github.com>\r\n\r\nCo-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/jhy/jsoup/issues/1764",
+      "createdAt": "2022-05-05T16:55:56Z",
+      "content": "bug_report_all/jhy_jsoup-1763.json"
+    },
+    "changed_tests": [
+      "src/test/java/org/jsoup/safety/SafelistTest.java"
+    ],
+    "PR_url": "https://github.com/jhy/jsoup/pull/1763",
+    "merge_commit_url": "https://github.com/jhy/jsoup/commit/eaf5028718840d71c9a7f94f538b65b135012702",
+    "buggy_commit": "72612480cfc5a8b3c6ca31097cfd908121a638da",
+    "execution_result": {
+      "valid_tests": [
+        ".org.jsoup.safety.SafelistTest"
+      ],
+      "success_tests": [
+        ".org.jsoup.safety.SafelistTest"
+      ]
+    }
+  },
+  "jhy_jsoup-1848": {
+    "bug_id": "jhy_jsoup-1848",
+    "PR_number": 1848,
+    "PR_createdAt": "2022-10-01T17:30:34Z",
+    "merge_commit": "4a278e9b8e9c0515ee005775703a40d7b0a86d2f",
+    "buggy_commits": [
+      {
+        "oid": "23ea77ef4b0b79b7a0033ea218a45c0d4e45af83",
+        "message": "Note the release date"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/jhy/jsoup/issues/1837",
+      "createdAt": "2022-09-13T20:04:01Z",
+      "content": "bug_report_all/jhy_jsoup-1848.json"
+    },
+    "changed_tests": [
+      "src/test/java/org/jsoup/helper/W3CDomTest.java"
+    ],
+    "PR_url": "https://github.com/jhy/jsoup/pull/1848",
+    "merge_commit_url": "https://github.com/jhy/jsoup/commit/4a278e9b8e9c0515ee005775703a40d7b0a86d2f",
+    "buggy_commit": "23ea77ef4b0b79b7a0033ea218a45c0d4e45af83",
+    "execution_result": {
+      "valid_tests": [
+        ".org.jsoup.helper.W3CDomTest"
+      ],
+      "success_tests": [
+        ".org.jsoup.helper.W3CDomTest"
+      ]
+    }
+  },
+  "jhy_jsoup-1871": {
+    "bug_id": "jhy_jsoup-1871",
+    "PR_number": 1871,
+    "PR_createdAt": "2022-12-23T05:30:55Z",
+    "merge_commit": "4100d302cfb3f7cbcc722ebe694c9c8a2c2d3c05",
+    "buggy_commits": [
+      {
+        "oid": "1762412a28fa7b08ccf71d93fc4c98dc73086e03",
+        "message": "Use firstElementChild / Sibling in preference to child(0)\n\nSaves allocating a filtered Element list for these internal calls."
+      },
+      {
+        "oid": "16bcb99762eb10319a5e5ebe10aee68a1c9b46d8",
+        "message": "refactorings"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/jhy/jsoup/issues/499",
+      "createdAt": "2014-12-02T16:18:12Z",
+      "content": "bug_report_all/jhy_jsoup-1871.json"
+    },
+    "changed_tests": [
+      "src/test/java/org/jsoup/safety/SafelistTest.java"
+    ],
+    "PR_url": "https://github.com/jhy/jsoup/pull/1871",
+    "merge_commit_url": "https://github.com/jhy/jsoup/commit/4100d302cfb3f7cbcc722ebe694c9c8a2c2d3c05",
+    "buggy_commit": "1762412a28fa7b08ccf71d93fc4c98dc73086e03",
+    "execution_result": {
+      "valid_tests": [
+        ".org.jsoup.safety.SafelistTest"
+      ],
+      "success_tests": [
+        ".org.jsoup.safety.SafelistTest"
+      ]
+    }
+  },
+  "jhy_jsoup-1950": {
+    "bug_id": "jhy_jsoup-1950",
+    "PR_number": 1950,
+    "PR_createdAt": "2023-05-05T09:34:48Z",
+    "merge_commit": "401c8b010e01a03d5af00b88387e0dc3a8c1c8a4",
+    "buggy_commits": [
+      {
+        "oid": "f284d35658a8ec46a4caca07b495dc66691cbc17",
+        "message": "Changelog for #1848"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/jhy/jsoup/issues/1949",
+      "createdAt": "2023-05-05T09:14:20Z",
+      "content": "bug_report_all/jhy_jsoup-1950.json"
+    },
+    "changed_tests": [
+      "src/test/java/org/jsoup/parser/HtmlParserTest.java"
+    ],
+    "PR_url": "https://github.com/jhy/jsoup/pull/1950",
+    "merge_commit_url": "https://github.com/jhy/jsoup/commit/401c8b010e01a03d5af00b88387e0dc3a8c1c8a4",
+    "buggy_commit": "f284d35658a8ec46a4caca07b495dc66691cbc17",
+    "execution_result": {
+      "valid_tests": [
+        ".org.jsoup.parser.HtmlParserTest"
+      ],
+      "success_tests": [
+        ".org.jsoup.parser.HtmlParserTest"
+      ]
+    }
+  }
+}

@@ -1,0 +1,187 @@
+diff --git a/common/src/main/java/io/seata/common/util/DurationUtil.java b/common/src/main/java/io/seata/common/util/DurationUtil.java
+index d0019c09..8315e40e 100644
+--- a/common/src/main/java/io/seata/common/util/DurationUtil.java
++++ b/common/src/main/java/io/seata/common/util/DurationUtil.java
+@@ -16,6 +16,8 @@
+ package io.seata.common.util;
+ 
+ import java.time.Duration;
++import java.time.format.DateTimeParseException;
++import java.util.regex.Pattern;
+ 
+ /**
+  * @author XCXCXCXCX
+@@ -30,40 +32,53 @@ public class DurationUtil {
+     public static final String SECOND_UNIT = "s";
+     public static final String MILLIS_SECOND_UNIT = "ms";
+ 
++    private static final Pattern SIMPLE = Pattern.compile("^([\\+\\-]?\\d+)([a-zA-Z]{1,2})$");
++    private static final Pattern ISO8601 = Pattern.compile("^[\\+\\-]?P.*$");
++
+     public static Duration parse(String str) {
+         if (StringUtils.isBlank(str)) {
+             return DEFAULT_DURATION;
+         }
+ 
+-        if (str.contains(MILLIS_SECOND_UNIT)) {
+-            Long value = doParse(MILLIS_SECOND_UNIT, str);
+-            return value == null ? null : Duration.ofMillis(value);
+-        } else if (str.contains(DAY_UNIT)) {
+-            Long value = doParse(DAY_UNIT, str);
+-            return value == null ? null : Duration.ofDays(value);
+-        } else if (str.contains(HOUR_UNIT)) {
+-            Long value = doParse(HOUR_UNIT, str);
+-            return value == null ? null : Duration.ofHours(value);
+-        } else if (str.contains(MINUTE_UNIT)) {
+-            Long value = doParse(MINUTE_UNIT, str);
+-            return value == null ? null : Duration.ofMinutes(value);
+-        } else if (str.contains(SECOND_UNIT)) {
+-            Long value = doParse(SECOND_UNIT, str);
+-            return value == null ? null : Duration.ofSeconds(value);
++        if (SIMPLE.matcher(str).matches()) {
++            if (str.contains(MILLIS_SECOND_UNIT)) {
++                long value = doParse(MILLIS_SECOND_UNIT, str);
++                return Duration.ofMillis(value);
++            } else if (str.contains(DAY_UNIT)) {
++                long value = doParse(DAY_UNIT, str);
++                return Duration.ofDays(value);
++            } else if (str.contains(HOUR_UNIT)) {
++                long value = doParse(HOUR_UNIT, str);
++                return Duration.ofHours(value);
++            } else if (str.contains(MINUTE_UNIT)) {
++                long value = doParse(MINUTE_UNIT, str);
++                return Duration.ofMinutes(value);
++            } else if (str.contains(SECOND_UNIT)) {
++                long value = doParse(SECOND_UNIT, str);
++                return Duration.ofSeconds(value);
++            } else {
++                throw new UnsupportedOperationException("\"" + str + "\" can't parse to Duration");
++            }
++        }
++
++        try {
++            if (ISO8601.matcher(str).matches()) {
++                return Duration.parse(str);
++            }
++        } catch (DateTimeParseException e) {
++            throw new UnsupportedOperationException("\"" + str + "\" can't parse to Duration", e);
+         }
++
+         try {
+             int millis = Integer.parseInt(str);
+             return Duration.ofMillis(millis);
+         } catch (Exception e) {
+-            throw new UnsupportedOperationException(str + " can't parse to duration", e);
++            throw new UnsupportedOperationException("\"" + str + "\" can't parse to Duration", e);
+         }
+     }
+ 
+-    private static Long doParse(String unit, String str) {
++    private static long doParse(String unit, String str) {
+         str = str.replace(unit, "");
+-        if ("".equals(str)) {
+-            return null;
+-        }
+         try {
+             return Long.parseLong(str);
+         } catch (NumberFormatException e) {
+diff --git a/config/seata-config-core/src/main/java/io/seata/config/Configuration.java b/config/seata-config-core/src/main/java/io/seata/config/Configuration.java
+index 816f67c6..b656988e 100644
+--- a/config/seata-config-core/src/main/java/io/seata/config/Configuration.java
++++ b/config/seata-config-core/src/main/java/io/seata/config/Configuration.java
+@@ -133,7 +133,7 @@ public interface Configuration {
+      * @param dataId       the data id
+      * @param defaultValue the default value
+      * @param timeoutMills the timeout mills
+-     * @return he duration
++     * @return the duration
+      */
+     Duration getDuration(String dataId, Duration defaultValue, long timeoutMills);
+ 
+diff --git a/seata-spring-autoconfigure/seata-spring-autoconfigure-server/src/main/java/io/seata/spring/boot/autoconfigure/properties/server/ServerProperties.java b/seata-spring-autoconfigure/seata-spring-autoconfigure-server/src/main/java/io/seata/spring/boot/autoconfigure/properties/server/ServerProperties.java
+index c2c672a7..8575dfa1 100644
+--- a/seata-spring-autoconfigure/seata-spring-autoconfigure-server/src/main/java/io/seata/spring/boot/autoconfigure/properties/server/ServerProperties.java
++++ b/seata-spring-autoconfigure/seata-spring-autoconfigure-server/src/main/java/io/seata/spring/boot/autoconfigure/properties/server/ServerProperties.java
+@@ -17,6 +17,7 @@ package io.seata.spring.boot.autoconfigure.properties.server;
+ 
+ import java.time.Duration;
+ 
++import io.seata.common.util.DurationUtil;
+ import org.springframework.boot.context.properties.ConfigurationProperties;
+ import org.springframework.stereotype.Component;
+ 
+@@ -28,8 +29,8 @@ import static io.seata.spring.boot.autoconfigure.StarterConstants.SERVER_PREFIX;
+ @Component
+ @ConfigurationProperties(prefix = SERVER_PREFIX)
+ public class ServerProperties {
+-    private Duration maxCommitRetryTimeout = Duration.ofMillis(-1);
+-    private Duration maxRollbackRetryTimeout = Duration.ofMillis(-1);
++    private Duration maxCommitRetryTimeout = DurationUtil.DEFAULT_DURATION;
++    private Duration maxRollbackRetryTimeout = DurationUtil.DEFAULT_DURATION;
+     private Boolean rollbackRetryTimeoutUnlockEnable = false;
+     private Boolean enableCheckAuth = true;
+     private Integer retryDeadThreshold = 130000;
+diff --git a/server/src/main/java/io/seata/server/coordinator/DefaultCoordinator.java b/server/src/main/java/io/seata/server/coordinator/DefaultCoordinator.java
+index 8ba617bc..a60f3f7c 100644
+--- a/server/src/main/java/io/seata/server/coordinator/DefaultCoordinator.java
++++ b/server/src/main/java/io/seata/server/coordinator/DefaultCoordinator.java
+@@ -245,7 +245,7 @@ public class DefaultCoordinator extends AbstractTCInboundHandler implements Tran
+         if (CollectionUtils.isEmpty(allSessions)) {
+             return;
+         }
+-        if (allSessions.size() > 0 && LOGGER.isDebugEnabled()) {
++        if (!allSessions.isEmpty() && LOGGER.isDebugEnabled()) {
+             LOGGER.debug("Global transaction timeout check begin, size: {}", allSessions.size());
+         }
+         SessionHelper.forEach(allSessions, globalSession -> {
+@@ -279,7 +279,7 @@ public class DefaultCoordinator extends AbstractTCInboundHandler implements Tran
+                 return true;
+             });
+         });
+-        if (allSessions.size() > 0 && LOGGER.isDebugEnabled()) {
++        if (!allSessions.isEmpty() && LOGGER.isDebugEnabled()) {
+             LOGGER.debug("Global transaction timeout check end. ");
+         }
+ 
+diff --git a/tcc/src/main/java/io/seata/rm/tcc/config/TCCFenceConfig.java b/tcc/src/main/java/io/seata/rm/tcc/config/TCCFenceConfig.java
+index 7737ed0d..fffc08ab 100644
+--- a/tcc/src/main/java/io/seata/rm/tcc/config/TCCFenceConfig.java
++++ b/tcc/src/main/java/io/seata/rm/tcc/config/TCCFenceConfig.java
+@@ -15,6 +15,14 @@
+  */
+ package io.seata.rm.tcc.config;
+ 
++import java.time.Duration;
++import java.util.Date;
++import java.util.concurrent.ScheduledThreadPoolExecutor;
++import java.util.concurrent.TimeUnit;
++import java.util.concurrent.atomic.AtomicBoolean;
++
++import javax.sql.DataSource;
++
+ import io.seata.common.DefaultValues;
+ import io.seata.common.exception.FrameworkErrorCode;
+ import io.seata.common.thread.NamedThreadFactory;
+@@ -29,13 +37,6 @@ import org.springframework.beans.factory.InitializingBean;
+ import org.springframework.transaction.PlatformTransactionManager;
+ import org.springframework.transaction.support.TransactionTemplate;
+ 
+-import javax.sql.DataSource;
+-import java.time.Duration;
+-import java.util.Date;
+-import java.util.concurrent.ScheduledThreadPoolExecutor;
+-import java.util.concurrent.TimeUnit;
+-import java.util.concurrent.atomic.AtomicBoolean;
+-
+ /**
+  * TCC Fence Config
+  *
+@@ -124,7 +125,7 @@ public class TCCFenceConfig implements InitializingBean, Disposable {
+                     LOGGER.error("Delete tcc fence log failed, timeBefore: {}", timeBefore, e);
+                 }
+             }, 0, periodSeconds, TimeUnit.SECONDS);
+-            LOGGER.info("TCC fence log clean task start success, cleanPeriod:{}", cleanPeriod.toString());
++            LOGGER.info("TCC fence log clean task start success, cleanPeriod:{}", cleanPeriod);
+         } catch (NumberFormatException e) {
+             LOGGER.error("TCC fence log clean period only supports positive integers, clean task start failed");
+         }

@@ -1,0 +1,93 @@
+diff --git a/javaparser-core/src/main/java/com/github/javaparser/resolution/logic/MethodResolutionLogic.java b/javaparser-core/src/main/java/com/github/javaparser/resolution/logic/MethodResolutionLogic.java
+index f098df04e..9b68c78bf 100644
+--- a/javaparser-core/src/main/java/com/github/javaparser/resolution/logic/MethodResolutionLogic.java
++++ b/javaparser-core/src/main/java/com/github/javaparser/resolution/logic/MethodResolutionLogic.java
+@@ -50,7 +50,7 @@ public class MethodResolutionLogic {
+             res.add(variadicType);
+         } else {
+             ResolvedType componentType = findCommonType(variadicValues);
+-            res.add(new ResolvedArrayType(componentType));
++            res.add(convertToVariadicParameter(componentType));
+         }
+         return res;
+     }
+@@ -149,8 +149,21 @@ public class MethodResolutionLogic {
+                 continue;
+             }
+ 
++            // if this is a variable arity method and we are trying to evaluate the last parameter
++            // then we consider that an array of objects can be assigned by any array
++            // for example:
++            // The method call expression String.format("%d", new int[] {1})
++            // must refer to the method String.format(String, Object...)
++            // even if an array of primitive type cannot be assigned to an array of Object
++            if (methodDeclaration.getParam(i).isVariadic()
++            		&& (i == countOfMethodParametersDeclared - 1)
++            		&& isArrayOfObject(expectedDeclaredType)
++            		&& actualArgumentType.isArray()) {
++            	continue;
++            }
++
+             boolean isAssignableWithoutSubstitution = expectedDeclaredType.isAssignableBy(actualArgumentType) ||
+-                    (methodDeclaration.getParam(i).isVariadic() && new ResolvedArrayType(expectedDeclaredType).isAssignableBy(actualArgumentType));
++                    (methodDeclaration.getParam(i).isVariadic() && convertToVariadicParameter(expectedDeclaredType).isAssignableBy(actualArgumentType));
+ 
+             if (!isAssignableWithoutSubstitution && expectedDeclaredType.isReferenceType() && actualArgumentType.isReferenceType()) {
+                 isAssignableWithoutSubstitution = isAssignableMatchTypeParameters(
+@@ -178,7 +191,7 @@ public class MethodResolutionLogic {
+                         continue;
+                     }
+                     if (methodIsDeclaredWithVariadicParameter && i == countOfMethodParametersDeclared - 1) {
+-                        if (new ResolvedArrayType(expectedDeclaredType).isAssignableBy(actualArgumentType)) {
++                        if (convertToVariadicParameter(expectedDeclaredType).isAssignableBy(actualArgumentType)) {
+                             continue;
+                         }
+                     }
+@@ -189,6 +202,16 @@ public class MethodResolutionLogic {
+         return !withWildcardTolerance || needForWildCardTolerance;
+     }
+ 
++    private static boolean isArrayOfObject(ResolvedType type) {
++    	return type.isArray()
++    			&& type.asArrayType().getComponentType().isReferenceType()
++    			&& type.asArrayType().getComponentType().asReferenceType().isJavaLangObject();
++    }
++
++	private static ResolvedArrayType convertToVariadicParameter(ResolvedType type) {
++		return type.isArray() ? type.asArrayType() : new ResolvedArrayType(type);
++	}
++
+     /*
+      * Returns the last parameter index
+      */
+diff --git a/javaparser-core/src/main/java/com/github/javaparser/resolution/types/ResolvedArrayType.java b/javaparser-core/src/main/java/com/github/javaparser/resolution/types/ResolvedArrayType.java
+index 657d4413c..4150fd7f1 100644
+--- a/javaparser-core/src/main/java/com/github/javaparser/resolution/types/ResolvedArrayType.java
++++ b/javaparser-core/src/main/java/com/github/javaparser/resolution/types/ResolvedArrayType.java
+@@ -94,11 +94,10 @@ public class ResolvedArrayType implements ResolvedType {
+ 			if (baseType.isPrimitive() && other.asArrayType().getComponentType().isPrimitive()) {
+ 				return baseType.equals(other.asArrayType().getComponentType());
+ 			}
+-			// an array of Object is assignable by any array of primitive type
+-			// but an array of primitive type is not assignable by an array of boxed type nor the reverse
+-			if (!isJavaLangObject(baseType)
+-					&& ((baseType.isPrimitive() && other.asArrayType().getComponentType().isReferenceType())
+-							|| (baseType.isReferenceType() && other.asArrayType().getComponentType().isPrimitive()))) {
++			// An array of primitive type is not assignable by an array of boxed type nor the reverse
++			// An array of primitive type cannot be assigned to an array of Object
++			if ((baseType.isPrimitive() && other.asArrayType().getComponentType().isReferenceType())
++							|| (baseType.isReferenceType() && other.asArrayType().getComponentType().isPrimitive())) {
+ 				return false;
+ 			}
+ 			// An array can be assigned only to a variable of a compatible array type, or to
+@@ -108,10 +107,6 @@ public class ResolvedArrayType implements ResolvedType {
+ 		return false;
+ 	}
+ 
+-    private boolean isJavaLangObject(ResolvedType type) {
+-    	return type.isReferenceType() && type.asReferenceType().isJavaLangObject();
+-    }
+-
+     @Override
+     public ResolvedType replaceTypeVariables(ResolvedTypeParameterDeclaration tpToReplace, ResolvedType replaced, Map<ResolvedTypeParameterDeclaration, ResolvedType> inferredTypes) {
+         ResolvedType baseTypeReplaced = baseType.replaceTypeVariables(tpToReplace, replaced, inferredTypes);

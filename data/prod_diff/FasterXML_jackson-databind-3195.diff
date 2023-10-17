@@ -1,0 +1,89 @@
+diff --git a/src/main/java/com/fasterxml/jackson/databind/introspect/AnnotatedConstructor.java b/src/main/java/com/fasterxml/jackson/databind/introspect/AnnotatedConstructor.java
+index 4fc92238a..e940b0bde 100644
+--- a/src/main/java/com/fasterxml/jackson/databind/introspect/AnnotatedConstructor.java
++++ b/src/main/java/com/fasterxml/jackson/databind/introspect/AnnotatedConstructor.java
+@@ -1,10 +1,12 @@
+ package com.fasterxml.jackson.databind.introspect;
+ 
+-import java.lang.reflect.*;
+-
+ import com.fasterxml.jackson.databind.JavaType;
+ import com.fasterxml.jackson.databind.util.ClassUtil;
+ 
++import java.lang.reflect.Constructor;
++import java.lang.reflect.Member;
++import java.lang.reflect.Type;
++
+ public final class AnnotatedConstructor
+     extends AnnotatedWithParams
+ {
+@@ -178,12 +180,20 @@ public final class AnnotatedConstructor
+     public int hashCode() {
+         return _constructor.getName().hashCode();
+     }
+-    
++
+     @Override
+     public boolean equals(Object o) {
+         if (o == this) return true;
+-        return ClassUtil.hasClass(o, getClass())
+-                && (((AnnotatedConstructor) o)._constructor == _constructor);
++        if (!ClassUtil.hasClass(o, getClass())) {
++            return false;
++        }
++
++        AnnotatedConstructor other = (AnnotatedConstructor) o;
++        if (other._constructor == null) {
++            return _constructor == null;
++        } else {
++            return other._constructor.equals(_constructor);
++        }
+     }
+ 
+     /*
+diff --git a/src/main/java/com/fasterxml/jackson/databind/introspect/AnnotatedField.java b/src/main/java/com/fasterxml/jackson/databind/introspect/AnnotatedField.java
+index e905f95f8..70d05d51c 100644
+--- a/src/main/java/com/fasterxml/jackson/databind/introspect/AnnotatedField.java
++++ b/src/main/java/com/fasterxml/jackson/databind/introspect/AnnotatedField.java
+@@ -135,8 +135,16 @@ public final class AnnotatedField
+     @Override
+     public boolean equals(Object o) {
+         if (o == this) return true;
+-        return ClassUtil.hasClass(o, getClass())
+-                && (((AnnotatedField) o)._field == _field);
++        if (!ClassUtil.hasClass(o, getClass())) {
++            return false;
++        }
++
++        AnnotatedField other = (AnnotatedField) o;
++        if (other._field == null) {
++            return _field == null;
++        } else {
++            return other._field.equals(_field);
++        }
+     }
+ 
+     @Override
+diff --git a/src/main/java/com/fasterxml/jackson/databind/introspect/AnnotatedMethod.java b/src/main/java/com/fasterxml/jackson/databind/introspect/AnnotatedMethod.java
+index 94bfa61b7..003980e5e 100644
+--- a/src/main/java/com/fasterxml/jackson/databind/introspect/AnnotatedMethod.java
++++ b/src/main/java/com/fasterxml/jackson/databind/introspect/AnnotatedMethod.java
+@@ -253,8 +253,16 @@ public final class AnnotatedMethod
+     @Override
+     public boolean equals(Object o) {
+         if (o == this) return true;
+-        return ClassUtil.hasClass(o, getClass())
+-                && (((AnnotatedMethod) o)._method == _method);
++        if (!ClassUtil.hasClass(o, getClass())) {
++            return false;
++        }
++
++        AnnotatedMethod other = (AnnotatedMethod) o;
++        if (other._method == null) {
++            return _method == null;
++        } else {
++            return other._method.equals(_method);
++        }
+     }
+ 
+     /*

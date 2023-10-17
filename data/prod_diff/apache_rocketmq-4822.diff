@@ -1,0 +1,86 @@
+diff --git a/broker/src/main/java/org/apache/rocketmq/broker/processor/ChangeInvisibleTimeProcessor.java b/broker/src/main/java/org/apache/rocketmq/broker/processor/ChangeInvisibleTimeProcessor.java
+index bb68badc1..76c1b908e 100644
+--- a/broker/src/main/java/org/apache/rocketmq/broker/processor/ChangeInvisibleTimeProcessor.java
++++ b/broker/src/main/java/org/apache/rocketmq/broker/processor/ChangeInvisibleTimeProcessor.java
+@@ -189,7 +189,7 @@ public class ChangeInvisibleTimeProcessor implements NettyRequestProcessor {
+         msgInner.setDeliverTimeMs(ck.getReviveTime() - PopAckConstants.ackTimeInterval);
+         msgInner.getProperties().put(MessageConst.PROPERTY_UNIQ_CLIENT_MESSAGE_ID_KEYIDX, PopMessageProcessor.genCkUniqueId(ck));
+         msgInner.setPropertiesString(MessageDecoder.messageProperties2String(msgInner.getProperties()));
+-        PutMessageResult putMessageResult = this.brokerController.getMessageStore().putMessage(msgInner);
++        PutMessageResult putMessageResult = this.brokerController.getEscapeBridge().putMessageToSpecificQueue(msgInner);
+ 
+         if (brokerController.getBrokerConfig().isEnablePopLog()) {
+             POP_LOGGER.info("change Invisible , appendCheckPoint, topic {}, queueId {},reviveId {}, cid {}, startOffset {}, rt {}, result {}", requestHeader.getTopic(), queueId, reviveQid, requestHeader.getConsumerGroup(), offset,
+diff --git a/broker/src/main/java/org/apache/rocketmq/broker/processor/PopBufferMergeService.java b/broker/src/main/java/org/apache/rocketmq/broker/processor/PopBufferMergeService.java
+index 4b2df0875..bb432a851 100644
+--- a/broker/src/main/java/org/apache/rocketmq/broker/processor/PopBufferMergeService.java
++++ b/broker/src/main/java/org/apache/rocketmq/broker/processor/PopBufferMergeService.java
+@@ -538,7 +538,7 @@ public class PopBufferMergeService extends ServiceThread {
+             return;
+         }
+         MessageExtBrokerInner msgInner = popMessageProcessor.buildCkMsg(pointWrapper.getCk(), pointWrapper.getReviveQueueId());
+-        PutMessageResult putMessageResult = brokerController.getMessageStore().putMessage(msgInner);
++        PutMessageResult putMessageResult = brokerController.getEscapeBridge().putMessageToSpecificQueue(msgInner);
+         if (putMessageResult.getPutMessageStatus() != PutMessageStatus.PUT_OK
+             && putMessageResult.getPutMessageStatus() != PutMessageStatus.FLUSH_DISK_TIMEOUT
+             && putMessageResult.getPutMessageStatus() != PutMessageStatus.FLUSH_SLAVE_TIMEOUT
+@@ -547,7 +547,14 @@ public class PopBufferMergeService extends ServiceThread {
+             return;
+         }
+         pointWrapper.setCkStored(true);
+-        pointWrapper.setReviveQueueOffset(putMessageResult.getAppendMessageResult().getLogicsOffset());
++
++        if (putMessageResult.isRemotePut()) {
++            //No AppendMessageResult when escaping remotely
++            pointWrapper.setReviveQueueOffset(0);
++        } else {
++            pointWrapper.setReviveQueueOffset(putMessageResult.getAppendMessageResult().getLogicsOffset());
++        }
++
+         if (brokerController.getBrokerConfig().isEnablePopLog()) {
+             POP_LOGGER.info("[PopBuffer]put ck to store ok: {}, {}", pointWrapper, putMessageResult);
+         }
+@@ -575,7 +582,7 @@ public class PopBufferMergeService extends ServiceThread {
+         msgInner.getProperties().put(MessageConst.PROPERTY_UNIQ_CLIENT_MESSAGE_ID_KEYIDX, PopMessageProcessor.genAckUniqueId(ackMsg));
+ 
+         msgInner.setPropertiesString(MessageDecoder.messageProperties2String(msgInner.getProperties()));
+-        PutMessageResult putMessageResult = brokerController.getMessageStore().putMessage(msgInner);
++        PutMessageResult putMessageResult = brokerController.getEscapeBridge().putMessageToSpecificQueue(msgInner);
+         if (putMessageResult.getPutMessageStatus() != PutMessageStatus.PUT_OK
+             && putMessageResult.getPutMessageStatus() != PutMessageStatus.FLUSH_DISK_TIMEOUT
+             && putMessageResult.getPutMessageStatus() != PutMessageStatus.FLUSH_SLAVE_TIMEOUT
+diff --git a/broker/src/main/java/org/apache/rocketmq/broker/processor/PopMessageProcessor.java b/broker/src/main/java/org/apache/rocketmq/broker/processor/PopMessageProcessor.java
+index 842d0d98b..0d2c5f9b5 100644
+--- a/broker/src/main/java/org/apache/rocketmq/broker/processor/PopMessageProcessor.java
++++ b/broker/src/main/java/org/apache/rocketmq/broker/processor/PopMessageProcessor.java
+@@ -477,7 +477,7 @@ public class PopMessageProcessor implements NettyRequestProcessor {
+             return restNum;
+         }
+         offset = getPopOffset(topic, requestHeader, queueId, true, lockKey);
+-        GetMessageResult getMessageTmpResult;
++        GetMessageResult getMessageTmpResult = null;
+         try {
+             if (isOrder && brokerController.getConsumerOrderInfoManager().checkBlock(topic,
+                 requestHeader.getConsumerGroup(), queueId, requestHeader.getInvisibleTime())) {
+@@ -544,6 +544,8 @@ public class PopMessageProcessor implements NettyRequestProcessor {
+ //                this.brokerController.getConsumerOffsetManager().commitOffset(channel.remoteAddress().toString(), requestHeader.getConsumerGroup(), topic,
+ //                        queueId, getMessageTmpResult.getNextBeginOffset());
+             }
++        } catch (Exception e) {
++            POP_LOGGER.error("Exception in popMsgFromQueue", e);
+         } finally {
+             queueLockManager.unLock(lockKey);
+         }
+diff --git a/broker/src/main/java/org/apache/rocketmq/broker/processor/PopReviveService.java b/broker/src/main/java/org/apache/rocketmq/broker/processor/PopReviveService.java
+index 1b95cce4e..1a6c52ec3 100644
+--- a/broker/src/main/java/org/apache/rocketmq/broker/processor/PopReviveService.java
++++ b/broker/src/main/java/org/apache/rocketmq/broker/processor/PopReviveService.java
+@@ -106,7 +106,7 @@ public class PopReviveService extends ServiceThread {
+         }
+         msgInner.setPropertiesString(MessageDecoder.messageProperties2String(msgInner.getProperties()));
+         addRetryTopicIfNoExit(msgInner.getTopic(), popCheckPoint.getCId());
+-        PutMessageResult putMessageResult = brokerController.getMessageStore().putMessage(msgInner);
++        PutMessageResult putMessageResult = brokerController.getEscapeBridge().putMessageToSpecificQueue(msgInner);
+         if (brokerController.getBrokerConfig().isEnablePopLog()) {
+             POP_LOGGER.info("reviveQueueId={},retry msg , ck={}, msg queueId {}, offset {}, reviveDelay={}, result is {} ",
+                 queueId, popCheckPoint, messageExt.getQueueId(), messageExt.getQueueOffset(),

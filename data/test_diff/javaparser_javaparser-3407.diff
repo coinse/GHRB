@@ -1,0 +1,227 @@
+diff --git a/javaparser-core-testing/src/test/java/com/github/javaparser/ExpectedTokensTest.java b/javaparser-core-testing/src/test/java/com/github/javaparser/ExpectedTokensTest.java
+new file mode 100644
+index 0000000..4bde289
+--- /dev/null
++++ b/javaparser-core-testing/src/test/java/com/github/javaparser/ExpectedTokensTest.java
+@@ -0,0 +1,74 @@
++/*
++ * Copyright (C) 2007-2010 Júlio Vilmar Gesser.
++ * Copyright (C) 2011, 2013-2021 The JavaParser Team.
++ *
++ * This file is part of JavaParser.
++ *
++ * JavaParser can be used either under the terms of
++ * a) the GNU Lesser General Public License as published by
++ *     the Free Software Foundation, either version 3 of the License, or
++ *     (at your option) any later version.
++ * b) the terms of the Apache License
++ *
++ * You should have received a copy of both licenses in LICENCE.LGPL and
++ * LICENCE.APACHE. Please refer to those files for details.
++ *
++ * JavaParser is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ * GNU Lesser General Public License for more details.
++ */
++
++package com.github.javaparser;
++
++import com.github.javaparser.ast.CompilationUnit;
++import com.github.javaparser.ast.expr.CharLiteralExpr;
++import com.github.javaparser.utils.ExtractingVisitors;
++import org.junit.jupiter.api.Test;
++
++import java.util.ArrayList;
++import java.util.List;
++
++import static com.github.javaparser.utils.TestUtils.getNodeStartingAtPosition;
++import static com.github.javaparser.utils.TestUtils.parseFile;
++import static org.junit.jupiter.api.Assertions.assertEquals;
++
++class ExpectedTokensTest {
++
++    @Test
++    void testCharEscapeSequences() {
++        CompilationUnit compilationUnit = parseFile("/com/github/javaparser/EscapeSequences.java");
++        List<CharLiteralExpr> chars = ExtractingVisitors.extractCharLiteralExprs(compilationUnit);
++        assertEquals(23, chars.size());
++
++        assertTokenValue(chars, 7, 17, "\\\\");
++        assertTokenValue(chars, 7, 23, "\\u005C\\u005C");
++        assertTokenValue(chars, 7, 39, "\\u005c\\u005c");
++        assertTokenValue(chars, 9, 17, "\\n");
++        assertTokenValue(chars, 9, 23, "\\u005cn");
++        assertTokenValue(chars, 9, 34, "\\u005Cn");
++        assertTokenValue(chars, 11, 17, "\\r");
++        assertTokenValue(chars, 11, 23, "\\u005cr");
++        assertTokenValue(chars, 11, 34, "\\u005Cr");
++        assertTokenValue(chars, 13, 17, "\\t");
++        assertTokenValue(chars, 13, 23, "\\u005ct");
++        assertTokenValue(chars, 13, 34, "\\u005Ct");
++        assertTokenValue(chars, 15, 17, "\\b");
++        assertTokenValue(chars, 15, 23, "\\u005cb");
++        assertTokenValue(chars, 15, 34, "\\u005Cb");
++        assertTokenValue(chars, 17, 17, "\\f");
++        assertTokenValue(chars, 17, 23, "\\u005cf");
++        assertTokenValue(chars, 17, 34, "\\u005Cf");
++        assertTokenValue(chars, 19, 17, "\\'");
++        assertTokenValue(chars, 19, 23, "\\u005c'");
++        assertTokenValue(chars, 21, 17, "\\\"");
++        assertTokenValue(chars, 21, 23, "\\u005c\"");
++        assertTokenValue(chars, 21, 34, "\\u005C\"");
++    }
++
++    private void assertTokenValue(List<CharLiteralExpr> chars, int line, int col, String expectedTokenValue) {
++        CharLiteralExpr expr = getNodeStartingAtPosition(chars, line, col);
++        assertEquals(expectedTokenValue, expr.getValue(), "Node at " + line + "," + col);
++    }
++
++}
+diff --git a/javaparser-core-testing/src/test/java/com/github/javaparser/utils/ExtractingVisitors.java b/javaparser-core-testing/src/test/java/com/github/javaparser/utils/ExtractingVisitors.java
+new file mode 100644
+index 0000000..9ecf734
+--- /dev/null
++++ b/javaparser-core-testing/src/test/java/com/github/javaparser/utils/ExtractingVisitors.java
+@@ -0,0 +1,49 @@
++/*
++ * Copyright (C) 2007-2010 Júlio Vilmar Gesser.
++ * Copyright (C) 2011, 2013-2021 The JavaParser Team.
++ *
++ * This file is part of JavaParser.
++ *
++ * JavaParser can be used either under the terms of
++ * a) the GNU Lesser General Public License as published by
++ *     the Free Software Foundation, either version 3 of the License, or
++ *     (at your option) any later version.
++ * b) the terms of the Apache License
++ *
++ * You should have received a copy of both licenses in LICENCE.LGPL and
++ * LICENCE.APACHE. Please refer to those files for details.
++ *
++ * JavaParser is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ * GNU Lesser General Public License for more details.
++ */
++package com.github.javaparser.utils;
++
++import com.github.javaparser.ast.Node;
++import com.github.javaparser.ast.expr.CharLiteralExpr;
++import com.github.javaparser.ast.visitor.GenericVisitor;
++import com.github.javaparser.ast.visitor.GenericVisitorAdapter;
++
++import java.util.ArrayList;
++import java.util.List;
++
++public final class ExtractingVisitors {
++
++    private static <N extends Node> List<N> extract(Node node, GenericVisitor<Void, List<N>> extractCharLiteralExprs) {
++        List<N> list = new ArrayList<>();
++        node.accept(extractCharLiteralExprs, list);
++        return list;
++    }
++
++    public static List<CharLiteralExpr> extractCharLiteralExprs(Node node) {
++        return extract(node, new GenericVisitorAdapter<Void, List<CharLiteralExpr>>() {
++            @Override
++            public Void visit(CharLiteralExpr n, List<CharLiteralExpr> accumulator) {
++                accumulator.add(n);
++                return super.visit(n, accumulator);
++            }
++        });
++    }
++
++}
+diff --git a/javaparser-core-testing/src/test/java/com/github/javaparser/utils/TestUtils.java b/javaparser-core-testing/src/test/java/com/github/javaparser/utils/TestUtils.java
+index fa880bf..00dfa9d 100644
+--- a/javaparser-core-testing/src/test/java/com/github/javaparser/utils/TestUtils.java
++++ b/javaparser-core-testing/src/test/java/com/github/javaparser/utils/TestUtils.java
+@@ -25,7 +25,10 @@ import com.github.javaparser.JavaParser;
+ import com.github.javaparser.ParseResult;
+ import com.github.javaparser.ParseStart;
+ import com.github.javaparser.ParserConfiguration;
++import com.github.javaparser.Position;
+ import com.github.javaparser.Problem;
++import com.github.javaparser.ast.CompilationUnit;
++import com.github.javaparser.ast.Node;
+ import com.github.javaparser.ast.expr.Expression;
+ import okhttp3.OkHttpClient;
+ import okhttp3.Request;
+@@ -56,6 +59,7 @@ import static com.github.javaparser.utils.CodeGenerationUtils.f;
+ import static com.github.javaparser.utils.Utils.normalizeEolInTextBlock;
+ import static java.nio.charset.StandardCharsets.UTF_8;
+ import static java.util.Arrays.asList;
++import static java.util.stream.Collectors.toList;
+ import static org.junit.jupiter.api.Assertions.*;
+ 
+ public class TestUtils {
+@@ -273,7 +277,6 @@ public class TestUtils {
+         assertEqualsStringIgnoringEol(expected, actual, message);
+     }
+ 
+-
+     /**
+      * Assert that "actual" equals "expected".
+      * <br>First checks if the content is equal ignoring line separators.
+@@ -338,6 +341,60 @@ public class TestUtils {
+     }
+ 
+     /**
++     * Does this node's token starting position match the line and col?
++     */
++    public static boolean startsAtPosition(Node node, int line, int col) {
++        Position begin = getNodeStartTokenPosition(node);
++        return begin.line == line && begin.column == col;
++    }
++
++    /**
++     * Quickly get token starting position of a given node
++     */
++    public static Position getNodeStartTokenPosition(Node node) {
++        return node.getTokenRange()
++                .orElseThrow(() -> new IllegalStateException(node + " is missing the token range"))
++                .toRange()
++                .orElseThrow(() -> new IllegalStateException(node + "'s token range is missing the range"))
++                .begin;
++    }
++
++    /**
++     * parse a file using a given parser relative to the classpath root
++     */
++    public static CompilationUnit parseFile(JavaParser parser, String filePath) {
++        try (InputStream in = TestUtils.class.getResourceAsStream(filePath)) {
++            ParseResult<CompilationUnit> parse = parser.parse(in);
++            List<Problem> problems = parse.getProblems();
++            if (!problems.isEmpty()) {
++                throw new IllegalStateException(problems.toString());
++            }
++            return parse.getResult()
++                    .orElseThrow(() -> new IllegalArgumentException("No result when attempting to parse " + filePath));
++            } catch (IOException ex) {
++            throw new IllegalStateException("Error while parsing " + filePath, ex);
++        }
++    }
++
++    /**
++     * parse a file relative to the classpath root
++     */
++    public static CompilationUnit parseFile(String filePath) {
++        return parseFile(new JavaParser(), filePath);
++    }
++
++    public static <N extends Node> N getNodeStartingAtPosition(List<N> chars, int line, int col) {
++        List<N> nodesAtPosition = chars.stream()
++                .filter(expr -> startsAtPosition(expr, line, col))
++                .collect(toList());
++
++        if (nodesAtPosition.size() != 1) {
++            throw new IllegalArgumentException("Expecting exactly one node to be positioned at " + line + "," + col + " but got " + nodesAtPosition);
++        }
++        return nodesAtPosition.get(0);
++    }
++
++    /**
+      * Assert that the given string is detected as having the given line separator.
+      */
+     public static void assertLineSeparator(String text, LineSeparator expectedLineSeparator, String message) {

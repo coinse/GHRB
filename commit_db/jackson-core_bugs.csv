@@ -1,0 +1,4 @@
+bug_id,revision.id.buggy,revision.id.fixed,report.id,report.url
+1,7910a8b9bfe9ce921a258a7b4c136631c21867cf,9fd899d449eb57edc3cf6bb9a36582ee1e940f30,FasterXML_jackson-core-883,https://github.com/FasterXML/jackson-core/issues/882
+2,4619d7b7483a1ca495d8dbd7e132d11e6bee2380,df8e14e9e05902c5d0a24fe1d25cbef47c2d63aa,FasterXML_jackson-core-923,https://github.com/FasterXML/jackson-dataformats-text/issues/384
+3,bb778a0a4d6d492ca0a39d7d0e32b6e44e90e7aa,cd513f4bbabe384b860f21419df5dc33de0379df,FasterXML_jackson-core-1053,https://github.com/FasterXML/jackson-core/issues/1050

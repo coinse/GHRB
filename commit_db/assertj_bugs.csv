@@ -1,0 +1,6 @@
+bug_id,revision.id.buggy,revision.id.fixed,report.id,report.url
+1,71b9e77976dd089340fd0d996e99cb12dd55a79e,391b688863002fe50bdf9f7f70e542096fb0ece1,assertj_assertj-2324,https://github.com/assertj/assertj/issues/2319
+2,c91eb66ab36c2d733b1c5ec3bcbb5c8b1410278a,7d78fa8f9f72f4f3b252c21bce9b03d77426a8b6,assertj_assertj-2364,https://github.com/assertj/assertj/issues/2363
+3,2839906331e8a81566d977d75ccf9dd3d19ed19e,ce1113f1c4f3f2d7698c3db189884ce1f8a6bab4,assertj_assertj-2445,https://github.com/assertj/assertj/issues/2444
+4,92548d8916425787c8a60e6dea638b285825ca12,aa3fbf8cf56afcb11ebd9e60c4208ec0249bc81e,assertj_assertj-2549,https://github.com/assertj/assertj/issues/2547
+5,d5180a6d7c1af6ac7272268ee87dad54ae01ee7c,befef07f172031847cbdd7a7e0622d52a64a9033,assertj_assertj-2685,https://github.com/assertj/assertj/issues/2666

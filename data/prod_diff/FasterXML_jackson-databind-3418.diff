@@ -1,0 +1,75 @@
+diff --git a/src/main/java/com/fasterxml/jackson/databind/deser/std/CollectionDeserializer.java b/src/main/java/com/fasterxml/jackson/databind/deser/std/CollectionDeserializer.java
+index 3724962c6..eafd5aaec 100644
+--- a/src/main/java/com/fasterxml/jackson/databind/deser/std/CollectionDeserializer.java
++++ b/src/main/java/com/fasterxml/jackson/databind/deser/std/CollectionDeserializer.java
+@@ -305,12 +305,10 @@ _containerType,
+         if (value.isEmpty()) {
+             CoercionAction act = ctxt.findCoercionAction(logicalType(), rawTargetType,
+                     CoercionInputShape.EmptyString);
+-            act = _checkCoercionFail(ctxt, act, rawTargetType, value,
+-                    "empty String (\"\")");
+-            if (act != null) {
+-                    // handleNonArray may successfully deserialize the result (if
+-                    // ACCEPT_SINGLE_VALUE_AS_ARRAY is enabled, for example) otherwise it
+-                    // is capable of failing just as well as _deserializeFromEmptyString.
++            // handleNonArray may successfully deserialize the result (if
++            // ACCEPT_SINGLE_VALUE_AS_ARRAY is enabled, for example) otherwise it
++            // is capable of failing just as well as _deserializeFromEmptyString.
++            if (act != null && act != CoercionAction.Fail) {
+                 return (Collection<Object>) _deserializeFromEmptyString(
+                         p, ctxt, act, rawTargetType, "empty String (\"\")");
+             }
+@@ -320,8 +318,10 @@ _containerType,
+         else if (_isBlank(value)) {
+             final CoercionAction act = ctxt.findCoercionFromBlankString(logicalType(), rawTargetType,
+                     CoercionAction.Fail);
+-            return (Collection<Object>) _deserializeFromEmptyString(
+-                    p, ctxt, act, rawTargetType, "blank String (all whitespace)");
++            if (act != CoercionAction.Fail) {
++                return (Collection<Object>) _deserializeFromEmptyString(
++                        p, ctxt, act, rawTargetType, "blank String (all whitespace)");
++            }
+         }
+         return handleNonArray(p, ctxt, createDefaultInstance(ctxt));
+     }
+diff --git a/src/main/java/com/fasterxml/jackson/databind/deser/std/StringCollectionDeserializer.java b/src/main/java/com/fasterxml/jackson/databind/deser/std/StringCollectionDeserializer.java
+index ca368a7ee..0d44fdbd7 100644
+--- a/src/main/java/com/fasterxml/jackson/databind/deser/std/StringCollectionDeserializer.java
++++ b/src/main/java/com/fasterxml/jackson/databind/deser/std/StringCollectionDeserializer.java
+@@ -10,6 +10,8 @@ import com.fasterxml.jackson.core.*;
+ 
+ import com.fasterxml.jackson.databind.*;
+ import com.fasterxml.jackson.databind.annotation.JacksonStdImpl;
++import com.fasterxml.jackson.databind.cfg.CoercionAction;
++import com.fasterxml.jackson.databind.cfg.CoercionInputShape;
+ import com.fasterxml.jackson.databind.deser.ContextualDeserializer;
+ import com.fasterxml.jackson.databind.deser.NullValueProvider;
+ import com.fasterxml.jackson.databind.deser.ValueInstantiator;
+@@ -298,6 +300,27 @@ public final class StringCollectionDeserializer
+             }
+             value = (String) _nullProvider.getNullValue(ctxt);
+         } else {
++            if (p.hasToken(JsonToken.VALUE_STRING)) {
++                String textValue = p.getText();
++                // https://github.com/FasterXML/jackson-dataformat-xml/issues/513
++                if (textValue.isEmpty()) {
++                    final CoercionAction act = ctxt.findCoercionAction(logicalType(), handledType(),
++                            CoercionInputShape.EmptyString);
++                    if (act != CoercionAction.Fail) {
++                        return (Collection<String>) _deserializeFromEmptyString(p, ctxt, act, handledType(),
++                                "empty String (\"\")");
++                    }
++                } else if (_isBlank(textValue)) {
++                    final CoercionAction act = ctxt.findCoercionFromBlankString(logicalType(), handledType(),
++                            CoercionAction.Fail);
++                    if (act != CoercionAction.Fail) {
++                        return (Collection<String>) _deserializeFromEmptyString(p, ctxt, act, handledType(),
++                                "blank String (all whitespace)");
++                    }
++                }
++                // if coercion failed, we can still add it to a list
++            }
++
+             try {
+                 value = (valueDes == null) ? _parseString(p, ctxt) : valueDes.deserialize(p, ctxt);
+             } catch (Exception e) {

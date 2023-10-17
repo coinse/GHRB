@@ -1,0 +1,35 @@
+{
+  "apache_dubbo-11561": {
+    "bug_id": "apache_dubbo-11561",
+    "PR_number": 11561,
+    "PR_createdAt": "2023-02-14T03:36:26Z",
+    "merge_commit": "6d28a1a4b1c29034db2a0607db07e05c5544b09f",
+    "buggy_commits": [
+      {
+        "oid": "59a62a66b2491d9b8359f0c230813ec4c387f12d",
+        "message": "Revert clear response operation of timeoutfilter (#11562)\n\n* revert clear response operation of timeoutfilter\r\n\r\nSigned-off-by: crazyhzm <crazyhzm@gmail.com>\r\n\r\n* remove useless import\r\n\r\nSigned-off-by: crazyhzm <crazyhzm@gmail.com>\r\n\r\n---------\r\n\r\nSigned-off-by: crazyhzm <crazyhzm@gmail.com>"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/apache/dubbo/issues/11560",
+      "createdAt": "2023-02-14T03:36:10Z",
+      "content": "bug_report_all/apache_dubbo-11561.json"
+    },
+    "changed_tests": [
+      "dubbo-common/src/test/java/com/service/DemoService4.java",
+      "dubbo-common/src/test/java/com/service/DemoService5.java",
+      "dubbo-common/src/test/java/org/apache/dubbo/common/utils/SerializeSecurityConfiguratorTest.java"
+    ],
+    "PR_url": "https://github.com/apache/dubbo/pull/11561",
+    "merge_commit_url": "https://github.com/apache/dubbo/commit/6d28a1a4b1c29034db2a0607db07e05c5544b09f",
+    "buggy_commit": "59a62a66b2491d9b8359f0c230813ec4c387f12d",
+    "execution_result": {
+      "valid_tests": [
+        ".org.apache.dubbo.common.utils.SerializeSecurityConfiguratorTest.java"
+      ],
+      "success_tests": [
+        ".org.apache.dubbo.common.utils.SerializeSecurityConfiguratorTest.java"
+      ]
+    }
+  }
+}

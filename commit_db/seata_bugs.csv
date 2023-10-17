@@ -1,0 +1,3 @@
+bug_id,revision.id.buggy,revision.id.fixed,report.id,report.url
+1,9d5ff402d3b25f7e360cb6ebae40148d23dfdf72,177502221625e0165147f6bcb3cfc7e7ca89e976,seata_seata-4056,https://github.com/seata/seata/issues/4048
+2,0827ee514d778ec2e6d2d96dfc698ddebe0287c3,80001959a6d2702d1c9336fe78e44082e884bc3d,seata_seata-5120,https://github.com/seata/seata/issues/5117

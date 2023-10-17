@@ -1,0 +1,52 @@
+diff --git a/src/main/java/com/fasterxml/jackson/core/util/TextBuffer.java b/src/main/java/com/fasterxml/jackson/core/util/TextBuffer.java
+index 024c6002..4925ebde 100644
+--- a/src/main/java/com/fasterxml/jackson/core/util/TextBuffer.java
++++ b/src/main/java/com/fasterxml/jackson/core/util/TextBuffer.java
+@@ -710,9 +710,11 @@ public class TextBuffer
+         }
+         _resultString = null;
+         _resultArray = null;
++
+         // Room in current segment?
+         char[] curr = _currentSegment;
+         if (_currentSize >= curr.length) {
++            validateAppend(1);
+             expand();
+             curr = _currentSegment;
+         }
+@@ -737,6 +739,9 @@ public class TextBuffer
+             _currentSize += len;
+             return;
+         }
++
++        validateAppend(len);
++
+         // No room for all, need to copy part(s):
+         if (max > 0) {
+             System.arraycopy(c, start, curr, _currentSize, max);
+@@ -772,6 +777,9 @@ public class TextBuffer
+             _currentSize += len;
+             return;
+         }
++
++        validateAppend(len);
++
+         // No room for all, need to copy part(s):
+         if (max > 0) {
+             str.getChars(offset, offset+max, curr, _currentSize);
+@@ -790,6 +798,15 @@ public class TextBuffer
+         } while (len > 0);
+     }
+ 
++    private void validateAppend(int toAppend) {
++        int newTotalLength = _segmentSize + _currentSize + toAppend;
++        // guard against overflow
++        if (newTotalLength < 0) {
++            newTotalLength = Integer.MAX_VALUE;
++        }
++        validateStringLength(newTotalLength);
++    }
++
+     /*
+     /**********************************************************
+     /* Raw access, for high-performance use:
