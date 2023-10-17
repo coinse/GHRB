@@ -28,8 +28,6 @@ def fetch_prod_diff ():
 
         new_cleaned_data[repo_name] = {}
 
-        #owner, name = repo_name.split("_")
-
         name = repo_name.split("_")
 
         repo_path = project_id[repo_name]["repo_path"]
@@ -68,14 +66,6 @@ def fetch_prod_diff ():
                     test_dir = 'src/test/java'
 
             diff = None
-            
-    #         p = subprocess.run(['git', 'reset', '--hard', 'HEAD'],
-    #             cwd=repo_path, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    
-    # #print(p.stdout.decode())
-    
-    #         p = subprocess.run(['git', 'clean', '-df'],
-    #             cwd=repo_path, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
             
             p = subprocess.run(shlex.split(f"git diff {revision_id_buggy} {revision_id_fixed} -- '*.java' ':!{test_dir}/*' ':!*/test/*'")
                                 , stdout=subprocess.PIPE, stderr=subprocess.PIPE

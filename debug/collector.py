@@ -1,9 +1,7 @@
 import os
 
 import json
-from os import path
 from collections import Counter, defaultdict
-from tqdm import tqdm
 
 import subprocess as sp
 
@@ -12,7 +10,6 @@ import pandas as pd
 def clone_repo (owner, name):
     link = "https://github.com/" + owner + "/" + name
     name = '/root/framework/repos/' + name
-    
     p = sp.Popen(['git', 'clone', link, name], stderr=sp.PIPE, stdout=sp.PIPE)
 
 def project_id_collector():
@@ -126,7 +123,6 @@ def remove_test_diff ():
 
         name = diff.replace(".diff", "")
         if name in all_bug:
-            #sp.run(["rm", "-rf", f"test_diff/{name}.diff"])
             i += 1
     print(bug_dict)
     print(i)
@@ -134,7 +130,6 @@ def remove_test_diff ():
     
 
 if __name__ == '__main__':
-
     project_id_collector()
     commit_db_collector()
     find_og_collector()

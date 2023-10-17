@@ -56,14 +56,6 @@ def fetch_prod_diff ():
 
             diff = None
             
-    #         p = subprocess.run(['git', 'reset', '--hard', 'HEAD'],
-    #             cwd=repo_path, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    
-    # #print(p.stdout.decode())
-    
-    #         p = subprocess.run(['git', 'clean', '-df'],
-    #             cwd=repo_path, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-            
             p = subprocess.run(shlex.split(f"git diff {revision_id_buggy} {revision_id_fixed} -- ':!{test_dir}'")
                                 , stdout=subprocess.PIPE, stderr=subprocess.PIPE
                                 , cwd=repo_path)

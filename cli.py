@@ -2,11 +2,6 @@
 
 import os
 import json
-from os import path
-from collections import defaultdict
-from tqdm import tqdm
-import glob
-import shlex
 
 #from util import config, fix_build_env
 import re
@@ -144,22 +139,6 @@ def call_checkout(pid, vid, dir, patch):
         output = "Choose 'b' for buggy version, 'f' for fixed version"
         return output
     
-    ### Updating bug_cause
-
-    # with open("bug_cause.json", "r") as f:
-    #     try:
-    #         bug_cause = json.load(f)
-    #     except:
-    #          bug_cause = defaultdict(str)
-
-    
-    # bug_cause[report_id] = ""
-
-    # with open("bug_cause.json", "w") as f:
-    #     json.dump(bug_cause, f, indent=2)
-
-    ### Delete this part
-    
     '''
     The working directory to which the buggy or fixed project version 
     shall be checked out. The working directory
@@ -194,17 +173,6 @@ def call_checkout(pid, vid, dir, patch):
             sp.run(['git', 'checkout', commit], cwd=repo_path,
                 stdout=sp.DEVNULL, stderr=sp.DEVNULL)
             output += (f"Checking out {commit} to {repo_path}\n")
-        
-        # if version == "b" and patch == True:
-        #     if dir is not None:
-        #         #print("dir is not None 2")
-        #         sp.run(['git', f'--work-tree={dir}', 'apply', '--unsafe-paths', f'--directory={dir}', 
-        #                 '--ignore-space-change', '--ignore-whitespace', test_patch_dir], cwd=repo_path)
-        #     else:
-        #         sp.run(['git', 'apply', test_patch_dir], cwd=repo_path,
-        #             stdout=sp.DEVNULL, stderr=sp.DEVNULL)
-
-        #     output += (f"Applying patch\n")
 
         if (version == "b" or version == "f") and patch == True:
             if dir is not None:
@@ -257,8 +225,6 @@ def find_env (pid):
     build = requirements["build"]
     jdk_required = requirements["jdk"]
     wrapper = requirements["wrapper"]
-    # if requirements["gradle"] != "0":
-    #     gradle_required = requirements["gradle"]
 
     mvn_required = None
     mvnw = False
@@ -267,16 +233,11 @@ def find_env (pid):
     if build == "maven":
         if wrapper:
             mvnw = True
-            #print("Using Maven Wrapper")
         else:
             mvn_required = requirements["version"]
-            #print(f"Required Maven Version: {mvn_required}")
     elif build == "gradle":
         if wrapper:
             gradlew = True
-            #print("Using Gradle Wrapper")
-
-    #print(f"Required JDK Version: {jdk_required}")
 
     JAVA_HOME = mvn_path = None
     if jdk_required == '8':
@@ -321,10 +282,6 @@ def call_compile(dir):
     pid_pattern = r'(pid=)(.*)\n'
     out = re.search(pid_pattern, content)
     pid = out.group(2)
-
-    # vid_pattern = r'(vid=)(.*)'
-    # out = re.search(vid_pattern, content)
-    # vid = out.group(2)
 
     with open("/root/framework/data/project_id.json", "r") as f:
         project_id = json.load(f)
@@ -387,7 +344,6 @@ def run_test (new_env, mvnw, gradlew, test_case, path, command=None):
                         env=new_env, stdout=sp.PIPE, stderr=sp.PIPE, cwd=path)
     elif gradlew:
         default = ["./gradlew", "test", "--tests", f'{test_case}', '--info', '--stacktrace']
-        #print("gradlew")
         if command is not None:
             if 'test' in command:
                 new_command = ["./gradlew", command, '--tests', f'{test_case}']
@@ -404,9 +360,6 @@ def run_test (new_env, mvnw, gradlew, test_case, path, command=None):
     '''
     stdout = run.stdout.decode()
     stderr = run.stderr.decode()
-
-    # print(stdout)
-    # print(stderr)
 
     clean = True    ### Remove
 
@@ -452,42 +405,6 @@ def run_test (new_env, mvnw, gradlew, test_case, path, command=None):
     {fail_part}
 ------------------------------------------------------------------------\n''')
         test_output = False
-    ######################################################
-    ### Updating bug_cause
-
-    # if not clean:
-    #     with open("bug_cause.json", "r") as f:
-    #         bug_cause = json.load(f)
-        
-    #     with open(f"{path}/.ghrb.config", "r") as f:
-    #         content = f.read()
-
-    #     with open("/root/framework/data/project_id.json", "r") as f:
-    #         project_id = json.load(f)
-
-    #     pid_pattern = r'(pid=)(.*)\n'
-    #     out = re.search(pid_pattern, content)
-    #     pid = out.group(2)
-
-    #     vid_pattern = r'(vid=)(.*)'
-    #     out = re.search(vid_pattern, content)
-    #     vid = out.group(2)
-    #     bid = vid[:-1]
-
-    #     commit_db = project_id[pid]["commit_db"]
-
-    #     active_bugs = pd.read_csv(commit_db)
-
-    #     report_id = active_bugs.loc[active_bugs['bug_id'] == int(bid)]["report.id"].values[0]
-
-    #     bug_cause[report_id] += fail_part
-
-    #     with open("bug_cause.json", "w") as f:
-    #         json.dump(bug_cause, f, indent=2)
-    
-
-    ### Delete this part
-    ######################################################
     return output, test_output, stdout
 
 def call_test(dir, test_case, test_class, test_suite, log, quiet):
@@ -566,28 +483,20 @@ def call_test(dir, test_case, test_class, test_suite, log, quiet):
         test_case = test_case.replace(":", "#")
 
         if found_test_case is None:
-            #print("External test case")
             content, test_output, stdout = run_test(new_env, mvnw, gradlew, test_case, path, command)
             output = write_output(content, test_output, quiet, output)
         else:
-            #print("Internal test case")
             content, test_output, stdout = run_test(new_env, mvnw, gradlew, test_case, path, command)
             output = write_output(content, test_output, quiet, output)
     elif test_class is not None:
         content, test_output, stdout = run_test(new_env, mvnw, gradlew, test_class, path, command)
         output = write_output(content, test_output, quiet, output)
     elif test_suite is not None:
-        #print("External test suite")
         pass
     else:
-        #print("Running all relevant test cases")
         for test in target_tests:
             content, test_output, stdout = run_test(new_env, mvnw, gradlew, test, path, command)
             output = write_output(content, test_output, quiet, output)
-
-
-    # if test_output is True and quiet is True:
-    #     output = ""
 
     marker = ""
 
@@ -733,12 +642,6 @@ def call_export(prop, output_file, working_dir):
     
     output = ""
 
-    # print(working_dir)
-    # call_compile(working_dir)
-    # print("compile done")
-    # call_test(working_dir, None, None, None, False, False)
-    # print("test done")
-
     with open(f"{working_dir}/.ghrb.config", "r") as f:
         content = f.read()
 
@@ -806,9 +709,6 @@ def call_export(prop, output_file, working_dir):
         run = sp.run(command,
                      env=new_env, stdout=sp.PIPE, stderr=sp.PIPE, cwd=working_dir)
         output += run.stdout.decode()
-        # new = run.stdout.decode().split("/")
-        # new[3] = new[3] + "/gson"
-        # output += "/".join(new)
 
     elif prop == "dir.bin.tests":
 
@@ -821,15 +721,10 @@ def call_export(prop, output_file, working_dir):
         run = sp.run(command,
                      env=new_env, stdout=sp.PIPE, stderr=sp.PIPE, cwd=working_dir)
         output += run.stdout.decode()
-        # new = run.stdout.decode().split("/")
-        # new[3] = new[3] + "/gson"
-        # output += "/".join(new)
 
     elif prop == "test-classes":
 
         test_working_dir = working_dir + '/target/classes/com'
-        #print(working_dir)
-        #files = glob.glob(working_dir, recursive=True)
         for root, dirs, files in os.walk(test_working_dir):
             for file in files:
                 if file.endswith(".class"):
@@ -837,8 +732,6 @@ def call_export(prop, output_file, working_dir):
                     add = root.replace(f"{working_dir}/target/classes/", "") + '/'
                     total = (add + new_file).replace("/", ".")
                     output += total
-                    
-                    #output = ''
         
         test_working_dir = working_dir + '/target/test-classes/com'
 
