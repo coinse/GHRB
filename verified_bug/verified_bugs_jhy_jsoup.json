@@ -1,35 +1,4 @@
 {
-  "jhy_jsoup-1648": {
-    "bug_id": "jhy_jsoup-1648",
-    "PR_number": 1648,
-    "PR_createdAt": "2021-09-29T12:27:14Z",
-    "merge_commit": "6b1fbb51b501de87049b250fecc9a5076a186f6d",
-    "buggy_commits": [
-      {
-        "oid": "9ce6ae1ae21fb49afcc0700084fc4366490bc421",
-        "message": "Bump jetty-server from 9.4.43.v20210629 to 9.4.44.v20210927 (#1649)\n\nBumps [jetty-server](https://github.com/eclipse/jetty.project) from 9.4.43.v20210629 to 9.4.44.v20210927.\r\n- [Release notes](https://github.com/eclipse/jetty.project/releases)\r\n- [Commits](https://github.com/eclipse/jetty.project/compare/jetty-9.4.43.v20210629...jetty-9.4.44.v20210927)\r\n\r\n---\r\nupdated-dependencies:\r\n- dependency-name: org.eclipse.jetty:jetty-server\r\n  dependency-type: direct:development\r\n  update-type: version-update:semver-patch\r\n...\r\n\r\nSigned-off-by: dependabot[bot] <support@github.com>\r\n\r\nCo-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>"
-      }
-    ],
-    "issue": {
-      "url": "https://github.com/jhy/jsoup/issues/1647",
-      "createdAt": "2021-09-29T11:29:14Z",
-      "content": "bug_report_all/jhy_jsoup-1648.json"
-    },
-    "changed_tests": [
-      "src/test/java/org/jsoup/helper/W3CDomTest.java"
-    ],
-    "PR_url": "https://github.com/jhy/jsoup/pull/1648",
-    "merge_commit_url": "https://github.com/jhy/jsoup/commit/6b1fbb51b501de87049b250fecc9a5076a186f6d",
-    "buggy_commit": "9ce6ae1ae21fb49afcc0700084fc4366490bc421",
-    "execution_result": {
-      "valid_tests": [
-        ".org.jsoup.helper.W3CDomTest"
-      ],
-      "success_tests": [
-        ".org.jsoup.helper.W3CDomTest"
-      ]
-    }
-  },
   "jhy_jsoup-1763": {
     "bug_id": "jhy_jsoup-1763",
     "PR_number": 1763,

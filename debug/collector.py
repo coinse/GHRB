@@ -88,11 +88,7 @@ def find_og_collector():
 
             elif project_name == 'assertj_assertj' and "".join(project_name + '-core-' + bug_id) in total_list:
                 filtered.append(key)
-                    
-    print(total_list)
-    print(len(total_list))
-    print(filtered)
-    print(len(filtered))
+
 
 def find_total_bug():
     bug_dict = defaultdict(int)
@@ -120,12 +116,9 @@ def remove_test_diff ():
     
     for diff in os.listdir("/root/framework/data/test_diff/"):
         bug_dict[diff.split("_")[-2] + "_" + diff.split("_")[-1].split("-")[0]] += 1
-
         name = diff.replace(".diff", "")
-        if name in all_bug:
-            i += 1
-    print(bug_dict)
-    print(i)
+        if name not in all_bug:
+            sp.run(["rm", "-rf", f"/root/framework/data/test_diff/{name}.diff"])
 
     
 

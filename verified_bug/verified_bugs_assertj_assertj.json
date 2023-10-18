@@ -1,35 +1,4 @@
 {
-  "assertj_assertj-2324": {
-    "bug_id": "assertj_assertj-2324",
-    "PR_number": 2324,
-    "PR_createdAt": "2021-08-23T20:36:25Z",
-    "merge_commit": "391b688863002fe50bdf9f7f70e542096fb0ece1",
-    "buggy_commits": [
-      {
-        "oid": "71b9e77976dd089340fd0d996e99cb12dd55a79e",
-        "message": "Use setup-java cache support"
-      }
-    ],
-    "issue": {
-      "url": "https://github.com/assertj/assertj/issues/2319",
-      "createdAt": "2021-08-20T17:29:57Z",
-      "content": "bug_report_all/assertj_assertj-2324.json"
-    },
-    "changed_tests": [
-      "src/test/java/org/assertj/core/internal/classes/Classes_assertHasMethods_Test.java"
-    ],
-    "PR_url": "https://github.com/assertj/assertj/pull/2324",
-    "merge_commit_url": "https://github.com/assertj/assertj/commit/391b688863002fe50bdf9f7f70e542096fb0ece1",
-    "buggy_commit": "71b9e77976dd089340fd0d996e99cb12dd55a79e",
-    "execution_result": {
-      "valid_tests": [
-        ".org.assertj.core.internal.classes.Classes_assertHasMethods_Test"
-      ],
-      "success_tests": [
-        ".org.assertj.core.internal.classes.Classes_assertHasMethods_Test"
-      ]
-    }
-  },
   "assertj_assertj-2364": {
     "bug_id": "assertj_assertj-2364",
     "PR_number": 2364,

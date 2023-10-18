@@ -1,35 +1,4 @@
 {
-  "FasterXML_jackson-databind-3195": {
-    "bug_id": "FasterXML_jackson-databind-3195",
-    "PR_number": 3195,
-    "PR_createdAt": "2021-07-01T09:57:38Z",
-    "merge_commit": "2b5a31996d9ca2170cbd61b465332863b0f291d7",
-    "buggy_commits": [
-      {
-        "oid": "2c221ad9015cd82fc36b91b55904acb07546408f",
-        "message": "backport FUNDING link"
-      }
-    ],
-    "issue": {
-      "url": "https://github.com/FasterXML/jackson-databind/issues/3187",
-      "createdAt": "2021-06-25T12:45:16Z",
-      "content": "bug_report_all/FasterXML_jackson-databind-3195.json"
-    },
-    "changed_tests": [
-      "src/test/java/com/fasterxml/jackson/databind/introspect/AnnotatedMemberEqualityTest.java"
-    ],
-    "PR_url": "https://github.com/FasterXML/jackson-databind/pull/3195",
-    "merge_commit_url": "https://github.com/FasterXML/jackson-databind/commit/2b5a31996d9ca2170cbd61b465332863b0f291d7",
-    "buggy_commit": "2c221ad9015cd82fc36b91b55904acb07546408f",
-    "execution_result": {
-      "valid_tests": [
-        ".com.fasterxml.jackson.databind.introspect.AnnotatedMemberEqualityTest"
-      ],
-      "success_tests": [
-        ".com.fasterxml.jackson.databind.introspect.AnnotatedMemberEqualityTest"
-      ]
-    }
-  },
   "FasterXML_jackson-databind-3418": {
     "bug_id": "FasterXML_jackson-databind-3418",
     "PR_number": 3418,

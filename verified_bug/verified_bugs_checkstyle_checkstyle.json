@@ -1,37 +1,4 @@
 {
-  "checkstyle_checkstyle-10825": {
-    "bug_id": "checkstyle_checkstyle-10825",
-    "PR_number": 10825,
-    "PR_createdAt": "2021-09-26T07:20:19Z",
-    "merge_commit": "79cea7464f36e004310d58aeb9e2610bd26c8a88",
-    "buggy_commits": [
-      {
-        "oid": "171f5d1ce51dfbae5715319b58fdbb11cf0de3e8",
-        "message": "Issue #9462: updated example of AST for TokenTypes.LITERAL_ASSERT"
-      }
-    ],
-    "issue": {
-      "url": "https://github.com/checkstyle/checkstyle/issues/10810",
-      "createdAt": "2021-09-21T21:04:56Z",
-      "content": "bug_report_all/checkstyle_checkstyle-10825.json"
-    },
-    "changed_tests": [
-      "src/test/java/com/puppycrawl/tools/checkstyle/checks/indentation/IndentationCheckTest.java",
-      "src/test/resources/com/puppycrawl/tools/checkstyle/checks/indentation/indentation/InputIndentationLineBreakVariableDeclaration.java",
-      "src/test/resources/com/puppycrawl/tools/checkstyle/checks/indentation/indentation/InputIndentationLongConcatenatedString.java"
-    ],
-    "PR_url": "https://github.com/checkstyle/checkstyle/pull/10825",
-    "merge_commit_url": "https://github.com/checkstyle/checkstyle/commit/79cea7464f36e004310d58aeb9e2610bd26c8a88",
-    "buggy_commit": "171f5d1ce51dfbae5715319b58fdbb11cf0de3e8",
-    "execution_result": {
-      "valid_tests": [
-        ".com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheckTest.java"
-      ],
-      "success_tests": [
-        ".com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheckTest.java"
-      ]
-    }
-  },
   "checkstyle_checkstyle-10839": {
     "bug_id": "checkstyle_checkstyle-10839",
     "PR_number": 10839,
