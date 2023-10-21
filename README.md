@@ -71,7 +71,7 @@ to collect the metadata of repositories
 If not, a file under the following format:
 
 
-```json
+```javascript
 
     [
         {
