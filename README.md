@@ -86,7 +86,7 @@ If not, a file under the following format:
 
 ```
 
-should be included in the repoisitory. Note that each metadata item should be inside a list.
+should be included in the repository. Note that each metadata item should be inside a list.
 
 
 ## Publication
