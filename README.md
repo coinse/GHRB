@@ -70,7 +70,7 @@ If not, a file under the following format:
 
 
 
-'''javascript
+'''
 
     [
         {
