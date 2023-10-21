@@ -49,6 +49,39 @@ within the container.)
  4. `test` - run the tests for a project.
     *  Example: `./cli.py test -w /root/framework/testing`
 
+## Using Fetch/Filter Scripts
+
+```filter_repo.py
+collect_raw_data.py
+```
+
+Above python scripts can be used to fetch and filter the pull requests.
+
+
+If you have a file that consists of a list of url to the repositories, use
+'''filter_repo.py'''
+to collect the metadata of repositories
+
+
+If not, a file under the following format:
+
+
+'''
+    [
+        {
+        "name": (name of the repo),
+        "owner": 
+            {
+                "login": (owner of the repo)
+            },
+        "url": (full url for git clone)
+        },
+    ]
+  '''
+
+should be included in the repoisitory. Note that each metadata item should be inside a list.
+
+
 ## Publication
 
 To Be Added
