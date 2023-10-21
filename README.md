@@ -61,7 +61,9 @@ Above python scripts can be used to fetch and filter the pull requests.
 
 
 If you have a file that consists of a list of url to the repositories, use
-'''filter_repo.py'''
+```
+filter_repo.py
+```
 to collect the metadata of repositories
 
 
@@ -69,7 +71,7 @@ to collect the metadata of repositories
 If not, a file under the following format:
 
 
-
+```json
 
     [
         {
@@ -81,7 +83,8 @@ If not, a file under the following format:
         "url": (full url for git clone)
         },
     ]
-    
+
+```
 
 should be included in the repoisitory. Note that each metadata item should be inside a list.
 
