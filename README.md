@@ -51,11 +51,13 @@ within the container.)
 
 ## Using Fetch/Filter Scripts
 
-```filter_repo.py
+```
+filter_repo.py
 collect_raw_data.py
 ```
 
 Above python scripts can be used to fetch and filter the pull requests.
+
 
 
 If you have a file that consists of a list of url to the repositories, use
@@ -63,7 +65,9 @@ If you have a file that consists of a list of url to the repositories, use
 to collect the metadata of repositories
 
 
+
 If not, a file under the following format:
+
 
 
 '''
@@ -77,7 +81,7 @@ If not, a file under the following format:
         "url": (full url for git clone)
         },
     ]
-  '''
+'''
 
 should be included in the repoisitory. Note that each metadata item should be inside a list.
 
