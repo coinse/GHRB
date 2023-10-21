@@ -1,0 +1,19 @@
+query fetchPullRequest($name: String!, $owner: String!) {
+    repository(name: $name, owner: $owner) {
+        upCase: object(expression: "master:README.md") {
+            ... on Blob {
+                text
+            }
+        }
+        object: object(expression: "master:Readme.md") {
+            ... on Blob {
+                text
+            }
+        }
+        lowCase: object(expression: "master:readme.md") {
+            ... on Blob {
+                text
+            }
+        }
+    }
+}

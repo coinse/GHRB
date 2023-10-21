@@ -1,0 +1,23 @@
+query fetchSpecific($owner: String!, $name:String!) {
+repository(owner:$owner, name:$name)
+{
+          name
+          owner {
+            login
+          }
+          url
+          descriptionHTML
+          updatedAt
+          createdAt
+          stargazerCount
+          languages (first:3) {
+            totalSize
+            edges {
+              size
+              node {
+                name
+              }
+            }
+          }
+        }
+}

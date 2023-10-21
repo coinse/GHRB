@@ -6,4 +6,6 @@ openai==0.27.2
 pandas==1.4.3
 python_dateutil==2.8.2
 tqdm==4.64.0
-
+langid==1.1.6
+gql==3.4.1
+requests-toolbelt==1.0.0

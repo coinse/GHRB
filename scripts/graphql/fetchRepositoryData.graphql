@@ -1,0 +1,28 @@
+query fetchInitial($amount: Int!) { search(query: "language:Java stars:>10000", type: REPOSITORY, first: $amount) {
+    repositoryCount
+    edges {
+      node {
+        ... on Repository {
+          name
+          owner {
+            login
+          }
+          url
+          descriptionHTML
+          updatedAt
+          createdAt
+          stargazerCount
+          languages (first:3) {
+            totalSize
+            edges {
+              size
+              node {
+                name
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
