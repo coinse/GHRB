@@ -71,16 +71,16 @@ to collect the metadata of repositories
 If not, a file under the following format:
 
 
-```javascript
+```jsonc
 
     [
         {
-        "name": (name of the repo),
+        "name": // name of the repo,
         "owner": 
             {
-                "login": (owner of the repo)
+                "login": // owner of the repo
             },
-        "url": (full url for git clone)
+        "url": // full url for git clone
         },
     ]
 
