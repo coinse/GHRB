@@ -70,7 +70,8 @@ If not, a file under the following format:
 
 
 
-'''json
+'''javascript
+
     [
         {
         "name": (name of the repo),
@@ -81,6 +82,7 @@ If not, a file under the following format:
         "url": (full url for git clone)
         },
     ]
+    
 '''
 
 should be included in the repoisitory. Note that each metadata item should be inside a list.
