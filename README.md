@@ -91,4 +91,4 @@ should be included in the repository. Note that each metadata item should be ins
 
 ## Publication
 
-To Be Added
+The companion preprint for our work is here: [http://arxiv.org/abs/2310.13229](http://arxiv.org/abs/2310.13229).
