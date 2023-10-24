@@ -95,7 +95,7 @@ If not, a file under the following format:
 ```
 
 should be included in the repository. Note that each metadata item should be inside a list. \
-An example of such file can be found under ``` example/ ``` directory.
+An example of such file can be found under the ``` example/ ``` directory.
 
 
 ## Publication
