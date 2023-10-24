@@ -71,6 +71,8 @@ https://github.com/coinse/GHRB
 https://github.com/coinse/libro
 ...
 ```
+
+Note that the script will automatically filter out non-English repositories and repositories where Java consists <90% according to GitHub language statistics.
 <br />
 
 If not, a file that consists of the metadata of repositories under the following format:
