@@ -62,9 +62,17 @@ Above python scripts can be used to fetch and filter the pull requests.
 
 If you have a file that consists of a list of url to the repositories, use
 ```
-filter_repo.py
+python filter_repo.py
 ```
-to collect the metadata of repositories
+to collect the metadata of repositories inside the Docker container. \
+After running the script, please provide the path to the file. \
+An example of such 'file' would be ``` example.txt ```, where its content is:
+
+```
+https://github.com/coinse/GHRB.git
+https://github.com/coinse/libro.git
+...
+```
 
 
 
@@ -86,7 +94,8 @@ If not, a file under the following format:
 
 ```
 
-should be included in the repository. Note that each metadata item should be inside a list.
+should be included in the repository. Note that each metadata item should be inside a list. \
+An example of such file can be found under ``` example/ ``` directory.
 
 
 ## Publication
