@@ -67,8 +67,8 @@ python filter_repo.py
 to collect the metadata of repositories. After running the script, please provide the path to the file. An example of such 'file' would be ``` example.txt ```, where its content is:
 
 ```
-https://github.com/coinse/GHRB.git
-https://github.com/coinse/libro.git
+https://github.com/coinse/GHRB
+https://github.com/coinse/libro
 ...
 ```
 <br />
