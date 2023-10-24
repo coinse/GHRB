@@ -72,7 +72,6 @@ https://github.com/coinse/libro.git
 ...
 ```
 <br />
-<br />
 
 If not, a file that consists of the metadata of repositories under the following format:
 
