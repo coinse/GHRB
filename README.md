@@ -58,15 +58,13 @@ collect_raw_data.py
 
 Above python scripts can be used to fetch and filter the pull requests.
 
-
+<br />
 
 If you have a file that consists of a list of url to the repositories, use
 ```
 python filter_repo.py
 ```
-to collect the metadata of repositories inside the Docker container. \
-After running the script, please provide the path to the file. \
-An example of such 'file' would be ``` example.txt ```, where its content is:
+to collect the metadata of repositories inside the Docker container. After running the script, please provide the path to the file. An example of such 'file' would be ``` example.txt ```, where its content is:
 
 ```
 https://github.com/coinse/GHRB.git
