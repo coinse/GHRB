@@ -92,8 +92,7 @@ If not, a file that consists of the metadata of repositories under the following
 
 ```
 
-should be included in the repository manually. Note that each metadata item should be inside a list. \
-An example of such file can be found under the ``` example/ ``` directory.
+should be included in the repository manually. Note that each metadata item should be inside a list. An example of such file can be found under the ``` example/ ``` directory.
 
 
 ## Publication
