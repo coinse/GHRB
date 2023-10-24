@@ -73,11 +73,10 @@ https://github.com/coinse/GHRB.git
 https://github.com/coinse/libro.git
 ...
 ```
+\\\\
 
 
-
-If not, a file under the following format:
-
+If not, a file that consists of the metadata of repositories under the following format:
 
 ```jsonc
 
@@ -94,7 +93,7 @@ If not, a file under the following format:
 
 ```
 
-should be included in the repository. Note that each metadata item should be inside a list. \
+should be included in the repository manually. Note that each metadata item should be inside a list. \
 An example of such file can be found under the ``` example/ ``` directory.
 
 
