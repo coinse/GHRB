@@ -15,6 +15,7 @@ import langid
 from gql import gql, Client
 from gql.transport.requests import RequestsHTTPTransport
 from gql.transport.exceptions import TransportQueryError
+import argparse
 
 debug = True
 
@@ -459,13 +460,16 @@ def fetch_prod_diff ():
 
 
 if __name__ == "__main__":
-
-    api_token = input("GitHub API Token: ")
-
-    filtered_repo = input("Absolute path to the file of filtered repo metadata: ")
+    parser = argparse.ArgumentParser(description="Bug Raw Data Gatherer")
+    parser.add_argument('-t', '--api_token')
+    parser.add_argument('-f', '--repository_file', type=str, default="example/example_metadata.json")
+    args = parser.parse_args()
+    
+    api_token = args.api_token
+    filtered_repo = args.repository_file
 
     if not os.path.isdir("collected/raw_data"):
-      os.makedirs("collected/raw_data")
+        os.makedirs("collected/raw_data")
 
     with open("scripts/graphql/fetchPullRequests.graphql") as f:
         fetch_pr_query_raw = f.read()

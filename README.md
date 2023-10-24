@@ -51,20 +51,11 @@ within the container.)
 
 ## Using Fetch/Filter Scripts
 
+With a file that consists of a list of url to the repositories, use
 ```
-filter_repo.py
-collect_raw_data.py
+python filter_repo.py --repository_list <link_file>
 ```
-
-Above python scripts can be used to fetch and filter the pull requests. Note that these scripts can be run inside the Docker container.
-
-<br />
-
-If you have a file that consists of a list of url to the repositories, use
-```
-python filter_repo.py
-```
-to collect the metadata of repositories. After running the script, please provide the path to the file. An example of such 'file' would be ``` example.txt ```, where its content is:
+to collect the metadata of repositories prior to gathering pull request information. `<link_file>` should look like:
 
 ```
 https://github.com/coinse/GHRB
@@ -75,7 +66,13 @@ https://github.com/coinse/libro
 Note that the script will automatically filter out non-English repositories and repositories where Java consists <90% according to GitHub language statistics.
 <br />
 
-If not, a file that consists of the metadata of repositories under the following format:
+With the pull request information, gather the actual pull request data with:
+
+```bash
+python collect_raw_data.py --api_token <github_api_token> --repository_file <repo_info_file>
+```
+
+where `<repo_info_file>` should have a format like:
 
 ```jsonc
 
@@ -92,7 +89,7 @@ If not, a file that consists of the metadata of repositories under the following
 
 ```
 
-should be included in the repository manually. Note that each metadata item should be inside a list. An example of such file can be found under the ``` example/ ``` directory.
+should be included in the repository manually. Note that each metadata item should be inside a list. An example of such file can be found under the `example/` directory.
 
 
 ## Publication

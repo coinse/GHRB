@@ -108,8 +108,11 @@ def filter_pl_repo (input_repos):
     return output_repos 
 
 if __name__ == "__main__":
-
-    input_file = input("Name of the file, composed of GitHub links: ")
+    parser = argparse.ArgumentParser(description="Command-line Interface for GHRB")
+    parser.add_argument('-l', '--repository_list', type=str, help="Text file with GitHub links to repositories.")
+    args = parser.parse_args()
+    
+    input_file = args.repository_list
     collect_repo_data(input_file)
 
     output_repo = filter_language_repo()
