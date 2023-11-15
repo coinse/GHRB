@@ -42,3 +42,15 @@ index 14bf018b0..77f825a1a 100644
              default:
                  break;
          }
+diff --git a/src/main/resources/com/puppycrawl/tools/checkstyle/meta/checks/coding/SimplifyBooleanExpressionCheck.xml b/src/main/resources/com/puppycrawl/tools/checkstyle/meta/checks/coding/SimplifyBooleanExpressionCheck.xml
+index af45aa78c..07a62ed3e 100644
+--- a/src/main/resources/com/puppycrawl/tools/checkstyle/meta/checks/coding/SimplifyBooleanExpressionCheck.xml
++++ b/src/main/resources/com/puppycrawl/tools/checkstyle/meta/checks/coding/SimplifyBooleanExpressionCheck.xml
+@@ -7,6 +7,7 @@
+          <description>&lt;p&gt;
+  Checks for over-complicated boolean expressions. Currently finds code like
+  {@code if (b == true)}, {@code b || true}, {@code !false},
++ {@code boolean a = q &gt; 12 ? true : false},
+  etc.
+  &lt;/p&gt;
+  &lt;p&gt;

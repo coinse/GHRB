@@ -10,3 +10,36 @@ index 8783d4b..e003950 100644
          };
          verifyWithInlineConfigParser(
                  getNonCompilablePath("InputClassMemberImpliedModifierRecords.java"),
+diff --git a/src/test/resources-noncompilable/com/puppycrawl/tools/checkstyle/checks/modifier/classmemberimpliedmodifier/InputClassMemberImpliedModifierNoViolationRecords.java b/src/test/resources-noncompilable/com/puppycrawl/tools/checkstyle/checks/modifier/classmemberimpliedmodifier/InputClassMemberImpliedModifierNoViolationRecords.java
+index ba4bf17d0..ea6f183d6 100644
+--- a/src/test/resources-noncompilable/com/puppycrawl/tools/checkstyle/checks/modifier/classmemberimpliedmodifier/InputClassMemberImpliedModifierNoViolationRecords.java
++++ b/src/test/resources-noncompilable/com/puppycrawl/tools/checkstyle/checks/modifier/classmemberimpliedmodifier/InputClassMemberImpliedModifierNoViolationRecords.java
+@@ -36,4 +36,11 @@ public class InputClassMemberImpliedModifierNoViolationRecords {
+         // Implied modifier 'static' should be explicit. [ClassMemberImpliedModifier]
+         public enum InnerEnum2{} // violation
+     }
++
++    void method() {
++        Object obj = new Object() {
++            public record BadRecord() {} // ok
++            public static record OkRecord() {} // ok
++        };
++    }
+ }
+diff --git a/src/test/resources-noncompilable/com/puppycrawl/tools/checkstyle/checks/modifier/classmemberimpliedmodifier/InputClassMemberImpliedModifierRecords.java b/src/test/resources-noncompilable/com/puppycrawl/tools/checkstyle/checks/modifier/classmemberimpliedmodifier/InputClassMemberImpliedModifierRecords.java
+index 3ab850db7..1bb6a2297 100644
+--- a/src/test/resources-noncompilable/com/puppycrawl/tools/checkstyle/checks/modifier/classmemberimpliedmodifier/InputClassMemberImpliedModifierRecords.java
++++ b/src/test/resources-noncompilable/com/puppycrawl/tools/checkstyle/checks/modifier/classmemberimpliedmodifier/InputClassMemberImpliedModifierRecords.java
+@@ -36,4 +36,12 @@ public class InputClassMemberImpliedModifierRecords {
+         // Implied modifier 'static' should be explicit. [ClassMemberImpliedModifier]
+         public enum InnerEnum2{} // violation
+     }
++
++    void method() {
++        Object obj = new Object() {
++            // Implied modifier 'static' should be explicit. [ClassMemberImpliedModifier]
++            public record BadRecord() {} // violation
++            public static record OkRecord() {} // ok
++        };
++    }
+ }

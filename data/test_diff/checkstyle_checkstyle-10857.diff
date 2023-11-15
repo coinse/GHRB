@@ -18,3 +18,33 @@ index d90096a..852e109 100644
      public void testBug() throws Exception {
          final String[] expected = CommonUtil.EMPTY_STRING_ARRAY;
          verifyWithInlineConfigParser(
+diff --git a/src/test/resources/com/puppycrawl/tools/checkstyle/checks/imports/unusedimports/InputUnusedImportsArrayRef.java b/src/test/resources/com/puppycrawl/tools/checkstyle/checks/imports/unusedimports/InputUnusedImportsArrayRef.java
+new file mode 100644
+index 000000000..51bed3cee
+--- /dev/null
++++ b/src/test/resources/com/puppycrawl/tools/checkstyle/checks/imports/unusedimports/InputUnusedImportsArrayRef.java
+@@ -0,0 +1,24 @@
++/*
++UnusedImports
++processJavadoc = (default)true
++
++
++*/
++
++package com.puppycrawl.tools.checkstyle.checks.imports.unusedimports;
++
++import java.util.HashMap; // ok
++import java.util.HashSet;
++import java.util.Set;
++import java.util.ArrayList; // violation
++
++public class InputUnusedImportsArrayRef {
++
++    private static final Set<String> FOO;
++    static {
++        FOO = new HashSet<>();
++
++        FOO.add( HashMap[].class.getName() );
++        FOO.add( java.util.ArrayList[].class.getName() );
++    }
++}

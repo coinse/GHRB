@@ -25,3 +25,79 @@ index e6e8338..b7b4e72 100644
 +                getPath("InputJavadocMethodEnum.java"), expected);
 +    }
  }
+diff --git a/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocmethod/InputJavadocMethodDefaultAccessModifier.java b/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocmethod/InputJavadocMethodDefaultAccessModifier.java
+new file mode 100644
+index 000000000..ee4408da2
+--- /dev/null
++++ b/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocmethod/InputJavadocMethodDefaultAccessModifier.java
+@@ -0,0 +1,34 @@
++/*
++JavadocMethod
++allowedAnnotations = (default)Override
++validateThrows = (default)false
++accessModifiers = public
++allowMissingParamTags = (default)false
++allowMissingReturnTag = true
++tokens = (default)METHOD_DEF, CTOR_DEF, ANNOTATION_FIELD_DEF, COMPACT_CTOR_DEF
++
++
++*/
++
++package com.puppycrawl.tools.checkstyle.checks.javadoc.javadocmethod;
++
++public interface InputJavadocMethodDefaultAccessModifier {
++    /** Javadoc ok here. */
++    void testNoViolation(); // ok
++
++    class MyClass {
++        /** Missing parameter here. */
++        public MyClass(Integer a) { // violation
++        }
++    }
++
++    /** Missing parameter here, public method by default */
++    int testViolationMissingParameter(int b); // violation
++
++    /**
++     * Test method.
++     *
++     * @param c test parameter
++     */
++    double testNoViolationParameterPresent(int c); // ok
++}
+diff --git a/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocmethod/InputJavadocMethodEnum.java b/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocmethod/InputJavadocMethodEnum.java
+new file mode 100644
+index 000000000..17b7e949e
+--- /dev/null
++++ b/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocmethod/InputJavadocMethodEnum.java
+@@ -0,0 +1,30 @@
++/*
++JavadocMethod
++allowedAnnotations = (default)Override
++validateThrows = true
++accessModifiers = private
++allowMissingParamTags = (default)false
++allowMissingReturnTag = (default)false
++tokens = (default)METHOD_DEF, CTOR_DEF, ANNOTATION_FIELD_DEF, COMPACT_CTOR_DEF
++
++
++*/
++
++package com.puppycrawl.tools.checkstyle.checks.javadoc.javadocmethod;
++
++public class InputJavadocMethodEnum {
++
++    private enum DAY {
++
++        SOME_CONSTANT(1) {
++            /** Test Method */
++            int someMethod() { // ok
++                return 0;
++            }
++        };
++
++        /** Test constructor */
++        DAY(int i) { // violation
++        }
++    }
++}

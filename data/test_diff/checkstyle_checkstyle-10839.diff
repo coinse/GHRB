@@ -93,3 +93,58 @@ index 4bb0666..a27dc22 100644
      private DetailAST getNodeFromFile(int type) throws Exception {
          return getNode(JavaParser.parseFile(new File(getPath("InputCheckUtilTest.java")),
              JavaParser.Options.WITH_COMMENTS), type);
+diff --git a/src/test/resources/com/puppycrawl/tools/checkstyle/checks/metrics/classfanoutcomplexity/InputClassFanOutComplexityImplementsAndNestedCount.java b/src/test/resources/com/puppycrawl/tools/checkstyle/checks/metrics/classfanoutcomplexity/InputClassFanOutComplexityImplementsAndNestedCount.java
+new file mode 100644
+index 000000000..3f5c0ba12
+--- /dev/null
++++ b/src/test/resources/com/puppycrawl/tools/checkstyle/checks/metrics/classfanoutcomplexity/InputClassFanOutComplexityImplementsAndNestedCount.java
+@@ -0,0 +1,33 @@
++/*
++ClassFanOutComplexity
++max = 0
++excludedClasses = (default)ArrayIndexOutOfBoundsException, ArrayList, Boolean, Byte, \
++                  Character, Class, Collection, Deprecated, Deque, Double, DoubleStream, \
++                  EnumSet, Exception, Float, FunctionalInterface, HashMap, HashSet, \
++                  IllegalArgumentException, IllegalStateException, IndexOutOfBoundsException, \
++                  IntStream, Integer, LinkedHashMap, LinkedHashSet, LinkedList, List, Long, \
++                  LongStream, Map, NullPointerException, Object, Optional, OptionalDouble, \
++                  OptionalInt, OptionalLong, Override, Queue, RuntimeException, SafeVarargs, \
++                  SecurityException, Set, Short, SortedMap, SortedSet, Stream, String, \
++                  StringBuffer, StringBuilder, SuppressWarnings, Throwable, TreeMap, TreeSet, \
++                  UnsupportedOperationException, Void, boolean, byte, char, double, float, \
++                  int, long, short, var, void
++excludeClassesRegexps = (default)^$
++excludedPackages = (default)
++
++
++*/
++
++package com.puppycrawl.tools.checkstyle.checks.metrics.classfanoutcomplexity;
++
++import java.io.Serializable;
++import java.util.RandomAccess;
++
++public class InputClassFanOutComplexityImplementsAndNestedCount // violation '.* Complexity is 3 .*'
++    extends Outer.Nested implements Serializable, RandomAccess {
++
++}
++
++class Outer {
++    static class Nested {}
++}
+diff --git a/src/test/resources/com/puppycrawl/tools/checkstyle/checks/metrics/classfanoutcomplexity/InputClassFanOutComplexityRemoveMultiCatchBitwiseOr.java b/src/test/resources/com/puppycrawl/tools/checkstyle/checks/metrics/classfanoutcomplexity/InputClassFanOutComplexityMultiCatchBitwiseOr.java
+similarity index 94%
+rename from src/test/resources/com/puppycrawl/tools/checkstyle/checks/metrics/classfanoutcomplexity/InputClassFanOutComplexityRemoveMultiCatchBitwiseOr.java
+rename to src/test/resources/com/puppycrawl/tools/checkstyle/checks/metrics/classfanoutcomplexity/InputClassFanOutComplexityMultiCatchBitwiseOr.java
+index 42b3b5bed..77c2e47a4 100644
+--- a/src/test/resources/com/puppycrawl/tools/checkstyle/checks/metrics/classfanoutcomplexity/InputClassFanOutComplexityRemoveMultiCatchBitwiseOr.java
++++ b/src/test/resources/com/puppycrawl/tools/checkstyle/checks/metrics/classfanoutcomplexity/InputClassFanOutComplexityMultiCatchBitwiseOr.java
+@@ -24,7 +24,7 @@ import java.io.File;
+ import java.io.IOException;
+ import java.io.InputStream;
+ 
+-public class InputClassFanOutComplexityRemoveMultiCatchBitwiseOr { // ok
++public class InputClassFanOutComplexityMultiCatchBitwiseOr { // violation '.* Complexity is 5 .*'
+     public static void main(String[] args) {
+         try {
+             System.out.println(args[7]);

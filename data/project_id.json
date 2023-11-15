@@ -183,20 +183,6 @@
       }
     }
   },
-  "javaparser": {
-    "owner": "javaparser",
-    "number_of_bugs": 31,
-    "commit_db": "commit_db/javaparser_bugs.csv",
-    "repo_path": "/root/framework/repos/javaparser",
-    "requirements": {
-      "build": "maven",
-      "wrapper": true,
-      "jdk": "11",
-      "extra": {
-        "command": "-DskipTests=javaparser-core,javaparser-core-testing,javaparser-core-testing-bdd"
-      }
-    }
-  },
   "retrofit": {
     "owner": "square",
     "number_of_bugs": 1,

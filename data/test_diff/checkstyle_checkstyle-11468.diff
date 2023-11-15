@@ -61,3 +61,308 @@ index 3abaeb3..90c1394 100644
 +    }
 +
  }
+diff --git a/src/test/resources-noncompilable/com/puppycrawl/tools/checkstyle/checks/design/finalclass/InputFinalClassNestedInRecord.java b/src/test/resources-noncompilable/com/puppycrawl/tools/checkstyle/checks/design/finalclass/InputFinalClassNestedInRecord.java
+new file mode 100644
+index 000000000..5374067bf
+--- /dev/null
++++ b/src/test/resources-noncompilable/com/puppycrawl/tools/checkstyle/checks/design/finalclass/InputFinalClassNestedInRecord.java
+@@ -0,0 +1,49 @@
++/*
++FinalClass
++
++
++*/
++
++//non-compiled with javac: Compilable with Java14
++package com.puppycrawl.tools.checkstyle.checks.design.finalclass;
++
++public record InputFinalClassNestedInRecord(int a) {
++
++    record b() {
++        class c { // violation
++            private c() {
++            }
++        }
++    }
++
++    class k {
++        c obj = new c() {
++        };
++
++        class c { // ok
++            private c() {
++            }
++        }
++    }
++
++    record s() {
++        record f() {
++            class j { // violation
++                private j() {
++                }
++            }
++        }
++    }
++
++    static class h {
++        record f() {
++            final static f.j obj = new f.j() {
++            };
++
++            static class j { // ok
++                private j() {
++                }
++            }
++        }
++    }
++}
+diff --git a/src/test/resources/com/puppycrawl/tools/checkstyle/checks/design/finalclass/InputFinalClassAnonymousInnerClass.java b/src/test/resources/com/puppycrawl/tools/checkstyle/checks/design/finalclass/InputFinalClassAnonymousInnerClass.java
+new file mode 100644
+index 000000000..4770c0f57
+--- /dev/null
++++ b/src/test/resources/com/puppycrawl/tools/checkstyle/checks/design/finalclass/InputFinalClassAnonymousInnerClass.java
+@@ -0,0 +1,119 @@
++/*
++FinalClass
++
++
++*/
++
++package com.puppycrawl.tools.checkstyle.checks.design.finalclass;
++
++public class InputFinalClassAnonymousInnerClass {
++    static class a {
++        static class b { // violation
++            private b() {
++            }
++        }
++    }
++
++    static class j {
++        a.b object = new a().new b() {
++        };
++
++        class a {
++            class b { // ok
++                private b() {
++                }
++            }
++        }
++        class m { // violation
++            private m() {
++            }
++            class q { // ok
++                private q() {
++                }
++            }
++        }
++    }
++
++    class m { // ok
++        private m() {
++        }
++        class q { // violation
++            private q() {
++            }
++        }
++        j.m.q obj = new j().new m().new q() {
++        };
++    }
++
++    class jasper { // ok
++        private jasper() {
++        }
++        class a {
++            class b { // violation
++                private b() {
++                }
++            }
++            m obj = new m() {
++            };
++        }
++    }
++
++    class g { // ok
++        private g() {
++        }
++    }
++
++    class n {
++        class g { // violation
++            private g() {
++            }
++        }
++        class y { // violation
++            private y() {
++            }
++        }
++        private n() {
++        }
++    }
++
++    class va {
++        n obj = new n() {
++        };
++    }
++    class vl {
++        class n { // violation
++            private n() {
++            }
++        }
++    }
++
++    class var1 {
++        class n { // violation
++            private n() {
++            }
++        }
++    }
++
++    class gang {
++        g obj = new g() {
++        };
++    }
++
++    jasper obj1 = new com.puppycrawl.tools.checkstyle.checks.design.finalclass
++        .InputFinalClassAnonymousInnerClass().new jasper() {
++    };
++
++    test3 obj2 = new test3() { // test3 is in another file
++    };
++
++    class x {
++        class y {
++            private y() {
++            }
++            class z {
++                y obj = new y() {
++                };
++            }
++        }
++    }
++}
+diff --git a/src/test/resources/com/puppycrawl/tools/checkstyle/checks/design/finalclass/InputFinalClassInnerAndNestedClass.java b/src/test/resources/com/puppycrawl/tools/checkstyle/checks/design/finalclass/InputFinalClassInnerAndNestedClass.java
+index 99b04c18a..18309b163 100644
+--- a/src/test/resources/com/puppycrawl/tools/checkstyle/checks/design/finalclass/InputFinalClassInnerAndNestedClass.java
++++ b/src/test/resources/com/puppycrawl/tools/checkstyle/checks/design/finalclass/InputFinalClassInnerAndNestedClass.java
+@@ -74,3 +74,16 @@ enum foo {
+     }
+ }
+ 
++class foo2 {
++    class c { // ok
++        private c() {
++        }
++    }
++
++    class a extends c {
++        class c { // violation
++            private c() {
++            }
++        }
++    }
++}
+diff --git a/src/test/resources/com/puppycrawl/tools/checkstyle/checks/design/finalclass/InputFinalClassNestedInEnumWithAnonInnerClass.java b/src/test/resources/com/puppycrawl/tools/checkstyle/checks/design/finalclass/InputFinalClassNestedInEnumWithAnonInnerClass.java
+new file mode 100644
+index 000000000..e47303c39
+--- /dev/null
++++ b/src/test/resources/com/puppycrawl/tools/checkstyle/checks/design/finalclass/InputFinalClassNestedInEnumWithAnonInnerClass.java
+@@ -0,0 +1,35 @@
++/*
++FinalClass
++
++
++*/
++package com.puppycrawl.tools.checkstyle.checks.design.finalclass;
++
++public enum InputFinalClassNestedInEnumWithAnonInnerClass {
++    A;
++    class n { // ok
++        private n() {
++        }
++        class j { // violation
++            private j() {
++            }
++        }
++    }
++
++    enum k {
++        B;
++        j obj = new j() {
++        };
++        class j { // ok
++            private j() {
++            }
++        }
++        class n { // violation
++            private n() {
++            }
++        }
++    }
++
++    n obj = new n() {
++    };
++}
+diff --git a/src/test/resources/com/puppycrawl/tools/checkstyle/checks/design/finalclass/InputFinalClassNestedInInterfaceWithAnonInnerClass.java b/src/test/resources/com/puppycrawl/tools/checkstyle/checks/design/finalclass/InputFinalClassNestedInInterfaceWithAnonInnerClass.java
+new file mode 100644
+index 000000000..dd28c2ff6
+--- /dev/null
++++ b/src/test/resources/com/puppycrawl/tools/checkstyle/checks/design/finalclass/InputFinalClassNestedInInterfaceWithAnonInnerClass.java
+@@ -0,0 +1,57 @@
++/*
++FinalClass
++
++
++*/
++package com.puppycrawl.tools.checkstyle.checks.design.finalclass;
++
++public interface InputFinalClassNestedInInterfaceWithAnonInnerClass {
++    class a { // ok
++        private a() {
++        }
++    }
++
++    a obj = new a() {
++    };
++
++    interface foo {
++        class m { // ok
++            private m() {
++            }
++        }
++    }
++
++    class b { // violation
++        private b() {
++        }
++        class foo {
++            class m { // violation
++                private m() {
++                }
++            }
++        }
++    }
++
++    @interface annotatedInterface {
++        class b { // ok
++            private b() {
++            }
++        }
++
++        b obj = new b () {
++        };
++
++        class c { // ok
++            private c() {
++            }
++        }
++    }
++
++    class c extends foo.m { // violation
++        private c() {
++        }
++    }
++
++    class h extends annotatedInterface.c {
++    }
++}

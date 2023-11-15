@@ -54,3 +54,142 @@ index 6bc9361..530385c 100644
      public void testInlineDefaultConfiguration() throws Exception {
          final String[] expected = {
              "22: " + getCheckMessage(MSG_SUMMARY_MISSING_PERIOD),
+diff --git a/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/summaryjavadoc/InputSummaryJavadocIncorrect.java b/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/summaryjavadoc/InputSummaryJavadocIncorrect.java
+index 3e658b783..16a5d5570 100644
+--- a/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/summaryjavadoc/InputSummaryJavadocIncorrect.java
++++ b/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/summaryjavadoc/InputSummaryJavadocIncorrect.java
+@@ -154,8 +154,6 @@ class InputSummaryJavadocIncorrect {
+      * This is the summary.
+      * {@summary This is NOT summary according to javadoc tool}
+      */
+-    // violation 2 lines above 'Summary .* missing an ending period.'
+-    // until https://github.com/checkstyle/checkstyle/issues/11213
+     void testMethod() {
+     }
+ }
+diff --git a/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/summaryjavadoc/InputSummaryJavadocIncorrect3.java b/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/summaryjavadoc/InputSummaryJavadocIncorrect3.java
+new file mode 100644
+index 000000000..53e38697d
+--- /dev/null
++++ b/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/summaryjavadoc/InputSummaryJavadocIncorrect3.java
+@@ -0,0 +1,90 @@
++/*
++SummaryJavadoc
++violateExecutionOnNonTightHtml = (default)false
++forbiddenSummaryFragments = (default)^$
++period = (default).
++
++
++*/
++
++package com.puppycrawl.tools.checkstyle.checks.javadoc.summaryjavadoc;
++
++/**
++ * This is the real summary.
++ * {@summary This is not the summary}
++ */
++public class InputSummaryJavadocIncorrect3 {
++
++    /**
++     * {@summary This is the real summary.}
++     * {@summary This is not the summary}
++     */
++    public void testAnotherSummaryTag() {
++    }
++
++    /**
++     * <p>This is summary.</p>
++     * {@summary This is not the summary}
++     */
++    public void testHtmlTags() {
++    }
++
++    /**
++     * <p><i></i></p>
++     * {@summary This is summary}
++     */
++    // violation 2 lines above 'Summary of Javadoc is missing an ending period'
++    public void testHtmlTags2() {
++    }
++
++    // violation below 'Summary javadoc is missing.'
++    /**
++     * @param a parameter
++     * {@summary Wrong usage}
++     */
++    public void method(int a) {
++    }
++
++    // violation below 'First sentence of Javadoc is missing an ending period'
++    /**
++     * <p> This is the summary {@summary This is not summary.}
++     */
++    public void testParagraphTag() {
++    }
++
++    /**
++     * <pre></pre>
++     * {@summary This is summary}
++     */
++    // violation 2 lines above 'Summary of Javadoc is missing an ending period'
++    public void testPreTag() {
++    }
++
++    // violation below 'First sentence of Javadoc is missing an ending period'
++    /**
++     * <i>This will be in italics and is the summary</i>
++     * {@summary This is not summary}
++     */
++    public void testOtherTags() {
++    }
++
++    /**
++     * <br>
++     * <br>
++     * {@summary Line breaks will be there but this will be the summary}
++     */
++    // violation 2 lines above 'Summary of Javadoc is missing an ending period.'
++    public void testBreakTag() {
++    }
++
++    // Until https://github.com/checkstyle/checkstyle/issues/11425
++    // violation below 'Summary javadoc is missing'
++    /**
++     * <ul>
++     *   <li><i>This is the summary</i></li>
++     * </ul>
++     * {@summary This is not the summary.}
++     */
++    public void testMultipleElements() {
++    }
++}
+diff --git a/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/summaryjavadoc/InputSummaryJavadocInlineCorrect.java b/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/summaryjavadoc/InputSummaryJavadocInlineCorrect.java
+index 127708de3..dbb49e86f 100644
+--- a/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/summaryjavadoc/InputSummaryJavadocInlineCorrect.java
++++ b/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/summaryjavadoc/InputSummaryJavadocInlineCorrect.java
+@@ -108,6 +108,7 @@ class InputSummaryJavadocInlineCorrect {
+      */
+     private void voidValidJavadoc() {} // ok
+ 
++    // violation below 'First sentence of Javadoc is missing an ending period'
+     /**
+      * Sentence starts as a plain text sentence
+      * {@summary ... but ends in the summary tag.}
+diff --git a/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/summaryjavadoc/InputSummaryJavadocInlineForbidden.java b/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/summaryjavadoc/InputSummaryJavadocInlineForbidden.java
+index c0a11269d..f3ad3ff78 100644
+--- a/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/summaryjavadoc/InputSummaryJavadocInlineForbidden.java
++++ b/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/summaryjavadoc/InputSummaryJavadocInlineForbidden.java
+@@ -110,12 +110,11 @@ public class InputSummaryJavadocInlineForbidden {
+     void foo12() {
+     }
+ 
++    // violation below 'First sentence of Javadoc is missing an ending period'
+     /**
+      * Sentence starts as a plain text sentence
+      * {@summary ... but ends in the summary tag}
+      */
+-    // violation 2 lines above 'Summary .* missing an ending period.'
+-    // until https://github.com/checkstyle/checkstyle/issues/11213
+     public class TestClass {}
+ 
+     /**

@@ -20,3 +20,86 @@ index 4bd7e17..408a54d 100644
      public void testInvalidOption() throws Exception {
  
          try {
+diff --git a/src/test/resources/com/puppycrawl/tools/checkstyle/checks/whitespace/operatorwrap/InputOperatorWrapArrayAssign.java b/src/test/resources/com/puppycrawl/tools/checkstyle/checks/whitespace/operatorwrap/InputOperatorWrapArrayAssign.java
+new file mode 100644
+index 000000000..df6fb1bf3
+--- /dev/null
++++ b/src/test/resources/com/puppycrawl/tools/checkstyle/checks/whitespace/operatorwrap/InputOperatorWrapArrayAssign.java
+@@ -0,0 +1,77 @@
++/*
++OperatorWrap
++option = (default)nl
++tokens = ASSIGN
++
++
++*/
++
++package com.puppycrawl.tools.checkstyle.checks.whitespace.operatorwrap;
++
++import java.lang.annotation.Repeatable;
++import java.util.Arrays;
++
++@Annotation1(example = { // ok
++    "foo",
++    "bar"
++})
++@Annotation2(example = // violation
++{
++    "foo",
++    "bar"
++})
++@Nested(
++    nestedAnn = { // ok
++        @Annotation1(example = { // ok
++            "foo",
++            "bar"
++        })
++    }
++)
++public class InputOperatorWrapArrayAssign {
++    public String[] array = { // ok
++        "foo",
++        "bar"
++    };
++    public String[] array2 = // violation
++    {
++        "foo",
++        "bar"
++    };
++}
++
++@Annotation1(
++    value = "1",
++    example = { // ok
++        "foo",
++        "bar"
++    },
++    other = "2"
++)
++class Second {}
++
++@Annotation1(
++    example = { // ok
++        "foo",
++        "bar"
++    },
++    arr = { // ok
++        "1"
++    }
++)
++class Third {}
++
++@interface Annotation1 {
++    String[] example();
++    String value() default "";
++    String other() default "";
++    String[] arr() default "";
++}
++
++@interface Annotation2 {
++    String[] example();
++}
++
++@interface Nested {
++    Annotation1[] nestedAnn();
++}

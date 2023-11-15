@@ -9,6 +9,7 @@ import pandas as pd
 
 def clone_repo (owner, name):
     link = "https://github.com/" + owner + "/" + name
+    print(link)
     name = '/root/framework/repos/' + name
     p = sp.Popen(['git', 'clone', link, name], stderr=sp.PIPE, stdout=sp.PIPE)
 

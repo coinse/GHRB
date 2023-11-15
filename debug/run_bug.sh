@@ -7,6 +7,11 @@ for PID in $(./cli.py pid -q); do
             continue
     fi
 
+    if [[ ! $PID == "checkstyle" ]]
+        then
+            continue
+    fi
+    
     if [ $PID == "javaparser" ]
         then
             continue

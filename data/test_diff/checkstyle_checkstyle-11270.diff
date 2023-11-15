@@ -76,3 +76,51 @@ index 8f87eb5..6190c4b 100644
          };
          verifyWithInlineConfigParser(getPath(
                  "InputRedundantModifierNestedDef.java"), expected);
+diff --git a/src/test/resources/com/puppycrawl/tools/checkstyle/checks/modifier/redundantmodifier/InputRedundantModifierNestedClassInPublicInterfaceRedundantModifiers.java b/src/test/resources/com/puppycrawl/tools/checkstyle/checks/modifier/redundantmodifier/InputRedundantModifierNestedClassInPublicInterfaceRedundantModifiers.java
+index a2cb3c0c0..03a0cb906 100644
+--- a/src/test/resources/com/puppycrawl/tools/checkstyle/checks/modifier/redundantmodifier/InputRedundantModifierNestedClassInPublicInterfaceRedundantModifiers.java
++++ b/src/test/resources/com/puppycrawl/tools/checkstyle/checks/modifier/redundantmodifier/InputRedundantModifierNestedClassInPublicInterfaceRedundantModifiers.java
+@@ -21,7 +21,7 @@ public interface InputRedundantModifierNestedClassInPublicInterfaceRedundantModi
+             class ClassInPrivateNestedInterface {
+                 public ClassInPrivateNestedInterface() { } // violation
+             }
+-            public interface PrivateNestedInterfaceWithPublicModifier {
++            public interface PrivateNestedInterfaceWithPublicModifier { // violation
+                 class ClassInPrivateNestedInterface {
+                     public ClassInPrivateNestedInterface() { } // violation
+                 }
+diff --git a/src/test/resources/com/puppycrawl/tools/checkstyle/checks/modifier/redundantmodifier/InputRedundantModifierNestedDef.java b/src/test/resources/com/puppycrawl/tools/checkstyle/checks/modifier/redundantmodifier/InputRedundantModifierNestedDef.java
+index 193e64510..130f86d2b 100644
+--- a/src/test/resources/com/puppycrawl/tools/checkstyle/checks/modifier/redundantmodifier/InputRedundantModifierNestedDef.java
++++ b/src/test/resources/com/puppycrawl/tools/checkstyle/checks/modifier/redundantmodifier/InputRedundantModifierNestedDef.java
+@@ -15,4 +15,30 @@ public interface InputRedundantModifierNestedDef {
+     interface MyInnerInterface {
+         public strictfp class MyInnerClass {} // violation
+     }
++
++    public static class testClass { // 2 violations
++    }
++
++    public abstract static @interface testAnnotatedInterface { // 3 violations
++    }
++}
++
++abstract @interface testAnnotatedInterface { // violation
++
++    public static enum testEnum { // 2 violations
++    }
++
++    interface testInterface {
++        public static interface nestedInterface { // 2 violations
++
++            public static class nestedClass { // 2 violations
++            }
++
++            public static @interface nestedAnnInterface { // 2 violations
++            }
++
++            public static enum nestedEnum { // 2 violations
++            }
++        }
++    }
+ }
