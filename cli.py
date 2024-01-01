@@ -8,6 +8,7 @@ import re
 import subprocess as sp
 import argparse
 import pandas as pd
+from datetime import datetime
 
 def call_info(pid, bid):
 
@@ -748,6 +749,35 @@ def call_export(prop, output_file, working_dir):
             f.write(output)
     return output
 
+def call_cut(date):
+    with open("/root/framework/data/project_id.json", "r") as f:
+        project_id = json.load(f)
+    
+    output = ""
+
+    date = datetime.strptime(date, "%Y-%m-%d").date()
+
+    for pid in project_id.keys():
+        commit_db = project_id[pid]["commit_db"]
+        owner = project_id[pid]["owner"]
+        repo_name = owner + "_" + pid
+
+        with open(f"verified_bug/verified_bugs_{repo_name}.json", "r") as f:
+            verified_bugs = json.load(f)
+
+        active_bugs = pd.read_csv(commit_db)
+
+        for bug_id in active_bugs["bug_id"]:
+            report_id = active_bugs.loc[active_bugs['bug_id'] == int(bug_id)]["report.id"].values[0]
+            created_date = datetime.strptime(verified_bugs[report_id]['PR_createdAt'], "%Y-%m-%dT%H:%M:%SZ")
+            created_date = created_date.date()
+            
+            if created_date > date:
+                output += f"{pid}_{bug_id}\n"
+        
+    return output
+
+
 if __name__ == '__main__':
 
     default_dir = os.getcwd()
@@ -863,6 +893,14 @@ if __name__ == '__main__':
     parser_export.add_argument("-w", dest='working_dir', action="store",
                                help="The working directory of the checked-out project version")
     
+    #   cut-off
+
+    parser_cut = subparsers.add_parser('cut',
+                                       help="Print the list of available project IDs and bug IDs, created after the manually set cut-off point")
+    
+    parser_cut.add_argument("-d", dest='date', action="store",
+                            help="Cut-off point. Format: YYYY-MM-DD")
+    
     args = parser.parse_args()
     #print(args)
     if args.command == "info":
@@ -891,6 +929,9 @@ if __name__ == '__main__':
         print(output)
     elif args.command == "export":
         output = call_export(args.property, args.output_file, args.working_dir)
+        print(output)
+    elif args.command == "cut":
+        output = call_cut(args.date)
         print(output)
 
     
