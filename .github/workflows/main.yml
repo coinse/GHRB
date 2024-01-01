@@ -22,7 +22,7 @@ jobs:
         path: Docker/requirements.txt
         
     - name: Run Script
-      run: python collect_raw_data.py -t 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 -f existing_repo.json
+      run: python collect_raw_data.py -t ${{ secrets.GITHUB_TOKEN }} -f existing_repo.json
 
     - name: Compare Output
       run: python compare_new_data.py
@@ -38,7 +38,7 @@ jobs:
 
         output_content=$(cat output.txt)
 
-        GITHUB_TOKEN=$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
+        GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}
 
         repo_owner=$coinse
         repo_name=$GRHB
