@@ -22,7 +22,7 @@ jobs:
         path: Docker/requirements.txt
         
     - name: Run Script
-      run: python collect_raw_data.py -t ${{ secrets.GITHUB_TOKEN }} -f existing_repo.json
+      run: python collect_raw_data.py -t ${{ secrets.GITHUB_TOKEN }} -f data/existing_repos.json
 
     - name: Compare Output
       run: python compare_new_data.py
