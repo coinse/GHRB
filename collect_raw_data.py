@@ -390,7 +390,7 @@ def fetch_prod_diff ():
         os.makedirs("collected/prod_diff")
     
 
-    with open('collected/new_report_test_mappings.json', "r") as f:
+    with open('collected/report.json', "r") as f:
         report_map = json.load(f)
     
     for repo_name in report_map:
@@ -468,6 +468,9 @@ if __name__ == "__main__":
     api_token = args.api_token
     filtered_repo = args.repository_file
 
+    if not os.path.isdir("collected"):
+        os.makedirs("collected")
+
     if not os.path.isdir("collected/raw_data"):
         os.makedirs("collected/raw_data")
 
@@ -507,7 +510,7 @@ if __name__ == "__main__":
     clone_repos(filtered_data)
     new_cleaned_data = filter_test_diff_PR (filtered_data)
     
-    with open('collected/new_report_test_mappings.json', 'w') as f:
+    with open('collected/report.json', 'w') as f:
         json.dump(new_cleaned_data, f, indent=2)
     
     fetch_prod_diff()
