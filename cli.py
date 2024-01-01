@@ -772,7 +772,7 @@ def call_cut(date):
             created_date = datetime.strptime(verified_bugs[report_id]['PR_createdAt'], "%Y-%m-%dT%H:%M:%SZ")
             created_date = created_date.date()
             
-            if created_date > date:
+            if created_date >= date:
                 output += f"{pid}_{bug_id}\n"
         
     return output
