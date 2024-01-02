@@ -41,8 +41,9 @@ def find_last_pr_number(client, find_last_pr_query, param):
 
 def find_first_pr_number(client, find_first_pr_query, param):
     query_result = gql_request(client, find_first_pr_query, param)
-
-    first_pr = query_result["repository"]["pullRequests"]["edges"][0]["node"]["number"]
+    if len(query_result["search"]["edges"]) == 0:
+        return None
+    first_pr = query_result["search"]["edges"][0]["node"]["number"]
     return first_pr
 
 def iterate_each(client, fetch_pr_query, param, pr_num_list):
@@ -80,18 +81,24 @@ def iterate_repo(repos, client, fetch_pr_query, date):
         try:
             param = defaultdict()
             param["name"] = repo["name"]
+            name = param["name"]
             param["owner"] = repo["owner"]["login"]
+            owner = param["owner"]
             param["startDate"] = date
-            
+            param["query"] = f"repo:{owner}/{name} is:pr created:>{date}"
             print(f"name: {repo['name']}")
             pr_list = []
 
             first_pr = find_first_pr_number(client, find_first_pr_query, param)
+            print(first_pr)
+            if first_pr == None:
+                print("No new PR")
+                i += 1
+                continue
             last_pr = find_last_pr_number(client, find_last_pr_query, param)
-
             pr_num_list = list(range(first_pr, last_pr + 1))
             pr_list = iterate_each(client, fetch_pr_query, param, pr_num_list)
-
+        
             file_path = "collected/raw_data/" + param["owner"] + "_" + param["name"] + '.json'
 
             with open(file_path, 'w') as o:
@@ -100,7 +107,8 @@ def iterate_repo(repos, client, fetch_pr_query, date):
             print(f"#{i} Done")
             i += 1
             error_count = 0
-        except:
+        except Exception as e:
+            print(e)
             time.sleep(60 * 5)
             error_count += 1
             # if the number of error count exceeds 20, continue to next repo
@@ -111,7 +119,7 @@ def iterate_repo(repos, client, fetch_pr_query, date):
 Filter out PRs that were created before cutoff point, which is
 June 2021
 '''
-def filter_old_PR (datapath, date):
+def filter_old_PR (datapath):
 
     collected_pr = {}
 
@@ -313,7 +321,9 @@ def filter_test_diff_PR (filtered_pr):
     new_cleaned_data = {}
 
     repo_path = ""
-    
+    if not os.path.isdir("collected/test_diff"):
+        os.makedirs("collected/test_diff")
+        
     for repo_name in filtered_pr:
         if debug:
             print("filtering repo: ", repo_name)
