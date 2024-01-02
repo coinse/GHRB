@@ -72,7 +72,7 @@ With the pull request information, gather the actual pull request data with:
 python collect_raw_data.py --api_token <github_api_token> --repository_file <repo_info_file> --date <cut_off_date>
 ```
 
-`<cut_off_date>` should be in the format `YYYY-MM-DD', and it is the parameter for cut-off date of the pull requests (ex. Setting it to 2021-07-01 will make the script to collect pull requests created after 2021-07-01).
+`<cut_off_date>` should be in the format `YYYY-MM-DD`, and it is the parameter for cut-off date of the pull requests (ex. Setting it to 2021-07-01 will make the script to collect pull requests created after 2021-07-01).
 
 `<repo_info_file>` should have a format like:
 
