@@ -69,10 +69,12 @@ Note that the script will automatically filter out non-English repositories and 
 With the pull request information, gather the actual pull request data with:
 
 ```bash
-python collect_raw_data.py --api_token <github_api_token> --repository_file <repo_info_file>
+python collect_raw_data.py --api_token <github_api_token> --repository_file <repo_info_file> --date <cut_off_date>
 ```
 
-where `<repo_info_file>` should have a format like:
+`<cut_off_date>` should be in the format `YYYY-MM-DD', and it is the parameter for cut-off date of the pull requests (ex. Setting it to 2021-07-01 will make the script to collect pull requests created after 2021-07-01).
+
+`<repo_info_file>` should have a format like:
 
 ```jsonc
 
@@ -89,7 +91,7 @@ where `<repo_info_file>` should have a format like:
 
 ```
 
-should be included in the repository manually. Note that each metadata item should be inside a list. An example of such file can be found under the `example/` directory.
+and it should be included in the repository manually. Note that each metadata item should be inside a list. An example of such file can be found under the `example/` directory.
 
 
 ## Publication
