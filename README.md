@@ -93,6 +93,9 @@ python collect_raw_data.py --api_token <github_api_token> --repository_file <rep
 
 and it should be included in the repository manually. Note that each metadata item should be inside a list. An example of such file can be found under the `example/` directory.
 
+## Maintenance
+
+The current workflow is implemented to collect new reproducible bugs from the existing repositories at first day of each month.
 
 ## Publication
 
