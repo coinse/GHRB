@@ -473,11 +473,11 @@ def fetch_prod_diff ():
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Bug Raw Data Gatherer")
-    parser.add_argument('-t', '--api_token')
-    parser.add_argument('-f', '--repository_file', type=str, default="example/example_metadata.json")
-    parser.add_argument('-d', '--date', type=str, default="2021-07-01")
-    args = parser.parse_args()
+    parser_ = argparse.ArgumentParser(description="Bug Raw Data Gatherer")
+    parser_.add_argument('-t', '--api_token')
+    parser_.add_argument('-f', '--repository_file', type=str, default="example/example_metadata.json")
+    parser_.add_argument('-d', '--date', type=str, default="2021-07-01")
+    args = parser_.parse_args()
     
     api_token = args.api_token
     filtered_repo = args.repository_file
