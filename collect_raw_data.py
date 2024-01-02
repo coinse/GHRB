@@ -31,13 +31,19 @@ def gql_request(client, graphql_query, params):
     result = client.execute(graphql_query, variable_values=params)
     return result
 
-def find_pr_number(client, find_pr_query, param):
-    query_result = gql_request(client, find_pr_query, param)
+def find_last_pr_number(client, find_last_pr_query, param):
+    query_result = gql_request(client, find_last_pr_query, param)
 
     latest_pr = query_result["repository"]["pullRequests"]["edges"][0]["node"]["number"]
-    pr_num_list = [x for x in range(latest_pr)]
-    pr_num_list = pr_num_list[latest_pr-3000 : latest_pr]
-    return pr_num_list
+    # pr_num_list = [x for x in range(latest_pr)]
+    # pr_num_list = pr_num_list[latest_pr-3000 : latest_pr]
+    return latest_pr
+
+def find_first_pr_number(client, find_first_pr_query, param):
+    query_result = gql_request(client, find_first_pr_query, param)
+
+    first_pr = query_result["repository"]["pullRequests"]["edges"][0]["node"]["number"]
+    return first_pr
 
 def iterate_each(client, fetch_pr_query, param, pr_num_list):
     pr_list = []
@@ -56,11 +62,16 @@ def iterate_each(client, fetch_pr_query, param, pr_num_list):
 
     return pr_list
 
-def iterate_repo(repos, client, fetch_pr_query):
+def iterate_repo(repos, client, fetch_pr_query, date):
+    with open("scripts/graphql/fetchFirstPullRequests.graphql") as f:
+        find_first_pr_query_raw = f.read()
+
     with open("scripts/graphql/fetchLatestPullRequests.graphql") as f:
-        find_pr_query_raw = f.read()
+        find_last_pr_query_raw = f.read()
     
-    find_pr_query = gql(find_pr_query_raw)
+    find_first_pr_query = gql(find_first_pr_query_raw)
+    find_last_pr_query = gql(find_last_pr_query_raw)
+
     i = 0
     error_count = 0
     print(len(repos))
@@ -70,12 +81,15 @@ def iterate_repo(repos, client, fetch_pr_query):
             param = defaultdict()
             param["name"] = repo["name"]
             param["owner"] = repo["owner"]["login"]
+            param["startDate"] = date
             
             print(f"name: {repo['name']}")
             pr_list = []
 
-            pr_num_list = find_pr_number(client, find_pr_query, param)
+            first_pr = find_first_pr_number(client, find_first_pr_query, param)
+            last_pr = find_last_pr_number(client, find_last_pr_query, param)
 
+            pr_num_list = list(range(first_pr, last_pr + 1))
             pr_list = iterate_each(client, fetch_pr_query, param, pr_num_list)
 
             file_path = "collected/raw_data/" + param["owner"] + "_" + param["name"] + '.json'
@@ -97,7 +111,7 @@ def iterate_repo(repos, client, fetch_pr_query):
 Filter out PRs that were created before cutoff point, which is
 June 2021
 '''
-def filter_old_PR (datapath):
+def filter_old_PR (datapath, date):
 
     collected_pr = {}
 
@@ -110,7 +124,6 @@ def filter_old_PR (datapath):
         print(f'# of Original PR: {sum([len(collected_pr[repo]) for repo in collected_pr])}')
 
     filtered_pr = defaultdict(list)
-
     for repo_name in collected_pr:
         for pr_data in collected_pr[repo_name]:
 
@@ -463,6 +476,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Bug Raw Data Gatherer")
     parser.add_argument('-t', '--api_token')
     parser.add_argument('-f', '--repository_file', type=str, default="example/example_metadata.json")
+    parser.add_argument('-d', '--date', type=str, default="2021-07-01")
     args = parser.parse_args()
     
     api_token = args.api_token
@@ -500,7 +514,7 @@ if __name__ == "__main__":
     with open(filtered_repo, "r") as f:
         new_repo = json.load(f)
     
-    iterate_repo(new_repo, client, fetch_pr_query)
+    iterate_repo(new_repo, client, fetch_pr_query, args.date)
 
     filtered_data = filter_old_PR ("collected/raw_data")
     filtered_data = filter_no_test_PR (filtered_data)

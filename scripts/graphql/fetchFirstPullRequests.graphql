@@ -1,0 +1,31 @@
+query fetchLatestPullRequests($name: String!, $owner: String!, $startDate: DateTime!) {
+    repository(name: $name, owner: $owner) {
+        pullRequests(first: 1, orderBy: { field: CREATED_AT, direction: ASC}, filterBy: { since: $startDate }) {
+            edges {
+                node {
+                    number
+                    createdAt
+                    resourcePath
+                    url
+                    closingIssuesReferences(first: 50) {
+                        edges {
+                            node {
+                                number
+                                createdAt
+                                resourcePath
+                                url
+                                labels(first: 5) {
+                                    edges {
+                                        node {
+                                            name
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
