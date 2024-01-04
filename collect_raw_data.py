@@ -63,7 +63,7 @@ def iterate_each(client, fetch_pr_query, param, pr_num_list):
 
     return pr_list
 
-def iterate_repo(repos, client, fetch_pr_query, date):
+def iterate_repo(repos, client, fetch_pr_query, date, existing):
     with open("scripts/graphql/fetchFirstPullRequests.graphql") as f:
         find_first_pr_query_raw = f.read()
 
@@ -89,15 +89,20 @@ def iterate_repo(repos, client, fetch_pr_query, date):
             print(f"name: {repo['name']}")
             pr_list = []
 
-            first_pr = find_first_pr_number(client, find_first_pr_query, param)
-            #print(first_pr)
-            if first_pr == None:
-                print("No new PR")
-                i += 1
-                continue
             last_pr = find_last_pr_number(client, find_last_pr_query, param)
+            if existing:
+                first_pr = find_first_pr_number(client, find_first_pr_query, param)
+                #print(first_pr)
+                if first_pr == None:
+                    print("No new PR")
+                    i += 1
+                    continue
+                pr_num_list = list(range(first_pr, last_pr + 1))
+            else:
+                pr_num_list = [x for x in range(last_pr)]
+                pr_num_list = pr_num_list[last_pr - 3000 : last_pr]
+            
             #print(last_pr)
-            pr_num_list = list(range(first_pr, last_pr + 1))
             pr_list = iterate_each(client, fetch_pr_query, param, pr_num_list)
         
             file_path = "collected/raw_data/" + param["owner"] + "_" + param["name"] + '.json'
@@ -120,9 +125,11 @@ def iterate_repo(repos, client, fetch_pr_query, date):
 Filter out PRs that were created before cutoff point, which is
 June 2021
 '''
-def filter_old_PR (datapath):
+def filter_old_PR (datapath, date):
 
     collected_pr = {}
+
+    filter_date = parser.parse(date)
 
     for repo_data in glob.glob(os.path.join(datapath, '*.json')):
         repo_name = os.path.basename(repo_data).replace('.json', '')
@@ -149,7 +156,7 @@ def filter_old_PR (datapath):
 
             created_at = parser.parse(pr_data['repository']['pullRequest']['createdAt'], ignoretz=True)
             
-            if created_at >= datetime.datetime(2021, 7, 1):
+            if created_at >= filter_date:
                 filtered_pr[repo_name].append(pr_data)
     
     if debug:
@@ -488,6 +495,7 @@ if __name__ == "__main__":
     parser_.add_argument('-t', '--api_token')
     parser_.add_argument('-f', '--repository_file', type=str, default="example/example_metadata.json")
     parser_.add_argument('-d', '--date', type=str, default="2021-07-01")
+    parser_.add_argument('-e', '--existing', action='store_true')
     args = parser_.parse_args()
     
     api_token = args.api_token
@@ -525,9 +533,9 @@ if __name__ == "__main__":
     with open(filtered_repo, "r") as f:
         new_repo = json.load(f)
     
-    iterate_repo(new_repo, client, fetch_pr_query, args.date)
+    iterate_repo(new_repo, client, fetch_pr_query, args.date, args.existing)
 
-    filtered_data = filter_old_PR ("collected/raw_data")
+    filtered_data = filter_old_PR ("collected/raw_data", args.date)
     filtered_data = filter_no_test_PR (filtered_data)
     filtered_data = filter_multiple_PR (filtered_data)
     filtered_data = filter_language_PR (filtered_data)
