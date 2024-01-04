@@ -1,0 +1,52 @@
+name: Check for new current bugs
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repo
+      uses: actions/checkout@v2
+
+    - name: Setup Python
+      uses: actions/setup-python@v5.0.0
+      with:
+        python-version: 3.8
+
+    - name: Install Requirements
+      uses: py-actions/py-dependency-install@v4
+      with:
+        path: Docker/requirements.txt
+        
+    - name: Run Script
+      run: |
+        current_date=$(date -u "+%Y-%m-%d")
+        previous_date=$(date -u -d "$current_date" -d "last month" "+%Y-%m-%d")
+        test_date=$"2023-06-01"
+        python collect_raw_data.py -t ${{ secrets.GITHUB_TOKEN }} -f data/existing_repos.json -d $test_date
+
+    - name: Compare Output
+      run: python compare_new_data.py
+
+    - name: Check if output.txt is not empty
+      id: check_output
+      run: echo "::set-output name=file_exists::$(test -e output.txt && echo true || echo false)"
+
+    - name: Create Github issue if not empty
+      if: steps.check_output.outputs.file_exists == 'true'
+      run: |
+        echo "output.txt exists. Creating issue..."
+
+        output_content=$(cat output.txt)
+
+        GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}
+
+        repo_owner=$coinse
+        repo_name=$GRHB
+
+        curl -X POST \
+          -H "Authorization: token $GITHUB_TOKEN" \
+          -H "Accept: application/vnd.github.v3+json" \
+          "https://api.github.com/repos/$repo_owner/$repo_name/issues" \
+          -d "{\"New Bugs Collected\":\"New Issue\",\"body\":\"$output_content\"}"
+          
