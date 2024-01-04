@@ -85,17 +85,18 @@ def iterate_repo(repos, client, fetch_pr_query, date):
             param["owner"] = repo["owner"]["login"]
             owner = param["owner"]
             param["startDate"] = date
-            param["query"] = f"repo:{owner}/{name} is:pr created:>{date}"
+            param["query"] = f"repo:{owner}/{name} is:pr created:<{date}"
             print(f"name: {repo['name']}")
             pr_list = []
 
             first_pr = find_first_pr_number(client, find_first_pr_query, param)
-            print(first_pr)
+            #print(first_pr)
             if first_pr == None:
                 print("No new PR")
                 i += 1
                 continue
             last_pr = find_last_pr_number(client, find_last_pr_query, param)
+            #print(last_pr)
             pr_num_list = list(range(first_pr, last_pr + 1))
             pr_list = iterate_each(client, fetch_pr_query, param, pr_num_list)
         

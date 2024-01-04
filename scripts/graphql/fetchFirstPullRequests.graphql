@@ -1,5 +1,5 @@
 query fetchFirstPullRequests($query: String!) {
-    search(query: $query, type: ISSUE, first: 1, orderBy: {field: CREATED_AT, direction: ASC}) {
+    search(query: $query, type: ISSUE, last: 1) {
         edges {
             node {
                 ... on PullRequest {

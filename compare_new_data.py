@@ -33,6 +33,7 @@ def call_compare():
             f.write(output)
 
 
+
 if __name__ == '__main__':
 
     output = call_compare()

@@ -51,4 +51,17 @@ jobs:
           -H "Accept: application/vnd.github.v3+json" \
           "https://api.github.com/repos/$repo_owner/$repo_name/issues" \
           -d "{\"New Bugs Collected\":\"New Issue\",\"body\":\"$output_content\"}"
-          
+    
+    - name: Create Github issue if empty
+      if: steps.check_output.outputs.file_exists == 'false'
+      run: |
+        no_bug=$("No New Bugs Detected")
+        GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}
+
+        repo_owner=$coinse
+        repo_name=$GRHB
+        curl -X POST \
+          -H "Authorization: token $GITHUB_TOKEN" \
+          -H "Accept: application/vnd.github.v3+json" \
+          "https://api.github.com/repos/$repo_owner/$repo_name/issues" \
+          -d "{\"No New Bugs Detected\":\"New Issue\",\"body\":\"$no_bug\"}"
