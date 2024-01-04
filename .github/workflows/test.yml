@@ -1,5 +1,8 @@
 name: Check for new current bugs
-
+on:
+  push:
+    branches:
+      - main
 jobs:
   build:
     runs-on: ubuntu-latest
