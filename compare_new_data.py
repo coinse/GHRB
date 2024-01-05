@@ -27,11 +27,11 @@ def call_compare():
             if b not in verified_bugs.keys():
                 output += f"{repo_name}_{b}\n"
         
-    
     if len(output) != 0:
-        with open("compared.txt", "w") as f:
-            f.write(output)
-
+        print(output)
+        print(report)
+    else:
+        print("No new bugs detected")
 
 
 if __name__ == '__main__':

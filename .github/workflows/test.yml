@@ -28,30 +28,10 @@ jobs:
         test_date=$"2023-06-01"
         python collect_raw_data.py -t ${{ secrets.GITHUB_TOKEN }} -f data/existing_repos.json -d $test_date -e
 
-    - name: Compare Output
-      run: python compare_new_data.py
-
-    - name: Check if output.txt is not empty
-      id: check_output
-      run: echo "::set-output name=file_exists::$(test -e output.txt && echo true || echo false)"
-
-    - name: Create Github issue if not empty
-      if: steps.check_output.outputs.file_exists == 'true'
+    - name: Compare Output, Create Github issue
       run: |
-        echo "output.txt exists. Creating issue..."
-
-        output_content=$(cat output.txt)
-
-        gh issue create -t "New Bugs Collected by Github Action" -b "$output_content"
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        REPO: ${{ github.repository }}
-    
-    - name: Create Github issue if empty
-      if: steps.check_output.outputs.file_exists == 'false'
-      run: |
-        gh issue create -t "No New Bug Detected by Github Action" -b "No new bugs were detected by Github Action"
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        REPO: ${{ github.repository }}
-          
+        body=$(python compare_new_data.py)
+        gh issue create -t "Output of Github Action" -b "$body"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
