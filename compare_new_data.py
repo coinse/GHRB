@@ -29,7 +29,6 @@ def call_compare():
         
     if len(output) != 0:
         print(output)
-        print(report)
     else:
         print("No new bugs detected")
 
