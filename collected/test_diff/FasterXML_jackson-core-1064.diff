@@ -1,0 +1,257 @@
+diff --git a/src/test/java/com/fasterxml/jackson/core/TestJDKSerializability.java b/src/test/java/com/fasterxml/jackson/core/TestJDKSerializability.java
+index 951748ca..d03740d1 100644
+--- a/src/test/java/com/fasterxml/jackson/core/TestJDKSerializability.java
++++ b/src/test/java/com/fasterxml/jackson/core/TestJDKSerializability.java
+@@ -3,6 +3,7 @@ package com.fasterxml.jackson.core;
+ import java.io.*;
+ 
+ import com.fasterxml.jackson.core.io.ContentReference;
++import com.fasterxml.jackson.core.util.BufferRecyclerPool;
+ import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
+ 
+ /**
+@@ -105,6 +106,48 @@ public class TestJDKSerializability extends BaseTest
+         assertSame(ref2, ContentReference.unknown());
+     }
+ 
++    /*
++    /**********************************************************************
++    /* Other entities
++    /**********************************************************************
++     */
++
++    public void testRecyclerPools() throws Exception
++    {
++        // First: shared/global pools that will always remain/become globally
++        // shared instances
++        _testRecyclerPoolGlobal(BufferRecyclerPool.nonRecyclingPool());
++        _testRecyclerPoolGlobal(BufferRecyclerPool.threadLocalPool());
++
++        _testRecyclerPoolGlobal(BufferRecyclerPool.ConcurrentDequePool.shared());
++        _testRecyclerPoolGlobal(BufferRecyclerPool.LockFreePool.shared());
++        BufferRecyclerPool.BoundedPool bounded =
++                _testRecyclerPoolGlobal(BufferRecyclerPool.BoundedPool.shared());
++        assertEquals(BufferRecyclerPool.BoundedPool.DEFAULT_CAPACITY, bounded.capacity());
++
++        _testRecyclerPoolNonShared(BufferRecyclerPool.ConcurrentDequePool.nonShared());
++        _testRecyclerPoolNonShared(BufferRecyclerPool.LockFreePool.nonShared());
++        bounded = _testRecyclerPoolNonShared(BufferRecyclerPool.BoundedPool.nonShared(250));
++        assertEquals(250, bounded.capacity());
++    }
++
++    private <T extends BufferRecyclerPool> T _testRecyclerPoolGlobal(T pool) throws Exception {
++        byte[] stuff = jdkSerialize(pool);
++        T result = jdkDeserialize(stuff);
++        assertNotNull(result);
++        assertSame(pool.getClass(), result.getClass());
++        return result;
++    }
++
++    private <T extends BufferRecyclerPool> T _testRecyclerPoolNonShared(T pool) throws Exception {
++        byte[] stuff = jdkSerialize(pool);
++        T result = jdkDeserialize(stuff);
++        assertNotNull(result);
++        assertEquals(pool.getClass(), result.getClass());
++        assertNotSame(pool, result);
++        return result;
++    }
++    
+     /*
+     /**********************************************************************
+     /* Exception types
+diff --git a/src/test/java/com/fasterxml/jackson/core/io/BufferRecyclerPoolTest.java b/src/test/java/com/fasterxml/jackson/core/io/BufferRecyclerPoolTest.java
+new file mode 100644
+index 00000000..2381f520
+--- /dev/null
++++ b/src/test/java/com/fasterxml/jackson/core/io/BufferRecyclerPoolTest.java
+@@ -0,0 +1,86 @@
++package com.fasterxml.jackson.core.io;
++
++import com.fasterxml.jackson.core.BaseTest;
++import com.fasterxml.jackson.core.JsonFactory;
++import com.fasterxml.jackson.core.JsonGenerator;
++import com.fasterxml.jackson.core.json.JsonGeneratorImpl;
++import com.fasterxml.jackson.core.util.BufferRecycler;
++import com.fasterxml.jackson.core.util.BufferRecyclerPool;
++
++import java.io.IOException;
++import java.io.OutputStream;
++
++public class BufferRecyclerPoolTest extends BaseTest
++{
++    public void testNoOp() {
++        // no-op pool doesn't actually pool anything, so avoid checking it
++        checkBufferRecyclerPoolImpl(BufferRecyclerPool.NonRecyclingPool.shared(), false);
++    }
++
++    public void testThreadLocal() {
++        checkBufferRecyclerPoolImpl(BufferRecyclerPool.ThreadLocalPool.shared(), true);
++    }
++
++    public void testLockFree() {
++        checkBufferRecyclerPoolImpl(BufferRecyclerPool.LockFreePool.nonShared(), true);
++    }
++
++    public void testConcurrentDequeue() {
++        checkBufferRecyclerPoolImpl(BufferRecyclerPool.ConcurrentDequePool.nonShared(), true);
++    }
++
++    public void testBounded() {
++        checkBufferRecyclerPoolImpl(BufferRecyclerPool.BoundedPool.nonShared(1), true);
++    }
++
++    private void checkBufferRecyclerPoolImpl(BufferRecyclerPool pool, boolean checkPooledResource) {
++        JsonFactory jsonFactory = JsonFactory.builder()
++                .bufferRecyclerPool(pool)
++                .build();
++        BufferRecycler usedBufferRecycler = write("test", jsonFactory, 6);
++
++        if (checkPooledResource) {
++            // acquire the pooled BufferRecycler again and check if it is the same instance used before
++            BufferRecycler pooledBufferRecycler = pool.acquireBufferRecycler();
++            try {
++                assertSame(usedBufferRecycler, pooledBufferRecycler);
++            } finally {
++                pooledBufferRecycler.release();
++            }
++        }
++    }
++
++    protected final BufferRecycler write(Object value, JsonFactory jsonFactory, int expectedSize) {
++        BufferRecycler bufferRecycler;
++        NopOutputStream out = new NopOutputStream();
++        try (JsonGenerator gen = jsonFactory.createGenerator(out)) {
++            bufferRecycler = ((JsonGeneratorImpl) gen).ioContext()._bufferRecycler;
++            gen.writeObject(value);
++        } catch (IOException e) {
++            throw new RuntimeException(e);
++        }
++        assertEquals(expectedSize, out.size);
++        return bufferRecycler;
++    }
++
++    public class NopOutputStream extends OutputStream {
++        protected int size = 0;
++
++        public NopOutputStream() { }
++
++        @Override
++        public void write(int b) throws IOException { ++size; }
++
++        @Override
++        public void write(byte[] b) throws IOException { size += b.length; }
++
++        @Override
++        public void write(byte[] b, int offset, int len) throws IOException { size += len; }
++
++        public NopOutputStream reset() {
++            size = 0;
++            return this;
++        }
++        public int size() { return size; }
++    }
++}
+diff --git a/src/test/java/com/fasterxml/jackson/core/io/TestIOContext.java b/src/test/java/com/fasterxml/jackson/core/io/TestIOContext.java
+index e6ca0ce0..ebd0b1d2 100644
+--- a/src/test/java/com/fasterxml/jackson/core/io/TestIOContext.java
++++ b/src/test/java/com/fasterxml/jackson/core/io/TestIOContext.java
+@@ -94,6 +94,7 @@ public class TestIOContext
+             verifyException(e, "smaller than original");
+         }
+         ctxt.releaseNameCopyBuffer(null);
++        ctxt.close();
+     }
+ }
+ 
+diff --git a/src/test/java/com/fasterxml/jackson/core/io/TestMergedStream.java b/src/test/java/com/fasterxml/jackson/core/io/TestMergedStream.java
+index 7707ac3d..81a75ba1 100644
+--- a/src/test/java/com/fasterxml/jackson/core/io/TestMergedStream.java
++++ b/src/test/java/com/fasterxml/jackson/core/io/TestMergedStream.java
+@@ -20,6 +20,8 @@ public class TestMergedStream
+         ctxt.setEncoding(JsonEncoding.UTF8);
+         MergedStream ms = new MergedStream(ctxt, new ByteArrayInputStream(second),
+                                            first, 99, 99+5);
++        ctxt.close();
++
+         // Ok, first, should have 5 bytes from first buffer:
+         assertEquals(5, ms.available());
+         // not supported when there's buffered stuff...
+diff --git a/src/test/java/com/fasterxml/jackson/core/util/ReadConstrainedTextBufferTest.java b/src/test/java/com/fasterxml/jackson/core/util/ReadConstrainedTextBufferTest.java
+index 6c4211ab..cfb163cf 100644
+--- a/src/test/java/com/fasterxml/jackson/core/util/ReadConstrainedTextBufferTest.java
++++ b/src/test/java/com/fasterxml/jackson/core/util/ReadConstrainedTextBufferTest.java
+@@ -16,41 +16,55 @@ class ReadConstrainedTextBufferTest {
+ 
+     @Test
+     public void appendCharArray() throws Exception {
+-        TextBuffer constrained = makeConstrainedBuffer(SEGMENT_SIZE);
+-        char[] chars = new char[SEGMENT_SIZE];
+-        Arrays.fill(chars, 'A');
+-        constrained.append(chars, 0, SEGMENT_SIZE);
+-        Assertions.assertThrows(IOException.class, () -> constrained.append(chars, 0, SEGMENT_SIZE));
++        try (IOContext ioContext = makeConstrainedContext(SEGMENT_SIZE)) {
++            TextBuffer constrained = ioContext.constructReadConstrainedTextBuffer();
++            char[] chars = new char[SEGMENT_SIZE];
++            Arrays.fill(chars, 'A');
++            constrained.append(chars, 0, SEGMENT_SIZE);
++            Assertions.assertThrows(IOException.class, () -> {
++                constrained.append(chars, 0, SEGMENT_SIZE);
++                constrained.contentsAsString();
++            });
++        }
+     }
+ 
+     @Test
+     public void appendString() throws Exception {
+-        TextBuffer constrained = makeConstrainedBuffer(SEGMENT_SIZE);
+-        char[] chars = new char[SEGMENT_SIZE];
+-        Arrays.fill(chars, 'A');
+-        constrained.append(new String(chars), 0, SEGMENT_SIZE);
+-        Assertions.assertThrows(IOException.class, () -> constrained.append(new String(chars), 0, SEGMENT_SIZE));
++        try (IOContext ioContext = makeConstrainedContext(SEGMENT_SIZE)) {
++            TextBuffer constrained = ioContext.constructReadConstrainedTextBuffer();
++            char[] chars = new char[SEGMENT_SIZE];
++            Arrays.fill(chars, 'A');
++            constrained.append(new String(chars), 0, SEGMENT_SIZE);
++            Assertions.assertThrows(IOException.class, () -> {
++                constrained.append(new String(chars), 0, SEGMENT_SIZE);
++                constrained.contentsAsString();
++            });
++        }
+     }
+ 
+     @Test
+     public void appendSingle() throws Exception {
+-        TextBuffer constrained = makeConstrainedBuffer(SEGMENT_SIZE);
+-        char[] chars = new char[SEGMENT_SIZE];
+-        Arrays.fill(chars, 'A');
+-        constrained.append(chars, 0, SEGMENT_SIZE);
+-        Assertions.assertThrows(IOException.class, () -> constrained.append('x'));
++        try (IOContext ioContext = makeConstrainedContext(SEGMENT_SIZE)) {
++            TextBuffer constrained = ioContext.constructReadConstrainedTextBuffer();
++            char[] chars = new char[SEGMENT_SIZE];
++            Arrays.fill(chars, 'A');
++            constrained.append(chars, 0, SEGMENT_SIZE);
++            Assertions.assertThrows(IOException.class, () -> {
++                constrained.append('x');
++                constrained.contentsAsString();
++            });
++        }
+     }
+ 
+-    private static TextBuffer makeConstrainedBuffer(int maxStringLen) {
++    private static IOContext makeConstrainedContext(int maxStringLen) {
+         StreamReadConstraints constraints = StreamReadConstraints.builder()
+                 .maxStringLength(maxStringLen)
+                 .build();
+-        IOContext ioContext = new IOContext(
++        return new IOContext(
+                 constraints,
+                 StreamWriteConstraints.defaults(),
+                 ErrorReportConfiguration.defaults(),
+                 new BufferRecycler(),
+                 ContentReference.rawReference("N/A"), true);
+-        return ioContext.constructReadConstrainedTextBuffer();
+     }
+ }
+\ No newline at end of file

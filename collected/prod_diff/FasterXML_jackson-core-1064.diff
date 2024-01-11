@@ -1,0 +1,840 @@
+diff --git a/src/main/java/com/fasterxml/jackson/core/JsonFactory.java b/src/main/java/com/fasterxml/jackson/core/JsonFactory.java
+index 07317f1f..7eaae033 100644
+--- a/src/main/java/com/fasterxml/jackson/core/JsonFactory.java
++++ b/src/main/java/com/fasterxml/jackson/core/JsonFactory.java
+@@ -19,12 +19,7 @@ import com.fasterxml.jackson.core.json.async.NonBlockingByteBufferJsonParser;
+ import com.fasterxml.jackson.core.json.async.NonBlockingJsonParser;
+ import com.fasterxml.jackson.core.sym.ByteQuadsCanonicalizer;
+ import com.fasterxml.jackson.core.sym.CharsToNameCanonicalizer;
+-import com.fasterxml.jackson.core.util.BufferRecycler;
+-import com.fasterxml.jackson.core.util.BufferRecyclerPool;
+-import com.fasterxml.jackson.core.util.BufferRecyclers;
+-import com.fasterxml.jackson.core.util.JacksonFeature;
+-import com.fasterxml.jackson.core.util.JsonGeneratorDecorator;
+-import com.fasterxml.jackson.core.util.Separators;
++import com.fasterxml.jackson.core.util.*;
+ 
+ /**
+  * The main factory class of Jackson package, used to configure and
+@@ -115,8 +110,10 @@ public class JsonFactory
+         FAIL_ON_SYMBOL_HASH_OVERFLOW(true),
+ 
+         /**
+-         * Feature that determines whether we will use {@link BufferRecycler} with
+-         * {@link ThreadLocal} and {@link SoftReference}, for efficient reuse of
++         * Feature that determines whether we will use a {@link BufferRecyclerPool}
++         * for allocating and possibly recycling {@link BufferRecycler} or not.
++         * The default {@link BufferRecyclerPool} implementation uses
++         * {@link ThreadLocal} and {@link SoftReference} for efficient reuse of
+          * underlying input/output buffers.
+          * This usually makes sense on normal J2SE/J2EE server-side processing;
+          * but may not make sense on platforms where {@link SoftReference} handling
+@@ -125,6 +122,10 @@ public class JsonFactory
+          * <a href="https://github.com/FasterXML/jackson-core/issues/189">jackson-core#189</a>
+          * for a possible case)
+          *<p>
++         * Note that since 2.16 naming here is somewhat misleading as this is used
++         * to now enable or disable pooling; but the actual pooling implementation
++         * is configurable and may not be based on {@link ThreadLocal}.
++         *<p>
+          * This setting is enabled by default.
+          *
+          * @since 2.6
+@@ -370,7 +371,7 @@ public class JsonFactory
+     public JsonFactory() { this((ObjectCodec) null); }
+ 
+     public JsonFactory(ObjectCodec oc) {
+-        _bufferRecyclerPool = BufferRecyclers.defaultRecyclerPool();
++        _bufferRecyclerPool = BufferRecyclerPool.defaultPool();
+         _objectCodec = oc;
+         _quoteChar = DEFAULT_QUOTE_CHAR;
+         _streamReadConstraints = StreamReadConstraints.defaults();
+@@ -1873,6 +1874,7 @@ public class JsonFactory
+                     e.addSuppressed(e2);
+                 }
+             }
++            ctxt.close();
+             throw e;
+         }
+     }
+@@ -2151,7 +2153,7 @@ public class JsonFactory
+      */
+     public BufferRecycler _getBufferRecycler()
+     {
+-        return _getBufferRecyclerPool().acquireBufferRecycler(this);
++        return _getBufferRecyclerPool().acquireBufferRecycler();
+     }
+ 
+     /**
+@@ -2165,7 +2167,7 @@ public class JsonFactory
+         //   scheme, for cases where it is considered harmful (possibly
+         //   on Android, for example)
+         if (!Feature.USE_THREAD_LOCAL_FOR_BUFFER_RECYCLING.enabledIn(_factoryFeatures)) {
+-            return BufferRecyclers.nopRecyclerPool();
++            return BufferRecyclerPool.nonRecyclingPool();
+         }
+         return _bufferRecyclerPool;
+     }
+diff --git a/src/main/java/com/fasterxml/jackson/core/TSFBuilder.java b/src/main/java/com/fasterxml/jackson/core/TSFBuilder.java
+index f34c655c..8ee09de1 100644
+--- a/src/main/java/com/fasterxml/jackson/core/TSFBuilder.java
++++ b/src/main/java/com/fasterxml/jackson/core/TSFBuilder.java
+@@ -9,7 +9,6 @@ import com.fasterxml.jackson.core.io.OutputDecorator;
+ import com.fasterxml.jackson.core.json.JsonReadFeature;
+ import com.fasterxml.jackson.core.json.JsonWriteFeature;
+ import com.fasterxml.jackson.core.util.BufferRecyclerPool;
+-import com.fasterxml.jackson.core.util.BufferRecyclers;
+ import com.fasterxml.jackson.core.util.JsonGeneratorDecorator;
+ 
+ /**
+@@ -142,7 +141,7 @@ public abstract class TSFBuilder<F extends JsonFactory,
+     protected TSFBuilder(int factoryFeatures,
+             int parserFeatures, int generatorFeatures)
+     {
+-        _bufferRecyclerPool = BufferRecyclers.defaultRecyclerPool();
++        _bufferRecyclerPool = BufferRecyclerPool.defaultPool();
+ 
+         _factoryFeatures = factoryFeatures;
+         _streamReadFeatures = parserFeatures;
+diff --git a/src/main/java/com/fasterxml/jackson/core/base/ParserBase.java b/src/main/java/com/fasterxml/jackson/core/base/ParserBase.java
+index 5395e880..320c8438 100644
+--- a/src/main/java/com/fasterxml/jackson/core/base/ParserBase.java
++++ b/src/main/java/com/fasterxml/jackson/core/base/ParserBase.java
+@@ -395,6 +395,7 @@ public abstract class ParserBase extends ParserMinimalBase
+                 // as per [JACKSON-324], do in finally block
+                 // Also, internal buffer(s) can now be released as well
+                 _releaseBuffers();
++                _ioContext.close();
+             }
+         }
+     }
+diff --git a/src/main/java/com/fasterxml/jackson/core/io/IOContext.java b/src/main/java/com/fasterxml/jackson/core/io/IOContext.java
+index 060446c9..56d0ec1e 100644
+--- a/src/main/java/com/fasterxml/jackson/core/io/IOContext.java
++++ b/src/main/java/com/fasterxml/jackson/core/io/IOContext.java
+@@ -16,7 +16,7 @@ import com.fasterxml.jackson.core.util.TextBuffer;
+  *<p>
+  * NOTE: non-final since 2.4, to allow sub-classing.
+  */
+-public class IOContext
++public class IOContext implements AutoCloseable
+ {
+     /*
+     /**********************************************************************
+@@ -119,6 +119,8 @@ public class IOContext
+      */
+     protected char[] _nameCopyBuffer;
+ 
++    private boolean _closed = false;
++
+     /*
+     /**********************************************************************
+     /* Life-cycle
+@@ -458,4 +460,12 @@ public class IOContext
+         // sanity check failed; trying to return different, smaller buffer.
+         return new IllegalArgumentException("Trying to release buffer smaller than original");
+     }
++
++    @Override
++    public void close() {
++        if (!_closed) {
++            _bufferRecycler.release();
++            _closed = true;
++        }
++    }
+ }
+diff --git a/src/main/java/com/fasterxml/jackson/core/io/UTF8Writer.java b/src/main/java/com/fasterxml/jackson/core/io/UTF8Writer.java
+index b7a47fe7..b7561839 100644
+--- a/src/main/java/com/fasterxml/jackson/core/io/UTF8Writer.java
++++ b/src/main/java/com/fasterxml/jackson/core/io/UTF8Writer.java
+@@ -76,6 +76,7 @@ public final class UTF8Writer extends Writer
+                 illegalSurrogate(code);
+             }
+         }
++        _context.close();
+     }
+ 
+     @Override
+diff --git a/src/main/java/com/fasterxml/jackson/core/json/JsonGeneratorImpl.java b/src/main/java/com/fasterxml/jackson/core/json/JsonGeneratorImpl.java
+index 2bc37a11..ad2eaa3f 100644
+--- a/src/main/java/com/fasterxml/jackson/core/json/JsonGeneratorImpl.java
++++ b/src/main/java/com/fasterxml/jackson/core/json/JsonGeneratorImpl.java
+@@ -120,6 +120,14 @@ public abstract class JsonGeneratorImpl extends GeneratorBase
+     /**********************************************************
+      */
+ 
++    @Override
++    public void close() throws IOException {
++        if (!isClosed()) {
++            super.close();
++            _ioContext.close();
++        }
++    }
++
+     @SuppressWarnings("deprecation")
+     public JsonGeneratorImpl(IOContext ctxt, int features, ObjectCodec codec)
+     {
+@@ -237,6 +245,23 @@ public abstract class JsonGeneratorImpl extends GeneratorBase
+         return JSON_WRITE_CAPABILITIES;
+     }
+ 
++    /*
++    /**********************************************************
++    /* Misc other accessors
++    /**********************************************************
++     */
++
++    /**
++     * Accessor for use by {@code jackson-core} itself (tests in particular).
++     *
++     * @return {@link IOContext} in use by this generator
++     *
++     * @since 2.16
++     */
++    public IOContext ioContext() {
++        return _ioContext;
++    }
++
+     /*
+     /**********************************************************
+     /* Shared helper methods
+diff --git a/src/main/java/com/fasterxml/jackson/core/util/BufferRecycler.java b/src/main/java/com/fasterxml/jackson/core/util/BufferRecycler.java
+index a17532a6..136d9498 100644
+--- a/src/main/java/com/fasterxml/jackson/core/util/BufferRecycler.java
++++ b/src/main/java/com/fasterxml/jackson/core/util/BufferRecycler.java
+@@ -1,17 +1,21 @@
+ package com.fasterxml.jackson.core.util;
+ 
++import java.util.Objects;
+ import java.util.concurrent.atomic.AtomicReferenceArray;
+ 
+ /**
+  * This is a small utility class, whose main functionality is to allow
+- * simple reuse of raw byte/char buffers. It is usually used through
+- * <code>ThreadLocal</code> member of the owning class pointing to
+- * instance of this class through a <code>SoftReference</code>. The
+- * end result is a low-overhead GC-cleanable recycling: hopefully
++ * simple reuse of raw byte/char buffers. It is usually allocated through
++ * {@link BufferRecyclerPool} (starting with 2.16): multiple pool
++ * implementations exists.
++ * The default pool implementation uses
++ * {@code ThreadLocal} combined with {@code SoftReference}.
++ * The end result is a low-overhead GC-cleanable recycling: hopefully
+  * ideal for use by stream readers.
+  *<p>
+  * Rewritten in 2.10 to be thread-safe (see [jackson-core#479] for details),
+- * to not rely on {@code ThreadLocal} access.
++ * to not rely on {@code ThreadLocal} access.<br />
++ * Rewritten in 2.16 to work with {@link BufferRecyclerPool} abstraction.
+  */
+ public class BufferRecycler
+ {
+@@ -82,6 +86,8 @@ public class BufferRecycler
+     // Note: changed from simple array in 2.10:
+     protected final AtomicReferenceArray<char[]> _charBuffers;
+ 
++    private BufferRecyclerPool _pool;
++
+     /*
+     /**********************************************************
+     /* Construction
+@@ -189,4 +195,36 @@ public class BufferRecycler
+ 
+     protected byte[] balloc(int size) { return new byte[size]; }
+     protected char[] calloc(int size) { return new char[size]; }
++
++    /**
++     * Method called by owner of this recycler instance, to provide reference to
++     * {@link BufferRecyclerPool} into which instance is to be released (if any)
++     *
++     * @since 2.16
++     */
++    BufferRecycler withPool(BufferRecyclerPool pool) {
++        if (this._pool != null) {
++            throw new IllegalStateException("BufferRecycler already linked to pool: "+pool);
++        }
++        // assign to pool to which this BufferRecycler belongs in order to release it
++        // to the same pool when the work will be completed
++        _pool = Objects.requireNonNull(pool);
++        return this;
++    }
++
++    /**
++     * Method called when owner of this recycler no longer wishes use it; this should
++     * return it to pool passed via {@code withPool()} (if any).
++     *
++     * @since 2.16
++     */
++    public void release() {
++        if (_pool != null) {
++            BufferRecyclerPool tmpPool = _pool;
++            // nullify the reference to the pool in order to avoid the risk of releasing
++            // the same BufferRecycler more than once, thus compromising the pool integrity
++            _pool = null;
++            tmpPool.releaseBufferRecycler(this);
++        }
++    }
+ }
+diff --git a/src/main/java/com/fasterxml/jackson/core/util/BufferRecyclerPool.java b/src/main/java/com/fasterxml/jackson/core/util/BufferRecyclerPool.java
+index cd2276b0..672f5f35 100644
+--- a/src/main/java/com/fasterxml/jackson/core/util/BufferRecyclerPool.java
++++ b/src/main/java/com/fasterxml/jackson/core/util/BufferRecyclerPool.java
+@@ -1,17 +1,465 @@
+ package com.fasterxml.jackson.core.util;
+ 
+-import com.fasterxml.jackson.core.TokenStreamFactory;
++import java.io.Serializable;
++import java.util.Deque;
++import java.util.Optional;
++import java.util.concurrent.ArrayBlockingQueue;
++import java.util.concurrent.ConcurrentLinkedDeque;
++import java.util.concurrent.atomic.AtomicReference;
+ 
+ /**
+  * Interface for entity that controls creation and possible reuse of {@link BufferRecycler}
+  * instances used for recycling of underlying input/output buffers.
++ *<p>
++ * Different pool implementations use different strategies on retaining
++ * recyclers for reuse. For example we have:
++ *<ul>
++ * <li>{@link NonRecyclingPool} which does not retain any recyclers and
++ * will always simply construct and return new instance when {@code acquireBufferRecycler}
++ * is called
++ *  </li>
++ * <li>{@link ThreadLocalPool} which uses {@link ThreadLocal} to retain at most
++ *   1 recycler per {@link Thread}.
++ * </li>
++ * <li>{@link BoundedPool} is "bounded pool" and retains at most N recyclers (default value being
++ *  {@link BoundedPool#DEFAULT_CAPACITY}) at any given time.
++ *  </li>
++ * <li>Two implementations -- {@link ConcurrentDequePool}, {@link LockFreePool}
++ *   -- are "unbounded" and retain any number of recyclers released: in practice
++ *   it is at most the highest number of concurrently used {@link BufferRecycler}s.
++ *  </li>
++ *</ul>
++ *
++ *<p>
++ * Default implementations are also included as nested classes.
+  *
+  * @since 2.16
+  */
+-public interface BufferRecyclerPool
+-    extends java.io.Serializable
++public interface BufferRecyclerPool extends Serializable
+ {
+-    public BufferRecycler acquireBufferRecycler(TokenStreamFactory forFactory);
++    /**
++     * Method called to acquire {@link BufferRecycler}; possibly
++     * (but necessarily) a pooled recycler instance (depends on implementation
++     * and pool state).
++     *
++     * @return {@link BufferRecycler} for caller to use; caller expected
++     *   to call {@link #releaseBufferRecycler} after it is done using recycler.
++     */
++    BufferRecycler acquireBufferRecycler();
++
++    /**
++     * Method that should be called when previously acquired (see {@link #acquireBufferRecycler})
++     * recycler instances is no longer needed; this lets pool to take ownership
++     * for possible reuse.
++     *
++     * @param recycler
++     */
++    void releaseBufferRecycler(BufferRecycler recycler);
++
++    /**
++     * @return the default {@link BufferRecyclerPool} implementation
++     *   which is the thread local based one:
++     *   basically alias to {@link #threadLocalPool()}).
++     */
++    static BufferRecyclerPool defaultPool() {
++        return threadLocalPool();
++    }
++
++    /**
++     * @return Globally shared instance of {@link ThreadLocalPool}; same as calling
++     *   {@link ThreadLocalPool#shared()}.
++     */
++    static BufferRecyclerPool threadLocalPool() {
++        return ThreadLocalPool.shared();
++    }
++
++    /**
++     * @return Globally shared instance of {@link NonRecyclingPool}; same as calling
++     *   {@link NonRecyclingPool#shared()}.
++     */
++    static BufferRecyclerPool nonRecyclingPool() {
++        return NonRecyclingPool.shared();
++    }
++
++    /*
++    /**********************************************************************
++    /* Default BufferRecyclerPool implementations
++    /**********************************************************************
++     */
++
++    /**
++     * Default {@link BufferRecyclerPool} implementation that uses
++     * {@link ThreadLocal} for recycling instances. {@link BufferRecycler}
++     * instances are stored using {@link java.lang.ref.SoftReference}s so that
++     * they may be Garbage Collected as needed by JVM.
++     *<p>
++     * Note that this implementation may not work well on platforms where
++     * {@link java.lang.ref.SoftReference}s are not well supported (like
++     * Android), or on platforms where {@link java.lang.Thread}s are not
++     * long-living or reused (like Project Loom).
++     */
++    class ThreadLocalPool implements BufferRecyclerPool
++    {
++        private static final long serialVersionUID = 1L;
++
++        private static final BufferRecyclerPool GLOBAL = new ThreadLocalPool();
++
++        /**
++         * Accessor for the global, shared instance of {@link ThreadLocal}-based
++         * pool: due to its nature it is essentially Singleton as there can only
++         * be a single recycled {@link BufferRecycler} per thread.
++         *
++         * @return Shared pool instance
++         */
++        public static BufferRecyclerPool shared() {
++            return GLOBAL;
++        }
++
++        // No instances beyond shared one should be constructed
++        private ThreadLocalPool() { }
++
++        // // // JDK serialization support
++
++        protected Object readResolve() { return GLOBAL; }
++
++        // // // Actual API implementation
++
++        @SuppressWarnings("deprecation")
++        @Override
++        public BufferRecycler acquireBufferRecycler() {
++            return BufferRecyclers.getBufferRecycler();
++        }
++
++        @Override
++        public void releaseBufferRecycler(BufferRecycler recycler) {
++            ; // nothing to do, relies on ThreadLocal
++        }
++    }
++
++    /**
++     * {@link BufferRecyclerPool} implementation that does not use
++     * any pool but simply creates new instances when necessary.
++     */
++    class NonRecyclingPool implements BufferRecyclerPool
++    {
++        private static final long serialVersionUID = 1L;
++
++        private static final BufferRecyclerPool GLOBAL = new NonRecyclingPool();
++
++        // No instances beyond shared one should be constructed
++        private NonRecyclingPool() { }
++
++        /**
++         * Accessor for the shared singleton instance; due to implementation having no state
++         * this is preferred over creating instances.
++         *
++         * @return Shared pool instance
++         */
++        public static BufferRecyclerPool shared() {
++            return GLOBAL;
++        }
++
++        // // // JDK serialization support
++
++        protected Object readResolve() { return GLOBAL; }
++
++        // // // Actual API implementation
++
++        @Override
++        public BufferRecycler acquireBufferRecycler() {
++            // Could link back to this pool as marker? For now just leave back-ref empty
++            return new BufferRecycler();
++        }
++
++        @Override
++        public void releaseBufferRecycler(BufferRecycler recycler) {
++            ; // nothing to do, there is no underlying pool
++        }
++    }
++
++    /**
++     * Intermediate base class for instances that are stateful and require
++     * special handling with respect to JDK serialization, to retain
++     * "global" reference distinct from non-shared ones.
++     */
++    abstract class StatefulImplBase implements BufferRecyclerPool {
++        private static final long serialVersionUID = 1L;
++
++        protected final static int SERIALIZATION_SHARED = -1;
++
++        protected final static int SERIALIZATION_NON_SHARED = 1;
++
++        /**
++         * Value that indicates basic aspects of pool for JDK serialization;
++         * either marker for shared/non-shared, or possibly bounded size;
++         * depends on sub-class.
++         */
++        protected final int _serialization;
++
++        protected StatefulImplBase(int serialization) {
++            _serialization = serialization;
++        }
++
++        protected Optional<BufferRecyclerPool> _resolveToShared(BufferRecyclerPool shared) {
++            if (_serialization == SERIALIZATION_SHARED) {
++                return Optional.of(shared);
++            }
++            return Optional.empty();
++        }
++    }
++
++    /**
++     * {@link BufferRecyclerPool} implementation that uses
++     * {@link ConcurrentLinkedDeque} for recycling instances.
++     *<p>
++     * Pool is unbounded: see {@link BufferRecyclerPool} what this means.
++     */
++    class ConcurrentDequePool extends StatefulImplBase
++    {
++        private static final long serialVersionUID = 1L;
++
++        private static final ConcurrentDequePool GLOBAL = new ConcurrentDequePool(SERIALIZATION_SHARED);
++
++        private final transient Deque<BufferRecycler> pool;
++
++        // // // Life-cycle (constructors, factory methods)
++
++        protected ConcurrentDequePool(int serialization) {
++            super(serialization);
++            pool = new ConcurrentLinkedDeque<>();
++        }
++
++        /**
++         * Accessor for getting the globally shared singleton instance.
++         * Note that if you choose to use this instance,
++         * pool may be shared by many other {@code JsonFactory} instances.
++         *
++         * @return Shared pool instance
++         */
++        public static ConcurrentDequePool shared() {
++            return GLOBAL;
++        }
++
++        /**
++         * Accessor for creating and returning a new, non-shared pool instance.
++         *
++         * @return Newly constructed, non-shared pool instance
++         */
++        public static ConcurrentDequePool nonShared() {
++            return new ConcurrentDequePool(SERIALIZATION_NON_SHARED);
++        }
++
++        // // // JDK serialization support
++
++        /**
++         * Make sure to re-link to global/shared or non-shared.
++         */
++        protected Object readResolve() {
++            return _resolveToShared(GLOBAL).orElseGet(() -> nonShared());
++        }
++
++        // // // Actual API implementation
++        
++        @Override
++        public BufferRecycler acquireBufferRecycler() {
++            BufferRecycler bufferRecycler = pool.pollFirst();
++            if (bufferRecycler == null) {
++                bufferRecycler = new BufferRecycler();
++            }
++            return bufferRecycler.withPool(this);
++        }
++
++        @Override
++        public void releaseBufferRecycler(BufferRecycler bufferRecycler) {
++            pool.offerLast(bufferRecycler);
++        }
++    }
++
++    /**
++     * {@link BufferRecyclerPool} implementation that uses
++     * a lock free linked list for recycling instances.
++     * Pool is unbounded: see {@link BufferRecyclerPool} for
++     * details on what this means.
++     */
++    class LockFreePool extends StatefulImplBase
++    {
++        private static final long serialVersionUID = 1L;
++
++        /**
++         * Globally shared pool instance.
++         */
++        private static final LockFreePool GLOBAL = new LockFreePool(SERIALIZATION_SHARED);
++
++        // Needs to be transient to avoid JDK serialization from writing it out
++        private final transient AtomicReference<LockFreePool.Node> head;
++
++        // // // Life-cycle (constructors, factory methods)
++
++        private LockFreePool(int serialization) {
++            super(serialization);
++            head = new AtomicReference<>();
++        }
++
++        /**
++         * Accessor for getting the globally shared singleton instance.
++         * Note that if you choose to use this instance,
++         * pool may be shared by many other {@code JsonFactory} instances.
++         *
++         * @return Shared pool instance
++         */
++        public static LockFreePool shared() {
++            return GLOBAL;
++        }
++
++        /**
++         * Accessor for creating and returning a new, non-shared pool instance.
++         *
++         * @return Newly constructed, non-shared pool instance
++         */
++        public static LockFreePool nonShared() {
++            return new LockFreePool(SERIALIZATION_NON_SHARED);
++        }
++
++        // // // JDK serialization support
++
++        /**
++         * Make sure to re-link to global/shared or non-shared.
++         */
++        protected Object readResolve() {
++            return _resolveToShared(GLOBAL).orElseGet(() -> nonShared());
++        }
++
++        // // // Actual API implementation
++
++        @Override
++        public BufferRecycler acquireBufferRecycler() {
++            return _getRecycler().withPool(this);
++        }
++
++        private BufferRecycler _getRecycler() {
++            // This simple lock free algorithm uses an optimistic compareAndSet strategy to
++            // populate the underlying linked list in a thread-safe way. However, under very
++            // heavy contention, the compareAndSet could fail multiple times, so it seems a
++            // reasonable heuristic to limit the number of retries in this situation.
++            for (int i = 0; i < 3; i++) {
++                Node currentHead = head.get();
++                if (currentHead == null) {
++                    return new BufferRecycler();
++                }
++                if (head.compareAndSet(currentHead, currentHead.next)) {
++                    currentHead.next = null;
++                    return currentHead.value;
++                }
++            }
++            return new BufferRecycler();
++        }
++
++        @Override
++        public void releaseBufferRecycler(BufferRecycler bufferRecycler) {
++            LockFreePool.Node newHead = new LockFreePool.Node(bufferRecycler);
++            for (int i = 0; i < 3; i++) {
++                newHead.next = head.get();
++                if (head.compareAndSet(newHead.next, newHead)) {
++                    return;
++                }
++            }
++        }
++
++        private static class Node {
++            final BufferRecycler value;
++            LockFreePool.Node next;
++
++            Node(BufferRecycler value) {
++                this.value = value;
++            }
++        }
++    }
++
++    /**
++     * {@link BufferRecyclerPool} implementation that uses
++     * a bounded queue ({@link ArrayBlockingQueue} for recycling instances.
++     * This is "bounded" pool since it will never hold on to more
++     * {@link BufferRecycler} instances than its size configuration:
++     * the default size is {@link BoundedPool#DEFAULT_CAPACITY}.
++     */
++    class BoundedPool extends StatefulImplBase
++    {
++        private static final long serialVersionUID = 1L;
++
++        /**
++         * Default capacity which limits number of recyclers that are ever
++         * retained for reuse.
++         */
++        public final static int DEFAULT_CAPACITY = 100;
++
++        private static final BoundedPool GLOBAL = new BoundedPool(SERIALIZATION_SHARED);
++
++        private final transient ArrayBlockingQueue<BufferRecycler> pool;
++
++        private final transient int capacity;
++
++        // // // Life-cycle (constructors, factory methods)
++
++        protected BoundedPool(int capacityAsId) {
++            super(capacityAsId);
++            capacity = (capacityAsId <= 0) ? DEFAULT_CAPACITY : capacityAsId;
++            pool = new ArrayBlockingQueue<>(capacity);
++        }
++
++        /**
++         * Accessor for getting the globally shared singleton instance.
++         * Note that if you choose to use this instance,
++         * pool may be shared by many other {@code JsonFactory} instances.
++         *
++         * @return Shared pool instance
++         */
++        public static BoundedPool shared() {
++            return GLOBAL;
++        }
++
++        /**
++         * Accessor for creating and returning a new, non-shared pool instance.
++         *
++         * @param capacity Maximum capacity of the pool: must be positive number above zero.
++         *
++         * @return Newly constructed, non-shared pool instance
++         */
++        public static BoundedPool nonShared(int capacity) {
++            if (capacity <= 0) {
++                throw new IllegalArgumentException("capacity must be > 0, was: "+capacity);
++            }
++            return new BoundedPool(capacity);
++        }
++
++        // // // JDK serialization support
++
++        /**
++         * Make sure to re-link to global/shared or non-shared.
++         */
++        protected Object readResolve() {
++            return _resolveToShared(GLOBAL).orElseGet(() -> nonShared(_serialization));
++        }
++
++        // // // Actual API implementation
++
++        @Override
++        public BufferRecycler acquireBufferRecycler() {
++            BufferRecycler bufferRecycler = pool.poll();
++            if (bufferRecycler == null) {
++                bufferRecycler = new BufferRecycler();
++            }
++            return bufferRecycler.withPool(this);
++        }
++
++        @Override
++        public void releaseBufferRecycler(BufferRecycler bufferRecycler) {
++            pool.offer(bufferRecycler);
++        }
++
++        // // // Other methods
+ 
+-    public void releaseBufferRecycler(BufferRecycler recycler);
++        public int capacity() {
++            return capacity;
++        }
++    }
+ }
+diff --git a/src/main/java/com/fasterxml/jackson/core/util/BufferRecyclers.java b/src/main/java/com/fasterxml/jackson/core/util/BufferRecyclers.java
+index c7cbfd02..0e8fffc1 100644
+--- a/src/main/java/com/fasterxml/jackson/core/util/BufferRecyclers.java
++++ b/src/main/java/com/fasterxml/jackson/core/util/BufferRecyclers.java
+@@ -2,7 +2,6 @@ package com.fasterxml.jackson.core.util;
+ 
+ import java.lang.ref.SoftReference;
+ 
+-import com.fasterxml.jackson.core.TokenStreamFactory;
+ import com.fasterxml.jackson.core.io.JsonStringEncoder;
+ 
+ /**
+@@ -18,7 +17,7 @@ public class BufferRecyclers
+     /**
+      * System property that is checked to see if recycled buffers (see {@link BufferRecycler})
+      * should be tracked, for purpose of forcing release of all such buffers, typically
+-     * during major classloading.
++     * during major garbage-collection.
+      *
+      * @since 2.9.6
+      */
+@@ -185,66 +184,4 @@ public class BufferRecyclers
+     public static byte[] quoteAsJsonUTF8(String rawText) {
+         return JsonStringEncoder.getInstance().quoteAsUTF8(rawText);
+     }
+-
+-    /*
+-    /**********************************************************************
+-    /* Default BufferRecyclerPool implementations
+-    /**********************************************************************
+-     */
+-
+-    public static BufferRecyclerPool defaultRecyclerPool() {
+-        return ThreadLocalRecyclerPool.INSTANCE;
+-    }
+-
+-    public static BufferRecyclerPool nopRecyclerPool() {
+-        return NonRecyclingRecyclerPool.INSTANCE;
+-    }
+-
+-    /**
+-     * Default {@link BufferRecyclerPool} implementation that uses
+-     * {@link ThreadLocal} for recycling instances.
+-     *
+-     * @since 2.16
+-     */
+-    public static class ThreadLocalRecyclerPool
+-        implements BufferRecyclerPool
+-    {
+-        private static final long serialVersionUID = 1L;
+-
+-        public final static ThreadLocalRecyclerPool INSTANCE = new ThreadLocalRecyclerPool();
+-
+-        @Override
+-        public BufferRecycler acquireBufferRecycler(TokenStreamFactory forFactory) {
+-            return getBufferRecycler();
+-        }
+-
+-        @Override
+-        public void releaseBufferRecycler(BufferRecycler recycler) {
+-            ; // nothing to do, relies on ThreadLocal
+-        }
+-    }
+-
+-    /**
+-     * {@link BufferRecyclerPool} implementation that does not use
+-     * any pool but simply creates new instances when necessary.
+-     *
+-     * @since 2.16
+-     */
+-    public static class NonRecyclingRecyclerPool
+-        implements BufferRecyclerPool
+-    {
+-        private static final long serialVersionUID = 1L;
+-
+-        public final static ThreadLocalRecyclerPool INSTANCE = new ThreadLocalRecyclerPool();
+-
+-        @Override
+-        public BufferRecycler acquireBufferRecycler(TokenStreamFactory forFactory) {
+-            return new BufferRecycler();
+-        }
+-
+-        @Override
+-        public void releaseBufferRecycler(BufferRecycler recycler) {
+-            ; // nothing to do, relies on ThreadLocal
+-        }
+-    }
+ }

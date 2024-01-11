@@ -1,0 +1,50 @@
+diff --git a/proxy/src/test/java/org/apache/rocketmq/proxy/common/ReceiptHandleGroupTest.java b/proxy/src/test/java/org/apache/rocketmq/proxy/common/ReceiptHandleGroupTest.java
+index d3e8645ef..0a7e2f757 100644
+--- a/proxy/src/test/java/org/apache/rocketmq/proxy/common/ReceiptHandleGroupTest.java
++++ b/proxy/src/test/java/org/apache/rocketmq/proxy/common/ReceiptHandleGroupTest.java
+@@ -173,8 +173,6 @@ public class ReceiptHandleGroupTest extends InitConfigTest {
+         assertTrue(receiptHandleGroup.isEmpty());
+     }
+ 
+-
+-
+     @Test
+     public void testRemoveWhenComputeIfPresent() {
+         String handle1 = createHandle();
+@@ -281,6 +279,36 @@ public class ReceiptHandleGroupTest extends InitConfigTest {
+         assertTrue(receiptHandleGroup.isEmpty());
+     }
+ 
++    @Test
++    public void testRemoveOne() {
++        String handle1 = createHandle();
++        AtomicReference<MessageReceiptHandle> removeHandleRef = new AtomicReference<>();
++        AtomicInteger count = new AtomicInteger();
++
++        receiptHandleGroup.put(msgID, createMessageReceiptHandle(handle1, msgID));
++        int threadNum = Math.max(Runtime.getRuntime().availableProcessors(), 3);
++        CountDownLatch latch = new CountDownLatch(threadNum);
++        for (int i = 0; i < threadNum; i++) {
++            Thread thread = new Thread(() -> {
++                try {
++                    latch.countDown();
++                    latch.await();
++                    MessageReceiptHandle handle = receiptHandleGroup.removeOne(msgID);
++                    if (handle != null) {
++                        removeHandleRef.set(handle);
++                        count.incrementAndGet();
++                    }
++                } catch (Exception ignored) {
++                }
++            });
++            thread.start();
++        }
++
++        await().atMost(Duration.ofSeconds(1)).untilAsserted(() -> assertEquals(1, count.get()));
++        assertEquals(handle1, removeHandleRef.get().getReceiptHandleStr());
++        assertTrue(receiptHandleGroup.isEmpty());
++    }
++
+     private MessageReceiptHandle createMessageReceiptHandle(String handle, String msgID) {
+         return new MessageReceiptHandle(GROUP, TOPIC, 0, handle, msgID, 0, 0);
+     }

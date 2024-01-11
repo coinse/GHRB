@@ -1,0 +1,490 @@
+diff --git a/proxy/src/test/java/org/apache/rocketmq/proxy/grpc/v2/consumer/AckMessageActivityTest.java b/proxy/src/test/java/org/apache/rocketmq/proxy/grpc/v2/consumer/AckMessageActivityTest.java
+index 49fdfc6a8..3c4746105 100644
+--- a/proxy/src/test/java/org/apache/rocketmq/proxy/grpc/v2/consumer/AckMessageActivityTest.java
++++ b/proxy/src/test/java/org/apache/rocketmq/proxy/grpc/v2/consumer/AckMessageActivityTest.java
+@@ -20,21 +20,32 @@ package org.apache.rocketmq.proxy.grpc.v2.consumer;
+ import apache.rocketmq.v2.AckMessageEntry;
+ import apache.rocketmq.v2.AckMessageRequest;
+ import apache.rocketmq.v2.AckMessageResponse;
++import apache.rocketmq.v2.AckMessageResultEntry;
+ import apache.rocketmq.v2.Code;
+ import apache.rocketmq.v2.Resource;
++import java.util.ArrayList;
++import java.util.HashMap;
++import java.util.List;
++import java.util.Map;
+ import java.util.concurrent.CompletableFuture;
+ import org.apache.rocketmq.client.consumer.AckResult;
+ import org.apache.rocketmq.client.consumer.AckStatus;
+ import org.apache.rocketmq.proxy.common.ProxyException;
+ import org.apache.rocketmq.proxy.common.ProxyExceptionCode;
++import org.apache.rocketmq.proxy.config.ConfigurationManager;
+ import org.apache.rocketmq.proxy.grpc.v2.BaseActivityTest;
++import org.apache.rocketmq.proxy.processor.BatchAckResult;
++import org.apache.rocketmq.proxy.service.message.ReceiptHandleMessage;
+ import org.junit.Before;
+ import org.junit.Test;
++import org.mockito.stubbing.Answer;
+ 
+ import static org.junit.Assert.assertEquals;
+ import static org.mockito.ArgumentMatchers.any;
++import static org.mockito.ArgumentMatchers.anyList;
+ import static org.mockito.ArgumentMatchers.anyString;
+ import static org.mockito.ArgumentMatchers.eq;
++import static org.mockito.Mockito.doAnswer;
+ import static org.mockito.Mockito.when;
+ 
+ public class AckMessageActivityTest extends BaseActivityTest {
+@@ -52,43 +63,197 @@ public class AckMessageActivityTest extends BaseActivityTest {
+ 
+     @Test
+     public void testAckMessage() throws Throwable {
+-        when(this.messagingProcessor.ackMessage(any(), any(), eq("msg1"), anyString(), anyString()))
++        ConfigurationManager.getProxyConfig().setEnableBatchAck(false);
++
++        String msg1 = "msg1";
++        String msg2 = "msg2";
++        String msg3 = "msg3";
++
++        when(this.messagingProcessor.ackMessage(any(), any(), eq(msg1), anyString(), anyString()))
+             .thenThrow(new ProxyException(ProxyExceptionCode.INVALID_RECEIPT_HANDLE, "receipt handle is expired"));
+ 
+         AckResult msg2AckResult = new AckResult();
+         msg2AckResult.setStatus(AckStatus.OK);
+-        when(this.messagingProcessor.ackMessage(any(), any(), eq("msg2"), anyString(), anyString()))
++        when(this.messagingProcessor.ackMessage(any(), any(), eq(msg2), anyString(), anyString()))
+             .thenReturn(CompletableFuture.completedFuture(msg2AckResult));
+ 
+         AckResult msg3AckResult = new AckResult();
+         msg3AckResult.setStatus(AckStatus.NO_EXIST);
+-        when(this.messagingProcessor.ackMessage(any(), any(), eq("msg3"), anyString(), anyString()))
++        when(this.messagingProcessor.ackMessage(any(), any(), eq(msg3), anyString(), anyString()))
+             .thenReturn(CompletableFuture.completedFuture(msg3AckResult));
+ 
+-        AckMessageResponse response = this.ackMessageActivity.ackMessage(
+-            createContext(),
+-            AckMessageRequest.newBuilder()
+-                .setTopic(Resource.newBuilder().setName(TOPIC).build())
+-                .setGroup(Resource.newBuilder().setName(GROUP).build())
+-                .addEntries(AckMessageEntry.newBuilder()
+-                    .setMessageId("msg1")
+-                    .setReceiptHandle(buildReceiptHandle(TOPIC, System.currentTimeMillis() - 10000, 1000))
+-                    .build())
+-                .addEntries(AckMessageEntry.newBuilder()
+-                    .setMessageId("msg2")
+-                    .setReceiptHandle(buildReceiptHandle(TOPIC, System.currentTimeMillis(), 3000))
+-                    .build())
+-                .addEntries(AckMessageEntry.newBuilder()
+-                    .setMessageId("msg3")
+-                    .setReceiptHandle(buildReceiptHandle(TOPIC, System.currentTimeMillis(), 3000))
+-                    .build())
+-                .build()
+-        ).get();
+-
+-        assertEquals(Code.MULTIPLE_RESULTS, response.getStatus().getCode());
+-        assertEquals(3, response.getEntriesCount());
+-        assertEquals(Code.INVALID_RECEIPT_HANDLE, response.getEntries(0).getStatus().getCode());
+-        assertEquals(Code.OK, response.getEntries(1).getStatus().getCode());
+-        assertEquals(Code.INTERNAL_SERVER_ERROR, response.getEntries(2).getStatus().getCode());
++        {
++            AckMessageResponse response = this.ackMessageActivity.ackMessage(
++                createContext(),
++                AckMessageRequest.newBuilder()
++                    .setTopic(Resource.newBuilder().setName(TOPIC).build())
++                    .setGroup(Resource.newBuilder().setName(GROUP).build())
++                    .addEntries(AckMessageEntry.newBuilder()
++                        .setMessageId(msg1)
++                        .setReceiptHandle(buildReceiptHandle(TOPIC, System.currentTimeMillis() - 10000, 1000))
++                        .build())
++                    .build()
++            ).get();
++            assertEquals(Code.INVALID_RECEIPT_HANDLE, response.getStatus().getCode());
++        }
++        {
++            AckMessageResponse response = this.ackMessageActivity.ackMessage(
++                createContext(),
++                AckMessageRequest.newBuilder()
++                    .setTopic(Resource.newBuilder().setName(TOPIC).build())
++                    .setGroup(Resource.newBuilder().setName(GROUP).build())
++                    .addEntries(AckMessageEntry.newBuilder()
++                        .setMessageId(msg2)
++                        .setReceiptHandle(buildReceiptHandle(TOPIC, System.currentTimeMillis() - 10000, 1000))
++                        .build())
++                    .build()
++            ).get();
++            assertEquals(Code.OK, response.getStatus().getCode());
++        }
++        {
++            AckMessageResponse response = this.ackMessageActivity.ackMessage(
++                createContext(),
++                AckMessageRequest.newBuilder()
++                    .setTopic(Resource.newBuilder().setName(TOPIC).build())
++                    .setGroup(Resource.newBuilder().setName(GROUP).build())
++                    .addEntries(AckMessageEntry.newBuilder()
++                        .setMessageId(msg3)
++                        .setReceiptHandle(buildReceiptHandle(TOPIC, System.currentTimeMillis() - 10000, 1000))
++                        .build())
++                    .build()
++            ).get();
++            assertEquals(Code.INTERNAL_SERVER_ERROR, response.getStatus().getCode());
++        }
++        {
++            AckMessageResponse response = this.ackMessageActivity.ackMessage(
++                createContext(),
++                AckMessageRequest.newBuilder()
++                    .setTopic(Resource.newBuilder().setName(TOPIC).build())
++                    .setGroup(Resource.newBuilder().setName(GROUP).build())
++                    .addEntries(AckMessageEntry.newBuilder()
++                        .setMessageId(msg1)
++                        .setReceiptHandle(buildReceiptHandle(TOPIC, System.currentTimeMillis() - 10000, 1000))
++                        .build())
++                    .addEntries(AckMessageEntry.newBuilder()
++                        .setMessageId(msg2)
++                        .setReceiptHandle(buildReceiptHandle(TOPIC, System.currentTimeMillis(), 3000))
++                        .build())
++                    .addEntries(AckMessageEntry.newBuilder()
++                        .setMessageId(msg3)
++                        .setReceiptHandle(buildReceiptHandle(TOPIC, System.currentTimeMillis(), 3000))
++                        .build())
++                    .build()
++            ).get();
++
++            assertEquals(Code.MULTIPLE_RESULTS, response.getStatus().getCode());
++            assertEquals(3, response.getEntriesCount());
++            assertEquals(Code.INVALID_RECEIPT_HANDLE, response.getEntries(0).getStatus().getCode());
++            assertEquals(Code.OK, response.getEntries(1).getStatus().getCode());
++            assertEquals(Code.INTERNAL_SERVER_ERROR, response.getEntries(2).getStatus().getCode());
++        }
++    }
++
++    @Test
++    public void testAckMessageInBatch() throws Throwable {
++        ConfigurationManager.getProxyConfig().setEnableBatchAck(true);
++
++        String successMessageId = "msg1";
++        String notOkMessageId = "msg2";
++        String exceptionMessageId = "msg3";
++
++        doAnswer((Answer<CompletableFuture<List<BatchAckResult>>>) invocation -> {
++            List<ReceiptHandleMessage> receiptHandleMessageList = invocation.getArgument(1, List.class);
++            List<BatchAckResult> batchAckResultList = new ArrayList<>();
++            for (ReceiptHandleMessage receiptHandleMessage : receiptHandleMessageList) {
++                BatchAckResult batchAckResult;
++                if (receiptHandleMessage.getMessageId().equals(successMessageId)) {
++                    AckResult ackResult = new AckResult();
++                    ackResult.setStatus(AckStatus.OK);
++                    batchAckResult = new BatchAckResult(receiptHandleMessage, ackResult);
++                } else if (receiptHandleMessage.getMessageId().equals(notOkMessageId)) {
++                    AckResult ackResult = new AckResult();
++                    ackResult.setStatus(AckStatus.NO_EXIST);
++                    batchAckResult = new BatchAckResult(receiptHandleMessage, ackResult);
++                } else {
++                    batchAckResult = new BatchAckResult(receiptHandleMessage, new ProxyException(ProxyExceptionCode.INVALID_RECEIPT_HANDLE, ""));
++                }
++                batchAckResultList.add(batchAckResult);
++            }
++            return CompletableFuture.completedFuture(batchAckResultList);
++        }).when(this.messagingProcessor).batchAckMessage(any(), anyList(), anyString(), anyString());
++
++        {
++            AckMessageResponse response = this.ackMessageActivity.ackMessage(
++                createContext(),
++                AckMessageRequest.newBuilder()
++                    .setTopic(Resource.newBuilder().setName(TOPIC).build())
++                    .setGroup(Resource.newBuilder().setName(GROUP).build())
++                    .addEntries(AckMessageEntry.newBuilder()
++                        .setMessageId(successMessageId)
++                        .setReceiptHandle(buildReceiptHandle(TOPIC, System.currentTimeMillis(), 3000))
++                        .build())
++                    .build()
++            ).get();
++            assertEquals(Code.OK, response.getStatus().getCode());
++        }
++        {
++            AckMessageResponse response = this.ackMessageActivity.ackMessage(
++                createContext(),
++                AckMessageRequest.newBuilder()
++                    .setTopic(Resource.newBuilder().setName(TOPIC).build())
++                    .setGroup(Resource.newBuilder().setName(GROUP).build())
++                    .addEntries(AckMessageEntry.newBuilder()
++                        .setMessageId(notOkMessageId)
++                        .setReceiptHandle(buildReceiptHandle(TOPIC, System.currentTimeMillis(), 3000))
++                        .build())
++                    .build()
++            ).get();
++            assertEquals(Code.INTERNAL_SERVER_ERROR, response.getStatus().getCode());
++        }
++        {
++            AckMessageResponse response = this.ackMessageActivity.ackMessage(
++                createContext(),
++                AckMessageRequest.newBuilder()
++                    .setTopic(Resource.newBuilder().setName(TOPIC).build())
++                    .setGroup(Resource.newBuilder().setName(GROUP).build())
++                    .addEntries(AckMessageEntry.newBuilder()
++                        .setMessageId(exceptionMessageId)
++                        .setReceiptHandle(buildReceiptHandle(TOPIC, System.currentTimeMillis(), 3000))
++                        .build())
++                    .build()
++            ).get();
++            assertEquals(Code.INVALID_RECEIPT_HANDLE, response.getStatus().getCode());
++        }
++        {
++            AckMessageResponse response = this.ackMessageActivity.ackMessage(
++                createContext(),
++                AckMessageRequest.newBuilder()
++                    .setTopic(Resource.newBuilder().setName(TOPIC).build())
++                    .setGroup(Resource.newBuilder().setName(GROUP).build())
++                    .addEntries(AckMessageEntry.newBuilder()
++                        .setMessageId(successMessageId)
++                        .setReceiptHandle(buildReceiptHandle(TOPIC, System.currentTimeMillis(), 3000))
++                        .build())
++                    .addEntries(AckMessageEntry.newBuilder()
++                        .setMessageId(notOkMessageId)
++                        .setReceiptHandle(buildReceiptHandle(TOPIC, System.currentTimeMillis(), 3000))
++                        .build())
++                    .addEntries(AckMessageEntry.newBuilder()
++                        .setMessageId(exceptionMessageId)
++                        .setReceiptHandle(buildReceiptHandle(TOPIC, System.currentTimeMillis(), 3000))
++                        .build())
++                    .build()
++            ).get();
++
++            assertEquals(Code.MULTIPLE_RESULTS, response.getStatus().getCode());
++            assertEquals(3, response.getEntriesCount());
++            Map<String, Code> msgCode = new HashMap<>();
++            for (AckMessageResultEntry entry : response.getEntriesList()) {
++                msgCode.put(entry.getMessageId(), entry.getStatus().getCode());
++            }
++            assertEquals(Code.OK, msgCode.get(successMessageId));
++            assertEquals(Code.INTERNAL_SERVER_ERROR, msgCode.get(notOkMessageId));
++            assertEquals(Code.INVALID_RECEIPT_HANDLE, msgCode.get(exceptionMessageId));
++        }
+     }
+ }
+\ No newline at end of file
+diff --git a/proxy/src/test/java/org/apache/rocketmq/proxy/processor/BaseProcessorTest.java b/proxy/src/test/java/org/apache/rocketmq/proxy/processor/BaseProcessorTest.java
+index 5c1ea9627..072630e39 100644
+--- a/proxy/src/test/java/org/apache/rocketmq/proxy/processor/BaseProcessorTest.java
++++ b/proxy/src/test/java/org/apache/rocketmq/proxy/processor/BaseProcessorTest.java
+@@ -66,14 +66,6 @@ public class BaseProcessorTest extends InitConfigTest {
+     protected ProxyRelayService proxyRelayService;
+     @Mock
+     protected MetadataService metadataService;
+-    @Mock
+-    protected ProducerProcessor producerProcessor;
+-    @Mock
+-    protected ConsumerProcessor consumerProcessor;
+-    @Mock
+-    protected TransactionProcessor transactionProcessor;
+-    @Mock
+-    protected ClientProcessor clientProcessor;
+ 
+     public void before() throws Throwable {
+         super.before();
+@@ -92,6 +84,13 @@ public class BaseProcessorTest extends InitConfigTest {
+     }
+ 
+     protected static MessageExt createMessageExt(String topic, String tags, int reconsumeTimes, long invisibleTime) {
++        return createMessageExt(topic, tags, reconsumeTimes, invisibleTime, System.currentTimeMillis(),
++            RANDOM.nextInt(Integer.MAX_VALUE), RANDOM.nextInt(Integer.MAX_VALUE), RANDOM.nextInt(Integer.MAX_VALUE),
++            RANDOM.nextInt(Integer.MAX_VALUE), "mockBroker");
++    }
++
++    protected static MessageExt createMessageExt(String topic, String tags, int reconsumeTimes, long invisibleTime, long popTime,
++        long startOffset, int reviveQid, int queueId, long queueOffset, String brokerName) {
+         MessageExt messageExt = new MessageExt();
+         messageExt.setTopic(topic);
+         messageExt.setTags(tags);
+@@ -100,8 +99,7 @@ public class BaseProcessorTest extends InitConfigTest {
+         messageExt.setMsgId(MessageClientIDSetter.createUniqID());
+         messageExt.setCommitLogOffset(RANDOM.nextInt(Integer.MAX_VALUE));
+         MessageAccessor.putProperty(messageExt, MessageConst.PROPERTY_POP_CK,
+-            ExtraInfoUtil.buildExtraInfo(RANDOM.nextInt(Integer.MAX_VALUE), System.currentTimeMillis(), invisibleTime,
+-                RANDOM.nextInt(Integer.MAX_VALUE), topic, "mockBroker", RANDOM.nextInt(Integer.MAX_VALUE), RANDOM.nextInt(Integer.MAX_VALUE)));
++            ExtraInfoUtil.buildExtraInfo(startOffset, popTime, invisibleTime, reviveQid, topic, brokerName, queueId, queueOffset));
+         return messageExt;
+     }
+ 
+diff --git a/proxy/src/test/java/org/apache/rocketmq/proxy/processor/ConsumerProcessorTest.java b/proxy/src/test/java/org/apache/rocketmq/proxy/processor/ConsumerProcessorTest.java
+index 717e86fc0..db268a06e 100644
+--- a/proxy/src/test/java/org/apache/rocketmq/proxy/processor/ConsumerProcessorTest.java
++++ b/proxy/src/test/java/org/apache/rocketmq/proxy/processor/ConsumerProcessorTest.java
+@@ -20,8 +20,11 @@ package org.apache.rocketmq.proxy.processor;
+ import com.google.common.collect.Sets;
+ import java.time.Duration;
+ import java.util.ArrayList;
++import java.util.Collections;
++import java.util.HashMap;
+ import java.util.HashSet;
+ import java.util.List;
++import java.util.Map;
+ import java.util.Set;
+ import java.util.concurrent.CompletableFuture;
+ import java.util.concurrent.Executors;
+@@ -39,7 +42,10 @@ import org.apache.rocketmq.common.message.MessageClientIDSetter;
+ import org.apache.rocketmq.common.message.MessageExt;
+ import org.apache.rocketmq.common.message.MessageQueue;
+ import org.apache.rocketmq.proxy.common.ProxyContext;
++import org.apache.rocketmq.proxy.common.ProxyExceptionCode;
++import org.apache.rocketmq.proxy.common.utils.FutureUtils;
+ import org.apache.rocketmq.proxy.common.utils.ProxyUtils;
++import org.apache.rocketmq.proxy.service.message.ReceiptHandleMessage;
+ import org.apache.rocketmq.proxy.service.route.AddressableMessageQueue;
+ import org.apache.rocketmq.proxy.service.route.MessageQueueView;
+ import org.apache.rocketmq.remoting.protocol.RemotingCommand;
+@@ -50,16 +56,22 @@ import org.apache.rocketmq.remoting.protocol.header.PopMessageRequestHeader;
+ import org.junit.Before;
+ import org.junit.Test;
+ import org.mockito.ArgumentCaptor;
++import org.mockito.stubbing.Answer;
+ 
+ import static org.assertj.core.api.Assertions.assertThat;
+ import static org.junit.Assert.assertEquals;
+ import static org.junit.Assert.assertNotNull;
++import static org.junit.Assert.assertNull;
+ import static org.junit.Assert.assertSame;
+ import static org.mockito.ArgumentMatchers.any;
++import static org.mockito.ArgumentMatchers.anyList;
+ import static org.mockito.ArgumentMatchers.anyLong;
+ import static org.mockito.ArgumentMatchers.anyString;
+ import static org.mockito.ArgumentMatchers.eq;
++import static org.mockito.Mockito.doAnswer;
+ import static org.mockito.Mockito.mock;
++import static org.mockito.Mockito.never;
++import static org.mockito.Mockito.verify;
+ import static org.mockito.Mockito.when;
+ 
+ public class ConsumerProcessorTest extends BaseProcessorTest {
+@@ -162,6 +174,109 @@ public class ConsumerProcessorTest extends BaseProcessorTest {
+         assertEquals(handle.getReceiptHandle(), requestHeaderArgumentCaptor.getValue().getExtraInfo());
+     }
+ 
++    @Test
++    public void testBatchAckExpireMessage() throws Throwable {
++        String brokerName1 = "brokerName1";
++
++        List<ReceiptHandleMessage> receiptHandleMessageList = new ArrayList<>();
++        for (int i = 0; i < 3; i++) {
++            MessageExt expireMessage = createMessageExt(TOPIC, "", 0, 3000, System.currentTimeMillis() - 10000,
++                0, 0, 0, i, brokerName1);
++            ReceiptHandle expireHandle = create(expireMessage);
++            receiptHandleMessageList.add(new ReceiptHandleMessage(expireHandle, expireMessage.getMsgId()));
++        }
++
++        List<BatchAckResult> batchAckResultList = this.consumerProcessor.batchAckMessage(createContext(), receiptHandleMessageList, CONSUMER_GROUP, TOPIC, 3000).get();
++
++        verify(this.messageService, never()).batchAckMessage(any(), anyList(), anyString(), anyString(), anyLong());
++        assertEquals(receiptHandleMessageList.size(), batchAckResultList.size());
++        for (BatchAckResult batchAckResult : batchAckResultList) {
++            assertNull(batchAckResult.getAckResult());
++            assertNotNull(batchAckResult.getProxyException());
++            assertNotNull(batchAckResult.getReceiptHandleMessage());
++        }
++
++    }
++
++    @Test
++    public void testBatchAckMessage() throws Throwable {
++        String brokerName1 = "brokerName1";
++        String brokerName2 = "brokerName2";
++        String errThrowBrokerName = "errThrowBrokerName";
++        MessageExt expireMessage = createMessageExt(TOPIC, "", 0, 3000, System.currentTimeMillis() - 10000,
++            0, 0, 0, 0, brokerName1);
++        ReceiptHandle expireHandle = create(expireMessage);
++
++        List<ReceiptHandleMessage> receiptHandleMessageList = new ArrayList<>();
++        receiptHandleMessageList.add(new ReceiptHandleMessage(expireHandle, expireMessage.getMsgId()));
++        List<String> broker1Msg = new ArrayList<>();
++        List<String> broker2Msg = new ArrayList<>();
++
++        long now = System.currentTimeMillis();
++        int msgNum = 3;
++        for (int i = 0; i < msgNum; i++) {
++            MessageExt brokerMessage = createMessageExt(TOPIC, "", 0, 3000, now,
++                0, 0, 0, i + 1, brokerName1);
++            ReceiptHandle brokerHandle = create(brokerMessage);
++            receiptHandleMessageList.add(new ReceiptHandleMessage(brokerHandle, brokerMessage.getMsgId()));
++            broker1Msg.add(brokerMessage.getMsgId());
++        }
++        for (int i = 0; i < msgNum; i++) {
++            MessageExt brokerMessage = createMessageExt(TOPIC, "", 0, 3000, now,
++                0, 0, 0, i + 1, brokerName2);
++            ReceiptHandle brokerHandle = create(brokerMessage);
++            receiptHandleMessageList.add(new ReceiptHandleMessage(brokerHandle, brokerMessage.getMsgId()));
++            broker2Msg.add(brokerMessage.getMsgId());
++        }
++
++        // for this message, will throw exception in batchAckMessage
++        MessageExt errThrowMessage = createMessageExt(TOPIC, "", 0, 3000, now,
++            0, 0, 0, 0, errThrowBrokerName);
++        ReceiptHandle errThrowHandle = create(errThrowMessage);
++        receiptHandleMessageList.add(new ReceiptHandleMessage(errThrowHandle, errThrowMessage.getMsgId()));
++
++        Collections.shuffle(receiptHandleMessageList);
++
++        doAnswer((Answer<CompletableFuture<AckResult>>) invocation -> {
++            List<ReceiptHandleMessage> handleMessageList = invocation.getArgument(1, List.class);
++            AckResult ackResult = new AckResult();
++            String brokerName = handleMessageList.get(0).getReceiptHandle().getBrokerName();
++            if (brokerName.equals(brokerName1)) {
++                ackResult.setStatus(AckStatus.OK);
++            } else if (brokerName.equals(brokerName2)) {
++                ackResult.setStatus(AckStatus.NO_EXIST);
++            } else {
++                return FutureUtils.completeExceptionally(new RuntimeException());
++            }
++
++            return CompletableFuture.completedFuture(ackResult);
++        }).when(this.messageService).batchAckMessage(any(), anyList(), anyString(), anyString(), anyLong());
++
++        List<BatchAckResult> batchAckResultList = this.consumerProcessor.batchAckMessage(createContext(), receiptHandleMessageList, CONSUMER_GROUP, TOPIC, 3000).get();
++        assertEquals(receiptHandleMessageList.size(), batchAckResultList.size());
++
++        // check ackResult for each msg
++        Map<String, BatchAckResult> msgBatchAckResult = new HashMap<>();
++        for (BatchAckResult batchAckResult : batchAckResultList) {
++            msgBatchAckResult.put(batchAckResult.getReceiptHandleMessage().getMessageId(), batchAckResult);
++        }
++        for (String msgId : broker1Msg) {
++            assertEquals(AckStatus.OK, msgBatchAckResult.get(msgId).getAckResult().getStatus());
++            assertNull(msgBatchAckResult.get(msgId).getProxyException());
++        }
++        for (String msgId : broker2Msg) {
++            assertEquals(AckStatus.NO_EXIST, msgBatchAckResult.get(msgId).getAckResult().getStatus());
++            assertNull(msgBatchAckResult.get(msgId).getProxyException());
++        }
++        assertNotNull(msgBatchAckResult.get(expireMessage.getMsgId()).getProxyException());
++        assertEquals(ProxyExceptionCode.INVALID_RECEIPT_HANDLE, msgBatchAckResult.get(expireMessage.getMsgId()).getProxyException().getCode());
++        assertNull(msgBatchAckResult.get(expireMessage.getMsgId()).getAckResult());
++
++        assertNotNull(msgBatchAckResult.get(errThrowMessage.getMsgId()).getProxyException());
++        assertEquals(ProxyExceptionCode.INTERNAL_SERVER_ERROR, msgBatchAckResult.get(errThrowMessage.getMsgId()).getProxyException().getCode());
++        assertNull(msgBatchAckResult.get(errThrowMessage.getMsgId()).getAckResult());
++    }
++
+     @Test
+     public void testChangeInvisibleTime() throws Throwable {
+         ReceiptHandle handle = create(createMessageExt(MixAll.RETRY_GROUP_TOPIC_PREFIX + TOPIC, "", 0, 3000));
+diff --git a/proxy/src/test/java/org/apache/rocketmq/proxy/service/mqclient/MQClientAPIExtTest.java b/proxy/src/test/java/org/apache/rocketmq/proxy/service/mqclient/MQClientAPIExtTest.java
+index 77a119a29..3f3a4ae40 100644
+--- a/proxy/src/test/java/org/apache/rocketmq/proxy/service/mqclient/MQClientAPIExtTest.java
++++ b/proxy/src/test/java/org/apache/rocketmq/proxy/service/mqclient/MQClientAPIExtTest.java
+@@ -220,6 +220,18 @@ public class MQClientAPIExtTest {
+         assertSame(ackResult, mqClientAPI.ackMessageAsync(BROKER_ADDR, new AckMessageRequestHeader(), TIMEOUT).get());
+     }
+ 
++    @Test
++    public void testBatchAckMessageAsync() throws Exception {
++        AckResult ackResult = new AckResult();
++        doAnswer((Answer<Void>) mock -> {
++            AckCallback ackCallback = mock.getArgument(2);
++            ackCallback.onSuccess(ackResult);
++            return null;
++        }).when(mqClientAPI).batchAckMessageAsync(anyString(), anyLong(), any(AckCallback.class), any());
++
++        assertSame(ackResult, mqClientAPI.batchAckMessageAsync(BROKER_ADDR, TOPIC, CONSUMER_GROUP, new ArrayList<>(), TIMEOUT).get());
++    }
++
+     @Test
+     public void testChangeInvisibleTimeAsync() throws Exception {
+         AckResult ackResult = new AckResult();

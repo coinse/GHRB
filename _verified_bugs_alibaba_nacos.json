@@ -1,0 +1,73 @@
+{
+  "alibaba_nacos-10755": {
+    "bug_id": "alibaba_nacos-10755",
+    "PR_number": 10755,
+    "PR_createdAt": "2023-07-10T03:44:06Z",
+    "merge_commit": "a83e2cc5425641177c804a6a4ab61d931e932d31",
+    "buggy_commits": [
+      {
+        "oid": "c7a20bd13217bb795e5848293ebece1f196a6f62",
+        "message": "[ISSUE #10734] Implement http request param check filter and http param extractors (#10758)\n\n* For #10734,Implement grpc server interceptor and grpc param extractors\r\n\r\n* For #10734,add unit test for grpc server interceptor and grpc param extractors\r\n\r\n* For #10734,alter the test case\r\n\r\n* For #10734,delete the ConnectionSetupRequestParamExtractor\r\n\r\n* For #10734,add the naming http request param check filter and implement the naming http request param extractors\r\n\r\n* For #10734,add unit test for naming http request param extractors\r\n\r\n* For #10734,Implement grpc server interceptor and grpc param extractors\r\n\r\n* For #10734,add unit test for grpc server interceptor and grpc param extractors\r\n\r\n* For #10734,delete the ConnectionSetupRequestParamExtractor\r\n\r\n* For #10734,add the naming http request param check filter and implement the naming http request param extractors\r\n\r\n* For #10734,add unit test for naming http request param extractors\r\n\r\n* For #10734,add the config http request param check filter and implement the config http request param extractors and unit test\r\n\r\n* For #10734,add the console http request param check filter and implement the console http request param extractors and unit test\r\n\r\n* For #10734,fix code style\r\n\r\n* For #10734,alter the logic of exception handle in filter\r\n\r\n* For #10734,fix code style"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/alibaba/nacos/issues/10769",
+      "createdAt": "2023-07-11T10:07:00Z",
+      "content": "bug_report_all/alibaba_nacos-10755.json"
+    },
+    "changed_tests": [
+      "plugin/datasource/src/test/java/com/alibaba/nacos/plugin/datasource/impl/derby/ConfigInfoMapperByDerbyTest.java",
+      "plugin/datasource/src/test/java/com/alibaba/nacos/plugin/datasource/impl/derby/HistoryConfigInfoMapperByDerbyTest.java",
+      "plugin/datasource/src/test/java/com/alibaba/nacos/plugin/datasource/impl/mysql/ConfigInfoMapperByMySqlTest.java",
+      "plugin/datasource/src/test/java/com/alibaba/nacos/plugin/datasource/impl/mysql/HistoryConfigInfoMapperByMySqlTest.java"
+    ],
+    "PR_url": "https://github.com/alibaba/nacos/pull/10755",
+    "merge_commit_url": "https://github.com/alibaba/nacos/commit/a83e2cc5425641177c804a6a4ab61d931e932d31",
+    "buggy_commit": "c7a20bd13217bb795e5848293ebece1f196a6f62",
+    "execution_result": {
+      "valid_tests": [
+        ".com.alibaba.nacos.plugin.datasource.impl.derby.ConfigInfoMapperByDerbyTest.java",
+        ".com.alibaba.nacos.plugin.datasource.impl.derby.HistoryConfigInfoMapperByDerbyTest.java",
+        ".com.alibaba.nacos.plugin.datasource.impl.mysql.ConfigInfoMapperByMySqlTest.java",
+        ".com.alibaba.nacos.plugin.datasource.impl.mysql.HistoryConfigInfoMapperByMySqlTest.java"
+      ],
+      "success_tests": [
+        ".com.alibaba.nacos.plugin.datasource.impl.derby.ConfigInfoMapperByDerbyTest.java",
+        ".com.alibaba.nacos.plugin.datasource.impl.derby.HistoryConfigInfoMapperByDerbyTest.java",
+        ".com.alibaba.nacos.plugin.datasource.impl.mysql.ConfigInfoMapperByMySqlTest.java",
+        ".com.alibaba.nacos.plugin.datasource.impl.mysql.HistoryConfigInfoMapperByMySqlTest.java"
+      ]
+    }
+  },
+  "alibaba_nacos-10958": {
+    "bug_id": "alibaba_nacos-10958",
+    "PR_number": 10958,
+    "PR_createdAt": "2023-08-14T01:33:05Z",
+    "merge_commit": "37d45ad8b62eb8733dd18adc4187d2e1bff65220",
+    "buggy_commits": [
+      {
+        "oid": "86cf2082a9eb7ad2f63a339238deff5d1c344369",
+        "message": "Fix exception code error.(#10925) (#10926)"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/alibaba/nacos/issues/10952",
+      "createdAt": "2023-08-12T06:32:54Z",
+      "content": "bug_report_all/alibaba_nacos-10958.json"
+    },
+    "changed_tests": [
+      "common/src/test/java/com/alibaba/nacos/common/remote/client/RpcClientTest.java"
+    ],
+    "PR_url": "https://github.com/alibaba/nacos/pull/10958",
+    "merge_commit_url": "https://github.com/alibaba/nacos/commit/37d45ad8b62eb8733dd18adc4187d2e1bff65220",
+    "buggy_commit": "86cf2082a9eb7ad2f63a339238deff5d1c344369",
+    "execution_result": {
+      "valid_tests": [
+        ".com.alibaba.nacos.common.remote.client.RpcClientTest.java"
+      ],
+      "success_tests": [
+        ".com.alibaba.nacos.common.remote.client.RpcClientTest.java"
+      ]
+    }
+  }
+}

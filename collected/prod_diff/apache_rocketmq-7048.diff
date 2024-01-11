@@ -1,0 +1,13 @@
+diff --git a/remoting/src/main/java/org/apache/rocketmq/remoting/netty/NettyRemotingClient.java b/remoting/src/main/java/org/apache/rocketmq/remoting/netty/NettyRemotingClient.java
+index afd779c83..9715b918a 100644
+--- a/remoting/src/main/java/org/apache/rocketmq/remoting/netty/NettyRemotingClient.java
++++ b/remoting/src/main/java/org/apache/rocketmq/remoting/netty/NettyRemotingClient.java
+@@ -756,7 +756,7 @@ public class NettyRemotingClient extends NettyRemotingAbstract implements Remoti
+             }
+         } else {
+             this.closeChannel(addr, channel);
+-            throw new RemotingConnectException(channelRemoteAddr);
++            throw new RemotingConnectException(addr);
+         }
+     }
+ 

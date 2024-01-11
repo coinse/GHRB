@@ -1,0 +1,40 @@
+diff --git a/gson/src/main/java/com/google/gson/internal/bind/JsonTreeWriter.java b/gson/src/main/java/com/google/gson/internal/bind/JsonTreeWriter.java
+index b1110f18..f8225728 100644
+--- a/gson/src/main/java/com/google/gson/internal/bind/JsonTreeWriter.java
++++ b/gson/src/main/java/com/google/gson/internal/bind/JsonTreeWriter.java
+@@ -139,14 +139,14 @@ public final class JsonTreeWriter extends JsonWriter {
+   @Override public JsonWriter name(String name) throws IOException {
+     Objects.requireNonNull(name, "name == null");
+     if (stack.isEmpty() || pendingName != null) {
+-      throw new IllegalStateException();
++      throw new IllegalStateException("Did not expect a name");
+     }
+     JsonElement element = peek();
+     if (element instanceof JsonObject) {
+       pendingName = name;
+       return this;
+     }
+-    throw new IllegalStateException();
++    throw new IllegalStateException("Please begin an object before writing a name.");
+   }
+ 
+   @CanIgnoreReturnValue
+diff --git a/gson/src/main/java/com/google/gson/stream/JsonWriter.java b/gson/src/main/java/com/google/gson/stream/JsonWriter.java
+index bb285bd0..00ae92fd 100644
+--- a/gson/src/main/java/com/google/gson/stream/JsonWriter.java
++++ b/gson/src/main/java/com/google/gson/stream/JsonWriter.java
+@@ -495,11 +495,9 @@ public class JsonWriter implements Closeable, Flushable {
+     if (deferredName != null) {
+       throw new IllegalStateException("Already wrote a name, expecting a value.");
+     }
+-    if (stackSize == 0) {
+-      throw new IllegalStateException("JsonWriter is closed.");
+-    }
+-    if (stackSize == 1 && (peek() == EMPTY_DOCUMENT || peek() == NONEMPTY_DOCUMENT)) {
+-      throw new IllegalStateException("Please begin an object before this.");
++    int context = peek();
++    if (context != EMPTY_OBJECT && context != NONEMPTY_OBJECT) {
++      throw new IllegalStateException("Please begin an object before writing a name.");
+     }
+     deferredName = name;
+     return this;

@@ -1,0 +1,351 @@
+diff --git a/filter/src/test/java/org/apache/rocketmq/filter/ExpressionTest.java b/filter/src/test/java/org/apache/rocketmq/filter/ExpressionTest.java
+index 8b02a2627..fa6b04af4 100644
+--- a/filter/src/test/java/org/apache/rocketmq/filter/ExpressionTest.java
++++ b/filter/src/test/java/org/apache/rocketmq/filter/ExpressionTest.java
+@@ -46,6 +46,324 @@ public class ExpressionTest {
+     private static String nullOrExpression = "a is null OR a='hello'";
+     private static String stringHasString = "TAGS is not null and TAGS='''''tag'''''";
+ 
++
++    @Test
++    public void testConstains_has() throws Exception {
++        Expression expr = genExp("value contains 'x'");
++        EvaluationContext context = genContext(
++                KeyValue.c("value", "axb")
++        );
++        eval(expr, context, Boolean.TRUE);
++    }
++
++    @Test
++    public void test_notConstains_has() throws Exception {
++        Expression expr = genExp("value not contains 'x'");
++        EvaluationContext context = genContext(
++                KeyValue.c("value", "axb")
++        );
++        eval(expr, context, Boolean.FALSE);
++    }
++
++    @Test
++    public void testConstains_has_not() throws Exception {
++        Expression expr = genExp("value contains 'x'");
++        EvaluationContext context = genContext(
++                KeyValue.c("value", "abb")
++        );
++        eval(expr, context, Boolean.FALSE);
++    }
++
++    @Test
++    public void test_notConstains_has_not() throws Exception {
++        Expression expr = genExp("value not contains 'x'");
++        EvaluationContext context = genContext(
++                KeyValue.c("value", "abb")
++        );
++        eval(expr, context, Boolean.TRUE);
++    }
++
++    @Test
++    public void testConstains_hasEmpty() throws Exception {
++        Expression expr = genExp("value contains ''");
++        EvaluationContext context = genContext(
++                KeyValue.c("value", "axb")
++        );
++        eval(expr, context, Boolean.FALSE);
++    }
++
++    @Test
++    public void test_notConstains_hasEmpty() throws Exception {
++        Expression expr = genExp("value not contains ''");
++        EvaluationContext context = genContext(
++                KeyValue.c("value", "axb")
++        );
++        eval(expr, context, Boolean.FALSE);
++    }
++
++    @Test
++    public void testConstains_null_has_1() throws Exception {
++        Expression expr = genExp("value contains 'x'");
++        EvaluationContext context = genContext(
++                KeyValue.c("value", null)
++        );
++        eval(expr, context, Boolean.FALSE);
++    }
++
++    @Test
++    public void test_notConstains_null_has_1() throws Exception {
++        Expression expr = genExp("value not contains 'x'");
++        EvaluationContext context = genContext(
++                KeyValue.c("value", null)
++        );
++        eval(expr, context, Boolean.FALSE);
++    }
++
++    @Test
++    public void testConstains_null_has_2() throws Exception {
++        Expression expr = genExp("value contains 'x'");
++        EvaluationContext context = genContext(
++//                KeyValue.c("value", null)
++        );
++        eval(expr, context, Boolean.FALSE);
++    }
++
++    @Test
++    public void test_notConstains_null_has_2() throws Exception {
++        Expression expr = genExp("value not contains 'x'");
++        EvaluationContext context = genContext(
++//                KeyValue.c("value", null)
++        );
++        eval(expr, context, Boolean.FALSE);
++    }
++
++    @Test
++    public void testConstains_number_has() throws Exception {
++        Expression expr = genExp("value contains 'x'");
++        EvaluationContext context = genContext(
++                KeyValue.c("value", 1.23)
++        );
++        eval(expr, context, Boolean.FALSE);
++    }
++
++    @Test
++    public void test_notConstains_number_has() throws Exception {
++        Expression expr = genExp("value not contains 'x'");
++        EvaluationContext context = genContext(
++                KeyValue.c("value", 1.23)
++        );
++        eval(expr, context, Boolean.FALSE);
++    }
++
++    @Test
++    public void testConstains_boolean_has() throws Exception {
++        Expression expr = genExp("value contains 'x'");
++        EvaluationContext context = genContext(
++                KeyValue.c("value", Boolean.TRUE)
++        );
++        eval(expr, context, Boolean.FALSE);
++    }
++
++    @Test
++    public void test_notConstains_boolean_has() throws Exception {
++        Expression expr = genExp("value not contains 'x'");
++        EvaluationContext context = genContext(
++                KeyValue.c("value", Boolean.TRUE)
++        );
++        eval(expr, context, Boolean.FALSE);
++    }
++
++    @Test
++    public void testConstains_object_has() throws Exception {
++        Expression expr = genExp("value contains 'x'");
++        EvaluationContext context = genContext(
++                KeyValue.c("value", new Object())
++        );
++        eval(expr, context, Boolean.FALSE);
++    }
++
++    @Test
++    public void testConstains_has_not_string_1() throws Exception {
++        try {
++            Expression expr = genExp("value contains x");  // will throw parse exception.
++            EvaluationContext context = genContext(
++                    KeyValue.c("value", "axb")
++            );
++            eval(expr, context, Boolean.FALSE);
++        } catch (Throwable e) {
++        }
++    }
++
++    @Test
++    public void test_notConstains_has_not_string_1() throws Exception {
++        try {
++            Expression expr = genExp("value not contains x");  // will throw parse exception.
++            EvaluationContext context = genContext(
++                    KeyValue.c("value", "axb")
++            );
++            eval(expr, context, Boolean.FALSE);
++        } catch (Throwable e) {
++        }
++    }
++
++    @Test
++    public void testConstains_has_not_string_2() throws Exception {
++        try {
++            Expression expr = genExp("value contains 123");  // will throw parse exception.
++            EvaluationContext context = genContext(
++                    KeyValue.c("value", "axb")
++            );
++            eval(expr, context, Boolean.FALSE);
++        } catch (Throwable e) {
++        }
++    }
++
++    @Test
++    public void test_notConstains_has_not_string_2() throws Exception {
++        try {
++            Expression expr = genExp("value not contains 123");  // will throw parse exception.
++            EvaluationContext context = genContext(
++                    KeyValue.c("value", "axb")
++            );
++            eval(expr, context, Boolean.FALSE);
++        } catch (Throwable e) {
++        }
++    }
++
++    @Test
++    public void testConstains_string_has_string() throws Exception {
++        Expression expr = genExp("'axb' contains 'x'");
++        EvaluationContext context = genContext(
++                KeyValue.c("whatever", "whatever")
++        );
++        eval(expr, context, Boolean.TRUE);
++    }
++
++    @Test
++    public void test_notConstains_string_has_string() throws Exception {
++        Expression expr = genExp("'axb' not contains 'x'");
++        EvaluationContext context = genContext(
++                KeyValue.c("whatever", "whatever")
++        );
++        eval(expr, context, Boolean.FALSE);
++    }
++
++    @Test
++    public void testConstains_string_has_not_string() throws Exception {
++        Expression expr = genExp("'axb' contains 'u'");
++        EvaluationContext context = genContext(
++                KeyValue.c("whatever", "whatever")
++        );
++        eval(expr, context, Boolean.FALSE);
++    }
++
++    @Test
++    public void test_notConstains_string_has_not_string() throws Exception {
++        Expression expr = genExp("'axb' not contains 'u'");
++        EvaluationContext context = genContext(
++                KeyValue.c("whatever", "whatever")
++        );
++        eval(expr, context, Boolean.TRUE);
++    }
++
++    @Test
++    public void testConstains_string_has_empty() throws Exception {
++        Expression expr = genExp("'axb' contains ''");
++        EvaluationContext context = genContext(
++                KeyValue.c("whatever", "whatever")
++        );
++        eval(expr, context, Boolean.FALSE);
++    }
++
++    @Test
++    public void test_notConstains_string_has_empty() throws Exception {
++        Expression expr = genExp("'axb' not contains ''");
++        EvaluationContext context = genContext(
++                KeyValue.c("whatever", "whatever")
++        );
++        eval(expr, context, Boolean.FALSE);
++    }
++
++    @Test
++    public void testConstains_string_has_space() throws Exception {
++        Expression expr = genExp("' ' contains ' '");
++        EvaluationContext context = genContext(
++                KeyValue.c("whatever", "whatever")
++        );
++        eval(expr, context, Boolean.TRUE);
++    }
++
++    @Test
++    public void test_notConstains_string_has_space() throws Exception {
++        Expression expr = genExp("' ' not contains ' '");
++        EvaluationContext context = genContext(
++                KeyValue.c("whatever", "whatever")
++        );
++        eval(expr, context, Boolean.FALSE);
++    }
++
++    @Test
++    public void testConstains_string_has_nothing() throws Exception {
++        try {
++            Expression expr = genExp("'axb' contains ");  // will throw parse exception.
++            EvaluationContext context = genContext(
++                    KeyValue.c("whatever", "whatever")
++            );
++            eval(expr, context, Boolean.TRUE);
++        } catch (Throwable e) {
++        }
++    }
++
++    @Test
++    public void test_notConstains_string_has_nothing() throws Exception {
++        try {
++            Expression expr = genExp("'axb' not contains ");  // will throw parse exception.
++            EvaluationContext context = genContext(
++                    KeyValue.c("whatever", "whatever")
++            );
++            eval(expr, context, Boolean.TRUE);
++        } catch (Throwable e) {
++        }
++    }
++
++    @Test
++    public void testConstains_string_has_special_1() throws Exception {
++        Expression expr = genExp("'axb' contains '.'");
++        EvaluationContext context = genContext(
++                KeyValue.c("whatever", "whatever")
++        );
++        eval(expr, context, Boolean.FALSE);
++    }
++
++    @Test
++    public void test_notConstains_string_has_special_1() throws Exception {
++        Expression expr = genExp("'axb' not contains '.'");
++        EvaluationContext context = genContext(
++                KeyValue.c("whatever", "whatever")
++        );
++        eval(expr, context, Boolean.TRUE);
++    }
++
++    @Test
++    public void testConstains_string_has_special_2() throws Exception {
++        Expression expr = genExp("'s' contains '\\'");
++        EvaluationContext context = genContext(
++                KeyValue.c("whatever", "whatever")
++        );
++        eval(expr, context, Boolean.FALSE);
++    }
++
++    @Test
++    public void testContainsAllInOne() throws Exception {
++        Expression expr = genExp("a not in ('4', '4', '5') and b between 3 and 10 and c not contains 'axbc'");
++        EvaluationContext context = genContext(
++                KeyValue.c("a", "3"),
++                KeyValue.c("b", 3),
++                KeyValue.c("c", "axbdc")
++        );
++        eval(expr, context, Boolean.TRUE);
++    }
++
+     @Test
+     public void testEvaluate_stringHasString() throws Exception {
+         Expression expr = genExp(stringHasString);
+diff --git a/filter/src/test/java/org/apache/rocketmq/filter/ParserTest.java b/filter/src/test/java/org/apache/rocketmq/filter/ParserTest.java
+index 7dc2ab254..9e6291ff1 100644
+--- a/filter/src/test/java/org/apache/rocketmq/filter/ParserTest.java
++++ b/filter/src/test/java/org/apache/rocketmq/filter/ParserTest.java
+@@ -37,7 +37,7 @@ public class ParserTest {
+     private static String equalNullExpression = "a is null";
+     private static String notEqualNullExpression = "a is not null";
+     private static String nowExpression = "a <= now";
+-
++    private static String containsExpression = "a=3 and b contains 'xxx' and c not contains 'xxx'";
+     private static String invalidExpression = "a and between 2 and 10";
+     private static String illegalBetween = " a between 10 and 0";
+ 
+@@ -45,7 +45,7 @@ public class ParserTest {
+     public void testParse_valid() {
+         for (String expr : Arrays.asList(
+             andExpression, orExpression, inExpression, notInExpression, betweenExpression,
+-            equalNullExpression, notEqualNullExpression, nowExpression
++            equalNullExpression, notEqualNullExpression, nowExpression, containsExpression
+         )) {
+ 
+             try {

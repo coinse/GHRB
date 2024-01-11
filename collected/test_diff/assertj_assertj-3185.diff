@@ -1,0 +1,384 @@
+diff --git a/assertj-core/src/test/java/org/assertj/core/internal/paths/Paths_assertEndsWithRaw_Test.java b/assertj-core/src/test/java/org/assertj/core/internal/paths/Paths_assertEndsWithRaw_Test.java
+index 146b01f26..ab30bd419 100644
+--- a/assertj-core/src/test/java/org/assertj/core/internal/paths/Paths_assertEndsWithRaw_Test.java
++++ b/assertj-core/src/test/java/org/assertj/core/internal/paths/Paths_assertEndsWithRaw_Test.java
+@@ -26,6 +26,8 @@ import java.nio.file.Paths;
+ 
+ import org.assertj.core.internal.PathsBaseTest;
+ import org.junit.jupiter.api.Test;
++import org.junit.jupiter.api.condition.DisabledOnOs;
++import org.junit.jupiter.api.condition.OS;
+ 
+ class Paths_assertEndsWithRaw_Test extends PathsBaseTest {
+ 
+@@ -71,6 +73,7 @@ class Paths_assertEndsWithRaw_Test extends PathsBaseTest {
+   }
+ 
+   @Test
++  @DisabledOnOs(value = OS.WINDOWS, disabledReason = "Fails on Windows due to missing privileges")
+   void should_fail_if_actual_is_not_canonical() throws IOException {
+     // GIVEN
+     Path file = createFile(tempDir.resolve("file"));
+diff --git a/assertj-core/src/test/java/org/assertj/core/internal/paths/Paths_assertEndsWith_Test.java b/assertj-core/src/test/java/org/assertj/core/internal/paths/Paths_assertEndsWith_Test.java
+index 70a5a8ff2..186d63455 100644
+--- a/assertj-core/src/test/java/org/assertj/core/internal/paths/Paths_assertEndsWith_Test.java
++++ b/assertj-core/src/test/java/org/assertj/core/internal/paths/Paths_assertEndsWith_Test.java
+@@ -29,6 +29,8 @@ import java.nio.file.Paths;
+ 
+ import org.assertj.core.internal.PathsBaseTest;
+ import org.junit.jupiter.api.Test;
++import org.junit.jupiter.api.condition.DisabledOnOs;
++import org.junit.jupiter.api.condition.OS;
+ 
+ class Paths_assertEndsWith_Test extends PathsBaseTest {
+ 
+@@ -88,6 +90,7 @@ class Paths_assertEndsWith_Test extends PathsBaseTest {
+   }
+ 
+   @Test
++  @DisabledOnOs(value = OS.WINDOWS, disabledReason = "Fails on Windows due to missing privileges")
+   void should_pass_if_actual_is_not_canonical() throws IOException {
+     // GIVEN
+     Path file = createFile(tempDir.resolve("file"));
+diff --git a/assertj-core/src/test/java/org/assertj/core/internal/paths/Paths_assertExistsNoFollowLinks_Test.java b/assertj-core/src/test/java/org/assertj/core/internal/paths/Paths_assertExistsNoFollowLinks_Test.java
+index b1aed4d22..7797bbffe 100644
+--- a/assertj-core/src/test/java/org/assertj/core/internal/paths/Paths_assertExistsNoFollowLinks_Test.java
++++ b/assertj-core/src/test/java/org/assertj/core/internal/paths/Paths_assertExistsNoFollowLinks_Test.java
+@@ -24,6 +24,8 @@ import java.nio.file.Path;
+ 
+ import org.assertj.core.internal.PathsBaseTest;
+ import org.junit.jupiter.api.Test;
++import org.junit.jupiter.api.condition.DisabledOnOs;
++import org.junit.jupiter.api.condition.OS;
+ 
+ class Paths_assertExistsNoFollowLinks_Test extends PathsBaseTest {
+ 
+@@ -54,6 +56,7 @@ class Paths_assertExistsNoFollowLinks_Test extends PathsBaseTest {
+   }
+ 
+   @Test
++  @DisabledOnOs(value = OS.WINDOWS, disabledReason = "Fails on Windows due to missing privileges")
+   void should_pass_if_actual_is_a_symbolic_link_and_target_exists() throws IOException {
+     // GIVEN
+     Path target = createFile(tempDir.resolve("target"));
+@@ -63,6 +66,7 @@ class Paths_assertExistsNoFollowLinks_Test extends PathsBaseTest {
+   }
+ 
+   @Test
++  @DisabledOnOs(value = OS.WINDOWS, disabledReason = "Fails on Windows due to missing privileges")
+   void should_pass_if_actual_is_a_symbolic_link_and_target_does_not_exist() throws IOException {
+     // GIVEN
+     Path target = tempDir.resolve("non-existent");
+diff --git a/assertj-core/src/test/java/org/assertj/core/internal/paths/Paths_assertExists_Test.java b/assertj-core/src/test/java/org/assertj/core/internal/paths/Paths_assertExists_Test.java
+index 0ac3f9cdc..fe35ad1c1 100644
+--- a/assertj-core/src/test/java/org/assertj/core/internal/paths/Paths_assertExists_Test.java
++++ b/assertj-core/src/test/java/org/assertj/core/internal/paths/Paths_assertExists_Test.java
+@@ -24,6 +24,8 @@ import java.nio.file.Path;
+ 
+ import org.assertj.core.internal.PathsBaseTest;
+ import org.junit.jupiter.api.Test;
++import org.junit.jupiter.api.condition.DisabledOnOs;
++import org.junit.jupiter.api.condition.OS;
+ 
+ class Paths_assertExists_Test extends PathsBaseTest {
+ 
+@@ -54,6 +56,7 @@ class Paths_assertExists_Test extends PathsBaseTest {
+   }
+ 
+   @Test
++  @DisabledOnOs(value = OS.WINDOWS, disabledReason = "Fails on Windows due to missing privileges")
+   void should_pass_if_actual_is_a_symbolic_link_and_target_exists() throws IOException {
+     // GIVEN
+     Path target = createFile(tempDir.resolve("target"));
+@@ -63,6 +66,7 @@ class Paths_assertExists_Test extends PathsBaseTest {
+   }
+ 
+   @Test
++  @DisabledOnOs(value = OS.WINDOWS, disabledReason = "Fails on Windows due to missing privileges")
+   void should_fail_if_actual_is_a_symbolic_link_and_target_does_not_exist() throws IOException {
+     // GIVEN
+     Path target = tempDir.resolve("non-existent");
+diff --git a/assertj-core/src/test/java/org/assertj/core/internal/paths/Paths_assertHasFileName_Test.java b/assertj-core/src/test/java/org/assertj/core/internal/paths/Paths_assertHasFileName_Test.java
+index 41a306234..0e583c827 100644
+--- a/assertj-core/src/test/java/org/assertj/core/internal/paths/Paths_assertHasFileName_Test.java
++++ b/assertj-core/src/test/java/org/assertj/core/internal/paths/Paths_assertHasFileName_Test.java
+@@ -25,6 +25,8 @@ import java.nio.file.Path;
+ 
+ import org.assertj.core.internal.PathsBaseTest;
+ import org.junit.jupiter.api.Test;
++import org.junit.jupiter.api.condition.DisabledOnOs;
++import org.junit.jupiter.api.condition.OS;
+ 
+ class Paths_assertHasFileName_Test extends PathsBaseTest {
+ 
+@@ -90,6 +92,7 @@ class Paths_assertHasFileName_Test extends PathsBaseTest {
+   }
+ 
+   @Test
++  @DisabledOnOs(value = OS.WINDOWS, disabledReason = "Fails on Windows due to missing privileges")
+   void should_pass_with_existing_symbolic_link() throws IOException {
+     // GIVEN
+     Path actual = createSymbolicLink(tempDir.resolve("actual"), tempDir);
+diff --git a/assertj-core/src/test/java/org/assertj/core/internal/paths/Paths_assertHasNoParentRaw_Test.java b/assertj-core/src/test/java/org/assertj/core/internal/paths/Paths_assertHasNoParentRaw_Test.java
+index 97497729d..8ec2a2c72 100644
+--- a/assertj-core/src/test/java/org/assertj/core/internal/paths/Paths_assertHasNoParentRaw_Test.java
++++ b/assertj-core/src/test/java/org/assertj/core/internal/paths/Paths_assertHasNoParentRaw_Test.java
+@@ -24,6 +24,8 @@ import java.nio.file.Path;
+ 
+ import org.assertj.core.internal.PathsBaseTest;
+ import org.junit.jupiter.api.Test;
++import org.junit.jupiter.api.condition.DisabledOnOs;
++import org.junit.jupiter.api.condition.OS;
+ 
+ class Paths_assertHasNoParentRaw_Test extends PathsBaseTest {
+ 
+@@ -54,6 +56,7 @@ class Paths_assertHasNoParentRaw_Test extends PathsBaseTest {
+   }
+ 
+   @Test
++  @DisabledOnOs(value = OS.WINDOWS, disabledReason = "Fails on Windows due to missing privileges")
+   void should_fail_if_actual_is_not_canonical() throws IOException {
+     // GIVEN
+     Path root = tempDir.getRoot();
+diff --git a/assertj-core/src/test/java/org/assertj/core/internal/paths/Paths_assertHasNoParent_Test.java b/assertj-core/src/test/java/org/assertj/core/internal/paths/Paths_assertHasNoParent_Test.java
+index 9a7272b77..4bb2af49b 100644
+--- a/assertj-core/src/test/java/org/assertj/core/internal/paths/Paths_assertHasNoParent_Test.java
++++ b/assertj-core/src/test/java/org/assertj/core/internal/paths/Paths_assertHasNoParent_Test.java
+@@ -28,6 +28,8 @@ import java.nio.file.Path;
+ 
+ import org.assertj.core.internal.PathsBaseTest;
+ import org.junit.jupiter.api.Test;
++import org.junit.jupiter.api.condition.DisabledOnOs;
++import org.junit.jupiter.api.condition.OS;
+ 
+ class Paths_assertHasNoParent_Test extends PathsBaseTest {
+ 
+@@ -71,6 +73,7 @@ class Paths_assertHasNoParent_Test extends PathsBaseTest {
+   }
+ 
+   @Test
++  @DisabledOnOs(value = OS.WINDOWS, disabledReason = "Fails on Windows due to missing privileges")
+   void should_pass_if_actual_is_not_canonical() throws IOException {
+     // GIVEN
+     Path root = tempDir.getRoot();
+diff --git a/assertj-core/src/test/java/org/assertj/core/internal/paths/Paths_assertHasParentRaw_Test.java b/assertj-core/src/test/java/org/assertj/core/internal/paths/Paths_assertHasParentRaw_Test.java
+index 3f20eaf98..07f2fd29e 100644
+--- a/assertj-core/src/test/java/org/assertj/core/internal/paths/Paths_assertHasParentRaw_Test.java
++++ b/assertj-core/src/test/java/org/assertj/core/internal/paths/Paths_assertHasParentRaw_Test.java
+@@ -26,6 +26,8 @@ import java.nio.file.Path;
+ 
+ import org.assertj.core.internal.PathsBaseTest;
+ import org.junit.jupiter.api.Test;
++import org.junit.jupiter.api.condition.DisabledOnOs;
++import org.junit.jupiter.api.condition.OS;
+ 
+ class Paths_assertHasParentRaw_Test extends PathsBaseTest {
+ 
+@@ -82,6 +84,7 @@ class Paths_assertHasParentRaw_Test extends PathsBaseTest {
+   }
+ 
+   @Test
++  @DisabledOnOs(value = OS.WINDOWS, disabledReason = "Fails on Windows due to missing privileges")
+   void should_fail_if_actual_is_not_canonical() throws IOException {
+     // GIVEN
+     Path expected = createDirectory(tempDir.resolve("expected"));
+@@ -94,6 +97,7 @@ class Paths_assertHasParentRaw_Test extends PathsBaseTest {
+   }
+ 
+   @Test
++  @DisabledOnOs(value = OS.WINDOWS, disabledReason = "Fails on Windows due to missing privileges")
+   void should_fail_if_expected_is_not_canonical() throws IOException {
+     // GIVEN
+     Path directory = createDirectory(tempDir.resolve("directory"));
+diff --git a/assertj-core/src/test/java/org/assertj/core/internal/paths/Paths_assertHasParent_Test.java b/assertj-core/src/test/java/org/assertj/core/internal/paths/Paths_assertHasParent_Test.java
+index e85e66432..3dac9f9e7 100644
+--- a/assertj-core/src/test/java/org/assertj/core/internal/paths/Paths_assertHasParent_Test.java
++++ b/assertj-core/src/test/java/org/assertj/core/internal/paths/Paths_assertHasParent_Test.java
+@@ -29,6 +29,8 @@ import java.nio.file.Path;
+ 
+ import org.assertj.core.internal.PathsBaseTest;
+ import org.junit.jupiter.api.Test;
++import org.junit.jupiter.api.condition.DisabledOnOs;
++import org.junit.jupiter.api.condition.OS;
+ 
+ class Paths_assertHasParent_Test extends PathsBaseTest {
+ 
+@@ -113,6 +115,7 @@ class Paths_assertHasParent_Test extends PathsBaseTest {
+   }
+ 
+   @Test
++  @DisabledOnOs(value = OS.WINDOWS, disabledReason = "Fails on Windows due to missing privileges")
+   void should_pass_if_actual_is_not_canonical() throws IOException {
+     // GIVEN
+     Path expected = createDirectory(tempDir.resolve("expected"));
+@@ -123,6 +126,7 @@ class Paths_assertHasParent_Test extends PathsBaseTest {
+   }
+ 
+   @Test
++  @DisabledOnOs(value = OS.WINDOWS, disabledReason = "Fails on Windows due to missing privileges")
+   void should_pass_if_expected_is_not_canonical() throws IOException {
+     // GIVEN
+     Path directory = createDirectory(tempDir.resolve("directory"));
+diff --git a/assertj-core/src/test/java/org/assertj/core/internal/paths/Paths_assertIsCanonical_Test.java b/assertj-core/src/test/java/org/assertj/core/internal/paths/Paths_assertIsCanonical_Test.java
+index 9e668d809..aad6106f3 100644
+--- a/assertj-core/src/test/java/org/assertj/core/internal/paths/Paths_assertIsCanonical_Test.java
++++ b/assertj-core/src/test/java/org/assertj/core/internal/paths/Paths_assertIsCanonical_Test.java
+@@ -28,6 +28,8 @@ import java.nio.file.Path;
+ 
+ import org.assertj.core.internal.PathsBaseTest;
+ import org.junit.jupiter.api.Test;
++import org.junit.jupiter.api.condition.DisabledOnOs;
++import org.junit.jupiter.api.condition.OS;
+ 
+ class Paths_assertIsCanonical_Test extends PathsBaseTest {
+ 
+@@ -53,6 +55,7 @@ class Paths_assertIsCanonical_Test extends PathsBaseTest {
+   }
+ 
+   @Test
++  @DisabledOnOs(value = OS.WINDOWS, disabledReason = "Fails on Windows due to missing privileges")
+   void should_fail_if_actual_is_not_canonical() throws IOException {
+     // GIVEN
+     Path file = createFile(tempDir.resolve("file"));
+diff --git a/assertj-core/src/test/java/org/assertj/core/internal/paths/Paths_assertIsSymbolicLink_Test.java b/assertj-core/src/test/java/org/assertj/core/internal/paths/Paths_assertIsSymbolicLink_Test.java
+index 4106316ca..e00c0d0ae 100644
+--- a/assertj-core/src/test/java/org/assertj/core/internal/paths/Paths_assertIsSymbolicLink_Test.java
++++ b/assertj-core/src/test/java/org/assertj/core/internal/paths/Paths_assertIsSymbolicLink_Test.java
+@@ -25,6 +25,8 @@ import java.nio.file.Path;
+ 
+ import org.assertj.core.internal.PathsBaseTest;
+ import org.junit.jupiter.api.Test;
++import org.junit.jupiter.api.condition.DisabledOnOs;
++import org.junit.jupiter.api.condition.OS;
+ 
+ class Paths_assertIsSymbolicLink_Test extends PathsBaseTest {
+ 
+@@ -57,6 +59,7 @@ class Paths_assertIsSymbolicLink_Test extends PathsBaseTest {
+   }
+ 
+   @Test
++  @DisabledOnOs(value = OS.WINDOWS, disabledReason = "Fails on Windows due to missing privileges")
+   void should_succeed_if_actual_is_a_symbolic_link() throws IOException {
+     // GIVEN
+     Path actual = createSymbolicLink(tempDir.resolve("actual"), tempDir.resolve("target"));
+diff --git a/assertj-core/src/test/java/org/assertj/core/internal/paths/Paths_assertNotExists_Test.java b/assertj-core/src/test/java/org/assertj/core/internal/paths/Paths_assertNotExists_Test.java
+index 20efbd044..66d70f27c 100644
+--- a/assertj-core/src/test/java/org/assertj/core/internal/paths/Paths_assertNotExists_Test.java
++++ b/assertj-core/src/test/java/org/assertj/core/internal/paths/Paths_assertNotExists_Test.java
+@@ -24,6 +24,8 @@ import java.nio.file.Path;
+ 
+ import org.assertj.core.internal.PathsBaseTest;
+ import org.junit.jupiter.api.Test;
++import org.junit.jupiter.api.condition.DisabledOnOs;
++import org.junit.jupiter.api.condition.OS;
+ 
+ class Paths_assertNotExists_Test extends PathsBaseTest {
+ 
+@@ -54,6 +56,7 @@ class Paths_assertNotExists_Test extends PathsBaseTest {
+   }
+ 
+   @Test
++  @DisabledOnOs(value = OS.WINDOWS, disabledReason = "Fails on Windows due to missing privileges")
+   void should_fail_if_actual_is_a_symbolic_link_and_target_does_not_exist() throws IOException {
+     // GIVEN
+     Path target = tempDir.resolve("non-existent");
+diff --git a/assertj-core/src/test/java/org/assertj/core/internal/paths/Paths_assertStartsWithRaw_Test.java b/assertj-core/src/test/java/org/assertj/core/internal/paths/Paths_assertStartsWithRaw_Test.java
+index 84197243b..b9cbf4374 100644
+--- a/assertj-core/src/test/java/org/assertj/core/internal/paths/Paths_assertStartsWithRaw_Test.java
++++ b/assertj-core/src/test/java/org/assertj/core/internal/paths/Paths_assertStartsWithRaw_Test.java
+@@ -26,6 +26,8 @@ import java.nio.file.Path;
+ 
+ import org.assertj.core.internal.PathsBaseTest;
+ import org.junit.jupiter.api.Test;
++import org.junit.jupiter.api.condition.DisabledOnOs;
++import org.junit.jupiter.api.condition.OS;
+ 
+ class Paths_assertStartsWithRaw_Test extends PathsBaseTest {
+ 
+@@ -71,6 +73,7 @@ class Paths_assertStartsWithRaw_Test extends PathsBaseTest {
+   }
+ 
+   @Test
++  @DisabledOnOs(value = OS.WINDOWS, disabledReason = "Fails on Windows due to missing privileges")
+   void should_fail_if_actual_is_not_canonical() throws IOException {
+     // GIVEN
+     Path other = createDirectory(tempDir.resolve("other"));
+@@ -83,6 +86,7 @@ class Paths_assertStartsWithRaw_Test extends PathsBaseTest {
+   }
+ 
+   @Test
++  @DisabledOnOs(value = OS.WINDOWS, disabledReason = "Fails on Windows due to missing privileges")
+   void should_fail_if_other_is_not_canonical() throws IOException {
+     // GIVEN
+     Path directory = createDirectory(tempDir.resolve("directory"));
+diff --git a/assertj-core/src/test/java/org/assertj/core/internal/paths/Paths_assertStartsWith_Test.java b/assertj-core/src/test/java/org/assertj/core/internal/paths/Paths_assertStartsWith_Test.java
+index 7ee400c02..d9a7fc04f 100644
+--- a/assertj-core/src/test/java/org/assertj/core/internal/paths/Paths_assertStartsWith_Test.java
++++ b/assertj-core/src/test/java/org/assertj/core/internal/paths/Paths_assertStartsWith_Test.java
+@@ -29,6 +29,8 @@ import java.nio.file.Path;
+ 
+ import org.assertj.core.internal.PathsBaseTest;
+ import org.junit.jupiter.api.Test;
++import org.junit.jupiter.api.condition.DisabledOnOs;
++import org.junit.jupiter.api.condition.OS;
+ 
+ class Paths_assertStartsWith_Test extends PathsBaseTest {
+ 
+@@ -102,6 +104,7 @@ class Paths_assertStartsWith_Test extends PathsBaseTest {
+   }
+ 
+   @Test
++  @DisabledOnOs(value = OS.WINDOWS, disabledReason = "Fails on Windows due to missing privileges")
+   void should_pass_if_actual_is_not_canonical() throws IOException {
+     // GIVEN
+     Path other = createDirectory(tempDir.resolve("other"));
+@@ -112,6 +115,7 @@ class Paths_assertStartsWith_Test extends PathsBaseTest {
+   }
+ 
+   @Test
++  @DisabledOnOs(value = OS.WINDOWS, disabledReason = "Fails on Windows due to missing privileges")
+   void should_pass_if_other_is_not_canonical() throws IOException {
+     // GIVEN
+     Path directory = createDirectory(tempDir.resolve("directory"));
+diff --git a/assertj-core/src/test/java/org/assertj/scripts/Convert_Junit5_Assertions_To_Assertj_Test.java b/assertj-core/src/test/java/org/assertj/scripts/Convert_Junit5_Assertions_To_Assertj_Test.java
+index d63986a12..dbadc39fe 100644
+--- a/assertj-core/src/test/java/org/assertj/scripts/Convert_Junit5_Assertions_To_Assertj_Test.java
++++ b/assertj-core/src/test/java/org/assertj/scripts/Convert_Junit5_Assertions_To_Assertj_Test.java
+@@ -18,6 +18,8 @@ import java.util.stream.Stream;
+ 
+ import org.junit.jupiter.api.BeforeEach;
+ import org.junit.jupiter.api.DisplayName;
++import org.junit.jupiter.api.condition.DisabledOnOs;
++import org.junit.jupiter.api.condition.OS;
+ import org.junit.jupiter.params.ParameterizedTest;
+ import org.junit.jupiter.params.provider.MethodSource;
+ 
+@@ -27,6 +29,7 @@ import org.junit.jupiter.params.provider.MethodSource;
+  * @author XiaoMingZHM, Eveneko
+  */
+ @DisplayName("Convert JUnit5 assertions to AssertJ")
++@DisabledOnOs(value = OS.WINDOWS, disabledReason = "Executes Linux shell scripts")
+ public class Convert_Junit5_Assertions_To_Assertj_Test {
+   private ShellScriptInvoker tester;
+ 
+diff --git a/assertj-core/src/test/java/org/assertj/scripts/Convert_Junit_Assertions_To_Assertj_Test.java b/assertj-core/src/test/java/org/assertj/scripts/Convert_Junit_Assertions_To_Assertj_Test.java
+index ebb0f95b7..8e4836a90 100644
+--- a/assertj-core/src/test/java/org/assertj/scripts/Convert_Junit_Assertions_To_Assertj_Test.java
++++ b/assertj-core/src/test/java/org/assertj/scripts/Convert_Junit_Assertions_To_Assertj_Test.java
+@@ -18,6 +18,8 @@ import java.util.stream.Stream;
+ 
+ import org.junit.jupiter.api.BeforeEach;
+ import org.junit.jupiter.api.DisplayName;
++import org.junit.jupiter.api.condition.DisabledOnOs;
++import org.junit.jupiter.api.condition.OS;
+ import org.junit.jupiter.params.ParameterizedTest;
+ import org.junit.jupiter.params.provider.MethodSource;
+ 
+@@ -28,6 +30,7 @@ import org.junit.jupiter.params.provider.MethodSource;
+  */
+ 
+ @DisplayName("Convert JUnit assertions to AssertJ")
++@DisabledOnOs(value = OS.WINDOWS, disabledReason = "Executes Linux shell scripts")
+ public class Convert_Junit_Assertions_To_Assertj_Test {
+   private ShellScriptInvoker conversionScriptInvoker;
+ 

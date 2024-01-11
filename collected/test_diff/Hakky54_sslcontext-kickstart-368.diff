@@ -1,0 +1,74 @@
+diff --git a/sslcontext-kickstart/src/test/java/nl/altindag/ssl/util/CertificateUtilsShould.java b/sslcontext-kickstart/src/test/java/nl/altindag/ssl/util/CertificateUtilsShould.java
+index abf0780..b5ed6cc 100644
+--- a/sslcontext-kickstart/src/test/java/nl/altindag/ssl/util/CertificateUtilsShould.java
++++ b/sslcontext-kickstart/src/test/java/nl/altindag/ssl/util/CertificateUtilsShould.java
+@@ -15,6 +15,7 @@
+  */
+ package nl.altindag.ssl.util;
+ 
++import nl.altindag.log.LogCaptor;
+ import nl.altindag.ssl.TestConstants;
+ import nl.altindag.ssl.exception.GenericCertificateException;
+ import nl.altindag.ssl.exception.GenericIOException;
+@@ -568,11 +569,13 @@ class CertificateUtilsShould {
+     }
+ 
+     @Test
+-    void throwGenericCertificateExceptionWhenUnsupportedDataIsProvided() throws IOException {
+-        try(ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream("Hello".getBytes())) {
+-            assertThatThrownBy(() -> CertificateUtils.parseDerCertificate(byteArrayInputStream))
+-                    .isInstanceOf(GenericCertificateException.class)
+-                    .hasMessage("There is no valid certificate present to parse. Please make sure to supply a valid der formatted certificate");
++    void generateDebugMessageWhenUnsupportedDataIsProvided() throws IOException {
++        try(LogCaptor logCaptor = LogCaptor.forClass(CertificateUtils.class);
++            ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream("Hello".getBytes())) {
++            List<Certificate> certificates = CertificateUtils.parseDerCertificate(byteArrayInputStream);
++
++            assertThat(certificates).isEmpty();
++            assertThat(logCaptor.getDebugLogs()).contains("There is no valid certificate present to parse. Please make sure to supply a valid der formatted certificate");
+         }
+     }
+ 
+diff --git a/sslcontext-kickstart/src/test/java/nl/altindag/ssl/util/KeyStoreUtilsShould.java b/sslcontext-kickstart/src/test/java/nl/altindag/ssl/util/KeyStoreUtilsShould.java
+index 06e91a8..271bcb7 100644
+--- a/sslcontext-kickstart/src/test/java/nl/altindag/ssl/util/KeyStoreUtilsShould.java
++++ b/sslcontext-kickstart/src/test/java/nl/altindag/ssl/util/KeyStoreUtilsShould.java
+@@ -254,7 +254,7 @@ class KeyStoreUtilsShould {
+         KeyStore keychainStore = mock(KeyStore.class);
+         KeyStore systemTrustStore = mock(KeyStore.class);
+ 
+-        try (MockedStatic<MacCertificateUtils> macCertificateUtilsMockedStatic = mockStatic(MacCertificateUtils.class);
++        try (MockedStatic<MacCertificateUtils> macCertificateUtilsMockedStatic = mockStatic(MacCertificateUtils.class, invocationOnMock -> Collections.singletonList(mock(X509Certificate.class)));
+              MockedStatic<KeyStoreUtils> keyStoreUtilsMockedStatic = mockStatic(KeyStoreUtils.class, invocation -> {
+             Method method = invocation.getMethod();
+             if ("loadSystemKeyStores".equals(method.getName()) && method.getParameterCount() == 0) {
+@@ -283,7 +283,7 @@ class KeyStoreUtilsShould {
+ 
+         KeyStore systemTrustStore = mock(KeyStore.class);
+ 
+-        try (MockedStatic<LinuxCertificateUtils> linuxCertificateUtilsMockedStatic = mockStatic(LinuxCertificateUtils.class);
++        try (MockedStatic<LinuxCertificateUtils> linuxCertificateUtilsMockedStatic = mockStatic(LinuxCertificateUtils.class, invocationOnMock -> Collections.singletonList(mock(X509Certificate.class)));
+              MockedStatic<KeyStoreUtils> keyStoreUtilsMockedStatic = mockStatic(KeyStoreUtils.class, invocation -> {
+                  Method method = invocation.getMethod();
+                  if ("loadSystemKeyStores".equals(method.getName()) && method.getParameterCount() == 0) {
+diff --git a/sslcontext-kickstart/src/test/java/nl/altindag/ssl/util/LinuxCertificateUtilsShould.java b/sslcontext-kickstart/src/test/java/nl/altindag/ssl/util/LinuxCertificateUtilsShould.java
+index 4b173d3..3302261 100644
+--- a/sslcontext-kickstart/src/test/java/nl/altindag/ssl/util/LinuxCertificateUtilsShould.java
++++ b/sslcontext-kickstart/src/test/java/nl/altindag/ssl/util/LinuxCertificateUtilsShould.java
+@@ -238,12 +238,16 @@ class LinuxCertificateUtilsShould {
+                          return true;
+                      } else if ("isRegularFile".equals(methodName) && "/etc/ssl/certs".equals(path)) {
+                          return false;
++                     } else if ("isSymbolicLink".equals(methodName) && "/etc/ssl/certs".equals(path)) {
++                         return false;
+                      } else if ("isDirectory".equals(methodName) && "/etc/ssl/certs".equals(path)) {
+                          return true;
+                      } else if ("walk".equals(methodName)) {
+                          return Stream.of(Paths.get("/etc/ssl/certs/some-certificate.pem"));
+                      } else if ("isRegularFile".equals(methodName) && "/etc/ssl/certs/some-certificate.pem".equals(path)) {
+                          return true;
++                     } else if ("isSymbolicLink".equals(methodName) && "/etc/ssl/certs/some-certificate.pem".equals(path)) {
++                         return true;
+                      } else if ("exists".equals(methodName)) {
+                          return false;
+                      } else {

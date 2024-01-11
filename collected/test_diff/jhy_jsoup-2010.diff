@@ -1,0 +1,12 @@
+diff --git a/src/test/java/org/jsoup/nodes/FormElementTest.java b/src/test/java/org/jsoup/nodes/FormElementTest.java
+index ee7702ee..2cd0a339 100644
+--- a/src/test/java/org/jsoup/nodes/FormElementTest.java
++++ b/src/test/java/org/jsoup/nodes/FormElementTest.java
+@@ -43,6 +43,7 @@ public class FormElementTest {
+                 "<input name='eight' type='checkbox' checked><input name='nine' type='checkbox' value='unset'>" +
+                 "<input name='ten' value='text' disabled>" +
+                 "<input name='eleven' value='text' type='button'>" +
++                "<input name='twelve' value='text' type='image'>" +
+                 "</form>";
+         Document doc = Jsoup.parse(html);
+         FormElement form = (FormElement) doc.select("form").first();

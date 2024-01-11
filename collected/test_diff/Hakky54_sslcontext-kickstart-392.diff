@@ -1,0 +1,388 @@
+diff --git a/sslcontext-kickstart/src/test/java/nl/altindag/ssl/SSLFactoryShould.java b/sslcontext-kickstart/src/test/java/nl/altindag/ssl/SSLFactoryShould.java
+index 8bb9cbc..b935c7c 100644
+--- a/sslcontext-kickstart/src/test/java/nl/altindag/ssl/SSLFactoryShould.java
++++ b/sslcontext-kickstart/src/test/java/nl/altindag/ssl/SSLFactoryShould.java
+@@ -20,6 +20,7 @@ import nl.altindag.ssl.exception.GenericKeyManagerException;
+ import nl.altindag.ssl.exception.GenericKeyStoreException;
+ import nl.altindag.ssl.exception.GenericSecurityException;
+ import nl.altindag.ssl.exception.GenericTrustManagerException;
++import nl.altindag.ssl.hostnameverifier.EnhanceableHostnameVerifier;
+ import nl.altindag.ssl.hostnameverifier.FenixHostnameVerifier;
+ import nl.altindag.ssl.keymanager.CompositeX509ExtendedKeyManager;
+ import nl.altindag.ssl.keymanager.DummyX509ExtendedKeyManager;
+@@ -52,6 +53,7 @@ import javax.net.ssl.SSLEngine;
+ import javax.net.ssl.SSLParameters;
+ import javax.net.ssl.SSLServerSocket;
+ import javax.net.ssl.SSLServerSocketFactory;
++import javax.net.ssl.SSLSession;
+ import javax.net.ssl.SSLSocket;
+ import javax.net.ssl.SSLSocketFactory;
+ import javax.net.ssl.TrustManager;
+@@ -104,12 +106,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
+ import static org.assertj.core.api.Assertions.fail;
+ import static org.mockito.ArgumentMatchers.any;
+ import static org.mockito.ArgumentMatchers.anySet;
+-import static org.mockito.Mockito.doReturn;
+-import static org.mockito.Mockito.mock;
+-import static org.mockito.Mockito.mockStatic;
+-import static org.mockito.Mockito.spy;
+-import static org.mockito.Mockito.times;
+-import static org.mockito.Mockito.when;
++import static org.mockito.Mockito.*;
+ 
+ /**
+  * @author Hakan Altindag
+@@ -1267,6 +1264,57 @@ class SSLFactoryShould {
+         assertThat(sslFactory.getKeyManagerFactory()).isNotPresent();
+     }
+ 
++    @Test
++    void buildSSLFactoryWithConcealedTrustMaterial() {
++        SSLFactory sslFactory = SSLFactory.builder()
++                .withTrustMaterial(KEYSTORE_LOCATION + TRUSTSTORE_FILE_NAME, TRUSTSTORE_PASSWORD)
++                .withConcealedTrustMaterial()
++                .build();
++
++        assertThat(sslFactory.getSslContext()).isNotNull();
++
++        assertThat(sslFactory.getTrustManager()).isPresent();
++        assertThat(sslFactory.getTrustManager().get()).isInstanceOf(EnhanceableX509ExtendedTrustManager.class);
++        assertThat(sslFactory.getTrustManager().get().getAcceptedIssuers()).isEmpty();
++        assertThat(sslFactory.getTrustManagerFactory()).isPresent();
++        assertThat(sslFactory.getTrustedCertificates()).isEmpty();
++        assertThat(sslFactory.getHostnameVerifier()).isNotNull();
++        assertThat(sslFactory.getKeyManager()).isNotPresent();
++        assertThat(sslFactory.getKeyManagerFactory()).isNotPresent();
++
++        EnhanceableX509ExtendedTrustManager enhanceableX509ExtendedTrustManager = (EnhanceableX509ExtendedTrustManager) sslFactory.getTrustManager().get();
++        X509ExtendedTrustManager innerTrustManager = enhanceableX509ExtendedTrustManager.getInnerTrustManager();
++        assertThat(innerTrustManager.getAcceptedIssuers()).isNotEmpty();
++    }
++
++    @Test
++    void buildSSLFactoryWithEnhancedHostnameVerifier() {
++        HostnameVerifier innerHostnameVerifier = mock(HostnameVerifier.class);
++        when(innerHostnameVerifier.verify(any(), any())).thenReturn(false);
++
++        SSLFactory sslFactory = SSLFactory.builder()
++                .withDefaultTrustMaterial()
++                .withHostnameVerifier(innerHostnameVerifier)
++                .withHostnameVerifierEnhancer(hostnameVerifierParameters -> {
++                    String hostname = hostnameVerifierParameters.getHostname();
++                    return hostname.contains("thunderberry");
++                })
++                .build();
++
++        assertThat(sslFactory.getSslContext()).isNotNull();
++
++        HostnameVerifier hostnameVerifier = sslFactory.getHostnameVerifier();
++        assertThat(hostnameVerifier)
++                .isNotNull()
++                .isInstanceOf(EnhanceableHostnameVerifier.class);
++
++        assertThat(hostnameVerifier.verify("subdomain.thunderberry.nl", null)).isTrue();
++        verify(innerHostnameVerifier, times(0)).verify(any(), any());
++
++        assertThat(hostnameVerifier.verify("google.com", spy(SSLSession.class))).isFalse();
++        verify(innerHostnameVerifier, times(1)).verify(any(), any());
++    }
++
+     @Test
+     void buildSSLFactoryWithSystemPropertyDerivedIdentityAndTrustMaterial() throws IOException {
+         Path identityPath = IOTestUtils.copyFileToHomeDirectory(KEYSTORE_LOCATION, IDENTITY_FILE_NAME);
+diff --git a/sslcontext-kickstart/src/test/java/nl/altindag/ssl/trustmanager/EnhanceableX509ExtendedTrustManagerShould.java b/sslcontext-kickstart/src/test/java/nl/altindag/ssl/trustmanager/EnhanceableX509ExtendedTrustManagerShould.java
+index 76b30c7..7667a85 100644
+--- a/sslcontext-kickstart/src/test/java/nl/altindag/ssl/trustmanager/EnhanceableX509ExtendedTrustManagerShould.java
++++ b/sslcontext-kickstart/src/test/java/nl/altindag/ssl/trustmanager/EnhanceableX509ExtendedTrustManagerShould.java
+@@ -27,9 +27,11 @@ import java.security.cert.CertificateException;
+ import java.security.cert.X509Certificate;
+ import java.util.function.Predicate;
+ 
++import static org.assertj.core.api.Assertions.assertThat;
+ import static org.mockito.Mockito.mock;
+ import static org.mockito.Mockito.times;
+ import static org.mockito.Mockito.verify;
++import static org.mockito.Mockito.when;
+ 
+ /**
+  * @author Hakan Altindag
+@@ -46,7 +48,7 @@ class EnhanceableX509ExtendedTrustManagerShould {
+         X509Certificate[] certificateChain = new X509Certificate[]{mock(X509Certificate.class)};
+         String authType = "RSA";
+ 
+-        EnhanceableX509ExtendedTrustManager trustManager = new EnhanceableX509ExtendedTrustManager(baseTrustManager, trustManagerParametersPredicate);
++        EnhanceableX509ExtendedTrustManager trustManager = new EnhanceableX509ExtendedTrustManager(baseTrustManager, trustManagerParametersPredicate, false);
+ 
+         trustManager.checkClientTrusted(certificateChain, authType);
+ 
+@@ -61,7 +63,7 @@ class EnhanceableX509ExtendedTrustManagerShould {
+         X509Certificate[] certificateChain = new X509Certificate[]{mock(X509Certificate.class)};
+         String authType = "RSA";
+ 
+-        EnhanceableX509ExtendedTrustManager trustManager = new EnhanceableX509ExtendedTrustManager(baseTrustManager, trustManagerParametersPredicate);
++        EnhanceableX509ExtendedTrustManager trustManager = new EnhanceableX509ExtendedTrustManager(baseTrustManager, trustManagerParametersPredicate, false);
+ 
+         trustManager.checkClientTrusted(certificateChain, authType);
+ 
+@@ -76,7 +78,7 @@ class EnhanceableX509ExtendedTrustManagerShould {
+         X509Certificate[] certificateChain = new X509Certificate[]{mock(X509Certificate.class)};
+         String authType = "RSA";
+ 
+-        EnhanceableX509ExtendedTrustManager trustManager = new EnhanceableX509ExtendedTrustManager(baseTrustManager, trustManagerParametersPredicate);
++        EnhanceableX509ExtendedTrustManager trustManager = new EnhanceableX509ExtendedTrustManager(baseTrustManager, trustManagerParametersPredicate, false);
+ 
+         trustManager.checkClientTrusted(certificateChain, authType);
+ 
+@@ -92,7 +94,7 @@ class EnhanceableX509ExtendedTrustManagerShould {
+         String authType = "RSA";
+         Socket socket = mock(Socket.class);
+ 
+-        EnhanceableX509ExtendedTrustManager trustManager = new EnhanceableX509ExtendedTrustManager(baseTrustManager, trustManagerParametersPredicate);
++        EnhanceableX509ExtendedTrustManager trustManager = new EnhanceableX509ExtendedTrustManager(baseTrustManager, trustManagerParametersPredicate, false);
+ 
+         trustManager.checkClientTrusted(certificateChain, authType, socket);
+ 
+@@ -108,7 +110,7 @@ class EnhanceableX509ExtendedTrustManagerShould {
+         String authType = "RSA";
+         Socket socket = mock(Socket.class);
+ 
+-        EnhanceableX509ExtendedTrustManager trustManager = new EnhanceableX509ExtendedTrustManager(baseTrustManager, trustManagerParametersPredicate);
++        EnhanceableX509ExtendedTrustManager trustManager = new EnhanceableX509ExtendedTrustManager(baseTrustManager, trustManagerParametersPredicate, false);
+ 
+         trustManager.checkClientTrusted(certificateChain, authType, socket);
+ 
+@@ -124,7 +126,7 @@ class EnhanceableX509ExtendedTrustManagerShould {
+         String authType = "RSA";
+         Socket socket = mock(Socket.class);
+ 
+-        EnhanceableX509ExtendedTrustManager trustManager = new EnhanceableX509ExtendedTrustManager(baseTrustManager, trustManagerParametersPredicate);
++        EnhanceableX509ExtendedTrustManager trustManager = new EnhanceableX509ExtendedTrustManager(baseTrustManager, trustManagerParametersPredicate, false);
+ 
+         trustManager.checkClientTrusted(certificateChain, authType, socket);
+ 
+@@ -140,7 +142,7 @@ class EnhanceableX509ExtendedTrustManagerShould {
+         String authType = "RSA";
+         SSLEngine sslEngine = mock(SSLEngine.class);
+ 
+-        EnhanceableX509ExtendedTrustManager trustManager = new EnhanceableX509ExtendedTrustManager(baseTrustManager, trustManagerParametersPredicate);
++        EnhanceableX509ExtendedTrustManager trustManager = new EnhanceableX509ExtendedTrustManager(baseTrustManager, trustManagerParametersPredicate, false);
+ 
+         trustManager.checkClientTrusted(certificateChain, authType, sslEngine);
+ 
+@@ -156,7 +158,7 @@ class EnhanceableX509ExtendedTrustManagerShould {
+         String authType = "RSA";
+         SSLEngine sslEngine = mock(SSLEngine.class);
+ 
+-        EnhanceableX509ExtendedTrustManager trustManager = new EnhanceableX509ExtendedTrustManager(baseTrustManager, trustManagerParametersPredicate);
++        EnhanceableX509ExtendedTrustManager trustManager = new EnhanceableX509ExtendedTrustManager(baseTrustManager, trustManagerParametersPredicate, false);
+ 
+         trustManager.checkClientTrusted(certificateChain, authType, sslEngine);
+ 
+@@ -172,7 +174,7 @@ class EnhanceableX509ExtendedTrustManagerShould {
+         String authType = "RSA";
+         SSLEngine sslEngine = mock(SSLEngine.class);
+ 
+-        EnhanceableX509ExtendedTrustManager trustManager = new EnhanceableX509ExtendedTrustManager(baseTrustManager, trustManagerParametersPredicate);
++        EnhanceableX509ExtendedTrustManager trustManager = new EnhanceableX509ExtendedTrustManager(baseTrustManager, trustManagerParametersPredicate, false);
+ 
+         trustManager.checkClientTrusted(certificateChain, authType, sslEngine);
+ 
+@@ -187,7 +189,7 @@ class EnhanceableX509ExtendedTrustManagerShould {
+         X509Certificate[] certificateChain = new X509Certificate[]{mock(X509Certificate.class)};
+         String authType = "RSA";
+ 
+-        EnhanceableX509ExtendedTrustManager trustManager = new EnhanceableX509ExtendedTrustManager(baseTrustManager, trustManagerParametersPredicate);
++        EnhanceableX509ExtendedTrustManager trustManager = new EnhanceableX509ExtendedTrustManager(baseTrustManager, trustManagerParametersPredicate, false);
+         trustManager.checkServerTrusted(certificateChain, authType);
+ 
+         verify(baseTrustManager, times(0)).checkServerTrusted(certificateChain, authType);
+@@ -201,7 +203,7 @@ class EnhanceableX509ExtendedTrustManagerShould {
+         X509Certificate[] certificateChain = new X509Certificate[]{mock(X509Certificate.class)};
+         String authType = "RSA";
+ 
+-        EnhanceableX509ExtendedTrustManager trustManager = new EnhanceableX509ExtendedTrustManager(baseTrustManager, trustManagerParametersPredicate);
++        EnhanceableX509ExtendedTrustManager trustManager = new EnhanceableX509ExtendedTrustManager(baseTrustManager, trustManagerParametersPredicate, false);
+         trustManager.checkServerTrusted(certificateChain, authType);
+ 
+         verify(baseTrustManager, times(1)).checkServerTrusted(certificateChain, authType);
+@@ -215,7 +217,7 @@ class EnhanceableX509ExtendedTrustManagerShould {
+         X509Certificate[] certificateChain = new X509Certificate[]{mock(X509Certificate.class)};
+         String authType = "RSA";
+ 
+-        EnhanceableX509ExtendedTrustManager trustManager = new EnhanceableX509ExtendedTrustManager(baseTrustManager, trustManagerParametersPredicate);
++        EnhanceableX509ExtendedTrustManager trustManager = new EnhanceableX509ExtendedTrustManager(baseTrustManager, trustManagerParametersPredicate, false);
+         trustManager.checkServerTrusted(certificateChain, authType);
+ 
+         verify(baseTrustManager, times(1)).checkServerTrusted(certificateChain, authType);
+@@ -230,7 +232,7 @@ class EnhanceableX509ExtendedTrustManagerShould {
+         String authType = "RSA";
+         Socket socket = mock(Socket.class);
+ 
+-        EnhanceableX509ExtendedTrustManager trustManager = new EnhanceableX509ExtendedTrustManager(baseTrustManager, trustManagerParametersPredicate);
++        EnhanceableX509ExtendedTrustManager trustManager = new EnhanceableX509ExtendedTrustManager(baseTrustManager, trustManagerParametersPredicate, false);
+         trustManager.checkServerTrusted(certificateChain, authType, socket);
+ 
+         verify(baseTrustManager, times(0)).checkServerTrusted(certificateChain, authType, socket);
+@@ -245,7 +247,7 @@ class EnhanceableX509ExtendedTrustManagerShould {
+         String authType = "RSA";
+         Socket socket = mock(Socket.class);
+ 
+-        EnhanceableX509ExtendedTrustManager trustManager = new EnhanceableX509ExtendedTrustManager(baseTrustManager, trustManagerParametersPredicate);
++        EnhanceableX509ExtendedTrustManager trustManager = new EnhanceableX509ExtendedTrustManager(baseTrustManager, trustManagerParametersPredicate, false);
+         trustManager.checkServerTrusted(certificateChain, authType, socket);
+ 
+         verify(baseTrustManager, times(1)).checkServerTrusted(certificateChain, authType, socket);
+@@ -260,7 +262,7 @@ class EnhanceableX509ExtendedTrustManagerShould {
+         String authType = "RSA";
+         Socket socket = mock(Socket.class);
+ 
+-        EnhanceableX509ExtendedTrustManager trustManager = new EnhanceableX509ExtendedTrustManager(baseTrustManager, trustManagerParametersPredicate);
++        EnhanceableX509ExtendedTrustManager trustManager = new EnhanceableX509ExtendedTrustManager(baseTrustManager, trustManagerParametersPredicate, false);
+         trustManager.checkServerTrusted(certificateChain, authType, socket);
+ 
+         verify(baseTrustManager, times(1)).checkServerTrusted(certificateChain, authType, socket);
+@@ -275,7 +277,7 @@ class EnhanceableX509ExtendedTrustManagerShould {
+         String authType = "RSA";
+         SSLEngine sslEngine = mock(SSLEngine.class);
+ 
+-        EnhanceableX509ExtendedTrustManager trustManager = new EnhanceableX509ExtendedTrustManager(baseTrustManager, trustManagerParametersPredicate);
++        EnhanceableX509ExtendedTrustManager trustManager = new EnhanceableX509ExtendedTrustManager(baseTrustManager, trustManagerParametersPredicate, false);
+         trustManager.checkServerTrusted(certificateChain, authType, sslEngine);
+ 
+         verify(baseTrustManager, times(0)).checkServerTrusted(certificateChain, authType, sslEngine);
+@@ -290,7 +292,7 @@ class EnhanceableX509ExtendedTrustManagerShould {
+         String authType = "RSA";
+         SSLEngine sslEngine = mock(SSLEngine.class);
+ 
+-        EnhanceableX509ExtendedTrustManager trustManager = new EnhanceableX509ExtendedTrustManager(baseTrustManager, trustManagerParametersPredicate);
++        EnhanceableX509ExtendedTrustManager trustManager = new EnhanceableX509ExtendedTrustManager(baseTrustManager, trustManagerParametersPredicate, false);
+         trustManager.checkServerTrusted(certificateChain, authType, sslEngine);
+ 
+         verify(baseTrustManager, times(1)).checkServerTrusted(certificateChain, authType, sslEngine);
+@@ -305,10 +307,30 @@ class EnhanceableX509ExtendedTrustManagerShould {
+         String authType = "RSA";
+         SSLEngine sslEngine = mock(SSLEngine.class);
+ 
+-        EnhanceableX509ExtendedTrustManager trustManager = new EnhanceableX509ExtendedTrustManager(baseTrustManager, trustManagerParametersPredicate);
++        EnhanceableX509ExtendedTrustManager trustManager = new EnhanceableX509ExtendedTrustManager(baseTrustManager, trustManagerParametersPredicate, false);
+         trustManager.checkServerTrusted(certificateChain, authType, sslEngine);
+ 
+         verify(baseTrustManager, times(1)).checkServerTrusted(certificateChain, authType, sslEngine);
+     }
+ 
++    @Test
++    void shouldConcealTrustedCertificatesWhenEnabled() {
++        X509ExtendedTrustManager baseTrustManager = mock(X509ExtendedTrustManager.class);
++        when(baseTrustManager.getAcceptedIssuers()).thenReturn(new X509Certificate[]{mock(X509Certificate.class)});
++        assertThat(baseTrustManager.getAcceptedIssuers()).hasSize(1);
++
++        EnhanceableX509ExtendedTrustManager trustManager = new EnhanceableX509ExtendedTrustManager(baseTrustManager, null, true);
++        assertThat(trustManager.getAcceptedIssuers()).isEmpty();
++    }
++
++    @Test
++    void shouldNotConcealTrustedCertificatesWhenDisabled() {
++        X509ExtendedTrustManager baseTrustManager = mock(X509ExtendedTrustManager.class);
++        when(baseTrustManager.getAcceptedIssuers()).thenReturn(new X509Certificate[]{mock(X509Certificate.class)});
++        assertThat(baseTrustManager.getAcceptedIssuers()).hasSize(1);
++
++        EnhanceableX509ExtendedTrustManager trustManager = new EnhanceableX509ExtendedTrustManager(baseTrustManager, null, false);
++        assertThat(trustManager.getAcceptedIssuers()).hasSize(1);
++    }
++
+ }
+diff --git a/sslcontext-kickstart/src/test/java/nl/altindag/ssl/util/TrustManagerUtilsShould.java b/sslcontext-kickstart/src/test/java/nl/altindag/ssl/util/TrustManagerUtilsShould.java
+index 24d70ce..cd6219c 100644
+--- a/sslcontext-kickstart/src/test/java/nl/altindag/ssl/util/TrustManagerUtilsShould.java
++++ b/sslcontext-kickstart/src/test/java/nl/altindag/ssl/util/TrustManagerUtilsShould.java
+@@ -20,6 +20,7 @@ import nl.altindag.ssl.exception.GenericSecurityException;
+ import nl.altindag.ssl.exception.GenericTrustManagerException;
+ import nl.altindag.ssl.trustmanager.CompositeX509ExtendedTrustManager;
+ import nl.altindag.ssl.trustmanager.DummyX509ExtendedTrustManager;
++import nl.altindag.ssl.trustmanager.EnhanceableX509ExtendedTrustManager;
+ import nl.altindag.ssl.trustmanager.HotSwappableX509ExtendedTrustManager;
+ import nl.altindag.ssl.trustmanager.InflatableX509ExtendedTrustManager;
+ import nl.altindag.ssl.trustmanager.KeyStoreTestUtils;
+@@ -318,6 +319,82 @@ class TrustManagerUtilsShould {
+                         "and should be an instance of [nl.altindag.ssl.trustmanager.HotSwappableX509ExtendedTrustManager].");
+     }
+ 
++    @Test
++    void trustManagerShouldSwapEvenThoughItContainsAnEnhanceableTrustManager() {
++        X509ExtendedTrustManager trustManager = TrustManagerUtils.trustManagerBuilder()
++                .withTrustManagers(TrustManagerUtils.createTrustManagerWithJdkTrustedCertificates())
++                .withSwappableTrustManager(true)
++                .withTrustEnhancer(true)
++                .build();
++
++        assertThat(trustManager).isInstanceOf(HotSwappableX509ExtendedTrustManager.class);
++        assertThat(trustManager.getAcceptedIssuers()).isEmpty();
++
++        X509ExtendedTrustManager innerTrustManager = ((HotSwappableX509ExtendedTrustManager) trustManager).getInnerTrustManager();
++        assertThat(innerTrustManager).isInstanceOf(EnhanceableX509ExtendedTrustManager.class);
++        assertThat(innerTrustManager.getAcceptedIssuers()).isEmpty();
++
++        X509ExtendedTrustManager innerInnerTrustManager = ((EnhanceableX509ExtendedTrustManager) innerTrustManager).getInnerTrustManager();
++        assertThat(innerInnerTrustManager.getAcceptedIssuers()).isNotEmpty();
++
++        KeyStore trustStoreOne = KeyStoreUtils.loadKeyStore(KEYSTORE_LOCATION + TRUSTSTORE_FILE_NAME, TRUSTSTORE_PASSWORD);
++        X509ExtendedTrustManager newTrustManager = TrustManagerUtils.createTrustManager(trustStoreOne);
++
++        TrustManagerUtils.swapTrustManager(trustManager, newTrustManager);
++        assertThat(trustManager.getAcceptedIssuers()).isEmpty();
++
++        innerTrustManager = ((HotSwappableX509ExtendedTrustManager) trustManager).getInnerTrustManager();
++        assertThat(innerTrustManager).isInstanceOf(EnhanceableX509ExtendedTrustManager.class);
++        assertThat(innerTrustManager.getAcceptedIssuers()).isEmpty();
++
++        assertThat(((EnhanceableX509ExtendedTrustManager) innerTrustManager).getInnerTrustManager().getAcceptedIssuers()).isNotEmpty();
++        assertThat(((EnhanceableX509ExtendedTrustManager) innerTrustManager).getInnerTrustManager())
++                .isNotEqualTo(innerInnerTrustManager)
++                .isEqualTo(newTrustManager);
++    }
++
++    @Test
++    void trustManagerShouldSwapEvenThoughItContainsAnEnhanceableTrustManagerWrappedInALoggingTrustManager() {
++        X509ExtendedTrustManager trustManager = TrustManagerUtils.trustManagerBuilder()
++                .withTrustManagers(TrustManagerUtils.createTrustManagerWithJdkTrustedCertificates())
++                .withSwappableTrustManager(true)
++                .withTrustEnhancer(true)
++                .withLoggingTrustManager(true)
++                .build();
++
++        assertThat(trustManager).isInstanceOf(HotSwappableX509ExtendedTrustManager.class);
++        assertThat(trustManager.getAcceptedIssuers()).isEmpty();
++
++        X509ExtendedTrustManager innerTrustManager = ((HotSwappableX509ExtendedTrustManager) trustManager).getInnerTrustManager();
++        assertThat(innerTrustManager).isInstanceOf(LoggingX509ExtendedTrustManager.class);
++
++        X509ExtendedTrustManager innerInnerTrustManager = ((LoggingX509ExtendedTrustManager) innerTrustManager).getInnerTrustManager();
++        assertThat(innerInnerTrustManager).isInstanceOf(EnhanceableX509ExtendedTrustManager.class);
++        assertThat(innerInnerTrustManager.getAcceptedIssuers()).isEmpty();
++
++        X509ExtendedTrustManager innerInnerInnerTrustManager = ((EnhanceableX509ExtendedTrustManager) innerInnerTrustManager).getInnerTrustManager();
++        assertThat(innerInnerInnerTrustManager.getAcceptedIssuers()).isNotEmpty();
++
++        KeyStore trustStoreOne = KeyStoreUtils.loadKeyStore(KEYSTORE_LOCATION + TRUSTSTORE_FILE_NAME, TRUSTSTORE_PASSWORD);
++        X509ExtendedTrustManager newTrustManager = TrustManagerUtils.createTrustManager(trustStoreOne);
++
++        TrustManagerUtils.swapTrustManager(trustManager, newTrustManager);
++        assertThat(trustManager.getAcceptedIssuers()).isEmpty();
++
++        innerTrustManager = ((HotSwappableX509ExtendedTrustManager) trustManager).getInnerTrustManager();
++        assertThat(innerTrustManager).isInstanceOf(LoggingX509ExtendedTrustManager.class);
++        assertThat(innerTrustManager.getAcceptedIssuers()).isEmpty();
++
++        innerInnerTrustManager = ((LoggingX509ExtendedTrustManager) innerTrustManager).getInnerTrustManager();
++        assertThat(innerInnerTrustManager).isInstanceOf(EnhanceableX509ExtendedTrustManager.class);
++        assertThat(innerInnerTrustManager.getAcceptedIssuers()).isEmpty();
++
++        assertThat(((EnhanceableX509ExtendedTrustManager) innerInnerTrustManager).getInnerTrustManager().getAcceptedIssuers()).isNotEmpty();
++        assertThat(((EnhanceableX509ExtendedTrustManager) innerInnerTrustManager).getInnerTrustManager())
++                .isNotEqualTo(innerInnerTrustManager)
++                .isEqualTo(newTrustManager);
++    }
++
+     @Test
+     void createTrustManagerFromMultipleTrustManagers() {
+         KeyStore trustStoreOne = KeyStoreUtils.loadKeyStore(KEYSTORE_LOCATION + TRUSTSTORE_FILE_NAME, TRUSTSTORE_PASSWORD);

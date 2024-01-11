@@ -1,0 +1,169 @@
+diff --git a/plugin/datasource/src/test/java/com/alibaba/nacos/plugin/datasource/impl/derby/ConfigInfoMapperByDerbyTest.java b/plugin/datasource/src/test/java/com/alibaba/nacos/plugin/datasource/impl/derby/ConfigInfoMapperByDerbyTest.java
+index 7ae0c8480..a6feb21c9 100644
+--- a/plugin/datasource/src/test/java/com/alibaba/nacos/plugin/datasource/impl/derby/ConfigInfoMapperByDerbyTest.java
++++ b/plugin/datasource/src/test/java/com/alibaba/nacos/plugin/datasource/impl/derby/ConfigInfoMapperByDerbyTest.java
+@@ -39,6 +39,8 @@ public class ConfigInfoMapperByDerbyTest {
+     
+     int pageSize = 5;
+     
++    long lastMaxId = 123;
++    
+     String appName = "appName";
+     
+     String groupId = "groupId";
+@@ -66,7 +68,8 @@ public class ConfigInfoMapperByDerbyTest {
+         context.putWhereParameter(FieldConstant.START_TIME, startTime);
+         context.putWhereParameter(FieldConstant.END_TIME, endTime);
+         context.putWhereParameter(FieldConstant.IDS, ids);
+-        
++        context.putWhereParameter(FieldConstant.LAST_MAX_ID, lastMaxId);
++        context.putWhereParameter(FieldConstant.PAGE_SIZE, pageSize);
+     }
+     
+     @Test
+@@ -158,9 +161,9 @@ public class ConfigInfoMapperByDerbyTest {
+     public void testFindChangeConfig() {
+         MapperResult mapperResult = configInfoMapperByDerby.findChangeConfig(context);
+         Assert.assertEquals(mapperResult.getSql(),
+-                "SELECT data_id, group_id, tenant_id, app_name, content, gmt_modified, encrypted_data_key FROM config_info "
+-                        + "WHERE gmt_modified >= ? AND gmt_modified <= ?");
+-        Assert.assertArrayEquals(mapperResult.getParamList().toArray(), new Object[] {startTime, endTime});
++                "SELECT id, data_id, group_id, tenant_id, app_name, content, gmt_modified, encrypted_data_key FROM config_info "
++                        + "WHERE gmt_modified >= ? and id > ? order by id  limit ? ");
++        Assert.assertArrayEquals(mapperResult.getParamList().toArray(), new Object[] {startTime, lastMaxId, pageSize});
+     }
+     
+     @Test
+@@ -177,10 +180,9 @@ public class ConfigInfoMapperByDerbyTest {
+         MapperResult mapperResult = configInfoMapperByDerby.findChangeConfigFetchRows(context);
+         Assert.assertEquals(mapperResult.getSql(),
+                 "SELECT id,data_id,group_id,tenant_id,app_name,content,type,md5,gmt_modified FROM config_info "
+-                        + "WHERE  1=1  AND app_name = ?  AND gmt_modified >=?  AND gmt_modified <=?  OFFSET "
+-                        + startRow + " ROWS FETCH NEXT " + pageSize + " ROWS ONLY");
+-        Assert.assertArrayEquals(mapperResult.getParamList().toArray(),
+-                new Object[] {appName, startTime, endTime});
++                        + "WHERE  1=1  AND app_name = ?  AND gmt_modified >=?  AND gmt_modified <=?  OFFSET " + startRow
++                        + " ROWS FETCH NEXT " + pageSize + " ROWS ONLY");
++        Assert.assertArrayEquals(mapperResult.getParamList().toArray(), new Object[] {appName, startTime, endTime});
+     }
+     
+     @Test
+@@ -267,8 +269,8 @@ public class ConfigInfoMapperByDerbyTest {
+         MapperResult mapperResult = configInfoMapperByDerby.findConfigInfoLike4PageFetchRows(context);
+         Assert.assertEquals(mapperResult.getSql(),
+                 "SELECT id,data_id,group_id,tenant_id,app_name,content,encrypted_data_key FROM config_info "
+-                        + "WHERE  tenant_id LIKE ?  AND app_name = ?  OFFSET " + startRow
+-                        + " ROWS FETCH NEXT " + pageSize + " ROWS ONLY");
++                        + "WHERE  tenant_id LIKE ?  AND app_name = ?  OFFSET " + startRow + " ROWS FETCH NEXT "
++                        + pageSize + " ROWS ONLY");
+         Assert.assertArrayEquals(mapperResult.getParamList().toArray(), new Object[] {tenantId, appName});
+     }
+     
+diff --git a/plugin/datasource/src/test/java/com/alibaba/nacos/plugin/datasource/impl/derby/HistoryConfigInfoMapperByDerbyTest.java b/plugin/datasource/src/test/java/com/alibaba/nacos/plugin/datasource/impl/derby/HistoryConfigInfoMapperByDerbyTest.java
+index df3e37ffe..0f2b02733 100644
+--- a/plugin/datasource/src/test/java/com/alibaba/nacos/plugin/datasource/impl/derby/HistoryConfigInfoMapperByDerbyTest.java
++++ b/plugin/datasource/src/test/java/com/alibaba/nacos/plugin/datasource/impl/derby/HistoryConfigInfoMapperByDerbyTest.java
+@@ -37,6 +37,8 @@ public class HistoryConfigInfoMapperByDerbyTest {
+     
+     int limitSize = 6;
+     
++    int lastMaxId = 123;
++    
+     Timestamp startTime = new Timestamp(System.currentTimeMillis());
+     
+     Timestamp endTime = new Timestamp(System.currentTimeMillis());
+@@ -50,6 +52,8 @@ public class HistoryConfigInfoMapperByDerbyTest {
+         context.putWhereParameter(FieldConstant.START_TIME, startTime);
+         context.putWhereParameter(FieldConstant.END_TIME, endTime);
+         context.putWhereParameter(FieldConstant.LIMIT_SIZE, limitSize);
++        context.putWhereParameter(FieldConstant.LAST_MAX_ID, lastMaxId);
++        context.putWhereParameter(FieldConstant.PAGE_SIZE, pageSize);
+         
+     }
+     
+@@ -73,10 +77,10 @@ public class HistoryConfigInfoMapperByDerbyTest {
+     public void testFindDeletedConfig() {
+         MapperResult mapperResult = historyConfigInfoMapperByDerby.findDeletedConfig(context);
+         Assert.assertEquals(mapperResult.getSql(),
+-                "SELECT DISTINCT data_id, group_id, tenant_id FROM his_config_info WHERE op_type = 'D' AND "
+-                        + "gmt_modified >= ? AND gmt_modified <= ?");
++                "SELECT data_id, group_id, tenant_id,gmt_modified,nid FROM his_config_info WHERE op_type = 'D' "
++                        + "AND gmt_modified >= ? and nid > ? order by nid limit ? ");
+         
+-        Assert.assertArrayEquals(mapperResult.getParamList().toArray(), new Object[] {startTime, endTime});
++        Assert.assertArrayEquals(mapperResult.getParamList().toArray(), new Object[] {startTime, lastMaxId, pageSize});
+     }
+     
+     @Test
+diff --git a/plugin/datasource/src/test/java/com/alibaba/nacos/plugin/datasource/impl/mysql/ConfigInfoMapperByMySqlTest.java b/plugin/datasource/src/test/java/com/alibaba/nacos/plugin/datasource/impl/mysql/ConfigInfoMapperByMySqlTest.java
+index 2793b6cc7..d97a3507d 100644
+--- a/plugin/datasource/src/test/java/com/alibaba/nacos/plugin/datasource/impl/mysql/ConfigInfoMapperByMySqlTest.java
++++ b/plugin/datasource/src/test/java/com/alibaba/nacos/plugin/datasource/impl/mysql/ConfigInfoMapperByMySqlTest.java
+@@ -48,6 +48,8 @@ public class ConfigInfoMapperByMySqlTest {
+     
+     String id = "123";
+     
++    long lastMaxId = 1234;
++    
+     List<Long> ids = Lists.newArrayList(1L, 2L, 3L, 5L, 144L);
+     
+     Timestamp startTime = new Timestamp(System.currentTimeMillis());
+@@ -67,6 +69,8 @@ public class ConfigInfoMapperByMySqlTest {
+         context.putWhereParameter(FieldConstant.START_TIME, startTime);
+         context.putWhereParameter(FieldConstant.END_TIME, endTime);
+         context.putWhereParameter(FieldConstant.IDS, ids);
++        context.putWhereParameter(FieldConstant.PAGE_SIZE, pageSize);
++        context.putWhereParameter(FieldConstant.LAST_MAX_ID, lastMaxId);
+         
+     }
+     
+@@ -156,9 +160,9 @@ public class ConfigInfoMapperByMySqlTest {
+     public void testFindChangeConfig() {
+         MapperResult mapperResult = configInfoMapperByMySql.findChangeConfig(context);
+         Assert.assertEquals(mapperResult.getSql(),
+-                "SELECT data_id, group_id, tenant_id, app_name, content, gmt_modified, encrypted_data_key "
+-                        + "FROM config_info WHERE gmt_modified >= ? AND gmt_modified <= ?");
+-        Assert.assertArrayEquals(mapperResult.getParamList().toArray(), new Object[] {startTime, endTime});
++                "SELECT id, data_id, group_id, tenant_id, app_name, content, gmt_modified, encrypted_data_key FROM config_info"
++                        + " WHERE gmt_modified >= ? and id > ? order by id  limit ? ");
++        Assert.assertArrayEquals(mapperResult.getParamList().toArray(), new Object[] {startTime, lastMaxId, pageSize});
+     }
+     
+     @Test
+diff --git a/plugin/datasource/src/test/java/com/alibaba/nacos/plugin/datasource/impl/mysql/HistoryConfigInfoMapperByMySqlTest.java b/plugin/datasource/src/test/java/com/alibaba/nacos/plugin/datasource/impl/mysql/HistoryConfigInfoMapperByMySqlTest.java
+index f0222ec8a..23db27c6f 100644
+--- a/plugin/datasource/src/test/java/com/alibaba/nacos/plugin/datasource/impl/mysql/HistoryConfigInfoMapperByMySqlTest.java
++++ b/plugin/datasource/src/test/java/com/alibaba/nacos/plugin/datasource/impl/mysql/HistoryConfigInfoMapperByMySqlTest.java
+@@ -37,6 +37,8 @@ public class HistoryConfigInfoMapperByMySqlTest {
+     
+     int limitSize = 6;
+     
++    long lastMaxId = 644;
++    
+     Timestamp startTime = new Timestamp(System.currentTimeMillis());
+     
+     Timestamp endTime = new Timestamp(System.currentTimeMillis());
+@@ -50,7 +52,8 @@ public class HistoryConfigInfoMapperByMySqlTest {
+         context.putWhereParameter(FieldConstant.START_TIME, startTime);
+         context.putWhereParameter(FieldConstant.END_TIME, endTime);
+         context.putWhereParameter(FieldConstant.LIMIT_SIZE, limitSize);
+-        
++        context.putWhereParameter(FieldConstant.LAST_MAX_ID, lastMaxId);
++        context.putWhereParameter(FieldConstant.PAGE_SIZE, pageSize);
+     }
+     
+     @Test
+@@ -71,10 +74,10 @@ public class HistoryConfigInfoMapperByMySqlTest {
+     public void testFindDeletedConfig() {
+         MapperResult mapperResult = historyConfigInfoMapperByMySql.findDeletedConfig(context);
+         Assert.assertEquals(mapperResult.getSql(),
+-                "SELECT DISTINCT data_id, group_id, tenant_id FROM his_config_info WHERE op_type = 'D' AND "
+-                        + "gmt_modified >= ? AND gmt_modified <= ?");
++                "SELECT data_id, group_id, tenant_id,gmt_modified,nid FROM his_config_info "
++                        + "WHERE op_type = 'D' AND gmt_modified >= ? and nid > ? order by nid limit ? ");
+         
+-        Assert.assertArrayEquals(mapperResult.getParamList().toArray(), new Object[] {startTime, endTime});
++        Assert.assertArrayEquals(mapperResult.getParamList().toArray(), new Object[] {startTime, lastMaxId, pageSize});
+     }
+     
+     @Test

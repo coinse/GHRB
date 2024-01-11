@@ -1,0 +1,16 @@
+diff --git a/brut.apktool/apktool-lib/src/test/java/brut/androlib/aapt2/BuildAndDecodeTest.java b/brut.apktool/apktool-lib/src/test/java/brut/androlib/aapt2/BuildAndDecodeTest.java
+index a0aa8048..c015709c 100644
+--- a/brut.apktool/apktool-lib/src/test/java/brut/androlib/aapt2/BuildAndDecodeTest.java
++++ b/brut.apktool/apktool-lib/src/test/java/brut/androlib/aapt2/BuildAndDecodeTest.java
+@@ -71,6 +71,11 @@ public class BuildAndDecodeTest extends BaseTest {
+         assertTrue(sTestNewDir.isDirectory());
+     }
+ 
++    @Test
++    public void valuesColorsTest() throws BrutException {
++        compareValuesFiles("values/colors.xml");
++    }
++
+     @Test
+     public void valuesStringsTest() throws BrutException {
+         compareValuesFiles("values/strings.xml");

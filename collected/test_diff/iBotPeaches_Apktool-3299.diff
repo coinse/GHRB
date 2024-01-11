@@ -1,0 +1,20 @@
+diff --git a/brut.apktool/apktool-lib/src/test/java/brut/androlib/decode/SparseFlagTest.java b/brut.apktool/apktool-lib/src/test/java/brut/androlib/decode/SparseFlagTest.java
+index 276fbf63..c3959250 100644
+--- a/brut.apktool/apktool-lib/src/test/java/brut/androlib/decode/SparseFlagTest.java
++++ b/brut.apktool/apktool-lib/src/test/java/brut/androlib/decode/SparseFlagTest.java
+@@ -54,6 +54,7 @@ public class SparseFlagTest extends BaseTest {
+ 
+         LOGGER.info("Decoding sparse.apk...");
+         Config config = Config.getDefaultConfig();
++        config.frameworkTag = "issue-3298";
+ 
+         ApkDecoder apkDecoder = new ApkDecoder(config, testApk);
+         ApkInfo apkInfo = apkDecoder.decode(sTestNewDir);
+@@ -70,6 +71,7 @@ public class SparseFlagTest extends BaseTest {
+ 
+         LOGGER.info("Decoding not-sparse.apk...");
+         Config config = Config.getDefaultConfig();
++        config.frameworkTag = "issue-3298";
+ 
+         ApkDecoder apkDecoder = new ApkDecoder(config, testApk);
+         ApkInfo apkInfo = apkDecoder.decode(sTestNewDir);

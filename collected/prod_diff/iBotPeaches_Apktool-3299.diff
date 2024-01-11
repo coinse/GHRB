@@ -1,0 +1,15 @@
+diff --git a/brut.apktool/apktool-lib/src/main/java/brut/androlib/res/decoder/ARSCDecoder.java b/brut.apktool/apktool-lib/src/main/java/brut/androlib/res/decoder/ARSCDecoder.java
+index 16a33951..38c20897 100644
+--- a/brut.apktool/apktool-lib/src/main/java/brut/androlib/res/decoder/ARSCDecoder.java
++++ b/brut.apktool/apktool-lib/src/main/java/brut/androlib/res/decoder/ARSCDecoder.java
+@@ -270,7 +270,9 @@ public class ARSCDecoder {
+ 
+         mHeader.checkForUnreadHeader(mIn);
+ 
+-        if ((typeFlags & 0x01) != 0) {
++        // Be sure we don't poison mResTable by marking the application as sparse
++        // Only flag the ResTable as sparse if the main package is not loaded.
++        if ((typeFlags & 0x01) != 0 && !mResTable.isMainPkgLoaded()) {
+             mResTable.setSparseResources(true);
+         }
+ 

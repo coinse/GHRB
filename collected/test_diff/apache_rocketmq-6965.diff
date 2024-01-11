@@ -1,0 +1,207 @@
+diff --git a/proxy/src/test/java/org/apache/rocketmq/proxy/grpc/v2/client/ClientActivityTest.java b/proxy/src/test/java/org/apache/rocketmq/proxy/grpc/v2/client/ClientActivityTest.java
+index a5d4e3c91..0c1ebcdfa 100644
+--- a/proxy/src/test/java/org/apache/rocketmq/proxy/grpc/v2/client/ClientActivityTest.java
++++ b/proxy/src/test/java/org/apache/rocketmq/proxy/grpc/v2/client/ClientActivityTest.java
+@@ -43,6 +43,7 @@ import org.apache.rocketmq.broker.client.ClientChannelInfo;
+ import org.apache.rocketmq.common.attribute.TopicMessageType;
+ import org.apache.rocketmq.proxy.common.ProxyContext;
+ import org.apache.rocketmq.proxy.grpc.v2.BaseActivityTest;
++import org.apache.rocketmq.proxy.grpc.v2.ContextStreamObserver;
+ import org.apache.rocketmq.proxy.grpc.v2.channel.GrpcChannelManager;
+ import org.apache.rocketmq.proxy.grpc.v2.channel.GrpcClientChannel;
+ import org.apache.rocketmq.proxy.grpc.v2.common.ResponseBuilder;
+@@ -341,7 +342,7 @@ public class ClientActivityTest extends BaseActivityTest {
+         String nonce = "123";
+         when(grpcChannelManagerMock.getAndRemoveResponseFuture(anyString())).thenReturn((CompletableFuture) runningInfoFutureMock);
+         ProxyContext context = createContext();
+-        StreamObserver<TelemetryCommand> streamObserver = clientActivity.telemetry(context, new StreamObserver<TelemetryCommand>() {
++        ContextStreamObserver<TelemetryCommand> streamObserver = clientActivity.telemetry(new StreamObserver<TelemetryCommand>() {
+             @Override
+             public void onNext(TelemetryCommand value) {
+             }
+@@ -354,7 +355,7 @@ public class ClientActivityTest extends BaseActivityTest {
+             public void onCompleted() {
+             }
+         });
+-        streamObserver.onNext(TelemetryCommand.newBuilder()
++        streamObserver.onNext(context, TelemetryCommand.newBuilder()
+             .setThreadStackTrace(ThreadStackTrace.newBuilder()
+                 .setThreadStackTrace(jstack)
+                 .setNonce(nonce)
+@@ -373,7 +374,7 @@ public class ClientActivityTest extends BaseActivityTest {
+         String nonce = "123";
+         when(grpcChannelManagerMock.getAndRemoveResponseFuture(anyString())).thenReturn((CompletableFuture) resultFutureMock);
+         ProxyContext context = createContext();
+-        StreamObserver<TelemetryCommand> streamObserver = clientActivity.telemetry(context, new StreamObserver<TelemetryCommand>() {
++        ContextStreamObserver<TelemetryCommand> streamObserver = clientActivity.telemetry(new StreamObserver<TelemetryCommand>() {
+             @Override
+             public void onNext(TelemetryCommand value) {
+             }
+@@ -386,7 +387,7 @@ public class ClientActivityTest extends BaseActivityTest {
+             public void onCompleted() {
+             }
+         });
+-        streamObserver.onNext(TelemetryCommand.newBuilder()
++        streamObserver.onNext(context, TelemetryCommand.newBuilder()
+             .setVerifyMessageResult(VerifyMessageResult.newBuilder()
+                 .setNonce(nonce)
+                 .build())
+@@ -418,11 +419,8 @@ public class ClientActivityTest extends BaseActivityTest {
+ 
+             }
+         };
+-        StreamObserver<TelemetryCommand> requestObserver = this.clientActivity.telemetry(
+-            ctx,
+-            responseObserver
+-        );
+-        requestObserver.onNext(TelemetryCommand.newBuilder()
++        ContextStreamObserver<TelemetryCommand> requestObserver = this.clientActivity.telemetry(responseObserver);
++        requestObserver.onNext(ctx, TelemetryCommand.newBuilder()
+             .setSettings(settings)
+             .build());
+         return future;
+diff --git a/proxy/src/test/java/org/apache/rocketmq/proxy/grpc/v2/common/GrpcClientSettingsManagerTest.java b/proxy/src/test/java/org/apache/rocketmq/proxy/grpc/v2/common/GrpcClientSettingsManagerTest.java
+index 9044873a6..6742f094c 100644
+--- a/proxy/src/test/java/org/apache/rocketmq/proxy/grpc/v2/common/GrpcClientSettingsManagerTest.java
++++ b/proxy/src/test/java/org/apache/rocketmq/proxy/grpc/v2/common/GrpcClientSettingsManagerTest.java
+@@ -54,7 +54,7 @@ public class GrpcClientSettingsManagerTest extends BaseActivityTest {
+     public void testGetProducerData() {
+         ProxyContext context = ProxyContext.create().withVal(ContextVariable.CLIENT_ID, CLIENT_ID);
+ 
+-        this.grpcClientSettingsManager.updateClientSettings(CLIENT_ID, Settings.newBuilder()
++        this.grpcClientSettingsManager.updateClientSettings(context, CLIENT_ID, Settings.newBuilder()
+             .setBackoffPolicy(RetryPolicy.getDefaultInstance())
+             .setPublishing(Publishing.getDefaultInstance())
+             .build());
+@@ -65,18 +65,18 @@ public class GrpcClientSettingsManagerTest extends BaseActivityTest {
+ 
+     @Test
+     public void testGetSubscriptionData() {
++        ProxyContext context = ProxyContext.create().withVal(ContextVariable.CLIENT_ID, CLIENT_ID);
++
+         SubscriptionGroupConfig subscriptionGroupConfig = new SubscriptionGroupConfig();
+         when(this.messagingProcessor.getSubscriptionGroupConfig(any(), any()))
+             .thenReturn(subscriptionGroupConfig);
+ 
+-        this.grpcClientSettingsManager.updateClientSettings(CLIENT_ID, Settings.newBuilder()
++        this.grpcClientSettingsManager.updateClientSettings(context, CLIENT_ID, Settings.newBuilder()
+             .setSubscription(Subscription.newBuilder()
+                 .setGroup(Resource.newBuilder().setName("group").build())
+                 .build())
+             .build());
+ 
+-        ProxyContext context = ProxyContext.create().withVal(ContextVariable.CLIENT_ID, CLIENT_ID);
+-
+         Settings settings = this.grpcClientSettingsManager.getClientSettings(context);
+         assertEquals(settings.getBackoffPolicy(), this.grpcClientSettingsManager.createDefaultConsumerSettingsBuilder().build().getBackoffPolicy());
+ 
+diff --git a/proxy/src/test/java/org/apache/rocketmq/proxy/remoting/activity/PullMessageActivityTest.java b/proxy/src/test/java/org/apache/rocketmq/proxy/remoting/activity/PullMessageActivityTest.java
+index d8ad45187..a2f1f4cc8 100644
+--- a/proxy/src/test/java/org/apache/rocketmq/proxy/remoting/activity/PullMessageActivityTest.java
++++ b/proxy/src/test/java/org/apache/rocketmq/proxy/remoting/activity/PullMessageActivityTest.java
+@@ -77,7 +77,7 @@ public class PullMessageActivityTest extends InitConfigTest {
+ 
+     @Test
+     public void testPullMessageWithoutSub() throws Exception {
+-        when(messagingProcessorMock.getConsumerGroupInfo(eq(group)))
++        when(messagingProcessorMock.getConsumerGroupInfo(any(), eq(group)))
+             .thenReturn(consumerGroupInfoMock);
+         SubscriptionData subscriptionData = new SubscriptionData();
+         subscriptionData.setSubString(subString);
+@@ -128,7 +128,7 @@ public class PullMessageActivityTest extends InitConfigTest {
+ 
+     @Test
+     public void testPullMessageWithSub() throws Exception {
+-        when(messagingProcessorMock.getConsumerGroupInfo(eq(group)))
++        when(messagingProcessorMock.getConsumerGroupInfo(any(), eq(group)))
+             .thenReturn(consumerGroupInfoMock);
+         SubscriptionData subscriptionData = new SubscriptionData();
+         subscriptionData.setSubString(subString);
+diff --git a/proxy/src/test/java/org/apache/rocketmq/proxy/remoting/channel/RemotingChannelManagerTest.java b/proxy/src/test/java/org/apache/rocketmq/proxy/remoting/channel/RemotingChannelManagerTest.java
+index 5a5b441e9..112240593 100644
+--- a/proxy/src/test/java/org/apache/rocketmq/proxy/remoting/channel/RemotingChannelManagerTest.java
++++ b/proxy/src/test/java/org/apache/rocketmq/proxy/remoting/channel/RemotingChannelManagerTest.java
+@@ -21,6 +21,7 @@ import io.netty.channel.Channel;
+ import io.netty.channel.ChannelId;
+ import java.util.HashSet;
+ import org.apache.commons.lang3.RandomStringUtils;
++import org.apache.rocketmq.proxy.common.ProxyContext;
+ import org.apache.rocketmq.proxy.remoting.RemotingProxyOutClient;
+ import org.apache.rocketmq.proxy.service.channel.SimpleChannel;
+ import org.apache.rocketmq.proxy.service.relay.ProxyRelayService;
+@@ -46,6 +47,7 @@ public class RemotingChannelManagerTest {
+     private final String remoteAddress = "10.152.39.53:9768";
+     private final String localAddress = "11.193.0.1:1210";
+     private RemotingChannelManager remotingChannelManager;
++    private final ProxyContext ctx = ProxyContext.createForInner(this.getClass());
+ 
+     @Before
+     public void before() {
+@@ -58,13 +60,13 @@ public class RemotingChannelManagerTest {
+         String clientId = RandomStringUtils.randomAlphabetic(10);
+ 
+         Channel producerChannel = createMockChannel();
+-        RemotingChannel producerRemotingChannel = this.remotingChannelManager.createProducerChannel(producerChannel, group, clientId);
++        RemotingChannel producerRemotingChannel = this.remotingChannelManager.createProducerChannel(ctx, producerChannel, group, clientId);
+         assertNotNull(producerRemotingChannel);
+-        assertSame(producerRemotingChannel, this.remotingChannelManager.createProducerChannel(producerChannel, group, clientId));
++        assertSame(producerRemotingChannel, this.remotingChannelManager.createProducerChannel(ctx, producerChannel, group, clientId));
+ 
+         Channel consumerChannel = createMockChannel();
+-        RemotingChannel consumerRemotingChannel = this.remotingChannelManager.createConsumerChannel(consumerChannel, group, clientId, new HashSet<>());
+-        assertSame(consumerRemotingChannel, this.remotingChannelManager.createConsumerChannel(consumerChannel, group, clientId, new HashSet<>()));
++        RemotingChannel consumerRemotingChannel = this.remotingChannelManager.createConsumerChannel(ctx, consumerChannel, group, clientId, new HashSet<>());
++        assertSame(consumerRemotingChannel, this.remotingChannelManager.createConsumerChannel(ctx, consumerChannel, group, clientId, new HashSet<>()));
+         assertNotNull(consumerRemotingChannel);
+ 
+         assertNotSame(producerRemotingChannel, consumerRemotingChannel);
+@@ -77,14 +79,14 @@ public class RemotingChannelManagerTest {
+ 
+         {
+             Channel producerChannel = createMockChannel();
+-            RemotingChannel producerRemotingChannel = this.remotingChannelManager.createProducerChannel(producerChannel, group, clientId);
+-            assertSame(producerRemotingChannel, this.remotingChannelManager.removeProducerChannel(group, producerRemotingChannel));
++            RemotingChannel producerRemotingChannel = this.remotingChannelManager.createProducerChannel(ctx, producerChannel, group, clientId);
++            assertSame(producerRemotingChannel, this.remotingChannelManager.removeProducerChannel(ctx, group, producerRemotingChannel));
+             assertTrue(this.remotingChannelManager.groupChannelMap.isEmpty());
+         }
+         {
+             Channel producerChannel = createMockChannel();
+-            RemotingChannel producerRemotingChannel = this.remotingChannelManager.createProducerChannel(producerChannel, group, clientId);
+-            assertSame(producerRemotingChannel, this.remotingChannelManager.removeProducerChannel(group, producerChannel));
++            RemotingChannel producerRemotingChannel = this.remotingChannelManager.createProducerChannel(ctx, producerChannel, group, clientId);
++            assertSame(producerRemotingChannel, this.remotingChannelManager.removeProducerChannel(ctx, group, producerChannel));
+             assertTrue(this.remotingChannelManager.groupChannelMap.isEmpty());
+         }
+     }
+@@ -96,14 +98,14 @@ public class RemotingChannelManagerTest {
+ 
+         {
+             Channel consumerChannel = createMockChannel();
+-            RemotingChannel consumerRemotingChannel = this.remotingChannelManager.createConsumerChannel(consumerChannel, group, clientId, new HashSet<>());
+-            assertSame(consumerRemotingChannel, this.remotingChannelManager.removeConsumerChannel(group, consumerRemotingChannel));
++            RemotingChannel consumerRemotingChannel = this.remotingChannelManager.createConsumerChannel(ctx, consumerChannel, group, clientId, new HashSet<>());
++            assertSame(consumerRemotingChannel, this.remotingChannelManager.removeConsumerChannel(ctx, group, consumerRemotingChannel));
+             assertTrue(this.remotingChannelManager.groupChannelMap.isEmpty());
+         }
+         {
+             Channel consumerChannel = createMockChannel();
+-            RemotingChannel consumerRemotingChannel = this.remotingChannelManager.createConsumerChannel(consumerChannel, group, clientId, new HashSet<>());
+-            assertSame(consumerRemotingChannel, this.remotingChannelManager.removeConsumerChannel(group, consumerChannel));
++            RemotingChannel consumerRemotingChannel = this.remotingChannelManager.createConsumerChannel(ctx, consumerChannel, group, clientId, new HashSet<>());
++            assertSame(consumerRemotingChannel, this.remotingChannelManager.removeConsumerChannel(ctx, group, consumerChannel));
+             assertTrue(this.remotingChannelManager.groupChannelMap.isEmpty());
+         }
+     }
+@@ -115,9 +117,9 @@ public class RemotingChannelManagerTest {
+         String clientId = RandomStringUtils.randomAlphabetic(10);
+ 
+         Channel consumerChannel = createMockChannel();
+-        RemotingChannel consumerRemotingChannel = this.remotingChannelManager.createConsumerChannel(consumerChannel, consumerGroup, clientId, new HashSet<>());
++        RemotingChannel consumerRemotingChannel = this.remotingChannelManager.createConsumerChannel(ctx, consumerChannel, consumerGroup, clientId, new HashSet<>());
+         Channel producerChannel = createMockChannel();
+-        RemotingChannel producerRemotingChannel = this.remotingChannelManager.createProducerChannel(producerChannel, producerGroup, clientId);
++        RemotingChannel producerRemotingChannel = this.remotingChannelManager.createProducerChannel(ctx, producerChannel, producerGroup, clientId);
+ 
+         assertSame(consumerRemotingChannel, this.remotingChannelManager.removeChannel(consumerChannel).stream().findFirst().get());
+         assertSame(producerRemotingChannel, this.remotingChannelManager.removeChannel(producerChannel).stream().findFirst().get());

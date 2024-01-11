@@ -1,0 +1,1561 @@
+diff --git a/assertj-core/src/test/java/org/assertj/core/api/Assertions_assertThat_with_Constructor_Test.java b/assertj-core/src/test/java/org/assertj/core/api/Assertions_assertThat_with_Constructor_Test.java
+new file mode 100644
+index 000000000..3c608ef14
+--- /dev/null
++++ b/assertj-core/src/test/java/org/assertj/core/api/Assertions_assertThat_with_Constructor_Test.java
+@@ -0,0 +1,44 @@
++/*
++ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
++ * the License. You may obtain a copy of the License at
++ *
++ * http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
++ * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
++ * specific language governing permissions and limitations under the License.
++ *
++ * Copyright 2012-2023 the original author or authors.
++ */
++package org.assertj.core.api;
++
++import org.junit.jupiter.api.Test;
++
++import java.lang.reflect.Constructor;
++
++import static org.assertj.core.api.Assertions.assertThat;
++
++/**
++ * Tests for <code>{@link Assertions#assertThat(Constructor)}</code>.
++ * 
++ * @author William Bakker
++ */
++class Assertions_assertThat_with_Constructor_Test {
++  static class ConstructorContainer {
++    ConstructorContainer() {}
++  }
++
++  @Test
++  void should_create_Assert() throws NoSuchMethodException {
++    Constructor<?> constructor = Assertions_assertThat_with_Constructor_Test.ConstructorContainer.class.getDeclaredConstructor();
++    AbstractConstructorAssert<?, Constructor<?>> assertions = Assertions.assertThat(constructor);
++    assertThat(assertions).isNotNull();
++  }
++
++  @Test
++  void should_pass_actual() throws NoSuchMethodException {
++    Constructor<?> constructor = Assertions_assertThat_with_Constructor_Test.ConstructorContainer.class.getDeclaredConstructor();
++    AbstractConstructorAssert<?, Constructor<?>> assertions = Assertions.assertThat(constructor);
++    assertThat(assertions.actual).isSameAs(constructor);
++  }
++}
+diff --git a/assertj-core/src/test/java/org/assertj/core/api/Assertions_assertThat_with_Field_Test.java b/assertj-core/src/test/java/org/assertj/core/api/Assertions_assertThat_with_Field_Test.java
+new file mode 100644
+index 000000000..3db7242d1
+--- /dev/null
++++ b/assertj-core/src/test/java/org/assertj/core/api/Assertions_assertThat_with_Field_Test.java
+@@ -0,0 +1,42 @@
++/*
++ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
++ * the License. You may obtain a copy of the License at
++ *
++ * http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
++ * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
++ * specific language governing permissions and limitations under the License.
++ *
++ * Copyright 2012-2023 the original author or authors.
++ */
++package org.assertj.core.api;
++
++import org.junit.jupiter.api.Test;
++
++import java.lang.reflect.Field;
++
++import static org.assertj.core.api.Assertions.assertThat;
++
++/**
++ * Tests for <code>{@link Assertions#assertThat(Field)}</code>.
++ * 
++ * @author William Bakker
++ */
++class Assertions_assertThat_with_Field_Test {
++  private Object field = new Object();
++
++  @Test
++  void should_create_Assert() throws NoSuchFieldException {
++    Field field = Assertions_assertThat_with_Field_Test.class.getDeclaredField("field");
++    AbstractFieldAssert<?> assertions = Assertions.assertThat(field);
++    assertThat(assertions).isNotNull();
++  }
++
++  @Test
++  void should_pass_actual() throws NoSuchFieldException {
++    Field field = Assertions_assertThat_with_Field_Test.class.getDeclaredField("field");
++    AbstractFieldAssert<?> assertions = Assertions.assertThat(field);
++    assertThat(assertions.actual).isSameAs(field);
++  }
++}
+diff --git a/assertj-core/src/test/java/org/assertj/core/api/Assertions_assertThat_with_Method_Test.java b/assertj-core/src/test/java/org/assertj/core/api/Assertions_assertThat_with_Method_Test.java
+new file mode 100644
+index 000000000..40294724e
+--- /dev/null
++++ b/assertj-core/src/test/java/org/assertj/core/api/Assertions_assertThat_with_Method_Test.java
+@@ -0,0 +1,41 @@
++/*
++ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
++ * the License. You may obtain a copy of the License at
++ *
++ * http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
++ * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
++ * specific language governing permissions and limitations under the License.
++ *
++ * Copyright 2012-2023 the original author or authors.
++ */
++package org.assertj.core.api;
++
++import org.junit.jupiter.api.Test;
++
++import java.lang.reflect.Method;
++
++import static org.assertj.core.api.Assertions.assertThat;
++
++/**
++ * Tests for <code>{@link Assertions#assertThat(Method)}</code>.
++ * 
++ * @author William Bakker
++ */
++class Assertions_assertThat_with_Method_Test {
++
++  @Test
++  void should_create_Assert() throws NoSuchMethodException {
++    Method method = Assertions_assertThat_with_Method_Test.class.getDeclaredMethod("should_create_Assert");
++    AbstractMethodAssert<?> assertions = Assertions.assertThat(method);
++    assertThat(assertions).isNotNull();
++  }
++
++  @Test
++  void should_pass_actual() throws NoSuchMethodException {
++    Method method = Assertions_assertThat_with_Method_Test.class.getDeclaredMethod("should_pass_actual");
++    AbstractMethodAssert<?> assertions = Assertions.assertThat(method);
++    assertThat(assertions.actual).isSameAs(method);
++  }
++}
+diff --git a/assertj-core/src/test/java/org/assertj/core/api/BDDAssertions_then_Test.java b/assertj-core/src/test/java/org/assertj/core/api/BDDAssertions_then_Test.java
+index 19f8988da..1cf2c65f3 100644
+--- a/assertj-core/src/test/java/org/assertj/core/api/BDDAssertions_then_Test.java
++++ b/assertj-core/src/test/java/org/assertj/core/api/BDDAssertions_then_Test.java
+@@ -31,6 +31,9 @@ import static org.assertj.core.api.InstanceOfAssertFactories.STRING;
+ import static org.assertj.core.util.Lists.list;
+ 
+ import java.io.IOException;
++import java.lang.reflect.Constructor;
++import java.lang.reflect.Field;
++import java.lang.reflect.Method;
+ import java.math.BigDecimal;
+ import java.math.BigInteger;
+ import java.net.URI;
+@@ -379,6 +382,24 @@ class BDDAssertions_then_Test {
+     then(Duration.ofHours(1)).isNotNull().isPositive();
+   }
+ 
++  @Test
++  void then_Field() throws NoSuchFieldException {
++    Field field = Math.class.getDeclaredField("PI");
++    then(field).isPublic();
++  }
++
++  @Test
++  void then_Constructor() throws NoSuchMethodException {
++    Constructor<?> constructor = Object.class.getDeclaredConstructor();
++    then(constructor).isPublic();
++  }
++
++  @Test
++  void then_Method() throws NoSuchMethodException {
++    Method method = Math.class.getDeclaredMethod("abs", long.class);
++    then(method).isPublic();
++  }
++
+   @SuppressWarnings("static-access")
+   @Test
+   void and_then() {
+diff --git a/assertj-core/src/test/java/org/assertj/core/api/InstanceOfAssertFactoriesTest.java b/assertj-core/src/test/java/org/assertj/core/api/InstanceOfAssertFactoriesTest.java
+index 417813cac..5deb0f8cd 100644
+--- a/assertj-core/src/test/java/org/assertj/core/api/InstanceOfAssertFactoriesTest.java
++++ b/assertj-core/src/test/java/org/assertj/core/api/InstanceOfAssertFactoriesTest.java
+@@ -45,6 +45,7 @@ import static org.assertj.core.api.InstanceOfAssertFactories.CLASS;
+ import static org.assertj.core.api.InstanceOfAssertFactories.COLLECTION;
+ import static org.assertj.core.api.InstanceOfAssertFactories.COMPLETABLE_FUTURE;
+ import static org.assertj.core.api.InstanceOfAssertFactories.COMPLETION_STAGE;
++import static org.assertj.core.api.InstanceOfAssertFactories.CONSTRUCTOR;
+ import static org.assertj.core.api.InstanceOfAssertFactories.DATE;
+ import static org.assertj.core.api.InstanceOfAssertFactories.DOUBLE;
+ import static org.assertj.core.api.InstanceOfAssertFactories.DOUBLE_2D_ARRAY;
+@@ -52,6 +53,7 @@ import static org.assertj.core.api.InstanceOfAssertFactories.DOUBLE_ARRAY;
+ import static org.assertj.core.api.InstanceOfAssertFactories.DOUBLE_PREDICATE;
+ import static org.assertj.core.api.InstanceOfAssertFactories.DOUBLE_STREAM;
+ import static org.assertj.core.api.InstanceOfAssertFactories.DURATION;
++import static org.assertj.core.api.InstanceOfAssertFactories.FIELD;
+ import static org.assertj.core.api.InstanceOfAssertFactories.FILE;
+ import static org.assertj.core.api.InstanceOfAssertFactories.FLOAT;
+ import static org.assertj.core.api.InstanceOfAssertFactories.FLOAT_2D_ARRAY;
+@@ -77,6 +79,7 @@ import static org.assertj.core.api.InstanceOfAssertFactories.LONG_ARRAY;
+ import static org.assertj.core.api.InstanceOfAssertFactories.LONG_PREDICATE;
+ import static org.assertj.core.api.InstanceOfAssertFactories.LONG_STREAM;
+ import static org.assertj.core.api.InstanceOfAssertFactories.MAP;
++import static org.assertj.core.api.InstanceOfAssertFactories.METHOD;
+ import static org.assertj.core.api.InstanceOfAssertFactories.OFFSET_DATE_TIME;
+ import static org.assertj.core.api.InstanceOfAssertFactories.OFFSET_TIME;
+ import static org.assertj.core.api.InstanceOfAssertFactories.OPTIONAL;
+@@ -126,6 +129,7 @@ import static org.mockito.Mockito.mock;
+ 
+ import java.io.ByteArrayInputStream;
+ import java.io.File;
++import java.lang.reflect.Constructor;
+ import java.math.BigDecimal;
+ import java.math.BigInteger;
+ import java.net.MalformedURLException;
+@@ -1232,6 +1236,36 @@ class InstanceOfAssertFactoriesTest {
+     result.isEqualByComparingTo(0);
+   }
+ 
++  @Test
++  void field_factory_should_allow_field_assertions() throws NoSuchFieldException {
++    // GIVEN
++    Object value = Math.class.getDeclaredField("PI");
++    // WHEN
++    AbstractFieldAssert<?> result = assertThat(value).asInstanceOf(FIELD);
++    // THEN
++    result.isPublic();
++  }
++
++  @Test
++  void method_factory_should_allow_method_assertions() throws NoSuchMethodException {
++    // GIVEN
++    Object value = Math.class.getDeclaredMethod("abs", long.class);
++    // WHEN
++    AbstractMethodAssert<?> result = assertThat(value).asInstanceOf(METHOD);
++    // THEN
++    result.isPublic();
++  }
++
++  @Test
++  void constructor_factory_should_allow_constructor_assertions() throws NoSuchMethodException {
++    // GIVEN
++    Object value = String.class.getDeclaredConstructor();
++    // WHEN
++    AbstractConstructorAssert<?, Constructor<?>> result = assertThat(value).asInstanceOf(CONSTRUCTOR);
++    // THEN
++    result.isPublic();
++  }
++
+   @SuppressWarnings("unused")
+   private static class VolatileFieldContainer {
+ 
+diff --git a/assertj-core/src/test/java/org/assertj/core/api/annotatedelement/AnnotatedElementAssert_hasAnnotation_Test.java b/assertj-core/src/test/java/org/assertj/core/api/annotatedelement/AnnotatedElementAssert_hasAnnotation_Test.java
+new file mode 100644
+index 000000000..f25b86b4b
+--- /dev/null
++++ b/assertj-core/src/test/java/org/assertj/core/api/annotatedelement/AnnotatedElementAssert_hasAnnotation_Test.java
+@@ -0,0 +1,84 @@
++/*
++ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
++ * the License. You may obtain a copy of the License at
++ *
++ * http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
++ * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
++ * specific language governing permissions and limitations under the License.
++ *
++ * Copyright 2012-2023 the original author or authors.
++ */
++package org.assertj.core.api.annotatedelement;
++
++import org.assertj.core.api.AnnotatedElementAssert;
++import org.junit.jupiter.api.Test;
++
++import java.lang.annotation.ElementType;
++import java.lang.annotation.Retention;
++import java.lang.annotation.RetentionPolicy;
++import java.lang.annotation.Target;
++import java.lang.reflect.Method;
++import java.util.Arrays;
++
++import static org.assertj.core.api.Assertions.assertThat;
++import static org.assertj.core.api.BDDAssertions.then;
++import static org.assertj.core.error.ShouldHaveAnnotations.shouldHaveAnnotations;
++import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
++import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
++
++/**
++ * Tests for <code>{@link AnnotatedElementAssert#hasAnnotation(Class)}</code>.
++ *
++ * @author William Bakker
++ */
++class AnnotatedElementAssert_hasAnnotation_Test {
++  @Target(ElementType.METHOD)
++  @Retention(RetentionPolicy.RUNTIME)
++  public @interface MyAnnotation {
++  }
++
++  @MyAnnotation
++  void annotatedMethod() {};
++
++  void notAnnotatedMethod() {};
++
++  @Test
++  void should_fail_if_actual_is_null() {
++    // GIVEN
++    Method actual = null;
++    // WHEN
++    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).hasAnnotation(MyAnnotation.class));
++    // THEN
++    then(assertionError).hasMessage(shouldNotBeNull().create());
++  }
++
++  @Test
++  void should_fail_if_actual_does_not_have_annotation() {
++    // GIVEN
++    Method actual = getMethod("notAnnotatedMethod");
++    // WHEN
++    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).hasAnnotation(MyAnnotation.class));
++    // THEN
++    then(assertionError).hasMessage(shouldHaveAnnotations(actual, Arrays.asList(MyAnnotation.class),
++                                                          Arrays.asList(MyAnnotation.class)).create());
++  }
++
++  @Test
++  void should_pass_if_actual_has_annotation() {
++    // GIVEN
++    Method actual = getMethod("annotatedMethod");
++    // WHEN/THEN
++    assertThat(actual).hasAnnotation(MyAnnotation.class);
++  }
++
++  private static Method getMethod(String name) {
++    try {
++      return AnnotatedElementAssert_hasAnnotation_Test.class.getDeclaredMethod(name);
++    } catch (NoSuchMethodException exception) {
++      throw new RuntimeException("failed to get method", exception);
++    }
++  }
++
++}
+diff --git a/assertj-core/src/test/java/org/assertj/core/api/annotatedelement/AnnotatedElementAssert_hasAnnotations_Test.java b/assertj-core/src/test/java/org/assertj/core/api/annotatedelement/AnnotatedElementAssert_hasAnnotations_Test.java
+new file mode 100644
+index 000000000..813b737fe
+--- /dev/null
++++ b/assertj-core/src/test/java/org/assertj/core/api/annotatedelement/AnnotatedElementAssert_hasAnnotations_Test.java
+@@ -0,0 +1,84 @@
++/*
++ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
++ * the License. You may obtain a copy of the License at
++ *
++ * http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
++ * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
++ * specific language governing permissions and limitations under the License.
++ *
++ * Copyright 2012-2023 the original author or authors.
++ */
++package org.assertj.core.api.annotatedelement;
++
++import org.assertj.core.api.AnnotatedElementAssert;
++import org.junit.jupiter.api.Test;
++
++import java.lang.annotation.ElementType;
++import java.lang.annotation.Retention;
++import java.lang.annotation.RetentionPolicy;
++import java.lang.annotation.Target;
++import java.lang.reflect.Method;
++import java.util.Arrays;
++
++import static org.assertj.core.api.Assertions.assertThat;
++import static org.assertj.core.api.BDDAssertions.then;
++import static org.assertj.core.error.ShouldHaveAnnotations.shouldHaveAnnotations;
++import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
++import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
++
++/**
++ * Tests for <code>{@link AnnotatedElementAssert#hasAnnotations(Class...)}</code>.
++ *
++ * @author William Bakker
++ */
++class AnnotatedElementAssert_hasAnnotations_Test {
++  @Target(ElementType.METHOD)
++  @Retention(RetentionPolicy.RUNTIME)
++  public @interface MyAnnotation {
++  }
++
++  @MyAnnotation
++  void annotatedMethod() {};
++
++  void notAnnotatedMethod() {};
++
++  @Test
++  void should_fail_if_actual_is_null() {
++    // GIVEN
++    Method actual = null;
++    // WHEN
++    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).hasAnnotations(MyAnnotation.class));
++    // THEN
++    then(assertionError).hasMessage(shouldNotBeNull().create());
++  }
++
++  @Test
++  void should_fail_if_actual_does_not_have_annotation() {
++    // GIVEN
++    Method actual = getMethod("notAnnotatedMethod");
++    // WHEN
++    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).hasAnnotations(MyAnnotation.class));
++    // THEN
++    then(assertionError).hasMessage(shouldHaveAnnotations(actual, Arrays.asList(MyAnnotation.class),
++                                                          Arrays.asList(MyAnnotation.class)).create());
++  }
++
++  @Test
++  void should_pass_if_actual_has_annotation() {
++    // GIVEN
++    Method actual = getMethod("annotatedMethod");
++    // WHEN/THEN
++    assertThat(actual).hasAnnotations(MyAnnotation.class);
++  }
++
++  private static Method getMethod(String name) {
++    try {
++      return AnnotatedElementAssert_hasAnnotations_Test.class.getDeclaredMethod(name);
++    } catch (NoSuchMethodException exception) {
++      throw new RuntimeException("failed to get method", exception);
++    }
++  }
++
++}
+diff --git a/assertj-core/src/test/java/org/assertj/core/api/field/FieldAssert_isFinal_Test.java b/assertj-core/src/test/java/org/assertj/core/api/field/FieldAssert_isFinal_Test.java
+new file mode 100644
+index 000000000..b23e15874
+--- /dev/null
++++ b/assertj-core/src/test/java/org/assertj/core/api/field/FieldAssert_isFinal_Test.java
+@@ -0,0 +1,71 @@
++/*
++ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
++ * the License. You may obtain a copy of the License at
++ *
++ * http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
++ * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
++ * specific language governing permissions and limitations under the License.
++ *
++ * Copyright 2012-2023 the original author or authors.
++ */
++package org.assertj.core.api.field;
++
++import org.assertj.core.api.FieldAssert;
++import org.junit.jupiter.api.Test;
++
++import java.lang.reflect.Field;
++
++import static org.assertj.core.api.Assertions.assertThat;
++import static org.assertj.core.api.BDDAssertions.then;
++import static org.assertj.core.error.MemberModifierShouldBe.shouldBeFinal;
++import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
++import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
++
++/**
++ * Tests for <code>{@link FieldAssert#isFinal()}</code>.
++ *
++ * @author William Bakker
++ */
++class FieldAssert_isFinal_Test {
++  private final Object finalField = new Object();
++  private Object notFinalField = new Object();
++
++  @Test
++  void should_fail_if_actual_is_null() {
++    // GIVEN
++    Field actual = null;
++    // WHEN
++    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isFinal());
++    // THEN
++    then(assertionError).hasMessage(shouldNotBeNull().create());
++  }
++
++  @Test
++  void should_fail_if_actual_is_not_final() {
++    // GIVEN
++    Field actual = getField("notFinalField");
++    // WHEN
++    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isFinal());
++    // THEN
++    then(assertionError).hasMessage(shouldBeFinal(actual).create());
++  }
++
++  @Test
++  void should_pass_if_actual_is_final() {
++    // GIVEN
++    Field actual = getField("finalField");
++    // WHEN/THEN
++    assertThat(actual).isFinal();
++  }
++
++  private static Field getField(String name) {
++    try {
++      return FieldAssert_isFinal_Test.class.getDeclaredField(name);
++    } catch (NoSuchFieldException exception) {
++      throw new RuntimeException("failed to get field", exception);
++    }
++  }
++
++}
+diff --git a/assertj-core/src/test/java/org/assertj/core/api/field/FieldAssert_isNotFinal_Test.java b/assertj-core/src/test/java/org/assertj/core/api/field/FieldAssert_isNotFinal_Test.java
+new file mode 100644
+index 000000000..d75750f64
+--- /dev/null
++++ b/assertj-core/src/test/java/org/assertj/core/api/field/FieldAssert_isNotFinal_Test.java
+@@ -0,0 +1,71 @@
++/*
++ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
++ * the License. You may obtain a copy of the License at
++ *
++ * http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
++ * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
++ * specific language governing permissions and limitations under the License.
++ *
++ * Copyright 2012-2023 the original author or authors.
++ */
++package org.assertj.core.api.field;
++
++import org.assertj.core.api.FieldAssert;
++import org.junit.jupiter.api.Test;
++
++import java.lang.reflect.Field;
++
++import static org.assertj.core.api.Assertions.assertThat;
++import static org.assertj.core.api.BDDAssertions.then;
++import static org.assertj.core.error.MemberModifierShouldBe.shouldNotBeFinal;
++import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
++import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
++
++/**
++ * Tests for <code>{@link FieldAssert#isNotFinal()}</code>.
++ *
++ * @author William Bakker
++ */
++class FieldAssert_isNotFinal_Test {
++  private final Object finalField = new Object();
++  private Object notFinalField = new Object();
++
++  @Test
++  void should_fail_if_actual_is_null() {
++    // GIVEN
++    Field actual = null;
++    // WHEN
++    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isNotFinal());
++    // THEN
++    then(assertionError).hasMessage(shouldNotBeNull().create());
++  }
++
++  @Test
++  void should_fail_if_actual_is_final() {
++    // GIVEN
++    Field actual = getField("finalField");
++    // WHEN
++    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isNotFinal());
++    // THEN
++    then(assertionError).hasMessage(shouldNotBeFinal(actual).create());
++  }
++
++  @Test
++  void should_pass_if_actual_is_not_final() {
++    // GIVEN
++    Field actual = getField("notFinalField");
++    // WHEN/THEN
++    assertThat(actual).isNotFinal();
++  }
++
++  private static Field getField(String name) {
++    try {
++      return FieldAssert_isNotFinal_Test.class.getDeclaredField(name);
++    } catch (NoSuchFieldException exception) {
++      throw new RuntimeException("failed to get field", exception);
++    }
++  }
++
++}
+diff --git a/assertj-core/src/test/java/org/assertj/core/api/field/FieldAssert_isNotStatic_Test.java b/assertj-core/src/test/java/org/assertj/core/api/field/FieldAssert_isNotStatic_Test.java
+new file mode 100644
+index 000000000..f9cde9440
+--- /dev/null
++++ b/assertj-core/src/test/java/org/assertj/core/api/field/FieldAssert_isNotStatic_Test.java
+@@ -0,0 +1,71 @@
++/*
++ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
++ * the License. You may obtain a copy of the License at
++ *
++ * http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
++ * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
++ * specific language governing permissions and limitations under the License.
++ *
++ * Copyright 2012-2023 the original author or authors.
++ */
++package org.assertj.core.api.field;
++
++import org.assertj.core.api.FieldAssert;
++import org.junit.jupiter.api.Test;
++
++import java.lang.reflect.Field;
++
++import static org.assertj.core.api.Assertions.assertThat;
++import static org.assertj.core.api.BDDAssertions.then;
++import static org.assertj.core.error.MemberModifierShouldBe.shouldNotBeStatic;
++import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
++import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
++
++/**
++ * Tests for <code>{@link FieldAssert#isNotStatic()}</code>.
++ *
++ * @author William Bakker
++ */
++class FieldAssert_isNotStatic_Test {
++  private static Object staticField = new Object();
++  private Object notStaticField = new Object();
++
++  @Test
++  void should_fail_if_actual_is_null() {
++    // GIVEN
++    Field actual = null;
++    // WHEN
++    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isNotStatic());
++    // THEN
++    then(assertionError).hasMessage(shouldNotBeNull().create());
++  }
++
++  @Test
++  void should_pass_if_actual_is_not_static() {
++    // GIVEN
++    Field actual = getField("notStaticField");
++    // WHEN/THEN
++    assertThat(actual).isNotStatic();
++  }
++
++  @Test
++  void should_fail_if_actual_is_static() {
++    // GIVEN
++    Field actual = getField("staticField");
++    // WHEN
++    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isNotStatic());
++    // THEN
++    then(assertionError).hasMessage(shouldNotBeStatic(actual).create());
++  }
++
++  private static Field getField(String name) {
++    try {
++      return FieldAssert_isNotStatic_Test.class.getDeclaredField(name);
++    } catch (NoSuchFieldException exception) {
++      throw new RuntimeException("failed to get field", exception);
++    }
++  }
++
++}
+diff --git a/assertj-core/src/test/java/org/assertj/core/api/field/FieldAssert_isStatic_Test.java b/assertj-core/src/test/java/org/assertj/core/api/field/FieldAssert_isStatic_Test.java
+new file mode 100644
+index 000000000..328537770
+--- /dev/null
++++ b/assertj-core/src/test/java/org/assertj/core/api/field/FieldAssert_isStatic_Test.java
+@@ -0,0 +1,71 @@
++/*
++ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
++ * the License. You may obtain a copy of the License at
++ *
++ * http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
++ * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
++ * specific language governing permissions and limitations under the License.
++ *
++ * Copyright 2012-2023 the original author or authors.
++ */
++package org.assertj.core.api.field;
++
++import org.assertj.core.api.FieldAssert;
++import org.junit.jupiter.api.Test;
++
++import java.lang.reflect.Field;
++
++import static org.assertj.core.api.Assertions.assertThat;
++import static org.assertj.core.api.BDDAssertions.then;
++import static org.assertj.core.error.MemberModifierShouldBe.shouldBeStatic;
++import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
++import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
++
++/**
++ * Tests for <code>{@link FieldAssert#isStatic()}</code>.
++ *
++ * @author William Bakker
++ */
++class FieldAssert_isStatic_Test {
++  private static Object staticField = new Object();
++  private Object notStaticField = new Object();
++
++  @Test
++  void should_fail_if_actual_is_null() {
++    // GIVEN
++    Field actual = null;
++    // WHEN
++    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isStatic());
++    // THEN
++    then(assertionError).hasMessage(shouldNotBeNull().create());
++  }
++
++  @Test
++  void should_fail_if_actual_is_not_static() {
++    // GIVEN
++    Field actual = getField("notStaticField");
++    // WHEN
++    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isStatic());
++    // THEN
++    then(assertionError).hasMessage(shouldBeStatic(actual).create());
++  }
++
++  @Test
++  void should_pass_if_actual_is_static() {
++    // GIVEN
++    Field actual = getField("staticField");
++    // WHEN/THEN
++    assertThat(actual).isStatic();
++  }
++
++  private static Field getField(String name) {
++    try {
++      return FieldAssert_isStatic_Test.class.getDeclaredField(name);
++    } catch (NoSuchFieldException exception) {
++      throw new RuntimeException("failed to get field", exception);
++    }
++  }
++
++}
+diff --git a/assertj-core/src/test/java/org/assertj/core/api/member/MemberAssert_isPackagePrivate_Test.java b/assertj-core/src/test/java/org/assertj/core/api/member/MemberAssert_isPackagePrivate_Test.java
+new file mode 100644
+index 000000000..ddb3d5903
+--- /dev/null
++++ b/assertj-core/src/test/java/org/assertj/core/api/member/MemberAssert_isPackagePrivate_Test.java
+@@ -0,0 +1,71 @@
++/*
++ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
++ * the License. You may obtain a copy of the License at
++ *
++ * http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
++ * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
++ * specific language governing permissions and limitations under the License.
++ *
++ * Copyright 2012-2023 the original author or authors.
++ */
++package org.assertj.core.api.member;
++
++import org.assertj.core.api.MemberAssert;
++import org.junit.jupiter.api.Test;
++
++import java.lang.reflect.Field;
++
++import static org.assertj.core.api.Assertions.assertThat;
++import static org.assertj.core.api.BDDAssertions.then;
++import static org.assertj.core.error.MemberModifierShouldBe.shouldBePackagePrivate;
++import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
++import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
++
++/**
++ * Tests for <code>{@link MemberAssert#isPackagePrivate()}</code>.
++ *
++ * @author William Bakker
++ */
++class MemberAssert_isPackagePrivate_Test {
++  Object packagePrivateField = new Object();
++  private Object notPackagePrivateField = new Object();
++
++  @Test
++  void should_fail_if_actual_is_null() {
++    // GIVEN
++    Field actual = null;
++    // WHEN
++    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isPackagePrivate());
++    // THEN
++    then(assertionError).hasMessage(shouldNotBeNull().create());
++  }
++
++  @Test
++  void should_fail_if_actual_is_not_packagePrivate() {
++    // GIVEN
++    Field actual = getField("notPackagePrivateField");
++    // WHEN
++    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isPackagePrivate());
++    // THEN
++    then(assertionError).hasMessage(shouldBePackagePrivate(actual).create());
++  }
++
++  @Test
++  void should_pass_if_actual_is_packagePrivate() {
++    // GIVEN
++    Field actual = getField("packagePrivateField");
++    // WHEN/THEN
++    assertThat(actual).isPackagePrivate();
++  }
++
++  private static Field getField(String name) {
++    try {
++      return MemberAssert_isPackagePrivate_Test.class.getDeclaredField(name);
++    } catch (NoSuchFieldException exception) {
++      throw new RuntimeException("failed to get field", exception);
++    }
++  }
++
++}
+diff --git a/assertj-core/src/test/java/org/assertj/core/api/member/MemberAssert_isProtected_Test.java b/assertj-core/src/test/java/org/assertj/core/api/member/MemberAssert_isProtected_Test.java
+new file mode 100644
+index 000000000..f3c19b123
+--- /dev/null
++++ b/assertj-core/src/test/java/org/assertj/core/api/member/MemberAssert_isProtected_Test.java
+@@ -0,0 +1,71 @@
++/*
++ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
++ * the License. You may obtain a copy of the License at
++ *
++ * http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
++ * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
++ * specific language governing permissions and limitations under the License.
++ *
++ * Copyright 2012-2023 the original author or authors.
++ */
++package org.assertj.core.api.member;
++
++import org.assertj.core.api.MemberAssert;
++import org.junit.jupiter.api.Test;
++
++import java.lang.reflect.Field;
++
++import static org.assertj.core.api.Assertions.assertThat;
++import static org.assertj.core.api.BDDAssertions.then;
++import static org.assertj.core.error.MemberModifierShouldBe.shouldBeProtected;
++import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
++import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
++
++/**
++ * Tests for <code>{@link MemberAssert#isProtected()}</code>.
++ *
++ * @author William Bakker
++ */
++class MemberAssert_isProtected_Test {
++  protected Object protectedField = new Object();
++  private Object notProtectedField = new Object();
++
++  @Test
++  void should_fail_if_actual_is_null() {
++    // GIVEN
++    Field actual = null;
++    // WHEN
++    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isProtected());
++    // THEN
++    then(assertionError).hasMessage(shouldNotBeNull().create());
++  }
++
++  @Test
++  void should_fail_if_actual_is_not_protected() {
++    // GIVEN
++    Field actual = getField("notProtectedField");
++    // WHEN
++    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isProtected());
++    // THEN
++    then(assertionError).hasMessage(shouldBeProtected(actual).create());
++  }
++
++  @Test
++  void should_pass_if_actual_is_protected() {
++    // GIVEN
++    Field actual = getField("protectedField");
++    // WHEN/THEN
++    assertThat(actual).isProtected();
++  }
++
++  private static Field getField(String name) {
++    try {
++      return MemberAssert_isProtected_Test.class.getDeclaredField(name);
++    } catch (NoSuchFieldException exception) {
++      throw new RuntimeException("failed to get field", exception);
++    }
++  }
++
++}
+diff --git a/assertj-core/src/test/java/org/assertj/core/api/member/MemberAssert_isPublic_Test.java b/assertj-core/src/test/java/org/assertj/core/api/member/MemberAssert_isPublic_Test.java
+new file mode 100644
+index 000000000..2e0b7181a
+--- /dev/null
++++ b/assertj-core/src/test/java/org/assertj/core/api/member/MemberAssert_isPublic_Test.java
+@@ -0,0 +1,71 @@
++/*
++ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
++ * the License. You may obtain a copy of the License at
++ *
++ * http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
++ * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
++ * specific language governing permissions and limitations under the License.
++ *
++ * Copyright 2012-2023 the original author or authors.
++ */
++package org.assertj.core.api.member;
++
++import org.assertj.core.api.MemberAssert;
++import org.junit.jupiter.api.Test;
++
++import java.lang.reflect.Field;
++
++import static org.assertj.core.api.Assertions.assertThat;
++import static org.assertj.core.api.BDDAssertions.then;
++import static org.assertj.core.error.MemberModifierShouldBe.shouldBePublic;
++import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
++import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
++
++/**
++ * Tests for <code>{@link MemberAssert#isPublic()}</code>.
++ *
++ * @author William Bakker
++ */
++class MemberAssert_isPublic_Test {
++  public Object publicField = new Object();
++  private Object notPublicField = new Object();
++
++  @Test
++  void should_fail_if_actual_is_null() {
++    // GIVEN
++    Field actual = null;
++    // WHEN
++    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isPublic());
++    // THEN
++    then(assertionError).hasMessage(shouldNotBeNull().create());
++  }
++
++  @Test
++  void should_fail_if_actual_is_not_public() {
++    // GIVEN
++    Field actual = getField("notPublicField");
++    // WHEN
++    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isPublic());
++    // THEN
++    then(assertionError).hasMessage(shouldBePublic(actual).create());
++  }
++
++  @Test
++  void should_pass_if_actual_is_public() {
++    // GIVEN
++    Field actual = getField("publicField");
++    // WHEN/THEN
++    assertThat(actual).isPublic();
++  }
++
++  private static Field getField(String name) {
++    try {
++      return MemberAssert_isPublic_Test.class.getDeclaredField(name);
++    } catch (NoSuchFieldException exception) {
++      throw new RuntimeException("failed to get field", exception);
++    }
++  }
++
++}
+diff --git a/assertj-core/src/test/java/org/assertj/core/api/method/MethodAssert_isAbstract_Test.java b/assertj-core/src/test/java/org/assertj/core/api/method/MethodAssert_isAbstract_Test.java
+new file mode 100644
+index 000000000..f342f6e31
+--- /dev/null
++++ b/assertj-core/src/test/java/org/assertj/core/api/method/MethodAssert_isAbstract_Test.java
+@@ -0,0 +1,74 @@
++/*
++ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
++ * the License. You may obtain a copy of the License at
++ *
++ * http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
++ * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
++ * specific language governing permissions and limitations under the License.
++ *
++ * Copyright 2012-2023 the original author or authors.
++ */
++package org.assertj.core.api.method;
++
++import org.assertj.core.api.MethodAssert;
++import org.junit.jupiter.api.Test;
++
++import java.lang.reflect.Method;
++
++import static org.assertj.core.api.Assertions.assertThat;
++import static org.assertj.core.api.BDDAssertions.then;
++import static org.assertj.core.error.ShouldBeAbstract.shouldBeAbstract;
++import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
++import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
++
++/**
++ * Tests for <code>{@link MethodAssert#isAbstract()}</code>.
++ *
++ * @author William Bakker
++ */
++class MethodAssert_isAbstract_Test {
++  abstract class AbstractContainer {
++    abstract void abstractMethod();
++
++    void notAbstractMethod() {}
++  }
++
++  @Test
++  void should_fail_if_actual_is_null() {
++    // GIVEN
++    Method actual = null;
++    // WHEN
++    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isAbstract());
++    // THEN
++    then(assertionError).hasMessage(shouldNotBeNull().create());
++  }
++
++  @Test
++  void should_fail_if_actual_is_not_abstract() {
++    // GIVEN
++    Method actual = getMethod("notAbstractMethod");
++    // WHEN
++    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isAbstract());
++    // THEN
++    then(assertionError).hasMessage(shouldBeAbstract(actual).create());
++  }
++
++  @Test
++  void should_pass_if_actual_is_abstract() {
++    // GIVEN
++    Method actual = getMethod("abstractMethod");
++    // WHEN/THEN
++    assertThat(actual).isAbstract();
++  }
++
++  private static Method getMethod(String name) {
++    try {
++      return MethodAssert_isAbstract_Test.AbstractContainer.class.getDeclaredMethod(name);
++    } catch (NoSuchMethodException exception) {
++      throw new RuntimeException("failed to get method", exception);
++    }
++  }
++
++}
+diff --git a/assertj-core/src/test/java/org/assertj/core/api/method/MethodAssert_isFinal_Test.java b/assertj-core/src/test/java/org/assertj/core/api/method/MethodAssert_isFinal_Test.java
+new file mode 100644
+index 000000000..da9ea5f36
+--- /dev/null
++++ b/assertj-core/src/test/java/org/assertj/core/api/method/MethodAssert_isFinal_Test.java
+@@ -0,0 +1,72 @@
++/*
++ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
++ * the License. You may obtain a copy of the License at
++ *
++ * http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
++ * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
++ * specific language governing permissions and limitations under the License.
++ *
++ * Copyright 2012-2023 the original author or authors.
++ */
++package org.assertj.core.api.method;
++
++import org.assertj.core.api.MethodAssert;
++import org.junit.jupiter.api.Test;
++
++import java.lang.reflect.Method;
++
++import static org.assertj.core.api.Assertions.assertThat;
++import static org.assertj.core.api.BDDAssertions.then;
++import static org.assertj.core.error.MemberModifierShouldBe.shouldBeFinal;
++import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
++import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
++
++/**
++ * Tests for <code>{@link MethodAssert#isFinal()}</code>.
++ *
++ * @author William Bakker
++ */
++class MethodAssert_isFinal_Test {
++  final void finalMethod() {};
++
++  void notFinalMethod() {};
++
++  @Test
++  void should_fail_if_actual_is_null() {
++    // GIVEN
++    Method actual = null;
++    // WHEN
++    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isFinal());
++    // THEN
++    then(assertionError).hasMessage(shouldNotBeNull().create());
++  }
++
++  @Test
++  void should_fail_if_actual_is_not_final() {
++    // GIVEN
++    Method actual = getMethod("notFinalMethod");
++    // WHEN
++    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isFinal());
++    // THEN
++    then(assertionError).hasMessage(shouldBeFinal(actual).create());
++  }
++
++  @Test
++  void should_pass_if_actual_is_final() {
++    // GIVEN
++    Method actual = getMethod("finalMethod");
++    // WHEN/THEN
++    assertThat(actual).isFinal();
++  }
++
++  private static Method getMethod(String name) {
++    try {
++      return MethodAssert_isFinal_Test.class.getDeclaredMethod(name);
++    } catch (NoSuchMethodException exception) {
++      throw new RuntimeException("failed to get method", exception);
++    }
++  }
++
++}
+diff --git a/assertj-core/src/test/java/org/assertj/core/api/method/MethodAssert_isNotFinal_Test.java b/assertj-core/src/test/java/org/assertj/core/api/method/MethodAssert_isNotFinal_Test.java
+new file mode 100644
+index 000000000..8d7af73b9
+--- /dev/null
++++ b/assertj-core/src/test/java/org/assertj/core/api/method/MethodAssert_isNotFinal_Test.java
+@@ -0,0 +1,72 @@
++/*
++ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
++ * the License. You may obtain a copy of the License at
++ *
++ * http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
++ * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
++ * specific language governing permissions and limitations under the License.
++ *
++ * Copyright 2012-2023 the original author or authors.
++ */
++package org.assertj.core.api.method;
++
++import org.assertj.core.api.MethodAssert;
++import org.junit.jupiter.api.Test;
++
++import java.lang.reflect.Method;
++
++import static org.assertj.core.api.Assertions.assertThat;
++import static org.assertj.core.api.BDDAssertions.then;
++import static org.assertj.core.error.MemberModifierShouldBe.shouldNotBeFinal;
++import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
++import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
++
++/**
++ * Tests for <code>{@link MethodAssert#isNotFinal()}</code>.
++ *
++ * @author William Bakker
++ */
++class MethodAssert_isNotFinal_Test {
++  final void finalMethod() {};
++
++  void notFinalMethod() {};
++
++  @Test
++  void should_fail_if_actual_is_null() {
++    // GIVEN
++    Method actual = null;
++    // WHEN
++    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isNotFinal());
++    // THEN
++    then(assertionError).hasMessage(shouldNotBeNull().create());
++  }
++
++  @Test
++  void should_fail_if_actual_is_final() {
++    // GIVEN
++    Method actual = getMethod("finalMethod");
++    // WHEN
++    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isNotFinal());
++    // THEN
++    then(assertionError).hasMessage(shouldNotBeFinal(actual).create());
++  }
++
++  @Test
++  void should_pass_if_actual_is_not_final() {
++    // GIVEN
++    Method actual = getMethod("notFinalMethod");
++    // WHEN/THEN
++    assertThat(actual).isNotFinal();
++  }
++
++  private static Method getMethod(String name) {
++    try {
++      return MethodAssert_isNotFinal_Test.class.getDeclaredMethod(name);
++    } catch (NoSuchMethodException exception) {
++      throw new RuntimeException("failed to get method", exception);
++    }
++  }
++
++}
+diff --git a/assertj-core/src/test/java/org/assertj/core/api/method/MethodAssert_isNotStatic_Test.java b/assertj-core/src/test/java/org/assertj/core/api/method/MethodAssert_isNotStatic_Test.java
+new file mode 100644
+index 000000000..a0eff0b5b
+--- /dev/null
++++ b/assertj-core/src/test/java/org/assertj/core/api/method/MethodAssert_isNotStatic_Test.java
+@@ -0,0 +1,72 @@
++/*
++ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
++ * the License. You may obtain a copy of the License at
++ *
++ * http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
++ * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
++ * specific language governing permissions and limitations under the License.
++ *
++ * Copyright 2012-2023 the original author or authors.
++ */
++package org.assertj.core.api.method;
++
++import org.assertj.core.api.MethodAssert;
++import org.junit.jupiter.api.Test;
++
++import java.lang.reflect.Method;
++
++import static org.assertj.core.api.Assertions.assertThat;
++import static org.assertj.core.api.BDDAssertions.then;
++import static org.assertj.core.error.MemberModifierShouldBe.shouldNotBeStatic;
++import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
++import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
++
++/**
++ * Tests for <code>{@link MethodAssert#isNotStatic()}</code>.
++ *
++ * @author William Bakker
++ */
++class MethodAssert_isNotStatic_Test {
++  static void staticMethod() {};
++
++  void notStaticMethod() {};
++
++  @Test
++  void should_fail_if_actual_is_null() {
++    // GIVEN
++    Method actual = null;
++    // WHEN
++    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isNotStatic());
++    // THEN
++    then(assertionError).hasMessage(shouldNotBeNull().create());
++  }
++
++  @Test
++  void should_pass_if_actual_is_not_static() {
++    // GIVEN
++    Method actual = getMethod("notStaticMethod");
++    // WHEN/THEN
++    assertThat(actual).isNotStatic();
++  }
++
++  @Test
++  void should_fail_if_actual_is_static() {
++    // GIVEN
++    Method actual = getMethod("staticMethod");
++    // WHEN
++    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isNotStatic());
++    // THEN
++    then(assertionError).hasMessage(shouldNotBeStatic(actual).create());
++  }
++
++  private static Method getMethod(String name) {
++    try {
++      return MethodAssert_isNotStatic_Test.class.getDeclaredMethod(name);
++    } catch (NoSuchMethodException exception) {
++      throw new RuntimeException("failed to get method", exception);
++    }
++  }
++
++}
+diff --git a/assertj-core/src/test/java/org/assertj/core/api/method/MethodAssert_isStatic_Test.java b/assertj-core/src/test/java/org/assertj/core/api/method/MethodAssert_isStatic_Test.java
+new file mode 100644
+index 000000000..5ec48ace6
+--- /dev/null
++++ b/assertj-core/src/test/java/org/assertj/core/api/method/MethodAssert_isStatic_Test.java
+@@ -0,0 +1,72 @@
++/*
++ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
++ * the License. You may obtain a copy of the License at
++ *
++ * http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
++ * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
++ * specific language governing permissions and limitations under the License.
++ *
++ * Copyright 2012-2023 the original author or authors.
++ */
++package org.assertj.core.api.method;
++
++import org.assertj.core.api.MethodAssert;
++import org.junit.jupiter.api.Test;
++
++import java.lang.reflect.Method;
++
++import static org.assertj.core.api.Assertions.assertThat;
++import static org.assertj.core.api.BDDAssertions.then;
++import static org.assertj.core.error.MemberModifierShouldBe.shouldBeStatic;
++import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
++import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
++
++/**
++ * Tests for <code>{@link MethodAssert#isStatic()}</code>.
++ *
++ * @author William Bakker
++ */
++class MethodAssert_isStatic_Test {
++  static void staticMethod() {};
++
++  void notStaticMethod() {};
++
++  @Test
++  void should_fail_if_actual_is_null() {
++    // GIVEN
++    Method actual = null;
++    // WHEN
++    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isStatic());
++    // THEN
++    then(assertionError).hasMessage(shouldNotBeNull().create());
++  }
++
++  @Test
++  void should_fail_if_actual_is_not_static() {
++    // GIVEN
++    Method actual = getMethod("notStaticMethod");
++    // WHEN
++    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isStatic());
++    // THEN
++    then(assertionError).hasMessage(shouldBeStatic(actual).create());
++  }
++
++  @Test
++  void should_pass_if_actual_is_static() {
++    // GIVEN
++    Method actual = getMethod("staticMethod");
++    // WHEN/THEN
++    assertThat(actual).isStatic();
++  }
++
++  private static Method getMethod(String name) {
++    try {
++      return MethodAssert_isStatic_Test.class.getDeclaredMethod(name);
++    } catch (NoSuchMethodException exception) {
++      throw new RuntimeException("failed to get method", exception);
++    }
++  }
++
++}
+diff --git a/assertj-core/src/test/java/org/assertj/core/error/MemberModifierShouldBe_create_Test.java b/assertj-core/src/test/java/org/assertj/core/error/MemberModifierShouldBe_create_Test.java
+new file mode 100644
+index 000000000..41a689c03
+--- /dev/null
++++ b/assertj-core/src/test/java/org/assertj/core/error/MemberModifierShouldBe_create_Test.java
+@@ -0,0 +1,140 @@
++/*
++ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
++ * the License. You may obtain a copy of the License at
++ *
++ * http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
++ * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
++ * specific language governing permissions and limitations under the License.
++ *
++ * Copyright 2012-2023 the original author or authors.
++ */
++package org.assertj.core.error;
++
++import static java.lang.String.format;
++import static org.assertj.core.api.BDDAssertions.then;
++import static org.assertj.core.error.MemberModifierShouldBe.shouldBeFinal;
++import static org.assertj.core.error.MemberModifierShouldBe.shouldBePackagePrivate;
++import static org.assertj.core.error.MemberModifierShouldBe.shouldBeProtected;
++import static org.assertj.core.error.MemberModifierShouldBe.shouldBePublic;
++import static org.assertj.core.error.MemberModifierShouldBe.shouldBeStatic;
++import static org.assertj.core.error.MemberModifierShouldBe.shouldNotBeFinal;
++import static org.assertj.core.error.MemberModifierShouldBe.shouldNotBeStatic;
++
++import org.assertj.core.internal.TestDescription;
++import org.junit.jupiter.api.Test;
++
++import java.lang.reflect.Member;
++
++/**
++ * Tests for
++ * <code>{@link MemberModifierShouldBe}</code>
++ *
++ * @author William Bakker
++ */
++class MemberModifierShouldBe_create_Test {
++
++  @Test
++  void should_create_error_message_for_should_be_final() throws NoSuchMethodException {
++    // GIVEN
++    Member nonFinalMember = MemberModifierShouldBe_create_Test.class.getDeclaredMethod("privateMethod");
++    // WHEN
++    String error = shouldBeFinal(nonFinalMember).create(new TestDescription("TEST"));
++    // THEN
++    then(error).isEqualTo(format("[TEST] %n" +
++                                 "Expecting actual:%n" +
++                                 "  private void org.assertj.core.error.MemberModifierShouldBe_create_Test.privateMethod()%n" +
++                                 "to be a \"final\" member but was \"private\"."));
++  }
++
++  @Test
++  void should_create_error_message_for_should_not_be_final() throws NoSuchMethodException {
++    // GIVEN
++    Member finalMember = MemberModifierShouldBe_create_Test.class.getDeclaredMethod("finalMethod");
++    // WHEN
++    String error = shouldNotBeFinal(finalMember).create(new TestDescription("TEST"));
++    // THEN
++    then(error).isEqualTo(format("[TEST] %n" +
++                                 "Expecting actual:%n" +
++                                 "  final void org.assertj.core.error.MemberModifierShouldBe_create_Test.finalMethod()%n" +
++                                 "not to be a \"final\" member but was \"package-private final\"."));
++  }
++
++  @Test
++  void should_create_error_message_for_should_be_public() throws NoSuchMethodException {
++    // GIVEN
++    Member privateMember = MemberModifierShouldBe_create_Test.class.getDeclaredMethod("privateMethod");
++    // WHEN
++    String error = shouldBePublic(privateMember).create(new TestDescription("TEST"));
++    // THEN
++    then(error).isEqualTo(format("[TEST] %n" +
++                                 "Expecting actual:%n" +
++                                 "  private void org.assertj.core.error.MemberModifierShouldBe_create_Test.privateMethod()%n" +
++                                 "to be a \"public\" member but was \"private\"."));
++  }
++
++  @Test
++  void should_create_error_message_for_should_be_protected() throws NoSuchMethodException {
++    // GIVEN
++    Member privateMember = MemberModifierShouldBe_create_Test.class.getDeclaredMethod("privateMethod");
++    // WHEN
++    String error = shouldBeProtected(privateMember).create(new TestDescription("TEST"));
++    // THEN
++    then(error).isEqualTo(format("[TEST] %n" +
++                                 "Expecting actual:%n" +
++                                 "  private void org.assertj.core.error.MemberModifierShouldBe_create_Test.privateMethod()%n" +
++                                 "to be a \"protected\" member but was \"private\"."));
++  }
++
++  @Test
++  void should_create_error_message_for_should_be_package_private() throws NoSuchMethodException {
++    // GIVEN
++    Member privateMember = MemberModifierShouldBe_create_Test.class.getDeclaredMethod("privateMethod");
++    // WHEN
++    String error = shouldBePackagePrivate(privateMember).create(new TestDescription("TEST"));
++    // THEN
++    then(error).isEqualTo(format("[TEST] %n" +
++                                 "Expecting actual:%n" +
++                                 "  private void org.assertj.core.error.MemberModifierShouldBe_create_Test.privateMethod()%n" +
++                                 "to be a \"package-private\" member but was \"private\"."));
++  }
++
++  @Test
++  void should_create_error_message_for_should_be_static() throws NoSuchMethodException {
++    // GIVEN
++    Member notStaticMember = MemberModifierShouldBe_create_Test.class.getDeclaredMethod("privateMethod");
++    // WHEN
++    String error = shouldBeStatic(notStaticMember).create(new TestDescription("TEST"));
++    // THEN
++    then(error).isEqualTo(format("[TEST] %n" +
++                                 "Expecting actual:%n" +
++                                 "  private void org.assertj.core.error.MemberModifierShouldBe_create_Test.privateMethod()%n" +
++                                 "to be a \"static\" member but was \"private\"."));
++  }
++
++  @Test
++  void should_create_error_message_for_should_not_be_static() throws NoSuchMethodException {
++    // GIVEN
++    Member staticMember = MemberModifierShouldBe_create_Test.class.getDeclaredMethod("staticMethod");
++    // WHEN
++    String error = shouldNotBeStatic(staticMember).create(new TestDescription("TEST"));
++    // THEN
++    then(error).isEqualTo(format("[TEST] %n" +
++                                 "Expecting actual:%n" +
++                                 "  static void org.assertj.core.error.MemberModifierShouldBe_create_Test.staticMethod()%n" +
++                                 "not to be a \"static\" member but was \"package-private static\"."));
++  }
++
++  private void privateMethod() {};
++
++  void packagePrivateMethod() {};
++
++  protected void protectedMethod() {};
++
++  public void publicMethod() {};
++
++  static void staticMethod() {};
++
++  final void finalMethod() {};
++}
+diff --git a/assertj-core/src/test/java/org/assertj/core/error/ShouldBeAbstract_create_Test.java b/assertj-core/src/test/java/org/assertj/core/error/ShouldBeAbstract_create_Test.java
+index b7b0db384..7eae27c3a 100644
+--- a/assertj-core/src/test/java/org/assertj/core/error/ShouldBeAbstract_create_Test.java
++++ b/assertj-core/src/test/java/org/assertj/core/error/ShouldBeAbstract_create_Test.java
+@@ -20,6 +20,11 @@ import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPR
+ import org.assertj.core.description.TextDescription;
+ import org.junit.jupiter.api.Test;
+ 
++/**
++ * Tests for <code>{@link ShouldBeAbstract}</code>
++ *
++ * @author William Bakker
++ */
+ class ShouldBeAbstract_create_Test {
+ 
+   @Test
+@@ -34,4 +39,17 @@ class ShouldBeAbstract_create_Test {
+                                    "  java.lang.String%n" +
+                                    "to be abstract"));
+   }
++
++  @Test
++  void should_create_error_message_executable() throws NoSuchMethodException {
++    // GIVEN
++    ErrorMessageFactory errorMessageFactory = shouldBeAbstract(String.class.getMethod("toString"));
++    // WHEN
++    String message = errorMessageFactory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
++    // THEN
++    then(message).isEqualTo(format("[Test] %n" +
++                                   "Expecting actual:%n" +
++                                   "  public java.lang.String java.lang.String.toString()%n" +
++                                   "to be abstract"));
++  }
+ }
+diff --git a/assertj-core/src/test/java/org/assertj/core/error/ShouldHaveAnnotations_create_Test.java b/assertj-core/src/test/java/org/assertj/core/error/ShouldHaveAnnotations_create_Test.java
+index d8495019d..adf626cf5 100644
+--- a/assertj-core/src/test/java/org/assertj/core/error/ShouldHaveAnnotations_create_Test.java
++++ b/assertj-core/src/test/java/org/assertj/core/error/ShouldHaveAnnotations_create_Test.java
+@@ -22,7 +22,7 @@ import org.junit.jupiter.api.Test;
+ 
+ /**
+  * Tests for
+- * <code>{@link ShouldHaveAnnotations#shouldHaveAnnotations(Class, java.util.Collection, java.util.Collection)}}</code>
++ * <code>{@link ShouldHaveAnnotations#shouldHaveAnnotations(java.lang.reflect.AnnotatedElement, java.util.Collection, java.util.Collection)}}</code>
+  *
+  * @author William Delanoue
+  */

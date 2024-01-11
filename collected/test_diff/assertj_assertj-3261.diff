@@ -1,0 +1,157 @@
+diff --git a/assertj-core/src/test/java/org/assertj/core/api/Assertions_assertThatCode_Test.java b/assertj-core/src/test/java/org/assertj/core/api/Assertions_assertThatCode_Test.java
+index a953e6964..69c76fcb2 100644
+--- a/assertj-core/src/test/java/org/assertj/core/api/Assertions_assertThatCode_Test.java
++++ b/assertj-core/src/test/java/org/assertj/core/api/Assertions_assertThatCode_Test.java
+@@ -15,10 +15,13 @@ package org.assertj.core.api;
+ import static org.assertj.core.api.Assertions.assertThatCode;
+ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+ import static org.assertj.core.error.ShouldNotHaveThrown.shouldNotHaveThrown;
++import static org.assertj.core.error.ShouldNotHaveThrownExcept.shouldNotHaveThrownExcept;
+ 
+ import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
+ import org.junit.jupiter.api.Test;
+ 
++import java.io.IOException;
++
+ class Assertions_assertThatCode_Test {
+ 
+   @Test
+@@ -44,6 +47,45 @@ class Assertions_assertThatCode_Test {
+     }).withMessage(shouldNotHaveThrown(exception).create());
+   }
+ 
++  @Test
++  void should_fail_when_asserting_no_exception_raised_other_than_empty_but_exception_occurs() {
++    // Given
++    Exception exception = new Exception("boom");
++    ThrowingCallable boom = raisingException(exception);
++
++    // Expect
++    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
++      // When;
++      assertThatCode(boom).doesNotThrowAnyExceptionExcept();
++    }).withMessage(shouldNotHaveThrownExcept(exception).create());
++  }
++
++  @Test
++  void should_fail_when_asserting_no_exception_raised_other_than_with_values_but_not_matching_exception_occurs() {
++    // Given
++    Exception exception = new IllegalArgumentException("boom");
++    ThrowingCallable boom = raisingException(exception);
++
++    // Expect
++    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
++      // When;
++      assertThatCode(boom).doesNotThrowAnyExceptionExcept(IllegalStateException.class, IOException.class);
++    }).withMessage(shouldNotHaveThrownExcept(exception, IllegalStateException.class, IOException.class).create());
++  }
++
++  @Test
++  void should_fail_when_asserting_no_exception_raised_other_than_with_values_but_a_subtype_of_that_exception_occurs() {
++    // Given
++    Exception exception = new IllegalArgumentException("boom");
++    ThrowingCallable boom = raisingException(exception);
++
++    // Expect
++    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
++      // When;
++      assertThatCode(boom).doesNotThrowAnyExceptionExcept(NumberFormatException.class);
++    }).withMessage(shouldNotHaveThrownExcept(exception, NumberFormatException.class).create());
++  }
++
+   @Test
+   void can_use_description_in_error_message() {
+     // Given
+@@ -76,6 +118,44 @@ class Assertions_assertThatCode_Test {
+     assertThatCode(silent).doesNotThrowAnyException();
+   }
+ 
++  @Test
++  void should_succeed_when_asserting_no_exception_raised_other_than_empty_and_no_exception_occurs() {
++    // Given
++    ThrowingCallable silent = () -> {};
++
++    // Then
++    assertThatCode(silent).doesNotThrowAnyExceptionExcept();
++  }
++
++  @Test
++  void should_succeed_when_asserting_no_exception_raised_except_with_values_and_no_exception_occurs() {
++    // Given
++    ThrowingCallable silent = () -> {};
++
++    // Then
++    assertThatCode(silent).doesNotThrowAnyExceptionExcept(IOException.class, IllegalStateException.class);
++  }
++
++  @Test
++  void should_succeed_when_asserting_no_exception_raised_except_with_values_and_a_matching_exception_occurs() {
++    // Given
++    Exception exception = new IllegalArgumentException("boom");
++    ThrowingCallable boom = raisingException(exception);
++
++    // Then
++    assertThatCode(boom).doesNotThrowAnyExceptionExcept(IOException.class, IllegalArgumentException.class);
++  }
++
++  @Test
++  void should_succeed_when_asserting_no_exception_raised_except_with_values_and_a_supertype_of_that_exception_occurs() {
++    // Given
++    Exception exception = new IllegalArgumentException("boom");
++    ThrowingCallable boom = raisingException(exception);
++
++    // Then
++    assertThatCode(boom).doesNotThrowAnyExceptionExcept(RuntimeException.class);
++  }
++
+   private ThrowingCallable raisingException(final String reason) {
+     return raisingException(new Exception(reason));
+   }
+diff --git a/assertj-core/src/test/java/org/assertj/core/error/ShouldNotHaveThrownExcept_create_Test.java b/assertj-core/src/test/java/org/assertj/core/error/ShouldNotHaveThrownExcept_create_Test.java
+new file mode 100644
+index 000000000..a548a9657
+--- /dev/null
++++ b/assertj-core/src/test/java/org/assertj/core/error/ShouldNotHaveThrownExcept_create_Test.java
+@@ -0,0 +1,42 @@
++/*
++ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
++ * the License. You may obtain a copy of the License at
++ *
++ * http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
++ * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
++ * specific language governing permissions and limitations under the License.
++ *
++ * Copyright 2012-2023 the original author or authors.
++ */
++package org.assertj.core.error;
++
++import org.assertj.core.description.TextDescription;
++import org.junit.jupiter.api.Test;
++
++import java.io.IOException;
++
++import static java.lang.String.format;
++import static org.assertj.core.api.BDDAssertions.then;
++import static org.assertj.core.error.ShouldNotHaveThrownExcept.shouldNotHaveThrownExcept;
++import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
++import static org.assertj.core.util.Throwables.getStackTrace;
++
++class ShouldNotHaveThrownExcept_create_Test {
++
++  @Test
++  void should_create_error_message_with_stacktrace_of_exception() {
++    // GIVEN
++    Exception exception = new Exception("boom");
++    ErrorMessageFactory factory = shouldNotHaveThrownExcept(exception, IOException.class, IllegalStateException.class);
++    // WHEN
++    String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
++    // THEN
++    then(message).isEqualTo(format("[Test] %n" +
++                                   "Expecting code not to raise a throwable except%n" +
++                                   "  [java.io.IOException, java.lang.IllegalStateException]%n" +
++                                   "but caught%n" +
++                                   "  \"%s\"", getStackTrace(exception)));
++  }
++}

@@ -1,0 +1,23 @@
+diff --git a/sslcontext-kickstart/src/test/java/nl/altindag/ssl/util/MacCertificateUtilsShould.java b/sslcontext-kickstart/src/test/java/nl/altindag/ssl/util/MacCertificateUtilsShould.java
+index 6980eeb..3b41fc8 100644
+--- a/sslcontext-kickstart/src/test/java/nl/altindag/ssl/util/MacCertificateUtilsShould.java
++++ b/sslcontext-kickstart/src/test/java/nl/altindag/ssl/util/MacCertificateUtilsShould.java
+@@ -47,6 +47,18 @@ class MacCertificateUtilsShould {
+         }
+     }
+ 
++    @Test
++    void notContainLoginKeychain() {
++        if (OS_NAME.toLowerCase().contains("mac")) {
++            List<String> keychainFiles = MacCertificateUtils.getKeychainFiles();
++            assertThat(keychainFiles).isNotEmpty();
++
++            for (String keychainFile : keychainFiles) {
++                assertThat(keychainFile).doesNotEndWith("/Library/Keychains/login.keychain-db");
++            }
++        }
++    }
++
+     @Test
+     void throwsGenericIOExceptionWhenSystemProcessCannotStarted() throws IOException {
+         System.setProperty("os.name", "Mac OS X");

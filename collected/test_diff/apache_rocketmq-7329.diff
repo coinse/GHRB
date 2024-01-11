@@ -1,0 +1,12 @@
+diff --git a/test/src/main/java/org/apache/rocketmq/test/util/StatUtil.java b/test/src/main/java/org/apache/rocketmq/test/util/StatUtil.java
+index f3d105bc6..080b7e385 100644
+--- a/test/src/main/java/org/apache/rocketmq/test/util/StatUtil.java
++++ b/test/src/main/java/org/apache/rocketmq/test/util/StatUtil.java
+@@ -28,7 +28,6 @@ import java.util.concurrent.ScheduledExecutorService;
+ import java.util.concurrent.TimeUnit;
+ import java.util.concurrent.atomic.AtomicInteger;
+ import java.util.concurrent.atomic.AtomicLong;
+-
+ import javax.annotation.Generated;
+ import org.apache.rocketmq.logging.org.slf4j.Logger;
+ import org.apache.rocketmq.logging.org.slf4j.LoggerFactory;

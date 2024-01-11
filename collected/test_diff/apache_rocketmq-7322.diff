@@ -1,0 +1,628 @@
+diff --git a/remoting/src/test/java/org/apache/rocketmq/remoting/RemotingServerTest.java b/remoting/src/test/java/org/apache/rocketmq/remoting/RemotingServerTest.java
+index 90072960b..d0da0eb2e 100644
+--- a/remoting/src/test/java/org/apache/rocketmq/remoting/RemotingServerTest.java
++++ b/remoting/src/test/java/org/apache/rocketmq/remoting/RemotingServerTest.java
+@@ -26,12 +26,12 @@ import org.apache.rocketmq.remoting.exception.RemotingConnectException;
+ import org.apache.rocketmq.remoting.exception.RemotingSendRequestException;
+ import org.apache.rocketmq.remoting.exception.RemotingTimeoutException;
+ import org.apache.rocketmq.remoting.exception.RemotingTooMuchRequestException;
+-import org.apache.rocketmq.remoting.netty.ResponseFuture;
+-import org.apache.rocketmq.remoting.netty.NettyServerConfig;
+ import org.apache.rocketmq.remoting.netty.NettyClientConfig;
+-import org.apache.rocketmq.remoting.netty.NettyRemotingServer;
+ import org.apache.rocketmq.remoting.netty.NettyRemotingClient;
++import org.apache.rocketmq.remoting.netty.NettyRemotingServer;
+ import org.apache.rocketmq.remoting.netty.NettyRequestProcessor;
++import org.apache.rocketmq.remoting.netty.NettyServerConfig;
++import org.apache.rocketmq.remoting.netty.ResponseFuture;
+ import org.apache.rocketmq.remoting.protocol.LanguageCode;
+ import org.apache.rocketmq.remoting.protocol.RemotingCommand;
+ import org.junit.AfterClass;
+@@ -40,7 +40,6 @@ import org.junit.Test;
+ 
+ import static org.assertj.core.api.Assertions.assertThat;
+ import static org.junit.Assert.assertNotNull;
+-import static org.junit.Assert.assertTrue;
+ 
+ public class RemotingServerTest {
+     private static RemotingServer remotingServer;
+@@ -122,10 +121,19 @@ public class RemotingServerTest {
+         remotingClient.invokeAsync("localhost:" + remotingServer.localListenPort(), request, 1000 * 3, new InvokeCallback() {
+             @Override
+             public void operationComplete(ResponseFuture responseFuture) {
++
++            }
++
++            @Override
++            public void operationSucceed(RemotingCommand response) {
+                 latch.countDown();
+-                assertTrue(responseFuture != null);
+-                assertThat(responseFuture.getResponseCommand().getLanguage()).isEqualTo(LanguageCode.JAVA);
+-                assertThat(responseFuture.getResponseCommand().getExtFields()).hasSize(2);
++                assertThat(response.getLanguage()).isEqualTo(LanguageCode.JAVA);
++                assertThat(response.getExtFields()).hasSize(2);
++            }
++
++            @Override
++            public void operationFail(Throwable throwable) {
++
+             }
+         });
+         latch.await();
+diff --git a/remoting/src/test/java/org/apache/rocketmq/remoting/netty/MockChannel.java b/remoting/src/test/java/org/apache/rocketmq/remoting/netty/MockChannel.java
+new file mode 100644
+index 000000000..8ddcdf35d
+--- /dev/null
++++ b/remoting/src/test/java/org/apache/rocketmq/remoting/netty/MockChannel.java
+@@ -0,0 +1,28 @@
++/*
++ * Licensed to the Apache Software Foundation (ASF) under one or more
++ * contributor license agreements.  See the NOTICE file distributed with
++ * this work for additional information regarding copyright ownership.
++ * The ASF licenses this file to You under the Apache License, Version 2.0
++ * (the "License"); you may not use this file except in compliance with
++ * the License.  You may obtain a copy of the License at
++ *
++ *     http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software
++ * distributed under the License is distributed on an "AS IS" BASIS,
++ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++ * See the License for the specific language governing permissions and
++ * limitations under the License.
++ */
++
++package org.apache.rocketmq.remoting.netty;
++
++import io.netty.channel.ChannelFuture;
++import io.netty.channel.local.LocalChannel;
++
++public class MockChannel extends LocalChannel {
++    @Override
++    public ChannelFuture writeAndFlush(Object msg) {
++        return new MockChannelPromise(MockChannel.this);
++    }
++}
+diff --git a/remoting/src/test/java/org/apache/rocketmq/remoting/netty/MockChannelPromise.java b/remoting/src/test/java/org/apache/rocketmq/remoting/netty/MockChannelPromise.java
+new file mode 100644
+index 000000000..9c3a35487
+--- /dev/null
++++ b/remoting/src/test/java/org/apache/rocketmq/remoting/netty/MockChannelPromise.java
+@@ -0,0 +1,191 @@
++/*
++ * Licensed to the Apache Software Foundation (ASF) under one or more
++ * contributor license agreements.  See the NOTICE file distributed with
++ * this work for additional information regarding copyright ownership.
++ * The ASF licenses this file to You under the Apache License, Version 2.0
++ * (the "License"); you may not use this file except in compliance with
++ * the License.  You may obtain a copy of the License at
++ *
++ *     http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software
++ * distributed under the License is distributed on an "AS IS" BASIS,
++ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++ * See the License for the specific language governing permissions and
++ * limitations under the License.
++ */
++
++package org.apache.rocketmq.remoting.netty;
++
++import io.netty.channel.Channel;
++import io.netty.channel.ChannelPromise;
++import io.netty.util.concurrent.Future;
++import io.netty.util.concurrent.GenericFutureListener;
++import java.util.concurrent.ExecutionException;
++import java.util.concurrent.TimeUnit;
++import java.util.concurrent.TimeoutException;
++import org.jetbrains.annotations.NotNull;
++
++public class MockChannelPromise implements ChannelPromise {
++    protected Channel channel;
++
++    public MockChannelPromise(Channel channel) {
++        this.channel = channel;
++    }
++
++    @Override
++    public Channel channel() {
++        return channel;
++    }
++
++    @Override
++    public ChannelPromise setSuccess(Void result) {
++        return this;
++    }
++
++    @Override
++    public ChannelPromise setSuccess() {
++        return this;
++    }
++
++    @Override
++    public boolean trySuccess() {
++        return false;
++    }
++
++    @Override
++    public ChannelPromise setFailure(Throwable cause) {
++        return this;
++    }
++
++    @Override
++    public ChannelPromise addListener(GenericFutureListener<? extends Future<? super Void>> listener) {
++        return this;
++    }
++
++    @Override
++    public ChannelPromise addListeners(GenericFutureListener<? extends Future<? super Void>>... listeners) {
++        return this;
++    }
++
++    @Override
++    public ChannelPromise removeListener(GenericFutureListener<? extends Future<? super Void>> listener) {
++        return this;
++    }
++
++    @Override
++    public ChannelPromise removeListeners(GenericFutureListener<? extends Future<? super Void>>... listeners) {
++        return this;
++    }
++
++    @Override
++    public ChannelPromise sync() throws InterruptedException {
++        return this;
++    }
++
++    @Override
++    public ChannelPromise syncUninterruptibly() {
++        return this;
++    }
++
++    @Override
++    public ChannelPromise await() throws InterruptedException {
++        return this;
++    }
++
++    @Override
++    public ChannelPromise awaitUninterruptibly() {
++        return this;
++    }
++
++    @Override
++    public ChannelPromise unvoid() {
++        return this;
++    }
++
++    @Override
++    public boolean isVoid() {
++        return false;
++    }
++
++    @Override
++    public boolean trySuccess(Void result) {
++        return false;
++    }
++
++    @Override
++    public boolean tryFailure(Throwable cause) {
++        return false;
++    }
++
++    @Override
++    public boolean setUncancellable() {
++        return false;
++    }
++
++    @Override
++    public boolean isSuccess() {
++        return false;
++    }
++
++    @Override
++    public boolean isCancellable() {
++        return false;
++    }
++
++    @Override
++    public Throwable cause() {
++        return null;
++    }
++
++    @Override
++    public boolean await(long timeout, TimeUnit unit) throws InterruptedException {
++        return false;
++    }
++
++    @Override
++    public boolean await(long timeoutMillis) throws InterruptedException {
++        return false;
++    }
++
++    @Override
++    public boolean awaitUninterruptibly(long timeout, TimeUnit unit) {
++        return false;
++    }
++
++    @Override
++    public boolean awaitUninterruptibly(long timeoutMillis) {
++        return false;
++    }
++
++    @Override
++    public Void getNow() {
++        return null;
++    }
++
++    @Override
++    public boolean cancel(boolean mayInterruptIfRunning) {
++        return false;
++    }
++
++    @Override
++    public boolean isCancelled() {
++        return false;
++    }
++
++    @Override
++    public boolean isDone() {
++        return false;
++    }
++
++    @Override
++    public Void get() throws InterruptedException, ExecutionException {
++        return null;
++    }
++
++    @Override
++    public Void get(long timeout,
++        @NotNull java.util.concurrent.TimeUnit unit) throws InterruptedException, ExecutionException, TimeoutException {
++        return null;
++    }
++}
+diff --git a/remoting/src/test/java/org/apache/rocketmq/remoting/netty/NettyRemotingAbstractTest.java b/remoting/src/test/java/org/apache/rocketmq/remoting/netty/NettyRemotingAbstractTest.java
+index 8381c132b..dbbea86ea 100644
+--- a/remoting/src/test/java/org/apache/rocketmq/remoting/netty/NettyRemotingAbstractTest.java
++++ b/remoting/src/test/java/org/apache/rocketmq/remoting/netty/NettyRemotingAbstractTest.java
+@@ -39,9 +39,19 @@ public class NettyRemotingAbstractTest {
+         final Semaphore semaphore = new Semaphore(0);
+         ResponseFuture responseFuture = new ResponseFuture(null, 1, 3000, new InvokeCallback() {
+             @Override
+-            public void operationComplete(final ResponseFuture responseFuture) {
++            public void operationComplete(ResponseFuture responseFuture) {
++
++            }
++
++            @Override
++            public void operationSucceed(RemotingCommand response) {
+                 assertThat(semaphore.availablePermits()).isEqualTo(0);
+             }
++
++            @Override
++            public void operationFail(Throwable throwable) {
++
++            }
+         }, new SemaphoreReleaseOnlyOnce(semaphore));
+ 
+         remotingAbstract.responseTable.putIfAbsent(1, responseFuture);
+@@ -75,9 +85,19 @@ public class NettyRemotingAbstractTest {
+         final Semaphore semaphore = new Semaphore(0);
+         ResponseFuture responseFuture = new ResponseFuture(null, 1, 3000, new InvokeCallback() {
+             @Override
+-            public void operationComplete(final ResponseFuture responseFuture) {
++            public void operationComplete(ResponseFuture responseFuture) {
++
++            }
++
++            @Override
++            public void operationSucceed(RemotingCommand response) {
+                 assertThat(semaphore.availablePermits()).isEqualTo(0);
+             }
++
++            @Override
++            public void operationFail(Throwable throwable) {
++
++            }
+         }, new SemaphoreReleaseOnlyOnce(semaphore));
+ 
+         remotingAbstract.responseTable.putIfAbsent(1, responseFuture);
+@@ -98,7 +118,18 @@ public class NettyRemotingAbstractTest {
+         // mock timeout
+         ResponseFuture responseFuture = new ResponseFuture(null, dummyId, -1000, new InvokeCallback() {
+             @Override
+-            public void operationComplete(final ResponseFuture responseFuture) {
++            public void operationComplete(ResponseFuture responseFuture) {
++
++            }
++
++            @Override
++            public void operationSucceed(RemotingCommand response) {
++
++            }
++
++            @Override
++            public void operationFail(Throwable throwable) {
++
+             }
+         }, null);
+         remotingAbstract.responseTable.putIfAbsent(dummyId, responseFuture);
+@@ -111,7 +142,22 @@ public class NettyRemotingAbstractTest {
+         final Semaphore semaphore = new Semaphore(0);
+         RemotingCommand request = RemotingCommand.createRequestCommand(1, null);
+         ResponseFuture responseFuture = new ResponseFuture(null, 1, request, 3000,
+-            responseFuture1 -> assertThat(semaphore.availablePermits()).isEqualTo(0), new SemaphoreReleaseOnlyOnce(semaphore));
++            new InvokeCallback() {
++                @Override
++                public void operationComplete(ResponseFuture responseFuture) {
++
++                }
++
++                @Override
++                public void operationSucceed(RemotingCommand response) {
++                    assertThat(semaphore.availablePermits()).isEqualTo(0);
++                }
++
++                @Override
++                public void operationFail(Throwable throwable) {
++
++                }
++            }, new SemaphoreReleaseOnlyOnce(semaphore));
+ 
+         remotingAbstract.responseTable.putIfAbsent(1, responseFuture);
+         RemotingCommand response = RemotingCommand.createResponseCommand(0, "Foo");
+diff --git a/remoting/src/test/java/org/apache/rocketmq/remoting/netty/NettyRemotingClientTest.java b/remoting/src/test/java/org/apache/rocketmq/remoting/netty/NettyRemotingClientTest.java
+index 8fabbb21d..e72e7bd53 100644
+--- a/remoting/src/test/java/org/apache/rocketmq/remoting/netty/NettyRemotingClientTest.java
++++ b/remoting/src/test/java/org/apache/rocketmq/remoting/netty/NettyRemotingClientTest.java
+@@ -16,10 +16,17 @@
+  */
+ package org.apache.rocketmq.remoting.netty;
+ 
++import io.netty.channel.Channel;
++import io.netty.channel.ChannelFuture;
++import io.netty.channel.local.LocalChannel;
+ import java.util.concurrent.CompletableFuture;
++import java.util.concurrent.ExecutionException;
+ import java.util.concurrent.ExecutorService;
+ import java.util.concurrent.Executors;
++import java.util.concurrent.Semaphore;
+ import org.apache.rocketmq.remoting.InvokeCallback;
++import org.apache.rocketmq.remoting.RPCHook;
++import org.apache.rocketmq.remoting.common.SemaphoreReleaseOnlyOnce;
+ import org.apache.rocketmq.remoting.exception.RemotingConnectException;
+ import org.apache.rocketmq.remoting.exception.RemotingException;
+ import org.apache.rocketmq.remoting.exception.RemotingSendRequestException;
+@@ -29,23 +36,33 @@ import org.apache.rocketmq.remoting.protocol.RequestCode;
+ import org.apache.rocketmq.remoting.protocol.ResponseCode;
+ import org.junit.Test;
+ import org.junit.runner.RunWith;
++import org.mockito.Mock;
+ import org.mockito.Spy;
+ import org.mockito.junit.MockitoJUnitRunner;
+ 
+ import static org.assertj.core.api.Assertions.assertThat;
++import static org.assertj.core.api.Assertions.assertThatThrownBy;
+ import static org.assertj.core.api.AssertionsForClassTypes.catchThrowable;
+ import static org.mockito.ArgumentMatchers.any;
+ import static org.mockito.ArgumentMatchers.anyLong;
+ import static org.mockito.ArgumentMatchers.anyString;
++import static org.mockito.ArgumentMatchers.eq;
+ import static org.mockito.Mockito.doAnswer;
++import static org.mockito.Mockito.doReturn;
++import static org.mockito.Mockito.mock;
++import static org.mockito.Mockito.never;
++import static org.mockito.Mockito.times;
++import static org.mockito.Mockito.verify;
+ 
+ @RunWith(MockitoJUnitRunner.class)
+ public class NettyRemotingClientTest {
+     @Spy
+     private NettyRemotingClient remotingClient = new NettyRemotingClient(new NettyClientConfig());
++    @Mock
++    private RPCHook rpcHookMock;
+ 
+     @Test
+-    public void testSetCallbackExecutor() throws NoSuchFieldException, IllegalAccessException {        
++    public void testSetCallbackExecutor() {
+         ExecutorService customized = Executors.newCachedThreadPool();
+         remotingClient.setCallbackExecutor(customized);
+         assertThat(remotingClient.getCallbackExecutor()).isEqualTo(customized);
+@@ -61,7 +78,7 @@ public class NettyRemotingClientTest {
+             InvokeCallback callback = invocation.getArgument(3);
+             ResponseFuture responseFuture = new ResponseFuture(null, request.getOpaque(), 3 * 1000, null, null);
+             responseFuture.setResponseCommand(response);
+-            callback.operationComplete(responseFuture);
++            callback.operationSucceed(responseFuture.getResponseCommand());
+             return null;
+         }).when(remotingClient).invokeAsync(anyString(), any(RemotingCommand.class), anyLong(), any(InvokeCallback.class));
+ 
+@@ -78,9 +95,7 @@ public class NettyRemotingClientTest {
+         response.setCode(ResponseCode.SUCCESS);
+         doAnswer(invocation -> {
+             InvokeCallback callback = invocation.getArgument(3);
+-            ResponseFuture responseFuture = new ResponseFuture(null, request.getOpaque(), 3 * 1000, null, null);
+-            responseFuture.setSendRequestOK(false);
+-            callback.operationComplete(responseFuture);
++            callback.operationFail(new RemotingSendRequestException(null));
+             return null;
+         }).when(remotingClient).invokeAsync(anyString(), any(RemotingCommand.class), anyLong(), any(InvokeCallback.class));
+ 
+@@ -97,8 +112,7 @@ public class NettyRemotingClientTest {
+         response.setCode(ResponseCode.SUCCESS);
+         doAnswer(invocation -> {
+             InvokeCallback callback = invocation.getArgument(3);
+-            ResponseFuture responseFuture = new ResponseFuture(null, request.getOpaque(), -1L, null, null);
+-            callback.operationComplete(responseFuture);
++            callback.operationFail(new RemotingTimeoutException(""));
+             return null;
+         }).when(remotingClient).invokeAsync(anyString(), any(RemotingCommand.class), anyLong(), any(InvokeCallback.class));
+ 
+@@ -115,8 +129,7 @@ public class NettyRemotingClientTest {
+         response.setCode(ResponseCode.SUCCESS);
+         doAnswer(invocation -> {
+             InvokeCallback callback = invocation.getArgument(3);
+-            ResponseFuture responseFuture = new ResponseFuture(null, request.getOpaque(), 3 * 1000, null, null);
+-            callback.operationComplete(responseFuture);
++            callback.operationFail(new RemotingException(null));
+             return null;
+         }).when(remotingClient).invokeAsync(anyString(), any(RemotingCommand.class), anyLong(), any(InvokeCallback.class));
+ 
+@@ -134,4 +147,158 @@ public class NettyRemotingClientTest {
+             assertThat(e.getMessage()).contains(addr);
+         }
+     }
++
++    @Test
++    public void testInvoke0() throws ExecutionException, InterruptedException {
++        RemotingCommand request = RemotingCommand.createRequestCommand(RequestCode.PULL_MESSAGE, null);
++        RemotingCommand response = RemotingCommand.createResponseCommand(null);
++        response.setCode(ResponseCode.SUCCESS);
++        Channel channel = new MockChannel() {
++            @Override
++            public ChannelFuture writeAndFlush(Object msg) {
++                ResponseFuture responseFuture = remotingClient.responseTable.get(request.getOpaque());
++                responseFuture.setResponseCommand(response);
++                responseFuture.executeInvokeCallback();
++                return super.writeAndFlush(msg);
++            }
++        };
++        CompletableFuture<ResponseFuture> future = remotingClient.invoke0(channel, request, 1000L);
++        assertThat(future.get().getResponseCommand()).isEqualTo(response);
++    }
++
++    @Test
++    public void testInvoke0WithException() {
++        RemotingCommand request = RemotingCommand.createRequestCommand(RequestCode.PULL_MESSAGE, null);
++        RemotingCommand response = RemotingCommand.createResponseCommand(null);
++        response.setCode(ResponseCode.SUCCESS);
++        Channel channel = new MockChannel() {
++            @Override
++            public ChannelFuture writeAndFlush(Object msg) {
++                ResponseFuture responseFuture = remotingClient.responseTable.get(request.getOpaque());
++                responseFuture.executeInvokeCallback();
++                return super.writeAndFlush(msg);
++            }
++        };
++        CompletableFuture<ResponseFuture> future = remotingClient.invoke0(channel, request, 1000L);
++        assertThatThrownBy(future::get).getCause().isInstanceOf(RemotingException.class);
++    }
++
++    @Test
++    public void testInvokeSync() throws RemotingSendRequestException, RemotingTimeoutException, InterruptedException {
++        remotingClient.registerRPCHook(rpcHookMock);
++
++        Channel channel = new LocalChannel();
++        RemotingCommand request = RemotingCommand.createRequestCommand(RequestCode.PULL_MESSAGE, null);
++        RemotingCommand response = RemotingCommand.createResponseCommand(null);
++        response.setCode(ResponseCode.SUCCESS);
++        ResponseFuture responseFuture = new ResponseFuture(channel, request.getOpaque(), request, 1000, new InvokeCallback() {
++            @Override
++            public void operationComplete(ResponseFuture responseFuture) {
++
++            }
++        }, new SemaphoreReleaseOnlyOnce(new Semaphore(1)));
++        responseFuture.setResponseCommand(response);
++        CompletableFuture<ResponseFuture> future = new CompletableFuture<>();
++        future.complete(responseFuture);
++
++        doReturn(future).when(remotingClient).invoke0(any(Channel.class), any(RemotingCommand.class), anyLong());
++        RemotingCommand actual = remotingClient.invokeSyncImpl(channel, request, 1000);
++        assertThat(actual).isEqualTo(response);
++
++        verify(rpcHookMock).doBeforeRequest(anyString(), eq(request));
++        verify(rpcHookMock).doAfterResponse(anyString(), eq(request), eq(response));
++    }
++
++    @Test
++    public void testInvokeAsync() {
++        remotingClient.registerRPCHook(rpcHookMock);
++        Channel channel = new LocalChannel();
++        RemotingCommand request = RemotingCommand.createRequestCommand(RequestCode.PULL_MESSAGE, null);
++        RemotingCommand response = RemotingCommand.createResponseCommand(null);
++        response.setCode(ResponseCode.SUCCESS);
++        ResponseFuture responseFuture = new ResponseFuture(channel, request.getOpaque(), request, 1000, new InvokeCallback() {
++            @Override
++            public void operationComplete(ResponseFuture responseFuture) {
++
++            }
++        }, new SemaphoreReleaseOnlyOnce(new Semaphore(1)));
++        responseFuture.setResponseCommand(response);
++        CompletableFuture<ResponseFuture> future = new CompletableFuture<>();
++        future.complete(responseFuture);
++
++        doReturn(future).when(remotingClient).invoke0(any(Channel.class), any(RemotingCommand.class), anyLong());
++
++        InvokeCallback callback = mock(InvokeCallback.class);
++        remotingClient.invokeAsyncImpl(channel, request, 1000, callback);
++        verify(callback, times(1)).operationSucceed(eq(response));
++        verify(callback, times(1)).operationComplete(eq(responseFuture));
++        verify(callback, never()).operationFail(any());
++
++        verify(rpcHookMock).doBeforeRequest(anyString(), eq(request));
++        verify(rpcHookMock).doAfterResponse(anyString(), eq(request), eq(response));
++    }
++
++    @Test
++    public void testInvokeAsyncFail() {
++        remotingClient.registerRPCHook(rpcHookMock);
++        RemotingCommand request = RemotingCommand.createRequestCommand(RequestCode.PULL_MESSAGE, null);
++
++        Channel channel = new LocalChannel();
++        CompletableFuture<ResponseFuture> future = new CompletableFuture<>();
++        future.completeExceptionally(new RemotingException(null));
++
++        doReturn(future).when(remotingClient).invoke0(any(Channel.class), any(RemotingCommand.class), anyLong());
++
++        InvokeCallback callback = mock(InvokeCallback.class);
++        remotingClient.invokeAsyncImpl(channel, request, 1000, callback);
++        verify(callback, never()).operationSucceed(any());
++        verify(callback, times(1)).operationComplete(any());
++        verify(callback, times(1)).operationFail(any());
++
++        verify(rpcHookMock).doBeforeRequest(anyString(), eq(request));
++        verify(rpcHookMock, never()).doAfterResponse(anyString(), eq(request), any());
++    }
++
++    @Test
++    public void testInvokeImpl() throws ExecutionException, InterruptedException {
++        remotingClient.registerRPCHook(rpcHookMock);
++        Channel channel = new LocalChannel();
++        RemotingCommand request = RemotingCommand.createRequestCommand(RequestCode.PULL_MESSAGE, null);
++        RemotingCommand response = RemotingCommand.createResponseCommand(null);
++        response.setCode(ResponseCode.SUCCESS);
++        ResponseFuture responseFuture = new ResponseFuture(channel, request.getOpaque(), request, 1000, new InvokeCallback() {
++            @Override
++            public void operationComplete(ResponseFuture responseFuture) {
++
++            }
++        }, new SemaphoreReleaseOnlyOnce(new Semaphore(1)));
++        responseFuture.setResponseCommand(response);
++        CompletableFuture<ResponseFuture> future = new CompletableFuture<>();
++        future.complete(responseFuture);
++
++        doReturn(future).when(remotingClient).invoke0(any(Channel.class), any(RemotingCommand.class), anyLong());
++
++        CompletableFuture<ResponseFuture> future0 = remotingClient.invokeImpl(channel, request, 1000);
++        assertThat(future0.get()).isEqualTo(responseFuture);
++
++        verify(rpcHookMock).doBeforeRequest(anyString(), eq(request));
++        verify(rpcHookMock).doAfterResponse(anyString(), eq(request), eq(response));
++    }
++
++    @Test
++    public void testInvokeImplFail() {
++        remotingClient.registerRPCHook(rpcHookMock);
++        RemotingCommand request = RemotingCommand.createRequestCommand(RequestCode.PULL_MESSAGE, null);
++
++        Channel channel = new LocalChannel();
++        CompletableFuture<ResponseFuture> future = new CompletableFuture<>();
++        future.completeExceptionally(new RemotingException(null));
++
++        doReturn(future).when(remotingClient).invoke0(any(Channel.class), any(RemotingCommand.class), anyLong());
++
++        assertThatThrownBy(() -> remotingClient.invokeImpl(channel, request, 1000).get()).getCause().isInstanceOf(RemotingException.class);
++
++        verify(rpcHookMock).doBeforeRequest(anyString(), eq(request));
++        verify(rpcHookMock, never()).doAfterResponse(anyString(), eq(request), any());
++    }
+ }

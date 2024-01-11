@@ -1,0 +1,198 @@
+diff --git a/assertj-core/src/main/java/org/assertj/core/error/ShouldBeEqual.java b/assertj-core/src/main/java/org/assertj/core/error/ShouldBeEqual.java
+index 25a003317..ae4bf61b1 100644
+--- a/assertj-core/src/main/java/org/assertj/core/error/ShouldBeEqual.java
++++ b/assertj-core/src/main/java/org/assertj/core/error/ShouldBeEqual.java
+@@ -28,6 +28,7 @@ import org.assertj.core.internal.Failures;
+ import org.assertj.core.internal.StandardComparisonStrategy;
+ import org.assertj.core.presentation.Representation;
+ import org.assertj.core.util.VisibleForTesting;
++import org.assertj.core.util.introspection.ClassUtils;
+ 
+ /**
+  * Creates an <code>{@link AssertionError}</code> indicating that an assertion that verifies that two objects are equal
+@@ -195,18 +196,23 @@ public class ShouldBeEqual implements AssertionErrorFactory {
+   }
+ 
+   /**
+-   * Builds and returns an error message from description using {@link #detailedExpected()} and
+-   * {@link #detailedActual()} detailed representation.
++   * Builds and returns an error message from description using {@link #detailedExpected(boolean)} and
++   * {@link #detailedActual(boolean)} detailed representation.
+    *
+    * @param description the {@link Description} used to build the returned error message
+    * @param representation the {@link org.assertj.core.presentation.Representation} used to build String representation
+    *          of object
+-   * @return the error message from description using {@link #detailedExpected()} and {@link #detailedActual()}
++   * @return the error message from description using {@link #detailedExpected(boolean)} and {@link #detailedActual(boolean)}
+    *         <b>detailed</b> representation.
+    */
+   protected String defaultDetailedErrorMessage(Description description, Representation representation) {
+-    String actualRepresentation = detailedActual();
+-    String expectedRepresentation = detailedExpected();
++    boolean sameClassNameInDifferentPackages = false;
++    if (actual != null && expected != null) {
++      sameClassNameInDifferentPackages = ClassUtils.areClassesWithSameNameInDifferentPackages(actual.getClass(),
++                                                                                              expected.getClass());
++    }
++    String actualRepresentation = detailedActual(sameClassNameInDifferentPackages);
++    String expectedRepresentation = detailedExpected(sameClassNameInDifferentPackages);
+     if (hasMultilineValue(actualRepresentation, expectedRepresentation)) {
+       return errorMessageForMultilineValues(description, representation, actualRepresentation, expectedRepresentation);
+     }
+@@ -255,12 +261,12 @@ public class ShouldBeEqual implements AssertionErrorFactory {
+     return o instanceof AssertionError ? (AssertionError) o : null;
+   }
+ 
+-  protected String detailedActual() {
+-    return representation.unambiguousToStringOf(actual);
++  protected String detailedActual(boolean sameClassWithDifferentPackages) {
++    return representation.unambiguousToStringOf(actual, sameClassWithDifferentPackages);
+   }
+ 
+-  protected String detailedExpected() {
+-    return representation.unambiguousToStringOf(expected);
++  protected String detailedExpected(boolean sameClassWithDifferentPackages) {
++    return representation.unambiguousToStringOf(expected, sameClassWithDifferentPackages);
+   }
+ 
+   @Override
+diff --git a/assertj-core/src/main/java/org/assertj/core/internal/UnambiguousRepresentation.java b/assertj-core/src/main/java/org/assertj/core/internal/UnambiguousRepresentation.java
+index 093903bfc..48b281724 100644
+--- a/assertj-core/src/main/java/org/assertj/core/internal/UnambiguousRepresentation.java
++++ b/assertj-core/src/main/java/org/assertj/core/internal/UnambiguousRepresentation.java
+@@ -19,7 +19,7 @@ import org.assertj.core.presentation.Representation;
+ /**
+  * Utility class around {@link Representation} to provide the {@link Representation#toStringOf(Object) toStringOf}
+  * representations of {@code actual} and {@code expected} when they are different, and their
+- * {@link Representation#unambiguousToStringOf(Object) unambiguousToStringOf} representations if not.
++ * {@link Representation#unambiguousToStringOf(Object, boolean) unambiguousToStringOf} representations if not.
+  */
+ public class UnambiguousRepresentation {
+ 
+@@ -33,10 +33,10 @@ public class UnambiguousRepresentation {
+ 
+     boolean sameRepresentation = Objects.equals(actualRepresentation, expectedRepresentation);
+     this.actual = sameRepresentation
+-        ? representation.unambiguousToStringOf(actual)
++        ? representation.unambiguousToStringOf(actual, false)
+         : actualRepresentation;
+     this.expected = sameRepresentation
+-        ? representation.unambiguousToStringOf(expected)
++        ? representation.unambiguousToStringOf(expected, false)
+         : expectedRepresentation;
+   }
+ 
+diff --git a/assertj-core/src/main/java/org/assertj/core/presentation/CompositeRepresentation.java b/assertj-core/src/main/java/org/assertj/core/presentation/CompositeRepresentation.java
+index 69e25f5ab..ba233024e 100644
+--- a/assertj-core/src/main/java/org/assertj/core/presentation/CompositeRepresentation.java
++++ b/assertj-core/src/main/java/org/assertj/core/presentation/CompositeRepresentation.java
+@@ -41,13 +41,13 @@ public class CompositeRepresentation implements Representation {
+   }
+ 
+   @Override
+-  public String unambiguousToStringOf(Object object) {
++  public String unambiguousToStringOf(Object object, boolean shouldKeepPackage) {
+     // don't create streams for performance reasons and because this code is simple enough (even not as elegant as with stream)
+     for (Representation representation : representations) {
+-      String value = representation.unambiguousToStringOf(object);
++      String value = representation.unambiguousToStringOf(object, shouldKeepPackage);
+       if (value != null) return value;
+     }
+-    return STANDARD_REPRESENTATION.unambiguousToStringOf(object);
++    return STANDARD_REPRESENTATION.unambiguousToStringOf(object, shouldKeepPackage);
+   }
+ 
+   @Override
+diff --git a/assertj-core/src/main/java/org/assertj/core/presentation/Representation.java b/assertj-core/src/main/java/org/assertj/core/presentation/Representation.java
+index 39ac1434d..6db4c3a51 100644
+--- a/assertj-core/src/main/java/org/assertj/core/presentation/Representation.java
++++ b/assertj-core/src/main/java/org/assertj/core/presentation/Representation.java
+@@ -65,16 +65,17 @@ public interface Representation {
+   String toStringOf(Object object);
+ 
+   /**
+-   * Override this method to return a {@code String} representation of the given object that is unambigous so that it can 
++   * Override this method to return a {@code String} representation of the given object that is unambigous so that it can
+    * be differentiated from other objects with the same {@link #toStringOf(Object)} representation.
+    * <p>
+-   * The default implementation calls {@link #toStringOf(Object)} but the {@link StandardRepresentation} adds 
+-   * the object hexadecimal identity hash code.   
++   * The default implementation calls {@link #toStringOf(Object)} but the {@link StandardRepresentation} adds
++   * the object hexadecimal identity hash code.
+    *
+-   * @param object the object to represent.
++   * @param object                         the object to represent.
++   * @param shouldKeepPackage              if we should display the object's package
+    * @return the unambiguous {@code toString} representation of the given object.
+    */
+-  default String unambiguousToStringOf(Object object) {
++  default String unambiguousToStringOf(Object object, boolean shouldKeepPackage) {
+     return toStringOf(object);
+   }
+ 
+diff --git a/assertj-core/src/main/java/org/assertj/core/presentation/StandardRepresentation.java b/assertj-core/src/main/java/org/assertj/core/presentation/StandardRepresentation.java
+index 012dc2842..f5758da1e 100644
+--- a/assertj-core/src/main/java/org/assertj/core/presentation/StandardRepresentation.java
++++ b/assertj-core/src/main/java/org/assertj/core/presentation/StandardRepresentation.java
+@@ -297,14 +297,21 @@ public class StandardRepresentation implements Representation {
+    * Returns the {@code String} representation of the given object with its type and hexadecimal identity hash code so that
+    * it can be differentiated from other objects with the same {@link #toStringOf(Object)} representation.
+    *
+-   * @param obj the object to represent.
++   * @param obj                            the object to represent.
++   * @param shouldKeepPackage
+    * @return the unambiguous {@code toString} representation of the given object.
+    */
+   @Override
+-  public String unambiguousToStringOf(Object obj) {
++  public String unambiguousToStringOf(Object obj, boolean shouldKeepPackage) {
++    if (obj == null) return null;
+     // some types have already an unambiguous toString, no need to double down
+     if (hasAlreadyAnUnambiguousToStringOf(obj)) return toStringOf(obj);
+-    return obj == null ? null : String.format("%s (%s@%s)", toStringOf(obj), classNameOf(obj), identityHexCodeOf(obj));
++    return obj == null ? null
++        : String.format("%s (%s@%s)", toStringOf(obj), getObject(obj, shouldKeepPackage), identityHexCodeOf(obj));
++  }
++
++  private Object getObject(Object obj, boolean shouldKeepPackage) {
++    return shouldKeepPackage ? packageAndClassNameOf(obj) : classNameOf(obj);
+   }
+ 
+   @Override
+@@ -740,6 +747,10 @@ public class StandardRepresentation implements Representation {
+     return obj.getClass().isAnonymousClass() ? obj.getClass().getName() : obj.getClass().getSimpleName();
+   }
+ 
++  private static Object packageAndClassNameOf(Object obj) {
++    return String.format("%s.%s", obj.getClass().getPackage().getName(), classNameOf(obj));
++  }
++
+   private String defaultToStringWithClassNameDisambiguation(Object o) {
+     return o.toString() + classNameDisambiguation(o);
+   }
+diff --git a/assertj-core/src/main/java/org/assertj/core/util/introspection/ClassUtils.java b/assertj-core/src/main/java/org/assertj/core/util/introspection/ClassUtils.java
+index d1db94020..f888c3371 100644
+--- a/assertj-core/src/main/java/org/assertj/core/util/introspection/ClassUtils.java
++++ b/assertj-core/src/main/java/org/assertj/core/util/introspection/ClassUtils.java
+@@ -145,4 +145,21 @@ public class ClassUtils {
+   public static boolean isInJavaLangPackage(final Class<?> type) {
+     return type != null && type.getName().startsWith("java.lang");
+   }
++
++  /**
++   * Returns whether the given {@code type1} and {@code type2} have the same name but are
++   * located in different packages
++   *
++   * @param type1 first class to compare
++   * @param type2 the class to compare to
++   * @return true if the given {@code type1} have the same name as {@code type2} but is
++   * in a different package
++   */
++  public static boolean areClassesWithSameNameInDifferentPackages(Class<?> type1, Class<?> type2) {
++    if (type1 != null && type2 != null) {
++      return type1.getSimpleName().equals(type2.getSimpleName())
++             && !type1.getPackage().getName().equals(type2.getPackage().getName());
++    }
++    return false;
++  }
+ }

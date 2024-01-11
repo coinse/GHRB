@@ -1,0 +1,683 @@
+diff --git a/src/main/java/com/puppycrawl/tools/checkstyle/checks/whitespace/WhitespaceAfterCheck.java b/src/main/java/com/puppycrawl/tools/checkstyle/checks/whitespace/WhitespaceAfterCheck.java
+index 064a56077..9865e034a 100644
+--- a/src/main/java/com/puppycrawl/tools/checkstyle/checks/whitespace/WhitespaceAfterCheck.java
++++ b/src/main/java/com/puppycrawl/tools/checkstyle/checks/whitespace/WhitespaceAfterCheck.java
+@@ -80,82 +80,6 @@ import com.puppycrawl.tools.checkstyle.utils.CommonUtil;
+  * </li>
+  * </ul>
+  * <p>
+- * To configure the check:
+- * </p>
+- * <pre>
+- * &lt;module name=&quot;WhitespaceAfter&quot;/&gt;
+- * </pre>
+- * <p>Example:</p>
+- * <pre>
+- *  public void myTest() {
+- *      if (foo) {              // OK
+- *              //...
+- *      } else if(bar) {        // violation
+- *              //...
+- *      }
+- *
+- *      testMethod(foo, bar);   // OK
+- *      testMethod(foo,bar);    // violation
+- *
+- *      for (;;){}               // OK
+- *      for(;;){}                // violation, space after 'for' is required
+- *
+- *      try (InputStream ignored = System.in) {} // OK
+- *      try(InputStream ignored = System.in) {} // violation ''try' is not followed by whitespace'
+- *
+- *      try {} catch (Exception e){} // OK
+- *      try{} catch (Exception e){} // violation ''try' is not followed by whitespace'
+- *
+- *      try {} finally {} // OK
+- *      try {} finally{} // violation ''finally' is not followed by whitespace'
+- *
+- *      try {} catch (Error e){} finally {} // OK
+- *      try {} catch (Error e){} finally{} // violation ''finally' is not followed by whitespace'
+- *
+- *      try {} catch (Exception e){} // OK
+- *      try {} catch(Exception e){} // violation ''catch' is not followed by whitespace'
+- *
+- *      synchronized (this) { } // OK
+- *      synchronized(this) { } // violation ''synchronized' is not followed by whitespace'
+- *  }
+- *  public String testOne() {
+- *      return ("a" + "b"); // OK
+- *  }
+- *  public String testTwo() {
+- *      return("a" + "b"); // violation 'return' is not followed by whitespace'
+- *  }
+- *  public static void main(String[] args) {
+- *    int a = switch (args[0]) {
+- *      case "got":
+- *        yield (1); // OK
+- *      case "my":
+- *        yield(3); // violation ''yield' is not followed by whitespace'
+- *      default:
+- *        yield 2;
+- *    };
+- *  }
+- * </pre>
+- * <p>
+- * To configure the check for whitespace only after COMMA and SEMI tokens:
+- * </p>
+- * <pre>
+- * &lt;module name=&quot;WhitespaceAfter&quot;&gt;
+- *   &lt;property name=&quot;tokens&quot; value=&quot;COMMA, SEMI&quot;/&gt;
+- * &lt;/module&gt;
+- * </pre>
+- * <p>Example:</p>
+- * <pre>
+- *     public void myTest() {
+- *         int a; int b;           // OK
+- *         int a;int b;            // violation
+- *
+- *         testMethod(foo, bar);   // OK
+- *         testMethod(foo,bar);    // violation
+- *
+- *         for(;;) {} // OK
+- *     }
+- * </pre>
+- * <p>
+  * Parent is {@code com.puppycrawl.tools.checkstyle.TreeWalker}
+  * </p>
+  * <p>
+diff --git a/src/main/java/com/puppycrawl/tools/checkstyle/site/ExampleMacro.java b/src/main/java/com/puppycrawl/tools/checkstyle/site/ExampleMacro.java
+new file mode 100644
+index 000000000..ebf9cdfaf
+--- /dev/null
++++ b/src/main/java/com/puppycrawl/tools/checkstyle/site/ExampleMacro.java
+@@ -0,0 +1,146 @@
++///////////////////////////////////////////////////////////////////////////////////////////////
++// checkstyle: Checks Java source code and other text files for adherence to a set of rules.
++// Copyright (C) 2001-2023 the original author or authors.
++//
++// This library is free software; you can redistribute it and/or
++// modify it under the terms of the GNU Lesser General Public
++// License as published by the Free Software Foundation; either
++// version 2.1 of the License, or (at your option) any later version.
++//
++// This library is distributed in the hope that it will be useful,
++// but WITHOUT ANY WARRANTY; without even the implied warranty of
++// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++// Lesser General Public License for more details.
++//
++// You should have received a copy of the GNU Lesser General Public
++// License along with this library; if not, write to the Free Software
++// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
++///////////////////////////////////////////////////////////////////////////////////////////////
++
++package com.puppycrawl.tools.checkstyle.site;
++
++import java.io.IOException;
++import java.nio.file.Files;
++import java.nio.file.Path;
++import java.util.ArrayList;
++import java.util.Collection;
++import java.util.List;
++import java.util.Locale;
++import java.util.stream.Collectors;
++
++import org.apache.maven.doxia.macro.AbstractMacro;
++import org.apache.maven.doxia.macro.Macro;
++import org.apache.maven.doxia.macro.MacroExecutionException;
++import org.apache.maven.doxia.macro.MacroRequest;
++import org.apache.maven.doxia.sink.Sink;
++import org.apache.maven.doxia.sink.impl.SinkEventAttributeSet;
++import org.codehaus.plexus.component.annotations.Component;
++
++/**
++ * A macro that inserts a snippet of code or configuration from a file.
++ */
++@Component(role = Macro.class, hint = "example")
++public class ExampleMacro extends AbstractMacro {
++
++    /** Starting delimiter for config snippets. */
++    private static final String XML_CONFIG_START = "/*xml";
++
++    /** Ending delimiter for config snippets. */
++    private static final String XML_CONFIG_END = "*/";
++
++    /** Starting delimiter for code snippets. */
++    private static final String CODE_SNIPPET_START = "// xdoc section -- start";
++
++    /** Ending delimiter for code snippets. */
++    private static final String CODE_SNIPPET_END = "// xdoc section -- end";
++
++    /** Newline character. */
++    private static final String NEWLINE = System.lineSeparator();
++
++    /** Eight whitespace characters. All example source tags are indented 8 spaces. */
++    private static final String INDENTATION = "        ";
++
++    /** The path of the last file. */
++    private String lastPath = "";
++
++    /** The line contents of the last file. */
++    private List<String> lastLines = new ArrayList<>();
++
++    @Override
++    public void execute(Sink sink, MacroRequest request) throws MacroExecutionException {
++        final String path = (String) request.getParameter("path");
++        final String type = (String) request.getParameter("type");
++
++        List<String> lines = lastLines;
++        if (!path.equals(lastPath)) {
++            lines = readFile("src/xdocs-examples/" + path);
++            lastPath = path;
++            lastLines = lines;
++        }
++
++        if ("config".equals(type)) {
++            final String config = getSnippetBetweenDelimiters(lines,
++                    XML_CONFIG_START, XML_CONFIG_END);
++            writeSnippet(sink, config);
++        }
++        else if ("code".equals(type)) {
++            final String code = getSnippetBetweenDelimiters(lines,
++                    CODE_SNIPPET_START, CODE_SNIPPET_END);
++            writeSnippet(sink, code);
++        }
++        else {
++            final String message = String.format(Locale.ROOT, "Unknown example type: %s", type);
++            throw new MacroExecutionException(message);
++        }
++    }
++
++    /**
++     * Read the file at the given path and returns its contents as a list of lines.
++     *
++     * @param path the path to the file to read.
++     * @return the contents of the file as a list of lines.
++     * @throws MacroExecutionException if the file could not be read.
++     */
++    private static List<String> readFile(String path) throws MacroExecutionException {
++        try {
++            final Path exampleFilePath = Path.of(path);
++            return Files.readAllLines(exampleFilePath);
++        }
++        catch (IOException ioException) {
++            final String message = String.format(Locale.ROOT, "Failed to read %s", path);
++            throw new MacroExecutionException(message, ioException);
++        }
++    }
++
++    /**
++     * Extract a snippet between the given start and end delimiters.
++     * The lines containing the delimiter are not included in the snippet.
++     *
++     * @param lines the lines to extract the snippet from.
++     * @param startingDelimiter the starting delimiter.
++     * @param endingDelimiter the ending delimiter.
++     * @return the snippet.
++     */
++    private static String getSnippetBetweenDelimiters(
++            Collection<String> lines, String startingDelimiter, String endingDelimiter) {
++        return lines.stream()
++                .dropWhile(line -> !line.contains(startingDelimiter))
++                .skip(1)
++                .takeWhile(line -> !line.contains(endingDelimiter))
++                .collect(Collectors.joining(NEWLINE));
++    }
++
++    /**
++     * Write the given snippet to the file inside a source block.
++     *
++     * @param sink the sink to write to.
++     * @param snippet the snippet to write.
++     */
++    private static void writeSnippet(Sink sink, String snippet) {
++        sink.verbatim(SinkEventAttributeSet.BOXED);
++        final String text = NEWLINE
++                + String.join(NEWLINE, snippet.stripTrailing(), INDENTATION);
++        sink.text(text);
++        sink.verbatim_();
++    }
++}
+diff --git a/src/main/java/com/puppycrawl/tools/checkstyle/site/XdocsTemplateParser.java b/src/main/java/com/puppycrawl/tools/checkstyle/site/XdocsTemplateParser.java
+new file mode 100644
+index 000000000..a37ba7ee3
+--- /dev/null
++++ b/src/main/java/com/puppycrawl/tools/checkstyle/site/XdocsTemplateParser.java
+@@ -0,0 +1,204 @@
++///////////////////////////////////////////////////////////////////////////////////////////////
++// checkstyle: Checks Java source code and other text files for adherence to a set of rules.
++// Copyright (C) 2001-2023 the original author or authors.
++//
++// This library is free software; you can redistribute it and/or
++// modify it under the terms of the GNU Lesser General Public
++// License as published by the Free Software Foundation; either
++// version 2.1 of the License, or (at your option) any later version.
++//
++// This library is distributed in the hope that it will be useful,
++// but WITHOUT ANY WARRANTY; without even the implied warranty of
++// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++// Lesser General Public License for more details.
++//
++// You should have received a copy of the GNU Lesser General Public
++// License along with this library; if not, write to the Free Software
++// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
++///////////////////////////////////////////////////////////////////////////////////////////////
++
++package com.puppycrawl.tools.checkstyle.site;
++
++import java.io.File;
++import java.io.IOException;
++import java.io.Reader;
++import java.io.StringReader;
++import java.io.StringWriter;
++import java.util.HashMap;
++import java.util.Locale;
++import java.util.Map;
++
++import javax.swing.text.html.HTML.Attribute;
++
++import org.apache.maven.doxia.macro.MacroExecutionException;
++import org.apache.maven.doxia.macro.MacroRequest;
++import org.apache.maven.doxia.macro.manager.MacroNotFoundException;
++import org.apache.maven.doxia.module.xdoc.XdocParser;
++import org.apache.maven.doxia.parser.ParseException;
++import org.apache.maven.doxia.parser.Parser;
++import org.apache.maven.doxia.sink.Sink;
++import org.codehaus.plexus.component.annotations.Component;
++import org.codehaus.plexus.util.IOUtil;
++import org.codehaus.plexus.util.xml.pull.XmlPullParser;
++
++/**
++ * Parser for Checkstyle's xdoc templates.
++ * This parser is responsible for generating xdocs({@code .xml}) from the xdoc
++ * templates({@code .xml.template}). The templates are regular xdocs with custom
++ * macros for generating dynamic content - properties, examples, etc.
++ * This parser behaves just like the {@link XdocParser} with the difference that all
++ * elements apart from the {@code macro} element are copied as is to the output.
++ * This module will be removed once
++ * <a href="https://github.com/checkstyle/checkstyle/issues/13426">#13426</a> is resolved.
++ *
++ * @see ExampleMacro
++ */
++@Component(role = Parser.class, hint = "xdocs-template")
++public class XdocsTemplateParser extends XdocParser {
++
++    /** User working directory. */
++    public static final String TEMP_DIR = System.getProperty("java.io.tmpdir");
++
++    /** The macro parameters. */
++    private final Map<String, Object> macroParameters = new HashMap<>();
++
++    /** The source content of the input reader. Used to pass into macros. */
++    private String sourceContent;
++
++    /** A macro name. */
++    private String macroName;
++
++    @Override
++    public void parse(Reader source, Sink sink, String reference) throws ParseException {
++        try (StringWriter contentWriter = new StringWriter()) {
++            IOUtil.copy(source, contentWriter);
++            sourceContent = contentWriter.toString();
++            super.parse(new StringReader(sourceContent), sink, reference);
++        }
++        catch (IOException ioException) {
++            throw new ParseException("Error reading the input source", ioException);
++        }
++        finally {
++            sourceContent = null;
++        }
++    }
++
++    @Override
++    protected void handleStartTag(XmlPullParser parser, Sink sink) throws MacroExecutionException {
++        final String tagName = parser.getName();
++        if (tagName.equals(DOCUMENT_TAG.toString())) {
++            sink.body();
++            sink.rawText(parser.getText());
++        }
++        else if (tagName.equals(MACRO_TAG.toString()) && !isSecondParsing()) {
++            processMacroStart(parser);
++            setIgnorableWhitespace(true);
++        }
++        else if (tagName.equals(PARAM.toString()) && !isSecondParsing()) {
++            processParamStart(parser, sink);
++        }
++        else {
++            sink.rawText(parser.getText());
++        }
++    }
++
++    @Override
++    protected void handleEndTag(XmlPullParser parser, Sink sink) throws MacroExecutionException {
++        final String tagName = parser.getName();
++        if (tagName.equals(DOCUMENT_TAG.toString())) {
++            sink.rawText(parser.getText());
++            sink.body_();
++        }
++        else if (macroName != null
++                && tagName.equals(MACRO_TAG.toString())
++                && !macroName.isEmpty()
++                && !isSecondParsing()) {
++            processMacroEnd(sink);
++            setIgnorableWhitespace(false);
++        }
++        else if (!tagName.equals(PARAM.toString())) {
++            sink.rawText(parser.getText());
++        }
++    }
++
++    /**
++     * Handle the opening tag of a macro. Gather the macro name and parameters.
++     *
++     * @param parser the xml parser.
++     * @throws MacroExecutionException if the macro name is not specified.
++     */
++    private void processMacroStart(XmlPullParser parser) throws MacroExecutionException {
++        macroName = parser.getAttributeValue(null, Attribute.NAME.toString());
++
++        if (macroName == null || macroName.isEmpty()) {
++            final String message = String.format(Locale.ROOT,
++                    "The '%s' attribute for the '%s' tag is required.",
++                    Attribute.NAME, MACRO_TAG);
++            throw new MacroExecutionException(message);
++        }
++    }
++
++    /**
++     * Handle the opening tag of a parameter. Gather the parameter name and value.
++     *
++     * @param parser the xml parser.
++     * @param sink the sink object.
++     * @throws MacroExecutionException if the parameter name or value is not specified.
++     */
++    private void processParamStart(XmlPullParser parser, Sink sink) throws MacroExecutionException {
++        if (macroName != null && !macroName.isEmpty()) {
++            final String paramName = parser
++                    .getAttributeValue(null, Attribute.NAME.toString());
++            final String paramValue = parser
++                    .getAttributeValue(null, Attribute.VALUE.toString());
++
++            if (paramName == null
++                    || paramValue == null
++                    || paramName.isEmpty()
++                    || paramValue.isEmpty()) {
++                final String message = String.format(Locale.ROOT,
++                        "'%s' and '%s' attributes for the '%s' tag are required"
++                                + " inside the '%s' tag.",
++                        Attribute.NAME, Attribute.VALUE, PARAM, MACRO_TAG);
++                throw new MacroExecutionException(message);
++            }
++
++            macroParameters.put(paramName, paramValue);
++        }
++        else {
++            sink.rawText(parser.getText());
++        }
++    }
++
++    /**
++     * Execute a macro. Creates a {@link MacroRequest} with the gathered
++     * {@link #macroName} and {@link #macroParameters} and executes the macro.
++     * Afterward, the macro fields are reinitialized.
++     *
++     * @param sink the sink object.
++     * @throws MacroExecutionException if a macro is not found.
++     */
++    private void processMacroEnd(Sink sink) throws MacroExecutionException {
++        final MacroRequest request = new MacroRequest(sourceContent,
++                new XdocsTemplateParser(), macroParameters,
++                new File(TEMP_DIR));
++
++        try {
++            executeMacro(macroName, request, sink);
++        }
++        catch (MacroNotFoundException exception) {
++            final String message = String.format(Locale.ROOT, "Macro '%s' not found.", macroName);
++            throw new MacroExecutionException(message, exception);
++        }
++
++        reinitializeMacroFields();
++    }
++
++    /**
++     * Reinitialize the macro fields.
++     */
++    private void reinitializeMacroFields() {
++        macroName = "";
++        macroParameters.clear();
++    }
++}
+diff --git a/src/main/java/com/puppycrawl/tools/checkstyle/site/XdocsTemplateSink.java b/src/main/java/com/puppycrawl/tools/checkstyle/site/XdocsTemplateSink.java
+new file mode 100644
+index 000000000..ee6ff4d55
+--- /dev/null
++++ b/src/main/java/com/puppycrawl/tools/checkstyle/site/XdocsTemplateSink.java
+@@ -0,0 +1,67 @@
++///////////////////////////////////////////////////////////////////////////////////////////////
++// checkstyle: Checks Java source code and other text files for adherence to a set of rules.
++// Copyright (C) 2001-2023 the original author or authors.
++//
++// This library is free software; you can redistribute it and/or
++// modify it under the terms of the GNU Lesser General Public
++// License as published by the Free Software Foundation; either
++// version 2.1 of the License, or (at your option) any later version.
++//
++// This library is distributed in the hope that it will be useful,
++// but WITHOUT ANY WARRANTY; without even the implied warranty of
++// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++// Lesser General Public License for more details.
++//
++// You should have received a copy of the GNU Lesser General Public
++// License along with this library; if not, write to the Free Software
++// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
++///////////////////////////////////////////////////////////////////////////////////////////////
++
++package com.puppycrawl.tools.checkstyle.site;
++
++import java.io.Writer;
++
++import org.apache.maven.doxia.module.xdoc.XdocSink;
++
++/**
++ * A sink for Checkstyle's xdoc templates.
++ * This module will be removed once
++ * <a href="https://github.com/checkstyle/checkstyle/issues/13426">#13426</a> is resolved.
++ *
++ * @see <a href="https://maven.apache.org/doxia/doxia/doxia-sink-api">Doxia Sink API</a>
++ */
++public class XdocsTemplateSink extends XdocSink {
++
++    /** Encoding of the writer. */
++    private final String encoding;
++
++    /**
++     * Create a new instance, initialize the Writer.
++     *
++     * @param writer not null writer to write the result.
++     * @param encoding encoding of the writer.
++     */
++    public XdocsTemplateSink(Writer writer, String encoding) {
++        super(writer);
++        this.encoding = encoding;
++    }
++
++    /**
++     * Place the XML declaration at the top of the file.
++     */
++    @Override
++    public void body() {
++        write("<?xml version=\"1.0\" encoding=\"" + encoding + "\"?>");
++        writeEOL();
++    }
++
++    /**
++     * Place a newline at the end of the file, flush the writer, and reset the sink.
++     */
++    @Override
++    public void body_() {
++        writeEOL();
++        flush();
++        init();
++    }
++}
+diff --git a/src/main/java/com/puppycrawl/tools/checkstyle/site/XdocsTemplateSinkFactory.java b/src/main/java/com/puppycrawl/tools/checkstyle/site/XdocsTemplateSinkFactory.java
+new file mode 100644
+index 000000000..94189b635
+--- /dev/null
++++ b/src/main/java/com/puppycrawl/tools/checkstyle/site/XdocsTemplateSinkFactory.java
+@@ -0,0 +1,48 @@
++///////////////////////////////////////////////////////////////////////////////////////////////
++// checkstyle: Checks Java source code and other text files for adherence to a set of rules.
++// Copyright (C) 2001-2023 the original author or authors.
++//
++// This library is free software; you can redistribute it and/or
++// modify it under the terms of the GNU Lesser General Public
++// License as published by the Free Software Foundation; either
++// version 2.1 of the License, or (at your option) any later version.
++//
++// This library is distributed in the hope that it will be useful,
++// but WITHOUT ANY WARRANTY; without even the implied warranty of
++// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++// Lesser General Public License for more details.
++//
++// You should have received a copy of the GNU Lesser General Public
++// License along with this library; if not, write to the Free Software
++// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
++///////////////////////////////////////////////////////////////////////////////////////////////
++
++package com.puppycrawl.tools.checkstyle.site;
++
++import java.io.Writer;
++
++import org.apache.maven.doxia.sink.Sink;
++import org.apache.maven.doxia.sink.SinkFactory;
++import org.apache.maven.doxia.sink.impl.AbstractTextSinkFactory;
++import org.codehaus.plexus.component.annotations.Component;
++
++/**
++ * Xdoc template implementation of the {@link SinkFactory}.
++ * This module will be removed once
++ * <a href="https://github.com/checkstyle/checkstyle/issues/13426">#13426</a> is resolved.
++ */
++@Component(role = SinkFactory.class, hint = "xdocs-template")
++public class XdocsTemplateSinkFactory extends AbstractTextSinkFactory {
++
++    /**
++     * Create a Sink instance.
++     *
++     * @param writer writer to use.
++     * @param encoding encoding of the writer.
++     * @return Sink instance.
++     */
++    @Override
++    public Sink createSink(Writer writer, String encoding) {
++        return new XdocsTemplateSink(writer, encoding);
++    }
++}
+diff --git a/src/main/java/com/puppycrawl/tools/checkstyle/site/package-info.java b/src/main/java/com/puppycrawl/tools/checkstyle/site/package-info.java
+new file mode 100644
+index 000000000..f0385bbb6
+--- /dev/null
++++ b/src/main/java/com/puppycrawl/tools/checkstyle/site/package-info.java
+@@ -0,0 +1,23 @@
++///////////////////////////////////////////////////////////////////////////////////////////////
++// checkstyle: Checks Java source code and other text files for adherence to a set of rules.
++// Copyright (C) 2001-2023 the original author or authors.
++//
++// This library is free software; you can redistribute it and/or
++// modify it under the terms of the GNU Lesser General Public
++// License as published by the Free Software Foundation; either
++// version 2.1 of the License, or (at your option) any later version.
++//
++// This library is distributed in the hope that it will be useful,
++// but WITHOUT ANY WARRANTY; without even the implied warranty of
++// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++// Lesser General Public License for more details.
++//
++// You should have received a copy of the GNU Lesser General Public
++// License along with this library; if not, write to the Free Software
++// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
++///////////////////////////////////////////////////////////////////////////////////////////////
++
++/**
++ * Contains classes for generating the Checkstyle website.
++ */
++package com.puppycrawl.tools.checkstyle.site;
+diff --git a/src/xdocs-examples/java/com/puppycrawl/tools/checkstyle/checks/whitespace/WhitespaceAfterExamplesTest.java b/src/xdocs-examples/java/com/puppycrawl/tools/checkstyle/checks/whitespace/WhitespaceAfterExamplesTest.java
+index fba64fc56..5baed6d2d 100644
+--- a/src/xdocs-examples/java/com/puppycrawl/tools/checkstyle/checks/whitespace/WhitespaceAfterExamplesTest.java
++++ b/src/xdocs-examples/java/com/puppycrawl/tools/checkstyle/checks/whitespace/WhitespaceAfterExamplesTest.java
+@@ -40,16 +40,16 @@ public class WhitespaceAfterExamplesTest extends AbstractModuleTestSupport {
+     public void testExample1() throws Exception {
+         final String[] expected = {
+             "19:12: " + getCheckMessage(MSG_WS_NOT_FOLLOWED, "if"),
+-            "22:16: " + getCheckMessage(MSG_WS_NOT_FOLLOWED, ","),
+-            "24:5: " + getCheckMessage(MSG_WS_NOT_FOLLOWED, "for"),
+-            "26:5: " + getCheckMessage(MSG_WS_NOT_FOLLOWED, "try"),
+-            "28:5: " + getCheckMessage(MSG_WS_NOT_FOLLOWED, "try"),
+-            "30:12: " + getCheckMessage(MSG_WS_NOT_FOLLOWED, "finally"),
+-            "32:30: " + getCheckMessage(MSG_WS_NOT_FOLLOWED, "finally"),
+-            "34:12: " + getCheckMessage(MSG_WS_NOT_FOLLOWED, "catch"),
+-            "36:5: " + getCheckMessage(MSG_WS_NOT_FOLLOWED, "synchronized"),
+-            "42:5: " + getCheckMessage(MSG_WS_NOT_FOLLOWED, "return"),
+-            "49:9: " + getCheckMessage(MSG_WS_NOT_FOLLOWED, "yield"),
++            "23:16: " + getCheckMessage(MSG_WS_NOT_FOLLOWED, ","),
++            "26:5: " + getCheckMessage(MSG_WS_NOT_FOLLOWED, "for"),
++            "29:5: " + getCheckMessage(MSG_WS_NOT_FOLLOWED, "try"),
++            "32:5: " + getCheckMessage(MSG_WS_NOT_FOLLOWED, "try"),
++            "35:12: " + getCheckMessage(MSG_WS_NOT_FOLLOWED, "finally"),
++            "38:30: " + getCheckMessage(MSG_WS_NOT_FOLLOWED, "finally"),
++            "41:12: " + getCheckMessage(MSG_WS_NOT_FOLLOWED, "catch"),
++            "44:5: " + getCheckMessage(MSG_WS_NOT_FOLLOWED, "synchronized"),
++            "51:5: " + getCheckMessage(MSG_WS_NOT_FOLLOWED, "return"),
++            "59:9: " + getCheckMessage(MSG_WS_NOT_FOLLOWED, "yield"),
+         };
+ 
+         verifyWithInlineConfigParser(getNonCompilablePath("Example1.java"), expected);
+diff --git a/src/xdocs-examples/resources-noncompilable/com/puppycrawl/tools/checkstyle/checks/whitespace/whitespaceafter/Example1.java b/src/xdocs-examples/resources-noncompilable/com/puppycrawl/tools/checkstyle/checks/whitespace/whitespaceafter/Example1.java
+index a95324fa4..0134dceb5 100644
+--- a/src/xdocs-examples/resources-noncompilable/com/puppycrawl/tools/checkstyle/checks/whitespace/whitespaceafter/Example1.java
++++ b/src/xdocs-examples/resources-noncompilable/com/puppycrawl/tools/checkstyle/checks/whitespace/whitespaceafter/Example1.java
+@@ -18,29 +18,39 @@ class Example1 {
+     if (true) {
+     } else if(false) { // violation 'not followed by whitespace'
+     }
++
+     testOne("x", "y");
+     testOne("z","o"); // violation 'not followed by whitespace'
++
+     for (int i = 0; i < 10; i++){}
+     for(int i = 0; i < 10; i++){} // violation 'not followed by whitespace'
++
+     try (InputStream ignored = System.in) {}
+     try(InputStream ignored = System.in) {} // violation 'not followed by whitespace'
++
+     try {} catch (Exception e){}
+-    try{} catch (Exception e){} // violation 'not followed by whitespace'
++    try{} catch (Exception e) {} // violation ''try' is not followed by whitespace'
++
+     try {} finally {}
+     try {} finally{} // violation 'not followed by whitespace'
++
+     try {} catch (Error e){} finally {}
+     try {} catch (Error e){} finally{} // violation 'not followed by whitespace'
++
+     try {} catch (Exception e){}
+     try {} catch(Exception e){} // violation 'not followed by whitespace'
++
+     synchronized (this) { }
+     synchronized(this) { } // violation 'not followed by whitespace'
+   }
++
+   public String testOne(String a, String b) {
+     return (a + b);
+   }
+-  public String testTwo() {
+-    return("a" + "b"); // violation 'not followed by whitespace'
++  public String testTwo(String a, String b) {
++    return(a + b); // violation 'not followed by whitespace'
+   }
++
+   void switchExample() {
+     int a = switch ("hello") {
+       case "got":

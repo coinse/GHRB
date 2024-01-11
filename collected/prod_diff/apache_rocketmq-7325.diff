@@ -1,0 +1,144 @@
+diff --git a/broker/src/main/java/org/apache/rocketmq/broker/BrokerController.java b/broker/src/main/java/org/apache/rocketmq/broker/BrokerController.java
+index 275b64b1a..9e49f636d 100644
+--- a/broker/src/main/java/org/apache/rocketmq/broker/BrokerController.java
++++ b/broker/src/main/java/org/apache/rocketmq/broker/BrokerController.java
+@@ -1765,29 +1765,34 @@ public class BrokerController {
+     }
+ 
+     public synchronized void registerBrokerAll(final boolean checkOrderConfig, boolean oneway, boolean forceRegister) {
++        ConcurrentMap<String, TopicConfig> topicConfigMap = this.getTopicConfigManager().getTopicConfigTable();
++        ConcurrentHashMap<String, TopicConfig> topicConfigTable = new ConcurrentHashMap<>();
+ 
+-        TopicConfigAndMappingSerializeWrapper topicConfigWrapper = new TopicConfigAndMappingSerializeWrapper();
+-
+-        topicConfigWrapper.setDataVersion(this.getTopicConfigManager().getDataVersion());
+-        topicConfigWrapper.setTopicConfigTable(this.getTopicConfigManager().getTopicConfigTable());
+-
+-        topicConfigWrapper.setTopicQueueMappingInfoMap(this.getTopicQueueMappingManager().getTopicQueueMappingTable().entrySet().stream().map(
+-            entry -> new AbstractMap.SimpleImmutableEntry<>(entry.getKey(), TopicQueueMappingDetail.cloneAsMappingInfo(entry.getValue()))
+-        ).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue)));
+-
+-        if (!PermName.isWriteable(this.getBrokerConfig().getBrokerPermission())
+-            || !PermName.isReadable(this.getBrokerConfig().getBrokerPermission())) {
+-            ConcurrentHashMap<String, TopicConfig> topicConfigTable = new ConcurrentHashMap<>();
+-            for (TopicConfig topicConfig : topicConfigWrapper.getTopicConfigTable().values()) {
+-                TopicConfig tmp =
++        for (TopicConfig topicConfig : topicConfigMap.values()) {
++            if (!PermName.isWriteable(this.getBrokerConfig().getBrokerPermission())
++                || !PermName.isReadable(this.getBrokerConfig().getBrokerPermission())) {
++                topicConfigTable.put(topicConfig.getTopicName(),
+                     new TopicConfig(topicConfig.getTopicName(), topicConfig.getReadQueueNums(), topicConfig.getWriteQueueNums(),
+-                        topicConfig.getPerm() & this.brokerConfig.getBrokerPermission(), topicConfig.getTopicSysFlag());
+-                topicConfigTable.put(topicConfig.getTopicName(), tmp);
++                        topicConfig.getPerm() & getBrokerConfig().getBrokerPermission()));
++            } else {
++                topicConfigTable.put(topicConfig.getTopicName(), topicConfig);
++            }
++
++            if (this.brokerConfig.isEnableSplitRegistration()
++                && topicConfigTable.size() >= this.brokerConfig.getSplitRegistrationSize()) {
++                TopicConfigAndMappingSerializeWrapper topicConfigWrapper = this.getTopicConfigManager().buildSerializeWrapper(topicConfigTable);
++                doRegisterBrokerAll(checkOrderConfig, oneway, topicConfigWrapper);
++                topicConfigTable.clear();
+             }
+-            topicConfigWrapper.setTopicConfigTable(topicConfigTable);
+         }
+ 
+-        if (forceRegister || needRegister(this.brokerConfig.getBrokerClusterName(),
++        Map<String, TopicQueueMappingInfo> topicQueueMappingInfoMap = this.getTopicQueueMappingManager().getTopicQueueMappingTable().entrySet().stream()
++            .map(entry -> new AbstractMap.SimpleImmutableEntry<>(entry.getKey(), TopicQueueMappingDetail.cloneAsMappingInfo(entry.getValue())))
++            .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
++
++        TopicConfigAndMappingSerializeWrapper topicConfigWrapper = this.getTopicConfigManager().
++            buildSerializeWrapper(topicConfigTable, topicQueueMappingInfoMap);
++        if (this.brokerConfig.isEnableSplitRegistration() || forceRegister || needRegister(this.brokerConfig.getBrokerClusterName(),
+             this.getBrokerAddr(),
+             this.brokerConfig.getBrokerName(),
+             this.brokerConfig.getBrokerId(),
+diff --git a/broker/src/main/java/org/apache/rocketmq/broker/topic/TopicConfigManager.java b/broker/src/main/java/org/apache/rocketmq/broker/topic/TopicConfigManager.java
+index 754605438..8537929be 100644
+--- a/broker/src/main/java/org/apache/rocketmq/broker/topic/TopicConfigManager.java
++++ b/broker/src/main/java/org/apache/rocketmq/broker/topic/TopicConfigManager.java
+@@ -29,6 +29,7 @@ import java.util.concurrent.locks.ReentrantLock;
+ 
+ import com.google.common.collect.ImmutableMap;
+ 
++import com.google.common.collect.Maps;
+ import org.apache.commons.lang3.StringUtils;
+ import org.apache.rocketmq.broker.BrokerController;
+ import org.apache.rocketmq.broker.BrokerPathConfigHelper;
+@@ -47,7 +48,9 @@ import org.apache.rocketmq.logging.org.slf4j.Logger;
+ import org.apache.rocketmq.logging.org.slf4j.LoggerFactory;
+ import org.apache.rocketmq.remoting.protocol.DataVersion;
+ import org.apache.rocketmq.remoting.protocol.body.KVTable;
++import org.apache.rocketmq.remoting.protocol.body.TopicConfigAndMappingSerializeWrapper;
+ import org.apache.rocketmq.remoting.protocol.body.TopicConfigSerializeWrapper;
++import org.apache.rocketmq.remoting.protocol.statictopic.TopicQueueMappingInfo;
+ 
+ import static com.google.common.base.Preconditions.checkNotNull;
+ 
+@@ -609,6 +612,24 @@ public class TopicConfigManager extends ConfigManager {
+         return topicConfigSerializeWrapper;
+     }
+ 
++    public TopicConfigAndMappingSerializeWrapper buildSerializeWrapper(final ConcurrentMap<String, TopicConfig> topicConfigTable) {
++        return buildSerializeWrapper(topicConfigTable, Maps.newHashMap());
++    }
++
++    public TopicConfigAndMappingSerializeWrapper buildSerializeWrapper(
++        final ConcurrentMap<String, TopicConfig> topicConfigTable,
++        final Map<String, TopicQueueMappingInfo> topicQueueMappingInfoMap
++    ) {
++        TopicConfigAndMappingSerializeWrapper topicConfigWrapper = new TopicConfigAndMappingSerializeWrapper();
++        topicConfigWrapper.setTopicConfigTable(topicConfigTable);
++        topicConfigWrapper.setTopicQueueMappingInfoMap(topicQueueMappingInfoMap);
++        topicConfigWrapper.setDataVersion(this.getDataVersion());
++        if (this.brokerController.getBrokerConfig().isEnableSplitRegistration()) {
++            this.getDataVersion().nextVersion();
++        }
++        return topicConfigWrapper;
++    }
++
+     @Override
+     public String encode() {
+         return encode(false);
+diff --git a/common/src/main/java/org/apache/rocketmq/common/BrokerConfig.java b/common/src/main/java/org/apache/rocketmq/common/BrokerConfig.java
+index 45d26b29c..0d248c4e1 100644
+--- a/common/src/main/java/org/apache/rocketmq/common/BrokerConfig.java
++++ b/common/src/main/java/org/apache/rocketmq/common/BrokerConfig.java
+@@ -396,6 +396,14 @@ public class BrokerConfig extends BrokerIdentity {
+ 
+     private boolean enableMixedMessageType = false;
+ 
++    /**
++     * This flag and deleteTopicWithBrokerRegistration flag in the NameServer cannot be set to true at the same time,
++     * otherwise there will be a loss of routing
++     */
++    private boolean enableSplitRegistration = false;
++
++    private int splitRegistrationSize = 800;
++
+     public long getMaxPopPollingSize() {
+         return maxPopPollingSize;
+     }
+@@ -1731,4 +1739,20 @@ public class BrokerConfig extends BrokerIdentity {
+     public void setEnableMixedMessageType(boolean enableMixedMessageType) {
+         this.enableMixedMessageType = enableMixedMessageType;
+     }
++
++    public boolean isEnableSplitRegistration() {
++        return enableSplitRegistration;
++    }
++
++    public void setEnableSplitRegistration(boolean enableSplitRegistration) {
++        this.enableSplitRegistration = enableSplitRegistration;
++    }
++
++    public int getSplitRegistrationSize() {
++        return splitRegistrationSize;
++    }
++
++    public void setSplitRegistrationSize(int splitRegistrationSize) {
++        this.splitRegistrationSize = splitRegistrationSize;
++    }
+ }

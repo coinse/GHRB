@@ -1,0 +1,17 @@
+diff --git a/brut.apktool/apktool-lib/src/test/java/brut/androlib/aapt2/BuildAndDecodeTest.java b/brut.apktool/apktool-lib/src/test/java/brut/androlib/aapt2/BuildAndDecodeTest.java
+index d5720829..a0aa8048 100644
+--- a/brut.apktool/apktool-lib/src/test/java/brut/androlib/aapt2/BuildAndDecodeTest.java
++++ b/brut.apktool/apktool-lib/src/test/java/brut/androlib/aapt2/BuildAndDecodeTest.java
+@@ -86,6 +86,12 @@ public class BuildAndDecodeTest extends BaseTest {
+         compareValuesFiles("values-b+iw+660/strings.xml");
+     }
+ 
++    @Test
++    public void valuesGrammaticalGenderTest() throws BrutException {
++        compareValuesFiles("values-neuter/strings.xml");
++        compareValuesFiles("values-feminine/strings.xml");
++    }
++
+     @Test
+     public void valuesBcp47LanguageScriptRegionVariantTest() throws BrutException {
+         compareValuesFiles("values-b+ast+Latn+IT+AREVELA/strings.xml");

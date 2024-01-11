@@ -1,0 +1,32 @@
+diff --git a/src/test/java/com/puppycrawl/tools/checkstyle/internal/XdocsPagesTest.java b/src/test/java/com/puppycrawl/tools/checkstyle/internal/XdocsPagesTest.java
+index a3a7e5137..7d9a09152 100644
+--- a/src/test/java/com/puppycrawl/tools/checkstyle/internal/XdocsPagesTest.java
++++ b/src/test/java/com/puppycrawl/tools/checkstyle/internal/XdocsPagesTest.java
+@@ -433,7 +433,9 @@ public class XdocsPagesTest {
+ 
+                 // can't test ant structure, or old and outdated checks
+                 assertWithMessage("Xml is invalid, old or has outdated structure")
+-                        .that(fileName.startsWith("anttask") || fileName.startsWith("releasenotes")
++                        .that(fileName.startsWith("anttask")
++                                || fileName.startsWith("releasenotes")
++                                || fileName.startsWith("writingjavadocchecks")
+                                 || isValidCheckstyleXml(fileName, code, unserializedSource))
+                         .isTrue();
+             }
+diff --git a/src/test/java/com/puppycrawl/tools/checkstyle/internal/utils/XdocUtil.java b/src/test/java/com/puppycrawl/tools/checkstyle/internal/utils/XdocUtil.java
+index 6cd1f7b7c..d37c62e54 100644
+--- a/src/test/java/com/puppycrawl/tools/checkstyle/internal/utils/XdocUtil.java
++++ b/src/test/java/com/puppycrawl/tools/checkstyle/internal/utils/XdocUtil.java
+@@ -60,7 +60,11 @@ public final class XdocUtil {
+     public static Set<Path> getXdocsFilePaths() throws IOException {
+         final Path directory = Paths.get(DIRECTORY_PATH);
+         try (Stream<Path> stream = Files.find(directory, Integer.MAX_VALUE,
+-                (path, attr) -> attr.isRegularFile() && path.toString().endsWith(".xml"))) {
++                (path, attr) -> {
++                    return attr.isRegularFile()
++                            && (path.toString().endsWith(".xml")
++                            || path.toString().endsWith(".xml.vm"));
++                })) {
+             return stream.collect(Collectors.toSet());
+         }
+     }

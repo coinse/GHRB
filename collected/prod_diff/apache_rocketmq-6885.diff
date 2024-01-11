@@ -1,0 +1,91 @@
+diff --git a/proxy/src/main/java/org/apache/rocketmq/proxy/service/ClusterServiceManager.java b/proxy/src/main/java/org/apache/rocketmq/proxy/service/ClusterServiceManager.java
+index 95cc4d149..d2ddfc352 100644
+--- a/proxy/src/main/java/org/apache/rocketmq/proxy/service/ClusterServiceManager.java
++++ b/proxy/src/main/java/org/apache/rocketmq/proxy/service/ClusterServiceManager.java
+@@ -97,7 +97,7 @@ public class ClusterServiceManager extends AbstractStartAndShutdown implements S
+         this.adminService = new DefaultAdminService(this.operationClientAPIFactory);
+ 
+         this.producerManager = new ProducerManager();
+-        this.consumerManager = new ClusterConsumerManager(this.topicRouteService, this.adminService, this.operationClientAPIFactory, new ConsumerIdsChangeListenerImpl(), proxyConfig.getChannelExpiredTimeout());
++        this.consumerManager = new ClusterConsumerManager(this.topicRouteService, this.adminService, this.operationClientAPIFactory, new ConsumerIdsChangeListenerImpl(), proxyConfig.getChannelExpiredTimeout(), rpcHook);
+ 
+         this.transactionClientAPIFactory = new MQClientAPIFactory(
+             nameserverAccessConfig,
+diff --git a/proxy/src/main/java/org/apache/rocketmq/proxy/service/client/ClusterConsumerManager.java b/proxy/src/main/java/org/apache/rocketmq/proxy/service/client/ClusterConsumerManager.java
+index 07aeb23fc..65a4569f8 100644
+--- a/proxy/src/main/java/org/apache/rocketmq/proxy/service/client/ClusterConsumerManager.java
++++ b/proxy/src/main/java/org/apache/rocketmq/proxy/service/client/ClusterConsumerManager.java
+@@ -27,6 +27,7 @@ import org.apache.rocketmq.proxy.service.admin.AdminService;
+ import org.apache.rocketmq.client.impl.mqclient.MQClientAPIFactory;
+ import org.apache.rocketmq.proxy.service.route.TopicRouteService;
+ import org.apache.rocketmq.proxy.service.sysmessage.HeartbeatSyncer;
++import org.apache.rocketmq.remoting.RPCHook;
+ import org.apache.rocketmq.remoting.protocol.heartbeat.ConsumeType;
+ import org.apache.rocketmq.remoting.protocol.heartbeat.MessageModel;
+ import org.apache.rocketmq.remoting.protocol.heartbeat.SubscriptionData;
+@@ -36,9 +37,9 @@ public class ClusterConsumerManager extends ConsumerManager implements StartAndS
+     protected HeartbeatSyncer heartbeatSyncer;
+ 
+     public ClusterConsumerManager(TopicRouteService topicRouteService, AdminService adminService,
+-        MQClientAPIFactory mqClientAPIFactory, ConsumerIdsChangeListener consumerIdsChangeListener, long channelExpiredTimeout) {
++                                  MQClientAPIFactory mqClientAPIFactory, ConsumerIdsChangeListener consumerIdsChangeListener, long channelExpiredTimeout, RPCHook rpcHook) {
+         super(consumerIdsChangeListener, channelExpiredTimeout);
+-        this.heartbeatSyncer = new HeartbeatSyncer(topicRouteService, adminService, this, mqClientAPIFactory);
++        this.heartbeatSyncer = new HeartbeatSyncer(topicRouteService, adminService, this, mqClientAPIFactory, rpcHook);
+     }
+ 
+     @Override
+diff --git a/proxy/src/main/java/org/apache/rocketmq/proxy/service/sysmessage/AbstractSystemMessageSyncer.java b/proxy/src/main/java/org/apache/rocketmq/proxy/service/sysmessage/AbstractSystemMessageSyncer.java
+index 2ef849737..fcdc25cac 100644
+--- a/proxy/src/main/java/org/apache/rocketmq/proxy/service/sysmessage/AbstractSystemMessageSyncer.java
++++ b/proxy/src/main/java/org/apache/rocketmq/proxy/service/sysmessage/AbstractSystemMessageSyncer.java
+@@ -51,12 +51,14 @@ public abstract class AbstractSystemMessageSyncer implements StartAndShutdown, M
+     protected final TopicRouteService topicRouteService;
+     protected final AdminService adminService;
+     protected final MQClientAPIFactory mqClientAPIFactory;
++    protected final RPCHook rpcHook;
+     protected DefaultMQPushConsumer defaultMQPushConsumer;
+ 
+-    public AbstractSystemMessageSyncer(TopicRouteService topicRouteService, AdminService adminService, MQClientAPIFactory mqClientAPIFactory) {
++    public AbstractSystemMessageSyncer(TopicRouteService topicRouteService, AdminService adminService, MQClientAPIFactory mqClientAPIFactory, RPCHook rpcHook) {
+         this.topicRouteService = topicRouteService;
+         this.adminService = adminService;
+         this.mqClientAPIFactory = mqClientAPIFactory;
++        this.rpcHook = rpcHook;
+     }
+ 
+     protected String getSystemMessageProducerId() {
+@@ -84,8 +86,8 @@ public abstract class AbstractSystemMessageSyncer implements StartAndShutdown, M
+         return 1;
+     }
+ 
+-    protected RPCHook getRpcHook() {
+-        return null;
++    public RPCHook getRpcHook() {
++        return rpcHook;
+     }
+ 
+     protected void sendSystemMessage(Object data) {
+diff --git a/proxy/src/main/java/org/apache/rocketmq/proxy/service/sysmessage/HeartbeatSyncer.java b/proxy/src/main/java/org/apache/rocketmq/proxy/service/sysmessage/HeartbeatSyncer.java
+index 3333ebd2d..f70c06b8f 100644
+--- a/proxy/src/main/java/org/apache/rocketmq/proxy/service/sysmessage/HeartbeatSyncer.java
++++ b/proxy/src/main/java/org/apache/rocketmq/proxy/service/sysmessage/HeartbeatSyncer.java
+@@ -41,6 +41,7 @@ import org.apache.rocketmq.proxy.processor.channel.RemoteChannel;
+ import org.apache.rocketmq.proxy.service.admin.AdminService;
+ import org.apache.rocketmq.client.impl.mqclient.MQClientAPIFactory;
+ import org.apache.rocketmq.proxy.service.route.TopicRouteService;
++import org.apache.rocketmq.remoting.RPCHook;
+ import org.apache.rocketmq.remoting.protocol.heartbeat.ConsumeType;
+ import org.apache.rocketmq.remoting.protocol.heartbeat.MessageModel;
+ import org.apache.rocketmq.remoting.protocol.heartbeat.SubscriptionData;
+@@ -53,8 +54,8 @@ public class HeartbeatSyncer extends AbstractSystemMessageSyncer {
+     protected String localProxyId;
+ 
+     public HeartbeatSyncer(TopicRouteService topicRouteService, AdminService adminService,
+-        ConsumerManager consumerManager, MQClientAPIFactory mqClientAPIFactory) {
+-        super(topicRouteService, adminService, mqClientAPIFactory);
++                           ConsumerManager consumerManager, MQClientAPIFactory mqClientAPIFactory, RPCHook rpcHook) {
++        super(topicRouteService, adminService, mqClientAPIFactory, rpcHook);
+         this.consumerManager = consumerManager;
+         this.localProxyId = buildLocalProxyId();
+         this.init();

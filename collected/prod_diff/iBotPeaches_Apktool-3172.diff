@@ -1,0 +1,108 @@
+diff --git a/brut.apktool/apktool-lib/src/main/java/brut/androlib/ApkDecoder.java b/brut.apktool/apktool-lib/src/main/java/brut/androlib/ApkDecoder.java
+index bbd59f89..36070cf3 100644
+--- a/brut.apktool/apktool-lib/src/main/java/brut/androlib/ApkDecoder.java
++++ b/brut.apktool/apktool-lib/src/main/java/brut/androlib/ApkDecoder.java
+@@ -132,9 +132,11 @@ public class ApkDecoder {
+                     }
+                 }
+             }
++
++            // In case we have no resources. We should store the minSdk we pulled from the source opcode api level
+             ApkInfo apkInfo = resourcesDecoder.getApkInfo();
+             if (mMinSdkVersion > 0) {
+-                apkInfo.setSdkInfo(getMinSdkInfo());
++                apkInfo.setSdkInfoField("minSdkVersion", Integer.toString(mMinSdkVersion));
+             }
+ 
+             copyRawFiles(outDir);
+@@ -183,12 +185,6 @@ public class ApkDecoder {
+         }
+     }
+ 
+-    private Map<String, String> getMinSdkInfo() {
+-        Map<String, String> sdkInfo = new LinkedHashMap<>();
+-        sdkInfo.put("minSdkVersion", Integer.toString(mMinSdkVersion));
+-        return sdkInfo;
+-    }
+-
+     private void copySourcesRaw(File outDir, String filename)
+         throws AndrolibException {
+         try {
+diff --git a/brut.apktool/apktool-lib/src/main/java/brut/androlib/apk/ApkInfo.java b/brut.apktool/apktool-lib/src/main/java/brut/androlib/apk/ApkInfo.java
+index d2abbac6..4ec70c23 100644
+--- a/brut.apktool/apktool-lib/src/main/java/brut/androlib/apk/ApkInfo.java
++++ b/brut.apktool/apktool-lib/src/main/java/brut/androlib/apk/ApkInfo.java
+@@ -35,10 +35,10 @@ import java.util.Map;
+ public class ApkInfo {
+     public String version;
+ 
+-    private String mApkFileName;
++    private String apkFileName;
+     public boolean isFrameworkApk;
+     public UsesFramework usesFramework;
+-    private Map<String, String> mSdkInfo = new LinkedHashMap<>();
++    private Map<String, String> sdkInfo = new LinkedHashMap<>();
+     public PackageInfo packageInfo = new PackageInfo();
+     public VersionInfo versionInfo = new VersionInfo();
+     public boolean resourcesAreCompressed;
+@@ -47,6 +47,9 @@ public class ApkInfo {
+     public Map<String, String> unknownFiles;
+     public Collection<String> doNotCompress;
+ 
++    /** @deprecated use {@link #resourcesAreCompressed} */
++    public boolean compressionType;
++
+     public ApkInfo() {
+         this.version = ApktoolProperties.getVersion();
+     }
+@@ -83,38 +86,42 @@ public class ApkInfo {
+     }
+ 
+     public String getApkFileName() {
+-        return mApkFileName;
++        return apkFileName;
+     }
+ 
+     public void setApkFileName(String apkFileName) {
+-        mApkFileName = apkFileName;
++        this.apkFileName = apkFileName;
+     }
+ 
+     public Map<String, String> getSdkInfo() {
+-        return mSdkInfo;
++        return sdkInfo;
+     }
+ 
+     public void setSdkInfo(Map<String, String> sdkInfo) {
+-        mSdkInfo = sdkInfo;
++        this.sdkInfo = sdkInfo;
++    }
++
++    public void setSdkInfoField(String key, String value) {
++        sdkInfo.put(key, value);
+     }
+ 
+     public String getMinSdkVersion() {
+-        return mSdkInfo.get("minSdkVersion");
++        return sdkInfo.get("minSdkVersion");
+     }
+ 
+     public String getMaxSdkVersion() {
+-        return mSdkInfo.get("maxSdkVersion");
++        return sdkInfo.get("maxSdkVersion");
+     }
+ 
+     public String getTargetSdkVersion() {
+-        return mSdkInfo.get("targetSdkVersion");
++        return sdkInfo.get("targetSdkVersion");
+     }
+ 
+     public int getMinSdkVersionFromAndroidCodename(String sdkVersion) {
+         int sdkNumber = mapSdkShorthandToVersion(sdkVersion);
+ 
+         if (sdkNumber == ResConfigFlags.SDK_BASE) {
+-            return Integer.parseInt(mSdkInfo.get("minSdkVersion"));
++            return Integer.parseInt(sdkInfo.get("minSdkVersion"));
+         }
+         return sdkNumber;
+     }

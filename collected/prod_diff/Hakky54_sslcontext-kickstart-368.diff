@@ -1,0 +1,93 @@
+diff --git a/sslcontext-kickstart/src/main/java/nl/altindag/ssl/util/CertificateUtils.java b/sslcontext-kickstart/src/main/java/nl/altindag/ssl/util/CertificateUtils.java
+index 22223d2..ef954c8 100644
+--- a/sslcontext-kickstart/src/main/java/nl/altindag/ssl/util/CertificateUtils.java
++++ b/sslcontext-kickstart/src/main/java/nl/altindag/ssl/util/CertificateUtils.java
+@@ -18,6 +18,8 @@ package nl.altindag.ssl.util;
+ import nl.altindag.ssl.exception.GenericCertificateException;
+ import nl.altindag.ssl.exception.GenericIOException;
+ import nl.altindag.ssl.util.internal.IOUtils;
++import org.slf4j.Logger;
++import org.slf4j.LoggerFactory;
+ 
+ import javax.net.ssl.X509TrustManager;
+ import javax.security.auth.x500.X500Principal;
+@@ -63,6 +65,8 @@ import static nl.altindag.ssl.util.internal.ValidationUtils.requireNotNull;
+  */
+ public final class CertificateUtils {
+ 
++    private static final Logger LOGGER = LoggerFactory.getLogger(CertificateUtils.class);
++
+     private static final String CERTIFICATE_TYPE = "X.509";
+     private static final String P7B_HEADER = "-----BEGIN PKCS7-----";
+     private static final String P7B_FOOTER = "-----END PKCS7-----";
+@@ -242,20 +246,14 @@ public final class CertificateUtils {
+         return Collections.unmodifiableList(certificates);
+     }
+ 
+-    /**
+-     * PKIX/RFC 5280 states that duplicate extensions are not allowed. See section 4.2 of it.
+-     * A certificate which contains a duplicate extension is not parseable. Instead of throwing an exception, it will be ignored.
+-     */
+     public static List<Certificate> parseDerCertificate(InputStream certificateStream) {
+         try(BufferedInputStream bufferedCertificateStream = new BufferedInputStream(certificateStream)) {
+             return CertificateFactory.getInstance(CERTIFICATE_TYPE)
+                     .generateCertificates(bufferedCertificateStream).stream()
+                     .collect(toUnmodifiableList());
+         } catch (CertificateException | IOException e) {
+-            if (e.getMessage().contains("Duplicate extensions not allowed")) {
+-                return Collections.emptyList();
+-            }
+-            throw new GenericCertificateException("There is no valid certificate present to parse. Please make sure to supply a valid der formatted certificate", e);
++            LOGGER.debug("There is no valid certificate present to parse. Please make sure to supply a valid der formatted certificate", e);
++            return Collections.emptyList();
+         }
+     }
+ 
+diff --git a/sslcontext-kickstart/src/main/java/nl/altindag/ssl/util/KeyStoreUtils.java b/sslcontext-kickstart/src/main/java/nl/altindag/ssl/util/KeyStoreUtils.java
+index f541378..70fb86c 100644
+--- a/sslcontext-kickstart/src/main/java/nl/altindag/ssl/util/KeyStoreUtils.java
++++ b/sslcontext-kickstart/src/main/java/nl/altindag/ssl/util/KeyStoreUtils.java
+@@ -210,14 +210,18 @@ public final class KeyStoreUtils {
+                 createKeyStoreIfAvailable("KeychainStore", null).ifPresent(keyStores::add);
+ 
+                 List<Certificate> systemTrustedCertificates = MacCertificateUtils.getCertificates();
+-                KeyStore systemTrustStore = createTrustStore(systemTrustedCertificates);
+-                keyStores.add(systemTrustStore);
++                if (!systemTrustedCertificates.isEmpty()) {
++                    KeyStore systemTrustStore = createTrustStore(systemTrustedCertificates);
++                    keyStores.add(systemTrustStore);
++                }
+                 break;
+             }
+             case LINUX: {
+                 List<Certificate> certificates = LinuxCertificateUtils.getCertificates();
+-                KeyStore linuxTrustStore = createTrustStore(certificates);
+-                keyStores.add(linuxTrustStore);
++                if (!certificates.isEmpty()) {
++                    KeyStore linuxTrustStore = createTrustStore(certificates);
++                    keyStores.add(linuxTrustStore);
++                }
+                 break;
+             }
+             case ANDROID: {
+diff --git a/sslcontext-kickstart/src/main/java/nl/altindag/ssl/util/LinuxCertificateUtils.java b/sslcontext-kickstart/src/main/java/nl/altindag/ssl/util/LinuxCertificateUtils.java
+index ee78b6e..62b979f 100644
+--- a/sslcontext-kickstart/src/main/java/nl/altindag/ssl/util/LinuxCertificateUtils.java
++++ b/sslcontext-kickstart/src/main/java/nl/altindag/ssl/util/LinuxCertificateUtils.java
+@@ -18,6 +18,7 @@ package nl.altindag.ssl.util;
+ import nl.altindag.ssl.exception.GenericIOException;
+ 
+ import java.io.IOException;
++import java.nio.file.FileVisitOption;
+ import java.nio.file.Files;
+ import java.nio.file.Path;
+ import java.nio.file.Paths;
+@@ -64,7 +65,7 @@ final class LinuxCertificateUtils {
+                         List<Certificate> certs = loadCertificate(path);
+                         certificates.addAll(certs);
+                     } else if (Files.isDirectory(path)) {
+-                        try(Stream<Path> files = Files.walk(path, 1)) {
++                        try(Stream<Path> files = Files.walk(path, 1, FileVisitOption.FOLLOW_LINKS)) {
+                             List<Certificate> certs = files
+                                     .filter(Files::isRegularFile)
+                                     .flatMap(file -> loadCertificate(file).stream())

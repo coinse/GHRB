@@ -1,0 +1,64 @@
+diff --git a/modules/openapi-generator/src/test/java/org/openapitools/codegen/java/JavaClientCodegenTest.java b/modules/openapi-generator/src/test/java/org/openapitools/codegen/java/JavaClientCodegenTest.java
+index d4e152ab2c2..a8677794c58 100644
+--- a/modules/openapi-generator/src/test/java/org/openapitools/codegen/java/JavaClientCodegenTest.java
++++ b/modules/openapi-generator/src/test/java/org/openapitools/codegen/java/JavaClientCodegenTest.java
+@@ -53,6 +53,7 @@ import org.openapitools.codegen.meta.features.SecurityFeature;
+ import org.openapitools.codegen.model.OperationMap;
+ import org.openapitools.codegen.model.OperationsMap;
+ import org.testng.Assert;
++import org.testng.annotations.DataProvider;
+ import org.testng.annotations.Ignore;
+ import org.testng.annotations.Test;
+ 
+@@ -2059,6 +2060,38 @@ public class JavaClientCodegenTest {
+         output.deleteOnExit();
+     }
+ 
++    @DataProvider(name = "shouldNotAddAdditionalModelAnnotationsToAbstractOpenApiSchema_issue15684")
++    public static Object[][] shouldNotAddAdditionalModelAnnotationsToAbstractOpenApiSchema_issue15684_dataProvider() {
++        return new Object[][] {{"okhttp-gson"}, {"jersey2"}, {"jersey3"}, {"native"}};
++    }
++
++    @Test(dataProvider = "shouldNotAddAdditionalModelAnnotationsToAbstractOpenApiSchema_issue15684")
++    public void shouldNotAddAdditionalModelAnnotationsToAbstractOpenApiSchema_issue15684(String library) throws Exception {
++        File output = Files.createTempDirectory("test").toFile();
++        output.deleteOnExit();
++
++        final CodegenConfigurator configurator = new CodegenConfigurator()
++            .setGeneratorName("java")
++            .setLibrary(library)
++            .addAdditionalProperty(AbstractJavaCodegen.ADDITIONAL_MODEL_TYPE_ANNOTATIONS, "@annotation1;@annotation2")
++            .setInputSpec("src/test/resources/3_0/deprecated-properties.yaml")
++            .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
++
++        final ClientOptInput clientOptInput = configurator.toClientOptInput();
++        DefaultGenerator generator = new DefaultGenerator();
++        Map<String, File> files = generator.opts(clientOptInput).generate().stream()
++                .collect(Collectors.toMap(File::getName, Function.identity()));
++
++        JavaFileAssert.assertThat(files.get("AbstractOpenApiSchema.java"))
++            .assertTypeAnnotations()
++            .doesNotContainsWithName("annotation1")
++            .doesNotContainsWithName("annotation2");
++        JavaFileAssert.assertThat(files.get("Animal.java"))
++            .assertTypeAnnotations()
++            .containsWithName("annotation1")
++            .containsWithName("annotation2");
++    }
++
+     @Test
+     public void testRestTemplateWithGeneratedClientAsBeanDisabled() throws IOException {
+ 
+diff --git a/modules/openapi-generator/src/test/java/org/openapitools/codegen/java/assertions/AbstractAnnotationAssert.java b/modules/openapi-generator/src/test/java/org/openapitools/codegen/java/assertions/AbstractAnnotationAssert.java
+index 5a9e6412618..fac2af8f7b0 100644
+--- a/modules/openapi-generator/src/test/java/org/openapitools/codegen/java/assertions/AbstractAnnotationAssert.java
++++ b/modules/openapi-generator/src/test/java/org/openapitools/codegen/java/assertions/AbstractAnnotationAssert.java
+@@ -37,7 +37,7 @@ public abstract class AbstractAnnotationAssert<ACTUAL extends AbstractAnnotation
+ 
+     public ACTUAL doesNotContainsWithName(final String name) {
+         super
+-            .withFailMessage("Should have annotation with name: " + name)
++            .withFailMessage("Shouldn't have annotation with name: " + name)
+             .noneMatch(annotation -> annotation.getNameAsString().equals(name));
+         return myself();
+     }

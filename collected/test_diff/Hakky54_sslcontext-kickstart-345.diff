@@ -1,0 +1,313 @@
+diff --git a/sslcontext-kickstart/src/test/java/nl/altindag/ssl/SSLFactoryIT.java b/sslcontext-kickstart/src/test/java/nl/altindag/ssl/SSLFactoryIT.java
+index 4332789..b33f6db 100644
+--- a/sslcontext-kickstart/src/test/java/nl/altindag/ssl/SSLFactoryIT.java
++++ b/sslcontext-kickstart/src/test/java/nl/altindag/ssl/SSLFactoryIT.java
+@@ -16,19 +16,25 @@
+ package nl.altindag.ssl;
+ 
+ import nl.altindag.ssl.server.service.Server;
++import nl.altindag.ssl.util.KeyStoreUtils;
+ import nl.altindag.ssl.util.SSLFactoryUtils;
+ import nl.altindag.ssl.util.SSLSessionUtils;
++import nl.altindag.ssl.util.TrustManagerUtils;
+ import org.junit.jupiter.api.Test;
+ 
+ import javax.net.ssl.HttpsURLConnection;
+ import javax.net.ssl.SSLException;
+ import javax.net.ssl.SSLSocketFactory;
++import javax.net.ssl.X509ExtendedTrustManager;
+ import java.io.BufferedReader;
+ import java.io.IOException;
+ import java.io.InputStreamReader;
+ import java.net.SocketException;
+ import java.net.URL;
+ import java.nio.charset.StandardCharsets;
++import java.security.InvalidAlgorithmParameterException;
++import java.security.KeyStore;
++import java.security.cert.CertificateException;
+ import java.util.Collections;
+ import java.util.HashMap;
+ import java.util.List;
+@@ -37,6 +43,7 @@ import java.util.stream.Collectors;
+ 
+ import static org.assertj.core.api.Assertions.assertThat;
+ import static org.assertj.core.api.Assertions.assertThatThrownBy;
++import static org.assertj.core.api.Assertions.catchThrowableOfType;
+ 
+ /**
+  * @author Hakan Altindag
+@@ -58,13 +65,8 @@ class SSLFactoryIT {
+                 .withTrustMaterial("keystore/client-server/client-one/truststore.jks", "secret".toCharArray())
+                 .build();
+ 
+-        HttpsURLConnection connection = (HttpsURLConnection) new URL("https://localhost:8443/api/hello").openConnection();
+-        connection.setSSLSocketFactory(sslFactoryForClient.getSslSocketFactory());
+-        connection.setHostnameVerifier(sslFactoryForClient.getHostnameVerifier());
+-        connection.setRequestMethod("GET");
+-
+-        int statusCode = connection.getResponseCode();
+-        assertThat(statusCode).isEqualTo(200);
++        Response response = executeRequest("https://localhost:8443/api/hello", sslFactoryForClient.getSslSocketFactory());
++        assertThat(response.getStatusCode()).isEqualTo(200);
+ 
+         server.stop();
+     }
+@@ -292,6 +294,70 @@ class SSLFactoryIT {
+         serverTwo.stop();
+     }
+ 
++    @Test
++    void throwInvalidAlgorithmParameterExceptionWhenUsingSingleTrustManagerWhichIsConstructedFromAnEmptyKeyStore() {
++        SSLFactory sslFactoryForServer = SSLFactory.builder()
++                .withIdentityMaterial("keystore/client-server/server-one/identity.jks", "secret".toCharArray())
++                .withTrustMaterial("keystore/client-server/server-one/truststore.jks", "secret".toCharArray())
++                .withNeedClientAuthentication()
++                .build();
++
++        Server server = Server.createDefault(sslFactoryForServer);
++
++        KeyStore emptyKeyStore = KeyStoreUtils.createKeyStore();
++        X509ExtendedTrustManager emptyTrustManager = TrustManagerUtils.createTrustManager(emptyKeyStore);
++
++        SSLFactory sslFactoryForClient = SSLFactory.builder()
++                .withTrustMaterial(emptyTrustManager)
++                .build();
++
++        SSLException sslException = catchThrowableOfType(() -> executeRequest("https://localhost:8443/api/hello", sslFactoryForClient.getSslSocketFactory()), SSLException.class);
++
++        Throwable cause = sslException.getCause();
++        assertThat(cause).isInstanceOf(RuntimeException.class);
++
++        Throwable innerCause = cause.getCause();
++        assertThat(innerCause).isInstanceOf(InvalidAlgorithmParameterException.class);
++        assertThat(innerCause.getMessage()).contains("the trustAnchors parameter must be non-empty");
++
++        server.stop();
++    }
++
++    @Test
++    void throwCertificateExceptionWhenUsingMultipleTrustManagersWhichIsConstructedFromAnEmptyKeyStore() {
++        SSLFactory sslFactoryForServer = SSLFactory.builder()
++                .withIdentityMaterial("keystore/client-server/server-one/identity.jks", "secret".toCharArray())
++                .withTrustMaterial("keystore/client-server/server-one/truststore.jks", "secret".toCharArray())
++                .withNeedClientAuthentication()
++                .build();
++
++        Server server = Server.createDefault(sslFactoryForServer);
++
++        KeyStore emptyKeyStore = KeyStoreUtils.createKeyStore();
++        X509ExtendedTrustManager emptyTrustManager = TrustManagerUtils.createTrustManager(emptyKeyStore);
++
++        SSLFactory sslFactoryForClient = SSLFactory.builder()
++                .withTrustMaterial(emptyTrustManager)
++                .withTrustMaterial(emptyTrustManager)
++                .build();
++
++        SSLException sslException = catchThrowableOfType(() -> executeRequest("https://localhost:8443/api/hello", sslFactoryForClient.getSslSocketFactory()), SSLException.class);
++
++        Throwable cause = sslException.getCause();
++        assertThat(cause).isInstanceOf(CertificateException.class);
++
++        Throwable[] suppressed = cause.getSuppressed();
++        assertThat(suppressed).hasSize(2);
++
++        for (Throwable throwable : suppressed) {
++            assertThat(throwable).isInstanceOf(CertificateException.class);
++            assertThat(throwable.getCause()).isInstanceOf(InvalidAlgorithmParameterException.class);
++            assertThat(throwable.getMessage()).contains("the trustAnchors parameter must be non-empty");
++        }
++
++        server.stop();
++    }
++
+     private Response executeRequest(String url, SSLSocketFactory sslSocketFactory) throws IOException {
+         HttpsURLConnection connection = (HttpsURLConnection) new URL(url).openConnection();
+         connection.setSSLSocketFactory(sslSocketFactory);
+diff --git a/sslcontext-kickstart/src/test/java/nl/altindag/ssl/trustmanager/CompositeX509ExtendedTrustManagerShould.java b/sslcontext-kickstart/src/test/java/nl/altindag/ssl/trustmanager/CompositeX509ExtendedTrustManagerShould.java
+index 8def467..8217511 100644
+--- a/sslcontext-kickstart/src/test/java/nl/altindag/ssl/trustmanager/CompositeX509ExtendedTrustManagerShould.java
++++ b/sslcontext-kickstart/src/test/java/nl/altindag/ssl/trustmanager/CompositeX509ExtendedTrustManagerShould.java
+@@ -26,18 +26,21 @@ import javax.net.ssl.SSLSessionContext;
+ import javax.net.ssl.X509ExtendedTrustManager;
+ import java.net.Socket;
+ import java.nio.ByteBuffer;
++import java.security.InvalidAlgorithmParameterException;
+ import java.security.KeyStore;
+ import java.security.KeyStoreException;
+ import java.security.Principal;
+ import java.security.cert.Certificate;
+ import java.security.cert.CertificateException;
+ import java.security.cert.X509Certificate;
+-import java.util.Arrays;
+ import java.util.Collections;
+ 
+ import static org.assertj.core.api.Assertions.assertThat;
+ import static org.assertj.core.api.Assertions.assertThatCode;
+ import static org.assertj.core.api.Assertions.assertThatThrownBy;
++import static org.assertj.core.api.Assertions.catchThrowableOfType;
++import static org.mockito.Mockito.doThrow;
++import static org.mockito.Mockito.mock;
+ 
+ /**
+  * @author Hakan Altindag
+@@ -229,6 +232,47 @@ class CompositeX509ExtendedTrustManagerShould {
+                 .hasMessage("None of the TrustManagers trust this certificate chain");
+     }
+ 
++    @Test
++    void wrapCauseOfRuntimeExceptionContainingInvalidAlgorithmParameterExceptionIntoSuppressedCertificateException() throws KeyStoreException {
++        KeyStore emptyTrustStore = KeyStoreUtils.createKeyStore();
++        X509ExtendedTrustManager emptyTrustManager = TrustManagerUtils.createTrustManager(emptyTrustStore);
++
++        KeyStore trustStore = KeyStoreUtils.loadKeyStore(KEYSTORE_LOCATION + TRUSTSTORE_FILE_NAME, TRUSTSTORE_PASSWORD);
++        X509Certificate[] certificateChain = KeyStoreTestUtils.getTrustedX509Certificates(trustStore);
++
++        CompositeX509ExtendedTrustManager compositeX509ExtendedTrustManager = new CompositeX509ExtendedTrustManager(Collections.singletonList(emptyTrustManager));
++        assertThat(emptyTrustManager).isNotNull();
++        assertThat(emptyTrustManager.getAcceptedIssuers()).isEmpty();
++        assertThat(certificateChain).hasSize(1);
++        int amountOfTrustManagers = compositeX509ExtendedTrustManager.getInnerTrustManagers().size();
++        assertThat(amountOfTrustManagers).isEqualTo(1);
++
++        CertificateException certificateException = catchThrowableOfType(() -> compositeX509ExtendedTrustManager.checkClientTrusted(certificateChain, "RSA"), CertificateException.class);
++        assertThat(certificateException.getSuppressed()).hasSize(1);
++        Throwable suppressedException = certificateException.getSuppressed()[0];
++
++        assertThat(suppressedException.getCause()).isInstanceOf(InvalidAlgorithmParameterException.class);
++        assertThat(suppressedException.getCause().getMessage()).isEqualTo("the trustAnchors parameter must be non-empty");
++    }
++
++    @Test
++    void notWrapRuntimeExceptionWhichDoesNotContainACauseOfInvalidAlgorithmParameterExceptionIntoSuppressedCertificateExceptionAndJustRethrow() throws KeyStoreException, CertificateException {
++        KeyStore trustStore = KeyStoreUtils.loadKeyStore(KEYSTORE_LOCATION + TRUSTSTORE_FILE_NAME, TRUSTSTORE_PASSWORD);
++        X509Certificate[] certificateChain = KeyStoreTestUtils.getTrustedX509Certificates(trustStore);
++
++        X509ExtendedTrustManager shadyTrustManager = mock(X509ExtendedTrustManager.class);
++        doThrow(new RuntimeException("KABOOM!!!")).when(shadyTrustManager).checkClientTrusted(certificateChain, "RSA");
++
++        CompositeX509ExtendedTrustManager compositeX509ExtendedTrustManager = new CompositeX509ExtendedTrustManager(Collections.singletonList(shadyTrustManager));
++        assertThat(certificateChain).hasSize(1);
++        int amountOfTrustManagers = compositeX509ExtendedTrustManager.getInnerTrustManagers().size();
++        assertThat(amountOfTrustManagers).isEqualTo(1);
++
++        assertThatThrownBy(() -> compositeX509ExtendedTrustManager.checkClientTrusted(certificateChain, "RSA"))
++                .isInstanceOf(RuntimeException.class)
++                .hasMessage("KABOOM!!!");
++    }
++
+     static class MockedSSLEngine extends SSLEngine {
+         @Override
+         public SSLEngineResult wrap(ByteBuffer[] byteBuffers, int i, int i1, ByteBuffer byteBuffer) {
+diff --git a/sslcontext-kickstart/src/test/java/nl/altindag/ssl/trustmanager/InflatableX509ExtendedTrustManagerShould.java b/sslcontext-kickstart/src/test/java/nl/altindag/ssl/trustmanager/InflatableX509ExtendedTrustManagerShould.java
+index 379ca1f..a77d673 100644
+--- a/sslcontext-kickstart/src/test/java/nl/altindag/ssl/trustmanager/InflatableX509ExtendedTrustManagerShould.java
++++ b/sslcontext-kickstart/src/test/java/nl/altindag/ssl/trustmanager/InflatableX509ExtendedTrustManagerShould.java
+@@ -37,6 +37,7 @@ import java.security.cert.CertificateException;
+ import java.security.cert.X509Certificate;
+ import java.util.ArrayList;
+ import java.util.Arrays;
++import java.util.Collections;
+ import java.util.List;
+ import java.util.concurrent.ExecutionException;
+ import java.util.concurrent.ExecutorService;
+@@ -97,6 +98,34 @@ class InflatableX509ExtendedTrustManagerShould {
+         assertThat(logCaptor.getInfoLogs()).containsExactly("Added certificate for [cn=googlecom_o=google-llc_l=mountain-view_st=california_c=us]");
+     }
+ 
++    @Test
++    void trustManagerWillNotBeReloadedIfNullIsProvidedAsNewCertificate() {
++        LogCaptor logCaptor = LogCaptor.forClass(InflatableX509ExtendedTrustManager.class);
++
++        InflatableX509ExtendedTrustManager trustManager = new InflatableX509ExtendedTrustManager();
++        assertThat(trustManager.getInnerTrustManager()).isInstanceOf(DummyX509ExtendedTrustManager.class);
++
++        trustManager.addCertificates(null);
++        assertThat(trustManager.getInnerTrustManager()).isInstanceOf(DummyX509ExtendedTrustManager.class);
++
++        assertThat(trustManager.getAcceptedIssuers()).isEmpty();
++        assertThat(logCaptor.getLogs()).isEmpty();
++    }
++
++    @Test
++    void trustManagerWillNotBeReloadedIfEmptyListIsProvidedAsNewCertificate() {
++        LogCaptor logCaptor = LogCaptor.forClass(InflatableX509ExtendedTrustManager.class);
++
++        InflatableX509ExtendedTrustManager trustManager = new InflatableX509ExtendedTrustManager();
++        assertThat(trustManager.getInnerTrustManager()).isInstanceOf(DummyX509ExtendedTrustManager.class);
++
++        trustManager.addCertificates(Collections.emptyList());
++        assertThat(trustManager.getInnerTrustManager()).isInstanceOf(DummyX509ExtendedTrustManager.class);
++
++        assertThat(trustManager.getAcceptedIssuers()).isEmpty();
++        assertThat(logCaptor.getLogs()).isEmpty();
++    }
++
+     @Test
+     void errorLogIfItCanNotSaveNewlyAddedTrustedCertificatesToTheInMemoryTrustStore() throws KeyStoreException {
+         LogCaptor logCaptor = LogCaptor.forClass(InflatableX509ExtendedTrustManager.class);
+@@ -148,6 +177,7 @@ class InflatableX509ExtendedTrustManagerShould {
+         assertThat(trustedCerts).hasSizeGreaterThan(0);
+ 
+         InflatableX509ExtendedTrustManager trustManager = new InflatableX509ExtendedTrustManager(trustStoreDestination, TRUSTSTORE_PASSWORD, "PKCS12", null);
++        assertThat(trustManager.getInnerTrustManager()).isNotInstanceOf(DummyX509ExtendedTrustManager.class);
+         trustManager.addCertificates(Arrays.asList(trustedCerts));
+ 
+         X509Certificate[] combinedTrustedCertificates = Stream.concat(Arrays.stream(existingTrustedCerts), Arrays.stream(trustedCerts)).toArray(X509Certificate[]::new);
+@@ -158,6 +188,27 @@ class InflatableX509ExtendedTrustManagerShould {
+         Files.deleteIfExists(destinationDirectory);
+     }
+ 
++    @Test
++    void notCreateTrustManagerIfExistingTrustStoreDoesNotContainTrustedCertificates() throws KeyStoreException, IOException {
++        Path destinationDirectory = Paths.get(HOME_DIRECTORY, "hakky54-ssl");
++        Path trustStoreDestination = destinationDirectory.resolve("inflatable-truststore.p12");
++        Files.createDirectories(destinationDirectory);
++        assertThat(Files.exists(destinationDirectory)).isTrue();
++
++        KeyStore existingTrustStore = KeyStoreUtils.createKeyStore("PKCS12", TRUSTSTORE_PASSWORD);
++        KeyStoreUtils.write(trustStoreDestination, existingTrustStore, TRUSTSTORE_PASSWORD);
++        assertThat(Files.exists(trustStoreDestination)).isTrue();
++
++        assertThat(Files.exists(trustStoreDestination)).isTrue();
++        X509Certificate[] existingTrustedCerts = KeyStoreTestUtils.getTrustedX509Certificates(existingTrustStore);
++        assertThat(existingTrustedCerts).isEmpty();
++
++        InflatableX509ExtendedTrustManager trustManager = new InflatableX509ExtendedTrustManager(trustStoreDestination, TRUSTSTORE_PASSWORD, "PKCS12", null);
++        assertThat(trustManager.getInnerTrustManager()).isInstanceOf(DummyX509ExtendedTrustManager.class);
++
++        Files.deleteIfExists(trustStoreDestination);
++        Files.deleteIfExists(destinationDirectory);
++    }
+ 
+     @Test
+     void addNewlyTrustedCertificatesToANewTrustStoreInANonExistingDirectory() throws KeyStoreException, IOException {
+diff --git a/sslcontext-kickstart/src/test/java/nl/altindag/ssl/util/TrustManagerUtilsShould.java b/sslcontext-kickstart/src/test/java/nl/altindag/ssl/util/TrustManagerUtilsShould.java
+index ed14be9..c625508 100644
+--- a/sslcontext-kickstart/src/test/java/nl/altindag/ssl/util/TrustManagerUtilsShould.java
++++ b/sslcontext-kickstart/src/test/java/nl/altindag/ssl/util/TrustManagerUtilsShould.java
+@@ -531,7 +531,7 @@ class TrustManagerUtilsShould {
+     }
+ 
+     @Test
+-    void addCertificateToInflatableX509ExtendedTrustManager() {
++    void addCertificatesToInflatableX509ExtendedTrustManager() {
+         X509Certificate certificate = mock(X509Certificate.class);
+         List<X509Certificate> certificates = Collections.singletonList(certificate);
+ 
+@@ -541,6 +541,16 @@ class TrustManagerUtilsShould {
+         verify(trustManager, times(1)).addCertificates(certificates);
+     }
+ 
++    @Test
++    void addCertificateToInflatableX509ExtendedTrustManager() {
++        X509Certificate certificate = mock(X509Certificate.class);
++
++        InflatableX509ExtendedTrustManager trustManager = mock(InflatableX509ExtendedTrustManager.class);
++        TrustManagerUtils.addCertificate(trustManager, certificate);
++
++        verify(trustManager, times(1)).addCertificates(Collections.singletonList(certificate));
++    }
++
+     @Test
+     void addCertificateToInflatableX509ExtendedTrustManagerEvenThoughItIsWrappedInAHotSwappableX509ExtendedTrustManager() {
+         X509Certificate certificate = mock(X509Certificate.class);

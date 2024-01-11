@@ -1,0 +1,229 @@
+diff --git a/src/test/java/com/puppycrawl/tools/checkstyle/checks/javadoc/MissingJavadocMethodCheckTest.java b/src/test/java/com/puppycrawl/tools/checkstyle/checks/javadoc/MissingJavadocMethodCheckTest.java
+index eaefbf408..eda65da14 100644
+--- a/src/test/java/com/puppycrawl/tools/checkstyle/checks/javadoc/MissingJavadocMethodCheckTest.java
++++ b/src/test/java/com/puppycrawl/tools/checkstyle/checks/javadoc/MissingJavadocMethodCheckTest.java
+@@ -22,10 +22,14 @@ package com.puppycrawl.tools.checkstyle.checks.javadoc;
+ import static com.google.common.truth.Truth.assertWithMessage;
+ import static com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocMethodCheck.MSG_JAVADOC_MISSING;
+ 
++import java.io.File;
++
+ import org.junit.jupiter.api.Test;
+ 
+ import com.puppycrawl.tools.checkstyle.AbstractModuleTestSupport;
++import com.puppycrawl.tools.checkstyle.api.DetailAST;
+ import com.puppycrawl.tools.checkstyle.api.TokenTypes;
++import com.puppycrawl.tools.checkstyle.utils.CheckUtilTest;
+ import com.puppycrawl.tools.checkstyle.utils.CommonUtil;
+ 
+ public class MissingJavadocMethodCheckTest extends AbstractModuleTestSupport {
+@@ -313,7 +317,7 @@ public class MissingJavadocMethodCheckTest extends AbstractModuleTestSupport {
+     }
+ 
+     @Test
+-    public void testSetterGetterOn() throws Exception {
++    public void testSetterGetterOnCheck() throws Exception {
+         final String[] expected = {
+             "30:5: " + getCheckMessage(MSG_JAVADOC_MISSING),
+             "35:5: " + getCheckMessage(MSG_JAVADOC_MISSING),
+@@ -467,4 +471,61 @@ public class MissingJavadocMethodCheckTest extends AbstractModuleTestSupport {
+                 getPath("InputMissingJavadocMethodAnnotationField.java"),
+                 expected);
+     }
++
++    @Test
++    public void testIsGetterMethod() throws Exception {
++        final File testFile =
++                new File(getPath("InputMissingJavadocMethodSetterGetter3.java"));
++        final DetailAST notGetterMethod =
++                CheckUtilTest.getNode(testFile, TokenTypes.METHOD_DEF);
++        final DetailAST getterMethod = notGetterMethod.getNextSibling().getNextSibling();
++
++        assertWithMessage("Invalid result: AST provided is getter method")
++                .that(MissingJavadocMethodCheck.isGetterMethod(getterMethod))
++                .isTrue();
++        assertWithMessage("Invalid result: AST provided is not getter method")
++                .that(MissingJavadocMethodCheck.isGetterMethod(notGetterMethod))
++                .isFalse();
++    }
++
++    @Test
++    public void testIsSetterMethod() throws Exception {
++        final File testFile =
++            new File(getPath("InputMissingJavadocMethodSetterGetter3.java"));
++        final DetailAST firstClassMethod =
++            CheckUtilTest.getNode(testFile, TokenTypes.METHOD_DEF);
++        final DetailAST setterMethod =
++            firstClassMethod.getNextSibling().getNextSibling().getNextSibling();
++        final DetailAST notSetterMethod = setterMethod.getNextSibling();
++
++        assertWithMessage("Invalid result: AST provided is not setter method")
++                .that(MissingJavadocMethodCheck.isSetterMethod(setterMethod))
++                .isTrue();
++        assertWithMessage("Invalid result: AST provided is not setter method")
++                .that(MissingJavadocMethodCheck.isSetterMethod(notSetterMethod))
++                .isFalse();
++    }
++
++    @Test
++    public void testSetterGetterOn() throws Exception {
++        final String[] expected = {
++            "20:5: " + getCheckMessage(MissingJavadocMethodCheck.class,
++                    MSG_JAVADOC_MISSING),
++            "24:5: " + getCheckMessage(MissingJavadocMethodCheck.class,
++                    MSG_JAVADOC_MISSING),
++            "29:5: " + getCheckMessage(MissingJavadocMethodCheck.class,
++                    MSG_JAVADOC_MISSING),
++        };
++        verifyWithInlineConfigParser(
++                getPath("InputMissingJavadocMethodSetterGetter4.java"), expected);
++    }
++
++    @Test
++    public void missingJavadoc() throws Exception {
++        final String[] expected = {
++            "13:5: " + getCheckMessage(MissingJavadocMethodCheck.class, MSG_JAVADOC_MISSING),
++        };
++        verifyWithInlineConfigParser(
++                getNonCompilablePath("InputMissingJavadocMethodBasic.java"), expected);
++    }
+ }
+diff --git a/src/test/java/com/puppycrawl/tools/checkstyle/internal/XdocsJavaDocsTest.java b/src/test/java/com/puppycrawl/tools/checkstyle/internal/XdocsJavaDocsTest.java
+index 730d64cd7..ce22a7c26 100644
+--- a/src/test/java/com/puppycrawl/tools/checkstyle/internal/XdocsJavaDocsTest.java
++++ b/src/test/java/com/puppycrawl/tools/checkstyle/internal/XdocsJavaDocsTest.java
+@@ -63,13 +63,13 @@ import com.puppycrawl.tools.checkstyle.checks.blocks.LeftCurlyOption;
+ import com.puppycrawl.tools.checkstyle.checks.blocks.RightCurlyOption;
+ import com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderOption;
+ import com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocContentLocationOption;
++import com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocMethodCheck;
+ import com.puppycrawl.tools.checkstyle.checks.naming.AccessModifierOption;
+ import com.puppycrawl.tools.checkstyle.checks.whitespace.PadOption;
+ import com.puppycrawl.tools.checkstyle.checks.whitespace.WrapOption;
+ import com.puppycrawl.tools.checkstyle.internal.utils.TestUtil;
+ import com.puppycrawl.tools.checkstyle.internal.utils.XdocUtil;
+ import com.puppycrawl.tools.checkstyle.internal.utils.XmlUtil;
+-import com.puppycrawl.tools.checkstyle.utils.CheckUtil;
+ import com.puppycrawl.tools.checkstyle.utils.JavadocUtil;
+ import com.puppycrawl.tools.checkstyle.utils.ScopeUtil;
+ import com.puppycrawl.tools.checkstyle.utils.TokenUtil;
+@@ -693,7 +693,7 @@ public class XdocsJavaDocsTest extends AbstractModuleTestSupport {
+ 
+         /**
+          * Returns whether an AST represents a setter method. This is similar to
+-         * {@link CheckUtil#isSetterMethod(DetailAST)} except this doesn't care
++         * {@link MissingJavadocMethodCheck#isSetterMethod(DetailAST)} except this doesn't care
+          * about the number of children in the method.
+          *
+          * @param ast the AST to check with.
+diff --git a/src/test/java/com/puppycrawl/tools/checkstyle/utils/CheckUtilTest.java b/src/test/java/com/puppycrawl/tools/checkstyle/utils/CheckUtilTest.java
+index a29ab2353..3b0cf86b9 100644
+--- a/src/test/java/com/puppycrawl/tools/checkstyle/utils/CheckUtilTest.java
++++ b/src/test/java/com/puppycrawl/tools/checkstyle/utils/CheckUtilTest.java
+@@ -24,7 +24,6 @@ import static com.puppycrawl.tools.checkstyle.checks.coding.EqualsAvoidNullCheck
+ import static com.puppycrawl.tools.checkstyle.checks.coding.MultipleVariableDeclarationsCheck.MSG_MULTIPLE;
+ import static com.puppycrawl.tools.checkstyle.checks.coding.NestedIfDepthCheck.MSG_KEY;
+ import static com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocMethodCheck.MSG_EXPECTED_TAG;
+-import static com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocMethodCheck.MSG_JAVADOC_MISSING;
+ import static com.puppycrawl.tools.checkstyle.internal.utils.TestUtil.findTokenInAstByPredicate;
+ import static com.puppycrawl.tools.checkstyle.internal.utils.TestUtil.isUtilsClassHasPrivateConstructor;
+ 
+@@ -46,7 +45,6 @@ import com.puppycrawl.tools.checkstyle.checks.coding.EqualsAvoidNullCheck;
+ import com.puppycrawl.tools.checkstyle.checks.coding.MultipleVariableDeclarationsCheck;
+ import com.puppycrawl.tools.checkstyle.checks.coding.NestedIfDepthCheck;
+ import com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocMethodCheck;
+-import com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocMethodCheck;
+ import com.puppycrawl.tools.checkstyle.checks.naming.AccessModifierOption;
+ 
+ public class CheckUtilTest extends AbstractModuleTestSupport {
+@@ -185,34 +183,6 @@ public class CheckUtilTest extends AbstractModuleTestSupport {
+                 .isFalse();
+     }
+ 
+-    @Test
+-    public void testIsGetterMethod() throws Exception {
+-        final DetailAST notGetterMethod = getNodeFromFile(TokenTypes.METHOD_DEF);
+-        final DetailAST getterMethod = notGetterMethod.getNextSibling().getNextSibling();
+-
+-        assertWithMessage("Invalid result: AST provided is getter method")
+-                .that(CheckUtil.isGetterMethod(getterMethod))
+-                .isTrue();
+-        assertWithMessage("Invalid result: AST provided is not getter method")
+-                .that(CheckUtil.isGetterMethod(notGetterMethod))
+-                .isFalse();
+-    }
+-
+-    @Test
+-    public void testIsSetterMethod() throws Exception {
+-        final DetailAST firstClassMethod = getNodeFromFile(TokenTypes.METHOD_DEF);
+-        final DetailAST setterMethod =
+-                firstClassMethod.getNextSibling().getNextSibling().getNextSibling();
+-        final DetailAST notSetterMethod = setterMethod.getNextSibling();
+-
+-        assertWithMessage("Invalid result: AST provided is setter method")
+-                .that(CheckUtil.isSetterMethod(setterMethod))
+-                .isTrue();
+-        assertWithMessage("Invalid result: AST provided is not setter method")
+-                .that(CheckUtil.isSetterMethod(notSetterMethod))
+-                .isFalse();
+-    }
+-
+     @Test
+     public void testGetAccessModifierFromModifiersToken() throws Exception {
+         final DetailAST interfaceDef = getNodeFromFile(TokenTypes.INTERFACE_DEF);
+@@ -422,29 +392,6 @@ public class CheckUtilTest extends AbstractModuleTestSupport {
+                 getPath("InputCheckUtil5.java"), expected);
+     }
+ 
+-    @Test
+-    public void testSetterGetterOn() throws Exception {
+-        final String[] expected = {
+-            "20:5: " + getCheckMessage(MissingJavadocMethodCheck.class,
+-                    MSG_JAVADOC_MISSING),
+-            "24:5: " + getCheckMessage(MissingJavadocMethodCheck.class,
+-                    MSG_JAVADOC_MISSING),
+-            "29:5: " + getCheckMessage(MissingJavadocMethodCheck.class,
+-                    MSG_JAVADOC_MISSING),
+-        };
+-        verifyWithInlineConfigParser(
+-                getPath("InputCheckUtil9.java"), expected);
+-    }
+-
+-    @Test
+-    public void missingJavadoc() throws Exception {
+-        final String[] expected = {
+-            "13:5: " + getCheckMessage(MissingJavadocMethodCheck.class, MSG_JAVADOC_MISSING),
+-        };
+-        verifyWithInlineConfigParser(
+-                getNonCompilablePath("InputCheckUtil1.java"), expected);
+-    }
+-
+     @Test
+     public void testJavadoc() throws Exception {
+         final String[] expected = {
+@@ -460,6 +407,19 @@ public class CheckUtilTest extends AbstractModuleTestSupport {
+             JavaParser.Options.WITH_COMMENTS), type);
+     }
+ 
++    /**
++     * Retrieves the AST node from a specific file based on the specified token type.
++     *
++     * @param type The token type to search for in the file.
++     *             This parameter determines the type of AST node to retrieve.
++     * @param file The file from which the AST node should be retrieved.
++     * @return The AST node associated with the specified token type from the given file.
++     * @throws Exception If there's an issue reading or parsing the file.
++     */
++    public static DetailAST getNode(File file, int type) throws Exception {
++        return getNode(JavaParser.parseFile(file, JavaParser.Options.WITH_COMMENTS), type);
++    }
++
+     private static DetailAST getNode(DetailAST root, int type) {
+         final Optional<DetailAST> node = findTokenInAstByPredicate(root,
+             ast -> ast.getType() == type);
+@@ -470,5 +430,4 @@ public class CheckUtilTest extends AbstractModuleTestSupport {
+ 
+         return node.get();
+     }
+-
+ }

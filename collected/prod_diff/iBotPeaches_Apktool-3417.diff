@@ -1,0 +1,15 @@
+diff --git a/brut.apktool/apktool-lib/src/main/java/brut/androlib/res/data/value/ResValueFactory.java b/brut.apktool/apktool-lib/src/main/java/brut/androlib/res/data/value/ResValueFactory.java
+index 052621e0..1d20c79f 100644
+--- a/brut.apktool/apktool-lib/src/main/java/brut/androlib/res/data/value/ResValueFactory.java
++++ b/brut.apktool/apktool-lib/src/main/java/brut/androlib/res/data/value/ResValueFactory.java
+@@ -32,9 +32,7 @@ public class ResValueFactory {
+     public ResScalarValue factory(int type, int value, String rawValue) throws AndrolibException {
+         switch (type) {
+             case TypedValue.TYPE_NULL:
+-                if (value == TypedValue.DATA_NULL_UNDEFINED) { // Special case $empty as explicitly defined empty value
+-                    return new ResStringValue(null, value);
+-                } else if (value == TypedValue.DATA_NULL_EMPTY) {
++                if (value == TypedValue.DATA_NULL_EMPTY) {
+                     return new ResEmptyValue(value, rawValue, type);
+                 }
+                 return new ResReferenceValue(mPackage, 0, null);

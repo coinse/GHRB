@@ -1,0 +1,89 @@
+diff --git a/gson/src/main/java/com/google/gson/Gson.java b/gson/src/main/java/com/google/gson/Gson.java
+index 80aa1288..1bbfd318 100644
+--- a/gson/src/main/java/com/google/gson/Gson.java
++++ b/gson/src/main/java/com/google/gson/Gson.java
+@@ -324,7 +324,7 @@ public final class Gson {
+ 
+     // built-in type adapters that cannot be overridden
+     factories.add(TypeAdapters.JSON_ELEMENT_FACTORY);
+-    factories.add(ObjectTypeAdapter.getFactory(objectToNumberStrategy));
++    factories.add(ObjectTypeAdapter.getFactory(objectToNumberStrategy, true));
+ 
+     // the excluder must precede all adapters that handle user-defined types
+     factories.add(excluder);
+@@ -332,6 +332,8 @@ public final class Gson {
+     // users' type adapters
+     factories.addAll(factoriesToBeAdded);
+ 
++    factories.add(ObjectTypeAdapter.getFactory(objectToNumberStrategy, false));
++
+     // type adapters for basic platform types
+     factories.add(TypeAdapters.STRING_FACTORY);
+     factories.add(TypeAdapters.INTEGER_FACTORY);
+diff --git a/gson/src/main/java/com/google/gson/internal/bind/ObjectTypeAdapter.java b/gson/src/main/java/com/google/gson/internal/bind/ObjectTypeAdapter.java
+index 20d16062..541ce8c6 100644
+--- a/gson/src/main/java/com/google/gson/internal/bind/ObjectTypeAdapter.java
++++ b/gson/src/main/java/com/google/gson/internal/bind/ObjectTypeAdapter.java
+@@ -27,6 +27,8 @@ import com.google.gson.stream.JsonReader;
+ import com.google.gson.stream.JsonToken;
+ import com.google.gson.stream.JsonWriter;
+ import java.io.IOException;
++import java.lang.reflect.Type;
++import java.lang.reflect.TypeVariable;
+ import java.util.ArrayDeque;
+ import java.util.ArrayList;
+ import java.util.Deque;
+@@ -39,7 +41,7 @@ import java.util.Map;
+  */
+ public final class ObjectTypeAdapter extends TypeAdapter<Object> {
+   /** Gson default factory using {@link ToNumberPolicy#DOUBLE}. */
+-  private static final TypeAdapterFactory DOUBLE_FACTORY = newFactory(ToNumberPolicy.DOUBLE);
++  private static final TypeAdapterFactory DOUBLE_FACTORY = newFactory(ToNumberPolicy.DOUBLE, true);
+ 
+   private final Gson gson;
+   private final ToNumberStrategy toNumberStrategy;
+@@ -49,24 +51,41 @@ public final class ObjectTypeAdapter extends TypeAdapter<Object> {
+     this.toNumberStrategy = toNumberStrategy;
+   }
+ 
+-  private static TypeAdapterFactory newFactory(final ToNumberStrategy toNumberStrategy) {
++  private static TypeAdapterFactory newFactory(
++      final ToNumberStrategy toNumberStrategy, final boolean skipTypeVariable) {
+     return new TypeAdapterFactory() {
+       @SuppressWarnings("unchecked")
+       @Override
+       public <T> TypeAdapter<T> create(Gson gson, TypeToken<T> type) {
+-        if (type.getRawType() == Object.class) {
++        if (type.getRawType() == Object.class
++            && (!skipTypeVariable || !isTypeVariableWithBound(type.getType()))) {
+           return (TypeAdapter<T>) new ObjectTypeAdapter(gson, toNumberStrategy);
+         }
+         return null;
+       }
++
++      private boolean isTypeVariableWithBound(Type type) {
++        if (type instanceof TypeVariable<?>) {
++          TypeVariable<?> tv = (TypeVariable<?>) type;
++          Type bound = tv.getBounds()[0];
++          return bound != Object.class && bound instanceof Class<?>;
++        } else {
++          return false;
++        }
++      }
+     };
+   }
+ 
+   public static TypeAdapterFactory getFactory(ToNumberStrategy toNumberStrategy) {
++    return getFactory(toNumberStrategy, false);
++  }
++
++  public static TypeAdapterFactory getFactory(
++      ToNumberStrategy toNumberStrategy, boolean skipTypeVariable) {
+     if (toNumberStrategy == ToNumberPolicy.DOUBLE) {
+       return DOUBLE_FACTORY;
+     } else {
+-      return newFactory(toNumberStrategy);
++      return newFactory(toNumberStrategy, skipTypeVariable);
+     }
+   }
+ 

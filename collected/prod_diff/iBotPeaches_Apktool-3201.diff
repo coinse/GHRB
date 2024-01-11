@@ -1,0 +1,49 @@
+diff --git a/brut.apktool/apktool-lib/src/main/java/brut/androlib/ApkDecoder.java b/brut.apktool/apktool-lib/src/main/java/brut/androlib/ApkDecoder.java
+index c9a6894c..53f831a2 100644
+--- a/brut.apktool/apktool-lib/src/main/java/brut/androlib/ApkDecoder.java
++++ b/brut.apktool/apktool-lib/src/main/java/brut/androlib/ApkDecoder.java
+@@ -72,7 +72,7 @@ public class ApkDecoder {
+         this(config, new ExtFile(apkFile));
+     }
+ 
+-    public void decode(File outDir) throws AndrolibException, IOException, DirectoryException {
++    public ApkInfo decode(File outDir) throws AndrolibException, IOException, DirectoryException {
+         try {
+             if (!mConfig.forceDelete && outDir.exists()) {
+                 throw new OutDirExistsException();
+@@ -145,6 +145,8 @@ public class ApkDecoder {
+             recordUncompressedFiles(apkInfo, resourcesDecoder.getResFileMapping(), mUncompressedFiles);
+             copyOriginalFiles(outDir);
+             writeApkInfo(apkInfo, outDir);
++
++            return apkInfo;
+         } finally {
+             try {
+                 mApkFile.close();
+diff --git a/brut.apktool/apktool-lib/src/main/java/brut/androlib/res/decoder/ARSCDecoder.java b/brut.apktool/apktool-lib/src/main/java/brut/androlib/res/decoder/ARSCDecoder.java
+index dd4fe201..88fc3af6 100644
+--- a/brut.apktool/apktool-lib/src/main/java/brut/androlib/res/decoder/ARSCDecoder.java
++++ b/brut.apktool/apktool-lib/src/main/java/brut/androlib/res/decoder/ARSCDecoder.java
+@@ -126,12 +126,6 @@ public class ARSCDecoder {
+             addMissingResSpecs();
+         }
+ 
+-        // We've detected sparse resources, lets record this so we can rebuild in that same format (sparse/not)
+-        // with aapt2. aapt1 will ignore this.
+-        if (! mResTable.getSparseResources()) {
+-            mResTable.setSparseResources(true);
+-        }
+-
+         return pkgs.toArray(new ResPackage[0]);
+     }
+ 
+@@ -276,6 +270,9 @@ public class ARSCDecoder {
+ 
+         if ((typeFlags & 0x01) != 0) {
+             LOGGER.fine("Sparse type flags detected: " + mTypeSpec.getName());
++
++            // We've detected sparse resources, lets record this so we can rebuild in that same format
++            mResTable.setSparseResources(true);
+         }
+ 
+         HashMap<Integer, Integer> entryOffsetMap = new LinkedHashMap<>();

@@ -1,0 +1,1530 @@
+diff --git a/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleDefaultSettingsFour.java b/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleDefaultSettingsFour.java
+index 92b88f9cb..e6712f819 100644
+--- a/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleDefaultSettingsFour.java
++++ b/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleDefaultSettingsFour.java
+@@ -24,10 +24,11 @@ public class InputJavadocStyleDefaultSettingsFour
+      */
+     void tagInTwoLines() {} // ok
+ 
++    // violation 3 lines below 'Unclosed HTML tag found: <code>'
+     /**
+      * This Javadoc contains unclosed tag.
+      * <code>unclosed 'code' tag<code>
+-     */ // violation above
++     */
+     private void unclosedTag() {}
+ 
+     void javadocLikeCommentInMethod() {
+@@ -37,28 +38,33 @@ public class InputJavadocStyleDefaultSettingsFour
+         final int i = 0; // ok
+     }
+ 
+-    /** // violation
++    // violation below 'First sentence should end with a period.'
++    /**
+      * {@inheritDoc}
+      */
+     private void inheritDoc() {}
+ 
++    // violation 2 lines below 'Unclosed HTML tag found: <b>Note:<b> it's unterminated tag.</p>'
+     /**
+      * <p><b>Note:<b> it's unterminated tag.</p>
+-     */ // violation above
++     */
+     private void unterminatedTag() {}
+ 
+-    /** // violation
++    // violation below 'First sentence should end with a period.'
++    /**
+      * Javadoc without dot
+      */
+     public interface TestInterface {
+-        /** // violation
++        // violation below 'First sentence should end with a period.'
++        /**
+          * Javadoc without dot
+          */
+         void method();
+     }
+ 
+     static class TestStaticClass {
+-        /** // violation
++        // violation below 'First sentence should end with a period.'
++        /**
+          * Javadoc without dot
+          */
+         public int field;
+@@ -70,7 +76,8 @@ public class InputJavadocStyleDefaultSettingsFour
+      */
+     void foo() throws Exception {} // ok
+ 
+-    /** // violation
++    // violation below 'First sentence should end with a period.'
++    /**
+      * text /
+      * @throws Exception if an error occurs
+      */
+@@ -83,7 +90,8 @@ public class InputJavadocStyleDefaultSettingsFour
+      */
+     void inheritDocWithThrows() {} // ok
+ 
+-    /** // violation
++    // violation below 'First sentence should end with a period.'
++    /**
+      * /
+      *
+      **
+@@ -92,9 +100,6 @@ public class InputJavadocStyleDefaultSettingsFour
+      */
+     public int test(String s) { return 0; }
+ 
+-    /** Set of all class field names.*/
+-    public String field; // ok
+-
+     /**
+      * <p>Test.</p>
+      * <pre class="body">
+diff --git a/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleDefaultSettingsOne.java b/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleDefaultSettingsOne.java
+index 912790642..3deeef0da 100644
+--- a/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleDefaultSettingsOne.java
++++ b/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleDefaultSettingsOne.java
+@@ -20,7 +20,8 @@ public class InputJavadocStyleDefaultSettingsOne // ok
+    // This is OK. We don't flag missing javadoc.  That's left for other checks.
+    private String first; // ok
+ 
+-   /** This Javadoc is missing an ending period */ // violation
++   // violation below 'First sentence should end with a period.'
++   /** This Javadoc is missing an ending period */
+    private String second;
+ 
+    /**
+@@ -45,12 +46,17 @@ public class InputJavadocStyleDefaultSettingsOne // ok
+     */
+    private void method3() {} // ok
+ 
+-   /** // violation
++   // violation below 'First sentence should end with a period.'
++   /**
+     * This should fail even.though.there are embedded periods
+     */
+    private void method4() {}
+ 
+-   /** // violation 3 lines below
++   // violation 7 lines below 'Unclosed HTML tag found: <b>'
++   // violation 9 lines below 'Extra HTML tag found: </td>'
++   // violation 9 lines below 'Extra HTML tag found: </style>'
++   // violation 9 lines below 'Unclosed HTML tag found: <code>dummy'
++   /**
+     * Test HTML in Javadoc comment
+     * <dl>
+     * <dt><b>
+@@ -59,42 +65,35 @@ public class InputJavadocStyleDefaultSettingsOne // ok
+     * </td>
+     * <style>this tag isn't supported in Javadoc</style>
+     * @param arg1 <code>dummy
+-    */ // violation 3 lines above
+-   // violation 3 lines above
+-   // violation 3 lines above
+-
++    */
+    private void method5(int arg1) {}
+ 
+-   /** // violation
++   // violation 2 lines below 'First sentence should end with a period.'
++   // violation 2 lines below 'Unclosed HTML tag found: <b>'
++   /**
+     * Protected check <b>
+-    */ // violation above
++    */
+    protected void method6() {}
+ 
+-   /** // violation
++   // violation 2 lines below 'First sentence should end with a period.'
++   // violation 2 lines below 'Unclosed HTML tag found: <b>'
++   /**
+     * Package protected check <b>
+-    */  // violation above
++    */
+    void method7() {}
+ 
+-   // violation below
+-   /** // violation below
++   // violation 3 lines below 'First sentence should end with a period.'
++   // violation 3 lines below 'Extra HTML tag found: </code>'
++   // violation 3 lines below 'should fail <'
++   /**
+     * Public check should fail</code>
+     * should fail <
+-    */ // violation above
++    */
+    public void method8() {}
+ 
+    /** {@inheritDoc} **/
+    public void method9() {} // ok
+ 
+-    // Testcases to exercise the Tag parser (bug 843887)
+-    /**
+-     * Real men don't use XHTML.
+-     * <br />
+-     * <hr/>
+-     * < br/>
+-     * <img src="schattenparker.jpg"/></img>
+-     */ // violation above
+-    private void method10() {}
+-
+     /**
+      * Tag content can be really mean.
+      * <p>
+@@ -110,11 +109,11 @@ public class InputJavadocStyleDefaultSettingsOne // ok
+      * <img src="slashesCanOccurWithin/attributes.jpg">
+      * <!-- comments <div> should not be checked. -->
+      */
+-    private void method11() {} // ok
++    private void method10() {} // ok
+     /**
+      * Tags for two lines.
+      * <a href="some_link"
+      * >Link Text</a>
+      */
+-    private void method12() {} // ok
++    private void method11() {} // ok
+ }
+diff --git a/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleDefaultSettingsThree.java b/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleDefaultSettingsThree.java
+index a8ff81cce..b23e5aba6 100644
+--- a/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleDefaultSettingsThree.java
++++ b/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleDefaultSettingsThree.java
+@@ -94,16 +94,7 @@ public class InputJavadocStyleDefaultSettingsThree
+      * @param strings this is a List<String>
+      * @param test Map<String, List<String>> a map indexed on String of Lists of Strings.
+      */
+-    public void method20() {} // ok
+-
+-    /**
+-     * Checks HTML tags in javadoc.
+-     *
+-     * HTML no good tag
+-     * <string>Tests</string>
+-     *
+-     */ // violation 2 lines above
+-    public void method21() {}
++    public void method21() {} // ok
+ 
+     /**
+      * First sentence.
+@@ -111,4 +102,18 @@ public class InputJavadocStyleDefaultSettingsThree
+      * /a>
+      */
+     void tagClosedInNextLine() {} // ok
++
++    public enum Test // ok
++    {
++        // violation below 'First sentence should end with a period.'
++        /**
++         * Value 1 without a period
++         */
++        value1,
++
++        /**
++         * Value 2 with a period.
++         */
++        value2, // ok
++    }
+ }
+diff --git a/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleDefaultSettingsTwo.java b/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleDefaultSettingsTwo.java
+index 8fc789b82..1469ade6b 100644
+--- a/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleDefaultSettingsTwo.java
++++ b/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleDefaultSettingsTwo.java
+@@ -17,6 +17,16 @@ package com.puppycrawl.tools.checkstyle.checks.javadoc.javadocstyle;
+ 
+ public class InputJavadocStyleDefaultSettingsTwo
+ {
++    // violation 6 lines below  'Extra HTML tag found: </img>'
++    /**
++     * Real men don't use XHTML.
++     * <br />
++     * <hr/>
++     * < br/>
++     * <img src="schattenparker.jpg"/></img>
++     */
++    private void method12() {}
++
+     /**
+      * First sentence.
+      * <pre>
+@@ -56,14 +66,15 @@ public class InputJavadocStyleDefaultSettingsTwo
+      */
+     private void method13() {} // ok
+ 
++    // violation 3 lines below 'Unclosed HTML tag found: <blockquote>'
+     /**
+      * Some problematic javadoc. Sample usage:
+      * <blockquote>
+-     */ // violation above
+-
++     */
+     private void method14() {}
+ 
+-    /** // violation
++    // violation below 'First sentence should end with a period.'
++    /**
+      * Empty line between javadoc and method declaration cause wrong
+      * line number for reporting error (bug 841942)
+      */
+@@ -93,16 +104,16 @@ public class InputJavadocStyleDefaultSettingsTwo
+     /** @see java.lang.Object */
+     public void method19() {} // ok
+ 
+-    public enum Test // ok
+-    {
+-        /** // violation
+-         * Value 1 without a period
+-         */
+-        value1,
++    // violation 5 lines below 'Extra HTML tag found: </string>'
++    /**
++     * Checks HTML tags in javadoc.
++     *
++     * HTML no good tag
++     * <string>Tests</string>
++     *
++     */
++    public void method20() {}
+ 
+-        /**
+-         * Value 2 with a period.
+-         */
+-        value2, // ok
+-    }
++    /** Set of all class field names.*/
++    public String field; // ok
+ }
+diff --git a/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleEmptyJavadoc2.java b/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleEmptyJavadoc2.java
+index 684fb58e0..531a53346 100644
+--- a/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleEmptyJavadoc2.java
++++ b/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleEmptyJavadoc2.java
+@@ -71,26 +71,28 @@ public class InputJavadocStyleEmptyJavadoc2 { // ok
+ 
+     /** Description of field: {@value}. */
+     public static final int dummy = 4911; // ok
+-     // violation below
++    // violation below 'Javadoc has empty description section'
+     /**
+      */
+     public void method16() {}
+-     // violation below
++    // violation below 'Javadoc has empty description section'
+     /**
+      * @param a A parameter
+      */
+     protected void method17(String a) {}
+-     // violation below
++    // violation below 'Javadoc has empty description section'
+     /**
+      * @exception RuntimeException should be thrown
+      */
+     void method18(String a) {}
+-     // violation below
++
++    // violation below 'Javadoc has empty description section'
+     /**
+      */
+     private static int ASDF = 0;
+ 
+-    /** @see Object */ // violation
++    // violation below 'Javadoc has empty description section'
++    /** @see Object */
+     public void method19() {}
+ 
+     public enum Test
+diff --git a/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleEnumCtorScopeIsPrivate.java b/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleEnumCtorScopeIsPrivate.java
+index aeb312bf6..16c84c4b8 100644
+--- a/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleEnumCtorScopeIsPrivate.java
++++ b/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleEnumCtorScopeIsPrivate.java
+@@ -17,10 +17,12 @@ package com.puppycrawl.tools.checkstyle.checks.javadoc.javadocstyle;
+ 
+ public enum InputJavadocStyleEnumCtorScopeIsPrivate {
+ 
+-    /** */ // violation
++    // violation below 'Javadoc has empty description section'
++    /** */
+     CONSTANT(0);
+ 
+-    /** */ // violation
++    // violation below 'Javadoc has empty description section'
++    /** */
+     final int value;
+ 
+     /** */ // ok
+@@ -28,7 +30,8 @@ public enum InputJavadocStyleEnumCtorScopeIsPrivate {
+         this.value = value;
+     }
+ 
+-    /** */ // violation
++    // violation below 'Javadoc has empty description section'
++    /** */
+     void method() {
+     }
+ 
+diff --git a/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleExcludeScope1.java b/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleExcludeScope1.java
+index d84910b24..c5065bda7 100644
+--- a/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleExcludeScope1.java
++++ b/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleExcludeScope1.java
+@@ -20,7 +20,8 @@ public class InputJavadocStyleExcludeScope1 // ok
+    // This is OK. We don't flag missing javadoc.  That's left for other checks.
+    private String first; // ok
+ 
+-   /** This Javadoc is missing an ending period */ // violation
++   // violation below 'First sentence should end with a period.'
++   /** This Javadoc is missing an ending period */
+    private String second;
+ 
+    /**
+@@ -45,12 +46,17 @@ public class InputJavadocStyleExcludeScope1 // ok
+     */
+    private void method3() {} // ok
+ 
+-   /** // violation
++   // violation below 'First sentence should end with a period.'
++   /**
+     * This should fail even.though.there are embedded periods
+     */
+    private void method4() {}
+ 
+-   /** // violation 3 lines below
++   // violation 7 lines below 'Unclosed HTML tag found: <b>'
++   // violation 9 lines below 'Extra HTML tag found: </td>'
++   // violation 9 lines below 'Extra HTML tag found: </style>'
++   // violation 9 lines below 'Unclosed HTML tag found: <code>dummy'
++   /**
+     * Test HTML in Javadoc comment
+     * <dl>
+     * <dt><b>
+@@ -59,9 +65,7 @@ public class InputJavadocStyleExcludeScope1 // ok
+     * </td>
+     * <style>this tag isn't supported in Javadoc</style>
+     * @param arg1 <code>dummy
+-    */ // violation 3 lines above
+-   // violation 3 lines above
+-   // violation 3 lines above
++    */
+    private void method5(int arg1) {}
+ 
+    /**
+@@ -69,9 +73,11 @@ public class InputJavadocStyleExcludeScope1 // ok
+     */
+    protected void method6() {} // ok
+ 
+-   /** // violation
++   // violation 2 lines below 'First sentence should end with a period.'
++   // violation 2 lines below 'Unclosed HTML tag found:'
++   /**
+     * Package protected check <b>
+-    */ // violation above
++    */
+    void method7() {}
+ 
+    /**
+@@ -84,15 +90,15 @@ public class InputJavadocStyleExcludeScope1 // ok
+    public void method9() {} // ok
+ 
+ 
+-    // Testcases to exercise the Tag parser (bug 843887)
+-
++   // Testcases to exercise the Tag parser (bug 843887)
++   // violation 6 lines below  'Extra HTML tag found: </img>'
+     /**
+      * Real men don't use XHTML.
+      * <br />
+      * <hr/>
+      * < br/>
+      * <img src="schattenparker.jpg"/></img>
+-     */ // violation above
++     */
+     private void method10() {}
+ 
+     /**
+diff --git a/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleExcludeScope2.java b/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleExcludeScope2.java
+index cf503f431..f19991687 100644
+--- a/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleExcludeScope2.java
++++ b/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleExcludeScope2.java
+@@ -63,14 +63,16 @@ public class InputJavadocStyleExcludeScope2 // ok
+      */
+     private void method13() {} // ok
+ 
++    // violation 3 lines below 'Unclosed HTML tag found: <blockquote>'
+     /**
+      * Some problematic javadoc. Sample usage:
+      * <blockquote>
+-     */ // violation above
++     */
+ 
+     private void method14() {}
+ 
+-    /** // violation
++    // violation below 'First sentence should end with a period.'
++    /**
+      * Empty line between javadoc and method declaration cause wrong
+      * line number for reporting error (bug 841942)
+      */
+diff --git a/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleExcludeScope4.java b/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleExcludeScope4.java
+index 059c7948a..7b1839a9c 100644
+--- a/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleExcludeScope4.java
++++ b/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleExcludeScope4.java
+@@ -24,10 +24,11 @@ public class InputJavadocStyleExcludeScope4 // ok
+      */
+     void tagInTwoLines() {} // ok
+ 
++    // violation 3 lines below 'Unclosed HTML tag found: <code>'
+     /**
+      * This Javadoc contains unclosed tag.
+      * <code>unclosed 'code' tag<code>
+-     */ // violation above
++     */
+     private void unclosedTag() {}
+ 
+     void javadocLikeCommentInMethod() { // ok
+@@ -36,15 +37,17 @@ public class InputJavadocStyleExcludeScope4 // ok
+          */
+         final int i = 0; // ok
+     }
+-    // violation below
++
++    // violation below 'First sentence should end with a period.'
+     /**
+      * {@inheritDoc}
+      */
+     private void inheritDoc() {}
+ 
++    // violation 2 lines below 'Unclosed HTML tag found: <b>Note:<b> it's unterminated tag.</p>'
+     /**
+      * <p><b>Note:<b> it's unterminated tag.</p>
+-     */ // violation above
++     */
+     private void unterminatedTag() {}
+ 
+     /**
+@@ -58,7 +61,8 @@ public class InputJavadocStyleExcludeScope4 // ok
+     }
+ 
+     static class TestStaticClass { // ok
+-        /** // violation
++        // violation below 'First sentence should end with a period.'
++        /**
+          * Javadoc without dot
+          */
+         public int field;
+@@ -70,7 +74,8 @@ public class InputJavadocStyleExcludeScope4 // ok
+      */
+     void foo() throws Exception {} // ok
+ 
+-    /** // violation
++    // violation below 'First sentence should end with a period.'
++    /**
+      * text /
+      * @throws Exception if an error occurs
+      */
+diff --git a/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleFirstSentenceFormatFour.java b/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleFirstSentenceFormatFour.java
+index 7115fa06b..69253d6ad 100644
+--- a/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleFirstSentenceFormatFour.java
++++ b/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleFirstSentenceFormatFour.java
+@@ -36,7 +36,7 @@ public class InputJavadocStyleFirstSentenceFormatFour
+          */
+         final int i = 0; // ok
+     }
+-    // violation below
++    // violation below 'First sentence should end with a period.'
+     /**
+      * {@inheritDoc}
+      */
+@@ -47,18 +47,21 @@ public class InputJavadocStyleFirstSentenceFormatFour
+      */
+     private void unterminatedTag() {} // ok
+ 
+-    /** // violation
++    // violation below 'First sentence should end with a period.'
++    /**
+      * Javadoc without dot
+      */
+     public interface TestInterface {
+-        /** // violation
++        // violation below 'First sentence should end with a period.'
++        /**
+          * Javadoc without dot
+          */
+         void method();
+     }
+ 
+     static class TestStaticClass { // ok
+-        /** // violation
++        // violation below 'First sentence should end with a period.'
++        /**
+          * Javadoc without dot
+          */
+         public int field;
+@@ -70,7 +73,8 @@ public class InputJavadocStyleFirstSentenceFormatFour
+      */
+     void foo() throws Exception {} // ok
+ 
+-    /** // violation
++    // violation below 'First sentence should end with a period.'
++    /**
+      * text /
+      * @throws Exception if an error occurs
+      */
+@@ -83,7 +87,8 @@ public class InputJavadocStyleFirstSentenceFormatFour
+      */
+     void inheritDocWithThrows() {} // ok
+ 
+-    /** // violation
++    // violation below 'First sentence should end with a period.'
++    /**
+      * /
+      *
+      **
+diff --git a/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleFirstSentenceFormatOne.java b/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleFirstSentenceFormatOne.java
+index 4f5463df4..ad36f1d39 100644
+--- a/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleFirstSentenceFormatOne.java
++++ b/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleFirstSentenceFormatOne.java
+@@ -20,7 +20,8 @@ public class InputJavadocStyleFirstSentenceFormatOne
+    // This is OK. We don't flag missing javadoc.  That's left for other checks.
+    private String first; // ok
+ 
+-   /** This Javadoc is missing an ending period */ // violation
++   // violation below 'First sentence should end with a period.'
++   /** This Javadoc is missing an ending period */
+    private String second;
+ 
+    /**
+@@ -30,12 +31,14 @@ public class InputJavadocStyleFirstSentenceFormatOne
+     */
+    public InputJavadocStyleFirstSentenceFormatOne() {} // ok
+ 
+-   /** // violation
++   // violation below 'First sentence should end with a period.'
++   /**
+     * This is ok!
+     */
+    private void method1() {}
+ 
+-   /** // violation
++   // violation below 'First sentence should end with a period.'
++   /**
+     * This is ok?
+     */
+    private void method2() {}
+@@ -45,7 +48,8 @@ public class InputJavadocStyleFirstSentenceFormatOne
+     */
+    private void method3() {} // ok
+ 
+-   /** // violation
++   // violation below 'First sentence should end with a period.'
++   /**
+     * This should fail even.though.there are embedded periods
+     */
+    private void method4() {}
+@@ -62,17 +66,20 @@ public class InputJavadocStyleFirstSentenceFormatOne
+     */
+    private void method5(int arg1) {} // ok
+ 
+-   /** // violation
++   // violation below 'First sentence should end with a period.'
++   /**
+     * Protected check <b>should fail
+     */
+    protected void method6() {}
+ 
+-   /** // violation
++   // violation below 'First sentence should end with a period.'
++   /**
+     * Package protected check <b>should fail
+     */
+    void method7() {}
+ 
+-   /** // violation
++   // violation below 'First sentence should end with a period.'
++   /**
+     * Public check should fail</code>
+     * should fail <
+     */
+@@ -109,11 +116,4 @@ public class InputJavadocStyleFirstSentenceFormatOne
+      * <!-- comments <div> should not be checked. -->
+      */
+     private void method11() {} // ok
+-
+-    /**
+-     * Tags for two lines.
+-     * <a href="some_link"
+-     * >Link Text</a>
+-     */
+-    private void method12() {} // ok
+ }
+diff --git a/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleFirstSentenceFormatTwo.java b/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleFirstSentenceFormatTwo.java
+index a5e13b205..054395fe9 100644
+--- a/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleFirstSentenceFormatTwo.java
++++ b/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleFirstSentenceFormatTwo.java
+@@ -17,6 +17,13 @@ package com.puppycrawl.tools.checkstyle.checks.javadoc.javadocstyle;
+ 
+ public class InputJavadocStyleFirstSentenceFormatTwo
+ {
++    /**
++     * Tags for two lines.
++     * <a href="some_link"
++     * >Link Text</a>
++     */
++    private void method12() {} // ok
++
+     /**
+      * First sentence.
+      * <pre>
+@@ -63,7 +70,8 @@ public class InputJavadocStyleFirstSentenceFormatTwo
+ 
+     private void method14() {} // ok
+ 
+-    /** // violation
++    // violation below 'First sentence should end with a period.'
++    /**
+      * Empty line between javadoc and method declaration cause wrong
+      * line number for reporting error (bug 841942)
+      */
+@@ -96,7 +104,8 @@ public class InputJavadocStyleFirstSentenceFormatTwo
+ 
+     public enum Test // ok
+     {
+-        /** // violation
++        // violation below 'First sentence should end with a period.'
++        /**
+          * Value 1 without a period
+          */
+         value1,
+diff --git a/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleFirstSentenceFour.java b/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleFirstSentenceFour.java
+index 2941d900f..67cb2e48f 100644
+--- a/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleFirstSentenceFour.java
++++ b/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleFirstSentenceFour.java
+@@ -36,7 +36,7 @@ public class InputJavadocStyleFirstSentenceFour
+          */
+         final int i = 0; // ok
+     }
+-    // violation below
++    // violation below 'First sentence should end with a period.'
+     /**
+      * {@inheritDoc}
+      */
+@@ -47,18 +47,21 @@ public class InputJavadocStyleFirstSentenceFour
+      */
+     private void unterminatedTag() {} // ok
+ 
+-    /** // violation
++    // violation below 'First sentence should end with a period.'
++    /**
+      * Javadoc without dot
+      */
+     public interface TestInterface {
+-        /** // violation
++        // violation below 'First sentence should end with a period.'
++        /**
+          * Javadoc without dot
+          */
+         void method();
+     }
+ 
+     static class TestStaticClass { // ok
+-        /** // violation
++        // violation below 'First sentence should end with a period.'
++        /**
+          * Javadoc without dot
+          */
+         public int field;
+@@ -70,7 +73,8 @@ public class InputJavadocStyleFirstSentenceFour
+      */
+     void foo() throws Exception {} // ok
+ 
+-    /** // violation
++    // violation below 'First sentence should end with a period.'
++    /**
+      * text /
+      * @throws Exception if an error occurs
+      */
+@@ -83,7 +87,8 @@ public class InputJavadocStyleFirstSentenceFour
+      */
+     void inheritDocWithThrows() {} // ok
+ 
+-    /** // violation
++    // violation below 'First sentence should end with a period.'
++    /**
+      * /
+      *
+      **
+diff --git a/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleFirstSentenceOne.java b/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleFirstSentenceOne.java
+index 2a6d25c6b..58ed50ef8 100644
+--- a/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleFirstSentenceOne.java
++++ b/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleFirstSentenceOne.java
+@@ -20,7 +20,8 @@ public class InputJavadocStyleFirstSentenceOne
+    // This is OK. We don't flag missing javadoc.  That's left for other checks.
+    private String first; // ok
+ 
+-   /** This Javadoc is missing an ending period */ // violation
++   // violation below 'First sentence should end with a period.'
++   /** This Javadoc is missing an ending period */
+    private String second;
+ 
+    /**
+@@ -45,7 +46,8 @@ public class InputJavadocStyleFirstSentenceOne
+     */
+    private void method3() {} // ok
+ 
+-   /** // violation
++   // violation below 'First sentence should end with a period.'
++   /**
+     * This should fail even.though.there are embedded periods
+     */
+    private void method4() {}
+@@ -62,17 +64,20 @@ public class InputJavadocStyleFirstSentenceOne
+     */
+    private void method5(int arg1) {} // ok
+ 
+-   /** // violation
++   // violation below 'First sentence should end with a period.'
++   /**
+     * Protected check <b>should fail
+     */
+    protected void method6() {}
+ 
+-   /** // violation
++   // violation below 'First sentence should end with a period.'
++   /**
+     * Package protected check <b>should fail
+     */
+    void method7() {}
+ 
+-   /** // violation
++   // violation below 'First sentence should end with a period.'
++   /**
+     * Public check should fail</code>
+     * should fail <
+     */
+@@ -109,11 +114,4 @@ public class InputJavadocStyleFirstSentenceOne
+      * <!-- comments <div> should not be checked. -->
+      */
+     private void method11() {} // ok
+-
+-    /**
+-     * Tags for two lines.
+-     * <a href="some_link"
+-     * >Link Text</a>
+-     */
+-    private void method12() {} // ok
+ }
+diff --git a/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleFirstSentenceTwo.java b/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleFirstSentenceTwo.java
+index b21bc7e49..3180bec81 100644
+--- a/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleFirstSentenceTwo.java
++++ b/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleFirstSentenceTwo.java
+@@ -63,7 +63,8 @@ public class InputJavadocStyleFirstSentenceTwo
+ 
+     private void method14() {} // ok
+ 
+-    /** // violation
++    // violation below 'First sentence should end with a period.'
++    /**
+      * Empty line between javadoc and method declaration cause wrong
+      * line number for reporting error (bug 841942)
+      */
+@@ -96,7 +97,8 @@ public class InputJavadocStyleFirstSentenceTwo
+ 
+     public enum Test // ok
+     {
+-        /** // violation
++        // violation below 'First sentence should end with a period.'
++        /**
+          * Value 1 without a period
+          */
+         value1,
+@@ -106,4 +108,11 @@ public class InputJavadocStyleFirstSentenceTwo
+          */
+         value2, // ok
+     }
++
++    /**
++     * Tags for two lines.
++     * <a href="some_link"
++     * >Link Text</a>
++     */
++    private void method12() {} // ok
+ }
+diff --git a/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleHtml1.java b/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleHtml1.java
+index 2b2775bec..2a6e447aa 100644
+--- a/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleHtml1.java
++++ b/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleHtml1.java
+@@ -49,7 +49,10 @@ public class InputJavadocStyleHtml1 {
+     */
+    private void method4() {} // ok
+ 
+-   // violation 4 lines below
++   // violation 7 lines below 'Unclosed HTML tag found: <b>'
++   // violation 9 lines below 'Extra HTML tag found: </td>'
++   // violation 9 lines below 'Extra HTML tag found: </style>'
++   // violation 9 lines below 'Unclosed HTML tag found: <code>dummy'
+    /**
+     * Test HTML in Javadoc comment
+     * <dl>
+@@ -60,41 +63,41 @@ public class InputJavadocStyleHtml1 {
+     * <style>this tag isn't supported in Javadoc</style>
+     * @param arg1 <code>dummy
+     */
+-   // violation 4 lines above
+-   // violation 4 lines above
+-   // violation 4 lines above
+    private void method5(int arg1) {}
+ 
++   // violation 2 lines below 'Unclosed HTML tag found: <b>'
+    /**
+     * Protected check <b>
+-    */ // violation above
++    */
+    protected void method6() {}
+ 
++   // violation 2 lines below 'Unclosed HTML tag found: <b>'
+    /**
+     * Package protected check <b>
+-    */ // violation above
++    */
+    void method7() {}
+ 
+-   // violation 2 lines below
++   // violation 3 lines below 'Extra HTML tag found: </code>'
++   // violation 3 lines below 'should fail <'
+    /**
+     * Public check should fail</code>
+     * should fail <
+-    */ // violation above
++    */
+    public void method8() {}
+ 
+    /** {@inheritDoc} **/
+    public void method9() {} // ok
+ 
+ 
+-    // Testcases to exercise the Tag parser (bug 843887)
+-
++   // Testcases to exercise the Tag parser (bug 843887)
++   // violation 6 lines below  'Extra HTML tag found: </img>'
+     /**
+      * Real men don't use XHTML.
+      * <br />
+      * <hr/>
+      * < br/>
+      * <img src="schattenparker.jpg"/></img>
+-     */ // violation above
++     */
+     private void method10() {}
+ 
+     /**
+diff --git a/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleHtml2.java b/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleHtml2.java
+index ac735ec41..5e7d10fdd 100644
+--- a/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleHtml2.java
++++ b/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleHtml2.java
+@@ -62,10 +62,11 @@ public class InputJavadocStyleHtml2 {
+      */
+     private void method13() {} // ok
+ 
++    // violation 3 lines below 'Unclosed HTML tag found: <blockquote>'
+     /**
+      * Some problematic javadoc. Sample usage:
+      * <blockquote>
+-     */ // violation above
++     */
+ 
+     private void method14() {}
+ 
+diff --git a/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleHtml3.java b/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleHtml3.java
+index d6606dc1b..390a38a69 100644
+--- a/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleHtml3.java
++++ b/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleHtml3.java
+@@ -95,13 +95,14 @@ public class InputJavadocStyleHtml3 {
+      */
+     public void method20() {} // ok
+ 
++    // violation 5 lines below 'Extra HTML tag found: </string>'
+     /**
+      * Checks HTML tags in javadoc.
+      *
+      * HTML no good tag
+      * <string>Tests</string>
+      *
+-     */ // violation 2 lines above
++     */
+     public void method21() {}
+ 
+     /**
+diff --git a/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleHtml4.java b/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleHtml4.java
+index 1dd6ada7c..4b497d800 100644
+--- a/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleHtml4.java
++++ b/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleHtml4.java
+@@ -23,10 +23,11 @@ public class InputJavadocStyleHtml4 {
+      */
+     void tagInTwoLines() {} // ok
+ 
++    // violation 3 lines below 'Unclosed HTML tag found: <code>'
+     /**
+      * This Javadoc contains unclosed tag.
+      * <code>unclosed 'code' tag<code>
+-     */ // violation above
++     */
+     private void unclosedTag() {}
+ 
+     void javadocLikeCommentInMethod() { // ok
+@@ -41,7 +42,8 @@ public class InputJavadocStyleHtml4 {
+      */
+     private void inheritDoc() {} // ok
+ 
+-    /** // violation below
++    // violation 2 lines below 'Unclosed HTML tag found: <b>'
++    /**
+      * <p><b>
+      * </p>
+      */
+diff --git a/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleInterfaceMemberScopeIsPublic.java b/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleInterfaceMemberScopeIsPublic.java
+index 8c62c872c..ded6142ce 100644
+--- a/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleInterfaceMemberScopeIsPublic.java
++++ b/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleInterfaceMemberScopeIsPublic.java
+@@ -17,10 +17,12 @@ package com.puppycrawl.tools.checkstyle.checks.javadoc.javadocstyle;
+ 
+ public interface InputJavadocStyleInterfaceMemberScopeIsPublic {
+ 
+-    /** */ // violation
++    // violation below 'Javadoc has empty description section'
++    /** */
+     enum Enum {
+ 
+-        /** */ // violation
++        // violation below 'Javadoc has empty description section'
++        /** */
+         CONSTANT(0);
+ 
+         /** */ // ok
+diff --git a/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleRestrictedTokenSet1.java b/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleRestrictedTokenSet1.java
+index c35fafc0f..e84ad519b 100644
+--- a/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleRestrictedTokenSet1.java
++++ b/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleRestrictedTokenSet1.java
+@@ -70,7 +70,8 @@ public class InputJavadocStyleRestrictedTokenSet1 // ok
+     */
+    void method7() {} // ok
+ 
+-   /** // violation
++   // violation below 'First sentence should end with a period.'
++   /**
+     * Public check should fail</code>
+     * should fail <
+     */
+diff --git a/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleRestrictedTokenSet3.java b/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleRestrictedTokenSet3.java
+index 030d0b9e6..d4656cccc 100644
+--- a/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleRestrictedTokenSet3.java
++++ b/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleRestrictedTokenSet3.java
+@@ -15,6 +15,13 @@ package com.puppycrawl.tools.checkstyle.checks.javadoc.javadocstyle;
+ 
+ public class InputJavadocStyleRestrictedTokenSet3 // ok
+ {
++    /**
++     * First sentence.
++     * <
++     * /a>
++     */
++    void tagClosedInNextLine() {} // ok
++
+     /**
+     * A test class.
+     * @param <T1> this is NOT an unclosed T1 tag
+@@ -102,5 +109,4 @@ public class InputJavadocStyleRestrictedTokenSet3 // ok
+      *
+      */
+     public void method21() {} // ok
+-
+ }
+diff --git a/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleRestrictedTokenSet4.java b/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleRestrictedTokenSet4.java
+index 074e711c5..a786d6f33 100644
+--- a/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleRestrictedTokenSet4.java
++++ b/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleRestrictedTokenSet4.java
+@@ -15,13 +15,6 @@ package com.puppycrawl.tools.checkstyle.checks.javadoc.javadocstyle;
+ 
+ public class InputJavadocStyleRestrictedTokenSet4 // ok
+ {
+-     /**
+-     * First sentence.
+-     * <
+-     * /a>
+-     */
+-    void tagClosedInNextLine() {} // ok
+-
+     /**
+      * Link to some page in two lines.
+      * <a
+@@ -56,7 +49,8 @@ public class InputJavadocStyleRestrictedTokenSet4 // ok
+      * Javadoc without dot
+      */
+     public interface TestInterface { // ok
+-        /** // violation
++        // violation below 'First sentence should end with a period.'
++        /**
+          * Javadoc without dot
+          */
+         void method();
+@@ -88,7 +82,8 @@ public class InputJavadocStyleRestrictedTokenSet4 // ok
+      */
+     void inheritDocWithThrows() {} // ok
+ 
+-    /** // violation
++    // violation below 'First sentence should end with a period.'
++    /**
+      * /
+      *
+      **
+diff --git a/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleScopePackage1.java b/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleScopePackage1.java
+index 7b4b068da..e29af4374 100644
+--- a/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleScopePackage1.java
++++ b/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleScopePackage1.java
+@@ -62,21 +62,27 @@ public class InputJavadocStyleScopePackage1
+      */
+     private void method5(int arg1) {} // ok
+ 
+-    /** // violation
++    // violation 2 lines below 'First sentence should end with a period.'
++    // violation 2 lines below 'Unclosed HTML tag found: <b>'
++    /**
+      * Protected check <b>
+-     */ // violation above
++     */
+     protected void method6() {}
+ 
+-    /** // violation
++    // violation 2 lines below 'First sentence should end with a period.'
++    // violation 2 lines below 'Unclosed HTML tag found: <b>'
++    /**
+      * Package protected check <b>
+-     */ // violation above
++     */
+     void method7() {}
+ 
+-    // violation below
+-    /** // violation below
++    // violation 3 lines below 'First sentence should end with a period.'
++    // violation 3 lines below 'Extra HTML tag found: </code>'
++    // violation 3 lines below 'should fail <'
++    /**
+      * Public check should fail</code>
+      * should fail <
+-     */ // violation above
++     */
+     public void method8() {}
+ 
+     /** {@inheritDoc} **/
+@@ -109,11 +115,4 @@ public class InputJavadocStyleScopePackage1
+      * <!-- comments <div> should not be checked. -->
+      */
+     private void method11() {} // ok
+-
+-    /**
+-     * Tags for two lines.
+-     * <a href="some_link"
+-     * >Link Text</a>
+-     */
+-    private void method12() {} // ok
+ }
+diff --git a/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleScopePackage2.java b/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleScopePackage2.java
+index ea5458f7f..be64f6294 100644
+--- a/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleScopePackage2.java
++++ b/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleScopePackage2.java
+@@ -17,6 +17,13 @@ package com.puppycrawl.tools.checkstyle.checks.javadoc.javadocstyle;
+ 
+ public class InputJavadocStyleScopePackage2
+ {
++    /**
++     * Tags for two lines.
++     * <a href="some_link"
++     * >Link Text</a>
++     */
++    private void method12() {} // ok
++
+     /**
+      * First sentence.
+      * <pre>
+@@ -72,16 +79,16 @@ public class InputJavadocStyleScopePackage2
+ 
+     /** Description of field: {@value}. */
+     public static final int dummy = 4911; // ok
+-    // violation below
++    // violation below 'Javadoc has empty description section'
+     /**
+      */
+     public void method16() {}
+-    // violation below
++    // violation below 'Javadoc has empty description section'
+     /**
+      * @param a A parameter
+      */
+     protected void method17(String a) {}
+-    // violation below
++    // violation below 'Javadoc has empty description section'
+     /**
+      * @exception RuntimeException should be thrown
+      */
+@@ -91,12 +98,14 @@ public class InputJavadocStyleScopePackage2
+      */
+     private static int ASDF = 0; // ok
+ 
+-    /** @see Object */ // violation
++    // violation below 'Javadoc has empty description section'
++    /** @see Object */
+     public void method19() {}
+ 
+     public enum Test
+     {
+-        /** // violation
++        // violation below 'First sentence should end with a period.'
++        /**
+          * Value 1 without a period
+          */
+         value1,
+diff --git a/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleScopePackage3.java b/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleScopePackage3.java
+index 9ba3610db..97264c02d 100644
+--- a/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleScopePackage3.java
++++ b/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleScopePackage3.java
+@@ -96,13 +96,14 @@ public class InputJavadocStyleScopePackage3
+      */
+     public void method20() {} // ok
+ 
++    // violation 5 lines below 'Extra HTML tag found: </string>'
+     /**
+      * Checks HTML tags in javadoc.
+      *
+      * HTML no good tag
+      * <string>Tests</string>
+      *
+-     */ // violation 2 lines above
++     */
+     public void method21() {}
+ 
+     /**
+diff --git a/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleScopePackage4.java b/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleScopePackage4.java
+index d98485905..d8fc0ae7f 100644
+--- a/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleScopePackage4.java
++++ b/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleScopePackage4.java
+@@ -47,18 +47,21 @@ public class InputJavadocStyleScopePackage4
+      */
+     private void unterminatedTag() {} // ok
+ 
+-    /** // violation
++    // violation below 'First sentence should end with a period.'
++    /**
+      * Javadoc without dot
+      */
+     public interface TestInterface {
+-        /** // violation
++        // violation below 'First sentence should end with a period.'
++        /**
+          * Javadoc without dot
+          */
+         void method();
+     }
+ 
+     static class TestStaticClass { // ok
+-        /** // violation
++        // violation below 'First sentence should end with a period.'
++        /**
+          * Javadoc without dot
+          */
+         public int field;
+@@ -70,7 +73,8 @@ public class InputJavadocStyleScopePackage4
+      */
+     void foo() throws Exception {} // ok
+ 
+-    /** // violation
++    // violation below 'First sentence should end with a period.'
++    /**
+      * text /
+      * @throws Exception if an error occurs
+      */
+@@ -83,7 +87,8 @@ public class InputJavadocStyleScopePackage4
+      */
+     void inheritDocWithThrows() {} // ok
+ 
+-    /** // violation
++    // violation below 'First sentence should end with a period.'
++    /**
+      * /
+      *
+      **
+diff --git a/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleScopeProtected1.java b/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleScopeProtected1.java
+index f35ae1029..f929aff9f 100644
+--- a/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleScopeProtected1.java
++++ b/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleScopeProtected1.java
+@@ -62,9 +62,11 @@ public class InputJavadocStyleScopeProtected1 // ok
+     */
+    private void method5(int arg1) {} // ok
+ 
+-   /** // violation
++   // violation 2 lines below 'First sentence should end with a period.'
++   // violation 2 lines below 'Unclosed HTML tag found: <b>'
++   /**
+     * Protected check <b>
+-    */ // violation above
++    */
+    protected void method6() {}
+ 
+    /**
+@@ -72,11 +74,13 @@ public class InputJavadocStyleScopeProtected1 // ok
+     */
+    void method7() {} // ok
+ 
+-    // violation below
+-   /** // violation below
++   // violation 3 lines below 'First sentence should end with a period.'
++   // violation 3 lines below 'Extra HTML tag found: </code>'
++   // violation 3 lines below 'should fail <'
++   /**
+     * Public check should fail</code>
+     * should fail <
+-    */ // violation above
++    */
+    public void method8() {}
+ 
+    /** {@inheritDoc} **/
+@@ -110,11 +114,4 @@ public class InputJavadocStyleScopeProtected1 // ok
+      * <!-- comments <div> should not be checked. -->
+      */
+     private void method11() {} // ok
+-
+-    /**
+-     * Tags for two lines.
+-     * <a href="some_link"
+-     * >Link Text</a>
+-     */
+-    private void method12() {} // ok
+ }
+diff --git a/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleScopeProtected2.java b/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleScopeProtected2.java
+index e47ceb7d1..4d65bb648 100644
+--- a/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleScopeProtected2.java
++++ b/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleScopeProtected2.java
+@@ -17,7 +17,14 @@ package com.puppycrawl.tools.checkstyle.checks.javadoc.javadocstyle;
+ 
+ public class InputJavadocStyleScopeProtected2 // ok
+ {
+-      /**
++    /**
++     * Tags for two lines.
++     * <a href="some_link"
++     * >Link Text</a>
++     */
++    private void method12() {} // ok
++
++    /**
+      * First sentence.
+      * <pre>
+      * +--LITERAL_DO (do)
+@@ -72,11 +79,11 @@ public class InputJavadocStyleScopeProtected2 // ok
+ 
+     /** Description of field: {@value}. */
+     public static final int dummy = 4911; // ok
+-    // violation below
++    // violation below 'Javadoc has empty description section'
+     /**
+      */
+     public void method16() {}
+-    // violation below
++    // violation below 'Javadoc has empty description section'
+     /**
+      * @param a A parameter
+      */
+@@ -91,12 +98,14 @@ public class InputJavadocStyleScopeProtected2 // ok
+      */
+     private static int ASDF = 0; // ok
+ 
+-    /** @see Object */ // violation
++    // violation below 'Javadoc has empty description section'
++    /** @see Object */
+     public void method19() {}
+ 
+     public enum Test
+     {
+-        /** // violation
++        // violation below 'First sentence should end with a period.'
++        /**
+          * Value 1 without a period
+          */
+         value1,
+diff --git a/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleScopeProtected3.java b/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleScopeProtected3.java
+index e9f069392..77be10ad7 100644
+--- a/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleScopeProtected3.java
++++ b/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleScopeProtected3.java
+@@ -96,13 +96,14 @@ public class InputJavadocStyleScopeProtected3 // ok
+      */
+     public void method20() {} // ok
+ 
++    // violation 5 lines below 'Extra HTML tag found: </string>'
+     /**
+      * Checks HTML tags in javadoc.
+      *
+      * HTML no good tag
+      * <string>Tests</string>
+      *
+-     */ // violation 2 lines above
++     */
+     public void method21() {}
+ 
+     /**
+diff --git a/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleScopeProtected4.java b/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleScopeProtected4.java
+index 8c28bd4e4..245c6651d 100644
+--- a/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleScopeProtected4.java
++++ b/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleScopeProtected4.java
+@@ -47,11 +47,13 @@ public class InputJavadocStyleScopeProtected4 // ok
+      */
+     private void unterminatedTag() {} // ok
+ 
+-    /** // violation
++    // violation below 'First sentence should end with a period.'
++    /**
+      * Javadoc without dot
+      */
+     public interface TestInterface {
+-        /** // violation
++        // violation below 'First sentence should end with a period.'
++        /**
+          * Javadoc without dot
+          */
+         void method();
+@@ -83,7 +85,8 @@ public class InputJavadocStyleScopeProtected4 // ok
+      */
+     void inheritDocWithThrows() {} // ok
+ 
+-    /** // violation
++    // violation below 'First sentence should end with a period.'
++    /**
+      * /
+      *
+      **
+diff --git a/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleScopePublic1.java b/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleScopePublic1.java
+index 863d537ff..fcbcf6835 100644
+--- a/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleScopePublic1.java
++++ b/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleScopePublic1.java
+@@ -72,11 +72,13 @@ public class InputJavadocStyleScopePublic1 // ok
+     */
+    void method7() {} // ok
+ 
+-   // violation below
+-   /** // violation below
++   // violation 3 lines below 'First sentence should end with a period.'
++   // violation 3 lines below 'Extra HTML tag found: </code>'
++   // violation 3 lines below 'should fail <'
++   /**
+     * Public check should fail</code>
+     * should fail <
+-    */ // violation above
++    */
+    public void method8() {}
+ 
+    /** {@inheritDoc} **/
+diff --git a/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleScopePublic2.java b/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleScopePublic2.java
+index 652536ac8..8decbe6db 100644
+--- a/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleScopePublic2.java
++++ b/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleScopePublic2.java
+@@ -79,7 +79,7 @@ public class InputJavadocStyleScopePublic2 // ok
+ 
+     /** Description of field: {@value}. */
+     public static final int dummy = 4911; // ok
+-     // violation below
++    // violation below 'Javadoc has empty description section'
+     /**
+      */
+     public void method16() {}
+@@ -98,12 +98,14 @@ public class InputJavadocStyleScopePublic2 // ok
+      */
+     private static int ASDF = 0; // ok
+ 
+-    /** @see Object */ // violation
++    // violation below 'Javadoc has empty description section'
++    /** @see Object */
+     public void method19() {}
+ 
+     public enum Test
+     {
+-        /** // violation
++        // violation below 'First sentence should end with a period.'
++        /**
+          * Value 1 without a period
+          */
+         value1,
+diff --git a/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleScopePublic3.java b/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleScopePublic3.java
+index b6b22c6f0..4a90820c3 100644
+--- a/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleScopePublic3.java
++++ b/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleScopePublic3.java
+@@ -96,13 +96,14 @@ public class InputJavadocStyleScopePublic3 // ok
+      */
+     public void method20() {} // ok
+ 
++    //violation 5 lines below 'Extra HTML tag found: </string>'
+     /**
+      * Checks HTML tags in javadoc.
+      *
+      * HTML no good tag
+      * <string>Tests</string>
+      *
+-     */ // violation 2 lines above
++     */
+     public void method21() {}
+ 
+     /**
+diff --git a/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleScopePublic4.java b/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleScopePublic4.java
+index 7ff594b95..849ceb075 100644
+--- a/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleScopePublic4.java
++++ b/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleScopePublic4.java
+@@ -47,11 +47,13 @@ public class InputJavadocStyleScopePublic4 // ok
+      */
+     private void unterminatedTag() {} // ok
+ 
+-    /** // violation
++    // violation below 'First sentence should end with a period.'
++    /**
+      * Javadoc without dot
+      */
+     public interface TestInterface {
+-        /** // violation
++        // violation below 'First sentence should end with a period.'
++        /**
+          * Javadoc without dot
+          */
+         void method();
+@@ -83,7 +85,8 @@ public class InputJavadocStyleScopePublic4 // ok
+      */
+     void inheritDocWithThrows() {} // ok
+ 
+-    /** // violation
++    // violation below 'First sentence should end with a period.'
++    /**
+      * /
+      *
+      **
+diff --git a/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/pkginfo/invalidformat/package-info.java b/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/pkginfo/invalidformat/package-info.java
+index 4d9d39517..6573d35d8 100644
+--- a/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/pkginfo/invalidformat/package-info.java
++++ b/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/pkginfo/invalidformat/package-info.java
+@@ -13,7 +13,8 @@ tokens = (default)ANNOTATION_DEF, ANNOTATION_FIELD_DEF, CLASS_DEF, CTOR_DEF, \
+ 
+ */
+ 
+-/** // violation
++// violation below 'First sentence should end with a period.'
++/**
+  * blah blah
+  */
+ package com.puppycrawl.tools.checkstyle.checks.javadoc.javadocstyle.pkginfo.invalidformat;
+diff --git a/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/pkginfo/invalidinherit/package-info.java b/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/pkginfo/invalidinherit/package-info.java
+index 03478e2b9..8c4a896d5 100644
+--- a/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/pkginfo/invalidinherit/package-info.java
++++ b/src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/pkginfo/invalidinherit/package-info.java
+@@ -12,7 +12,7 @@ tokens = (default)ANNOTATION_DEF, ANNOTATION_FIELD_DEF, CLASS_DEF, CTOR_DEF, \
+ 
+ 
+ */
+-// violation below
++// violation below 'First sentence should end with a period.'
+ /**
+  * {@inheritDoc} Where are we inheriting from
+  */

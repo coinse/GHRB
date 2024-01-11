@@ -1,0 +1,29 @@
+diff --git a/brut.apktool/apktool-lib/src/main/java/brut/androlib/res/AndrolibResources.java b/brut.apktool/apktool-lib/src/main/java/brut/androlib/res/AndrolibResources.java
+index 8d5ddcae..c75950e9 100644
+--- a/brut.apktool/apktool-lib/src/main/java/brut/androlib/res/AndrolibResources.java
++++ b/brut.apktool/apktool-lib/src/main/java/brut/androlib/res/AndrolibResources.java
+@@ -699,6 +699,11 @@ final public class AndrolibResources {
+                 return ResConfigFlags.SDK_S_V2;
+             case "T":
+             case "TIRAMISU":
++                return ResConfigFlags.SDK_TIRAMISU;
++            case "UPSIDEDOWNCAKE":
++            case "UPSIDE_DOWN_CAKE":
++            case "VANILLAICECREAM":
++            case "VANILLA_ICE_CREAM":
+                 return ResConfigFlags.SDK_DEVELOPMENT;
+             default:
+                 return Integer.parseInt(sdkVersion);
+diff --git a/brut.apktool/apktool-lib/src/main/java/brut/androlib/res/data/ResConfigFlags.java b/brut.apktool/apktool-lib/src/main/java/brut/androlib/res/data/ResConfigFlags.java
+index 40963eba..18399add 100644
+--- a/brut.apktool/apktool-lib/src/main/java/brut/androlib/res/data/ResConfigFlags.java
++++ b/brut.apktool/apktool-lib/src/main/java/brut/androlib/res/data/ResConfigFlags.java
+@@ -538,7 +538,7 @@ public class ResConfigFlags {
+     public final static byte SDK_R = 30;
+     public final static byte SDK_S = 31;
+     public final static byte SDK_S_V2 = 32;
+-    public final static byte SDK_T = 33;
++    public final static byte SDK_TIRAMISU = 33;
+ 
+     // AOSP has this as 10,000 for dev purposes.
+     // platform_frameworks_base/commit/c7a1109a1fe0771d4c9b572dcf178e2779fc4f2d

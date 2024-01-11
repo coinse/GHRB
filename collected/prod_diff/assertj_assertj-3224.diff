@@ -1,0 +1,20 @@
+diff --git a/assertj-core/src/main/java/org/assertj/core/api/AbstractObjectAssert.java b/assertj-core/src/main/java/org/assertj/core/api/AbstractObjectAssert.java
+index 84299dcdd..14b62f8f9 100644
+--- a/assertj-core/src/main/java/org/assertj/core/api/AbstractObjectAssert.java
++++ b/assertj-core/src/main/java/org/assertj/core/api/AbstractObjectAssert.java
+@@ -1102,6 +1102,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
+    */
+   public <T> SELF returns(T expected, Function<ACTUAL, T> from) {
+     requireNonNull(from, "The given getter method/Function must not be null");
++    isNotNull();
+     Objects objects = getComparatorBasedObjectAssertions(expected);
+     objects.assertEqual(info, from.apply(actual), expected);
+     return myself;
+@@ -1132,6 +1133,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
+    */
+   public <T> SELF doesNotReturn(T expected, Function<ACTUAL, T> from) {
+     requireNonNull(from, "The given getter method/Function must not be null");
++    isNotNull();
+     Objects objects = getComparatorBasedObjectAssertions(expected);
+     objects.assertNotEqual(info, from.apply(actual), expected);
+     return myself;

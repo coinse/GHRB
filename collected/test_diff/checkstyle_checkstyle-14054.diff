@@ -1,0 +1,30 @@
+diff --git a/src/test/resources/com/puppycrawl/tools/checkstyle/checks/coding/unusedlocalvariable/InputUnusedLocalVariableDepthOfClasses.java b/src/test/resources/com/puppycrawl/tools/checkstyle/checks/coding/unusedlocalvariable/InputUnusedLocalVariableDepthOfClasses.java
+index 0b717535d..84409f2c3 100644
+--- a/src/test/resources/com/puppycrawl/tools/checkstyle/checks/coding/unusedlocalvariable/InputUnusedLocalVariableDepthOfClasses.java
++++ b/src/test/resources/com/puppycrawl/tools/checkstyle/checks/coding/unusedlocalvariable/InputUnusedLocalVariableDepthOfClasses.java
+@@ -36,21 +36,21 @@ public class InputUnusedLocalVariableDepthOfClasses {
+ 
+     class r {
+         class k {
+-            int p = 12;
++            int s = 12;
+         }
+     }
+ 
+-    static class p {
++    static class s {
+         class r {
+             class k {
+                 int a = 13;
+ 
+                 void method() {
+                     int a = 1; // violation
+-                    int p = 1;
++                    int s = 1;
+                     r.k obj = new r().new k() {
+                         void method() {
+-                            a += p;
++                            a += s;
+                         }
+                     };
+                     obj.getClass();

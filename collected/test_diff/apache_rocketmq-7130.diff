@@ -1,0 +1,67 @@
+diff --git a/acl/src/test/java/org/apache/rocketmq/acl/plain/PlainAccessControlFlowTest.java b/acl/src/test/java/org/apache/rocketmq/acl/plain/PlainAccessControlFlowTest.java
+index e7fd0932f..519345714 100644
+--- a/acl/src/test/java/org/apache/rocketmq/acl/plain/PlainAccessControlFlowTest.java
++++ b/acl/src/test/java/org/apache/rocketmq/acl/plain/PlainAccessControlFlowTest.java
+@@ -31,7 +31,6 @@ import org.apache.rocketmq.remoting.protocol.header.PullMessageRequestHeader;
+ import org.apache.rocketmq.remoting.protocol.header.SendMessageRequestHeader;
+ import org.apache.rocketmq.remoting.protocol.header.SendMessageRequestHeaderV2;
+ import org.junit.Assert;
+-import org.junit.Ignore;
+ import org.junit.Test;
+ 
+ import java.io.File;
+@@ -44,7 +43,6 @@ import java.util.Collections;
+ import java.util.LinkedList;
+ import java.util.List;
+ 
+-
+ /**
+  * <p> In this class, we'll test the following scenarios, each containing several consecutive operations on ACL,
+  * <p> like updating and deleting ACL, changing config files and checking validations.
+@@ -52,9 +50,6 @@ import java.util.List;
+  * <p> Case 2: Only conf/acl/plain_acl.yml exists;
+  * <p> Case 3: Both conf/plain_acl.yml and conf/acl/plain_acl.yml exists.
+  */
+-
+-// Ignore this test case as it is currently unable to pass on ubuntu workflow
+-@Ignore
+ public class PlainAccessControlFlowTest {
+     public static final String DEFAULT_TOPIC = "topic-acl";
+ 
+diff --git a/acl/src/test/java/org/apache/rocketmq/acl/plain/PlainAccessValidatorTest.java b/acl/src/test/java/org/apache/rocketmq/acl/plain/PlainAccessValidatorTest.java
+index a3a925758..ef0cffbdc 100644
+--- a/acl/src/test/java/org/apache/rocketmq/acl/plain/PlainAccessValidatorTest.java
++++ b/acl/src/test/java/org/apache/rocketmq/acl/plain/PlainAccessValidatorTest.java
+@@ -56,11 +56,8 @@ import org.apache.rocketmq.remoting.protocol.heartbeat.SubscriptionData;
+ import org.junit.After;
+ import org.junit.Assert;
+ import org.junit.Before;
+-import org.junit.Ignore;
+ import org.junit.Test;
+ 
+-// Ignore this test case as it is currently unable to pass on ubuntu workflow
+-@Ignore
+ public class PlainAccessValidatorTest {
+ 
+     private PlainAccessValidator plainAccessValidator;
+diff --git a/acl/src/test/java/org/apache/rocketmq/acl/plain/PlainPermissionManagerTest.java b/acl/src/test/java/org/apache/rocketmq/acl/plain/PlainPermissionManagerTest.java
+index aa7539f3a..941d8c779 100644
+--- a/acl/src/test/java/org/apache/rocketmq/acl/plain/PlainPermissionManagerTest.java
++++ b/acl/src/test/java/org/apache/rocketmq/acl/plain/PlainPermissionManagerTest.java
+@@ -29,7 +29,6 @@ import org.assertj.core.api.Assertions;
+ import org.assertj.core.util.Lists;
+ import org.junit.Assert;
+ import org.junit.Before;
+-import org.junit.Ignore;
+ import org.junit.Test;
+ 
+ import java.io.File;
+@@ -42,8 +41,6 @@ import java.util.List;
+ import java.util.Map;
+ import java.util.Set;
+ 
+-// Ignore this test case as it is currently unable to pass on ubuntu workflow
+-@Ignore
+ public class PlainPermissionManagerTest {
+ 
+     PlainPermissionManager plainPermissionManager;

@@ -1,0 +1,354 @@
+diff --git a/tieredstore/src/main/java/org/apache/rocketmq/tieredstore/TieredDispatcher.java b/tieredstore/src/main/java/org/apache/rocketmq/tieredstore/TieredDispatcher.java
+index 6584b0e89..523b0c2cd 100644
+--- a/tieredstore/src/main/java/org/apache/rocketmq/tieredstore/TieredDispatcher.java
++++ b/tieredstore/src/main/java/org/apache/rocketmq/tieredstore/TieredDispatcher.java
+@@ -352,7 +352,7 @@ public class TieredDispatcher extends ServiceThread implements CommitLogDispatch
+             case SUCCESS:
+                 long offset = MessageBufferUtil.getQueueOffset(message);
+                 if (queueOffset != offset) {
+-                    logger.error("Message cq offset in commitlog does not meet expectations, " +
++                    logger.warn("Message cq offset in commitlog does not meet expectations, " +
+                             "result={}, topic={}, queueId={}, cq offset={}, msg offset={}",
+                         AppendResult.OFFSET_INCORRECT, topic, queueId, queueOffset, offset);
+                 }
+diff --git a/tieredstore/src/main/java/org/apache/rocketmq/tieredstore/TieredMessageFetcher.java b/tieredstore/src/main/java/org/apache/rocketmq/tieredstore/TieredMessageFetcher.java
+index 8802a73a3..c4fed54bd 100644
+--- a/tieredstore/src/main/java/org/apache/rocketmq/tieredstore/TieredMessageFetcher.java
++++ b/tieredstore/src/main/java/org/apache/rocketmq/tieredstore/TieredMessageFetcher.java
+@@ -473,6 +473,11 @@ public class TieredMessageFetcher implements MessageStoreFetcher {
+             return CompletableFuture.completedFuture(result);
+         }
+ 
++        // request range | result
++        // (0, min)      | too small
++        // [min, max)    | correct
++        // [max, max]    | overflow one
++        // (max, +oo)    | overflow badly
+         if (queueOffset < minQueueOffset) {
+             result.setStatus(GetMessageStatus.OFFSET_TOO_SMALL);
+             result.setNextBeginOffset(flatFile.getConsumeQueueMinOffset());
+diff --git a/tieredstore/src/main/java/org/apache/rocketmq/tieredstore/file/CompositeFlatFile.java b/tieredstore/src/main/java/org/apache/rocketmq/tieredstore/file/CompositeFlatFile.java
+index 8f8ba98b1..fa01382e1 100644
+--- a/tieredstore/src/main/java/org/apache/rocketmq/tieredstore/file/CompositeFlatFile.java
++++ b/tieredstore/src/main/java/org/apache/rocketmq/tieredstore/file/CompositeFlatFile.java
+@@ -120,17 +120,19 @@ public class CompositeFlatFile implements CompositeAccess {
+         return commitLog.getBeginTimestamp();
+     }
+ 
+-    public long getConsumeQueueBaseOffset() {
+-        return consumeQueue.getBaseOffset();
+-    }
+-
+     @Override
+     public long getCommitLogDispatchCommitOffset() {
+         return commitLog.getDispatchCommitOffset();
+     }
+ 
++    public long getConsumeQueueBaseOffset() {
++        return consumeQueue.getBaseOffset();
++    }
++
+     public long getConsumeQueueMinOffset() {
+-        return consumeQueue.getMinOffset() / TieredConsumeQueue.CONSUME_QUEUE_STORE_UNIT_SIZE;
++        long cqOffset = consumeQueue.getMinOffset() / TieredConsumeQueue.CONSUME_QUEUE_STORE_UNIT_SIZE;
++        long effectiveOffset = this.commitLog.getMinConsumeQueueOffset();
++        return Math.max(cqOffset, effectiveOffset);
+     }
+ 
+     public long getConsumeQueueCommitOffset() {
+diff --git a/tieredstore/src/main/java/org/apache/rocketmq/tieredstore/file/TieredCommitLog.java b/tieredstore/src/main/java/org/apache/rocketmq/tieredstore/file/TieredCommitLog.java
+index 92aea58be..80e1bce50 100644
+--- a/tieredstore/src/main/java/org/apache/rocketmq/tieredstore/file/TieredCommitLog.java
++++ b/tieredstore/src/main/java/org/apache/rocketmq/tieredstore/file/TieredCommitLog.java
+@@ -20,6 +20,7 @@ import com.google.common.annotations.VisibleForTesting;
+ import java.nio.ByteBuffer;
+ import java.util.concurrent.CompletableFuture;
+ import java.util.concurrent.TimeUnit;
++import java.util.concurrent.atomic.AtomicLong;
+ import org.apache.rocketmq.logging.org.slf4j.Logger;
+ import org.apache.rocketmq.logging.org.slf4j.LoggerFactory;
+ import org.apache.rocketmq.tieredstore.common.AppendResult;
+@@ -31,6 +32,7 @@ import org.apache.rocketmq.tieredstore.util.TieredStoreUtil;
+ public class TieredCommitLog {
+ 
+     private static final Logger log = LoggerFactory.getLogger(TieredStoreUtil.TIERED_STORE_LOGGER_NAME);
++    private static final Long NOT_EXIST_MIN_OFFSET = -1L;
+ 
+     /**
+      * item size: int, 4 bytes
+@@ -42,10 +44,13 @@ public class TieredCommitLog {
+ 
+     private final TieredMessageStoreConfig storeConfig;
+     private final TieredFlatFile flatFile;
++    private final AtomicLong minConsumeQueueOffset;
+ 
+     public TieredCommitLog(TieredFileAllocator fileQueueFactory, String filePath) {
+         this.storeConfig = fileQueueFactory.getStoreConfig();
+         this.flatFile = fileQueueFactory.createFlatFileForCommitLog(filePath);
++        this.minConsumeQueueOffset = new AtomicLong(NOT_EXIST_MIN_OFFSET);
++        this.correctMinOffset();
+     }
+ 
+     @VisibleForTesting
+@@ -61,6 +66,10 @@ public class TieredCommitLog {
+         return flatFile.getCommitOffset();
+     }
+ 
++    public long getMinConsumeQueueOffset() {
++        return minConsumeQueueOffset.get() != NOT_EXIST_MIN_OFFSET ? minConsumeQueueOffset.get() : correctMinOffset();
++    }
++
+     public long getDispatchCommitOffset() {
+         return flatFile.getDispatchCommitOffset();
+     }
+@@ -82,6 +91,39 @@ public class TieredCommitLog {
+         return flatFile.getFileToWrite().getMaxTimestamp();
+     }
+ 
++    public synchronized long correctMinOffset() {
++        if (flatFile.getFileSegmentCount() == 0) {
++            this.minConsumeQueueOffset.set(NOT_EXIST_MIN_OFFSET);
++            return NOT_EXIST_MIN_OFFSET;
++        }
++
++        // queue offset field length is 8
++        int length = MessageBufferUtil.QUEUE_OFFSET_POSITION + 8;
++        if (flatFile.getCommitOffset() - flatFile.getMinOffset() < length) {
++            this.minConsumeQueueOffset.set(NOT_EXIST_MIN_OFFSET);
++            return NOT_EXIST_MIN_OFFSET;
++        }
++
++        try {
++            return this.flatFile.readAsync(this.flatFile.getMinOffset(), length)
++                .thenApply(buffer -> {
++                    long offset = MessageBufferUtil.getQueueOffset(buffer);
++                    minConsumeQueueOffset.set(offset);
++                    log.info("Correct commitlog min cq offset success, filePath={}, min cq offset={}, range={}-{}",
++                        flatFile.getFilePath(), offset, flatFile.getMinOffset(), flatFile.getCommitOffset());
++                    return offset;
++                })
++                .exceptionally(throwable -> {
++                    log.warn("Correct commitlog min cq offset error, filePath={}, range={}-{}",
++                        flatFile.getFilePath(), flatFile.getMinOffset(), flatFile.getCommitOffset(), throwable);
++                    return minConsumeQueueOffset.get();
++                }).get();
++        } catch (Exception e) {
++            log.error("Correct commitlog min cq offset error, filePath={}", flatFile.getFilePath(), e);
++        }
++        return minConsumeQueueOffset.get();
++    }
++
+     public AppendResult append(ByteBuffer byteBuf) {
+         return flatFile.append(byteBuf, MessageBufferUtil.getStoreTimeStamp(byteBuf));
+     }
+@@ -99,7 +141,9 @@ public class TieredCommitLog {
+     }
+ 
+     public void cleanExpiredFile(long expireTimestamp) {
+-        flatFile.cleanExpiredFile(expireTimestamp);
++        if (flatFile.cleanExpiredFile(expireTimestamp) > 0) {
++            correctMinOffset();
++        }
+     }
+ 
+     public void destroyExpiredFile() {
+diff --git a/tieredstore/src/main/java/org/apache/rocketmq/tieredstore/file/TieredFlatFile.java b/tieredstore/src/main/java/org/apache/rocketmq/tieredstore/file/TieredFlatFile.java
+index a71323348..90ca843bf 100644
+--- a/tieredstore/src/main/java/org/apache/rocketmq/tieredstore/file/TieredFlatFile.java
++++ b/tieredstore/src/main/java/org/apache/rocketmq/tieredstore/file/TieredFlatFile.java
+@@ -133,6 +133,14 @@ public class TieredFlatFile {
+         }
+     }
+ 
++    public String getFilePath() {
++        return filePath;
++    }
++
++    public FileSegmentType getFileType() {
++        return fileType;
++    }
++
+     @VisibleForTesting
+     public List<TieredFileSegment> getFileSegmentList() {
+         return fileSegmentList;
+@@ -333,10 +341,9 @@ public class TieredFlatFile {
+             TieredFileSegment fileSegment = this.newSegment(fileType, offset, true);
+             fileSegmentList.add(fileSegment);
+             needCommitFileSegmentList.add(fileSegment);
+-
+             Collections.sort(fileSegmentList);
+-
+-            logger.debug("Create a new file segment: baseOffset: {}, file: {}, file type: {}", baseOffset, fileSegment.getPath(), fileType);
++            logger.debug("Create a new file segment: baseOffset: {}, file: {}, file type: {}",
++                offset, fileSegment.getPath(), fileType);
+             return fileSegment;
+         } finally {
+             fileSegmentLock.writeLock().unlock();
+@@ -429,7 +436,7 @@ public class TieredFlatFile {
+         return result;
+     }
+ 
+-    public void cleanExpiredFile(long expireTimestamp) {
++    public int cleanExpiredFile(long expireTimestamp) {
+         Set<Long> needToDeleteSet = new HashSet<>();
+         try {
+             tieredMetadataStore.iterateFileSegment(filePath, fileType, metadata -> {
+@@ -438,32 +445,32 @@ public class TieredFlatFile {
+                 }
+             });
+         } catch (Exception e) {
+-            logger.error("clean expired failed: filePath: {}, file type: {}, expire timestamp: {}",
++            logger.error("Clean expired file, filePath: {}, file type: {}, expire timestamp: {}",
+                 filePath, fileType, expireTimestamp);
+         }
+ 
+         if (needToDeleteSet.isEmpty()) {
+-            return;
++            return 0;
+         }
+ 
+         fileSegmentLock.writeLock().lock();
+         try {
+             for (int i = 0; i < fileSegmentList.size(); i++) {
++                TieredFileSegment fileSegment = fileSegmentList.get(i);
+                 try {
+-                    TieredFileSegment fileSegment = fileSegmentList.get(i);
+                     if (needToDeleteSet.contains(fileSegment.getBaseOffset())) {
+                         fileSegment.close();
+                         fileSegmentList.remove(fileSegment);
+                         needCommitFileSegmentList.remove(fileSegment);
+                         i--;
+                         this.updateFileSegment(fileSegment);
+-                        logger.info("expired file {} is been cleaned", fileSegment.getPath());
++                        logger.debug("Clean expired file, filePath: {}", fileSegment.getPath());
+                     } else {
+                         break;
+                     }
+                 } catch (Exception e) {
+-                    logger.error("clean expired file failed: filePath: {}, file type: {}, expire timestamp: {}",
+-                        filePath, fileType, expireTimestamp, e);
++                    logger.error("Clean expired file failed: filePath: {}, file type: {}, expire timestamp: {}",
++                        fileSegment.getPath(), fileSegment.getFileType(), expireTimestamp, e);
+                 }
+             }
+             if (fileSegmentList.size() > 0) {
+@@ -476,6 +483,7 @@ public class TieredFlatFile {
+         } finally {
+             fileSegmentLock.writeLock().unlock();
+         }
++        return needToDeleteSet.size();
+     }
+ 
+     @VisibleForTesting
+@@ -493,7 +501,6 @@ public class TieredFlatFile {
+                         fileSegment.destroyFile();
+                         if (!fileSegment.exists()) {
+                             tieredMetadataStore.deleteFileSegment(filePath, fileType, metadata.getBaseOffset());
+-                            logger.info("Destroyed expired file, file path: {}", fileSegment.getPath());
+                         }
+                     } catch (Exception e) {
+                         logger.error("Destroyed expired file failed, file path: {}, file type: {}",
+diff --git a/tieredstore/src/main/java/org/apache/rocketmq/tieredstore/file/TieredFlatFileManager.java b/tieredstore/src/main/java/org/apache/rocketmq/tieredstore/file/TieredFlatFileManager.java
+index 5fe511f68..aeca44b8c 100644
+--- a/tieredstore/src/main/java/org/apache/rocketmq/tieredstore/file/TieredFlatFileManager.java
++++ b/tieredstore/src/main/java/org/apache/rocketmq/tieredstore/file/TieredFlatFileManager.java
+@@ -223,7 +223,7 @@ public class TieredFlatFileManager {
+     public CompositeQueueFlatFile getOrCreateFlatFileIfAbsent(MessageQueue messageQueue) {
+         return queueFlatFileMap.computeIfAbsent(messageQueue, mq -> {
+             try {
+-                logger.info("TieredFlatFileManager#getOrCreateFlatFileIfAbsent: " +
++                logger.debug("TieredFlatFileManager#getOrCreateFlatFileIfAbsent: " +
+                         "try to create new flat file: topic: {}, queueId: {}",
+                     messageQueue.getTopic(), messageQueue.getQueueId());
+                 return new CompositeQueueFlatFile(tieredFileAllocator, mq);
+diff --git a/tieredstore/src/main/java/org/apache/rocketmq/tieredstore/metrics/TieredStoreMetricsConstant.java b/tieredstore/src/main/java/org/apache/rocketmq/tieredstore/metrics/TieredStoreMetricsConstant.java
+index ad7281510..cb4674ea9 100644
+--- a/tieredstore/src/main/java/org/apache/rocketmq/tieredstore/metrics/TieredStoreMetricsConstant.java
++++ b/tieredstore/src/main/java/org/apache/rocketmq/tieredstore/metrics/TieredStoreMetricsConstant.java
+@@ -38,6 +38,7 @@ public class TieredStoreMetricsConstant {
+     public static final String LABEL_OPERATION = "operation";
+     public static final String LABEL_SUCCESS = "success";
+ 
++    public static final String LABEL_PATH = "path";
+     public static final String LABEL_TOPIC = "topic";
+     public static final String LABEL_GROUP = "group";
+     public static final String LABEL_QUEUE_ID = "queue_id";
+diff --git a/tieredstore/src/main/java/org/apache/rocketmq/tieredstore/provider/posix/PosixFileSegment.java b/tieredstore/src/main/java/org/apache/rocketmq/tieredstore/provider/posix/PosixFileSegment.java
+index 8c0d1cbcd..52be90b1d 100644
+--- a/tieredstore/src/main/java/org/apache/rocketmq/tieredstore/provider/posix/PosixFileSegment.java
++++ b/tieredstore/src/main/java/org/apache/rocketmq/tieredstore/provider/posix/PosixFileSegment.java
+@@ -41,8 +41,8 @@ import org.apache.rocketmq.tieredstore.util.TieredStoreUtil;
+ 
+ import static org.apache.rocketmq.tieredstore.metrics.TieredStoreMetricsConstant.LABEL_FILE_TYPE;
+ import static org.apache.rocketmq.tieredstore.metrics.TieredStoreMetricsConstant.LABEL_OPERATION;
++import static org.apache.rocketmq.tieredstore.metrics.TieredStoreMetricsConstant.LABEL_PATH;
+ import static org.apache.rocketmq.tieredstore.metrics.TieredStoreMetricsConstant.LABEL_SUCCESS;
+-import static org.apache.rocketmq.tieredstore.metrics.TieredStoreMetricsConstant.LABEL_TOPIC;
+ 
+ /**
+  * this class is experimental and may change without notice.
+@@ -55,6 +55,7 @@ public class PosixFileSegment extends TieredFileSegment {
+     private static final String OPERATION_POSIX_READ = "read";
+     private static final String OPERATION_POSIX_WRITE = "write";
+ 
++    private final String fullPath;
+     private volatile File file;
+     private volatile FileChannel readFileChannel;
+     private volatile FileChannel writeFileChannel;
+@@ -71,7 +72,7 @@ public class PosixFileSegment extends TieredFileSegment {
+         // fullPath: basePath/hash_cluster/broker/topic/queueId/fileType/baseOffset
+         String brokerClusterName = storeConfig.getBrokerClusterName();
+         String clusterBasePath = TieredStoreUtil.getHash(brokerClusterName) + UNDERLINE + brokerClusterName;
+-        String fullPath = Paths.get(basePath, clusterBasePath, filePath,
++        this.fullPath = Paths.get(basePath, clusterBasePath, filePath,
+             fileType.toString(), TieredStoreUtil.offset2FileName(baseOffset)).toString();
+         logger.info("Constructing Posix FileSegment, filePath: {}", fullPath);
+ 
+@@ -80,13 +81,13 @@ public class PosixFileSegment extends TieredFileSegment {
+ 
+     protected AttributesBuilder newAttributesBuilder() {
+         return TieredStoreMetricsManager.newAttributesBuilder()
+-            .put(LABEL_TOPIC, filePath)
++            .put(LABEL_PATH, filePath)
+             .put(LABEL_FILE_TYPE, fileType.name().toLowerCase());
+     }
+ 
+     @Override
+     public String getPath() {
+-        return filePath;
++        return fullPath;
+     }
+ 
+     @Override
+@@ -107,7 +108,7 @@ public class PosixFileSegment extends TieredFileSegment {
+         if (file == null) {
+             synchronized (this) {
+                 if (file == null) {
+-                    File file = new File(filePath);
++                    File file = new File(fullPath);
+                     try {
+                         File dir = file.getParentFile();
+                         if (!dir.exists()) {
+@@ -136,8 +137,9 @@ public class PosixFileSegment extends TieredFileSegment {
+             if (writeFileChannel != null && writeFileChannel.isOpen()) {
+                 writeFileChannel.close();
+             }
++            logger.info("Destroy Posix FileSegment, filePath: {}", fullPath);
+         } catch (IOException e) {
+-            logger.error("PosixFileSegment#destroyFile: destroy file {} failed: ", filePath, e);
++            logger.error("Destroy Posix FileSegment failed, filePath: {}", fullPath, e);
+         }
+ 
+         if (file.exists()) {
+@@ -181,8 +183,9 @@ public class PosixFileSegment extends TieredFileSegment {
+     }
+ 
+     @Override
+-    public CompletableFuture<Boolean> commit0(TieredFileSegmentInputStream inputStream, long position, int length,
+-                                              boolean append) {
++    public CompletableFuture<Boolean> commit0(
++        TieredFileSegmentInputStream inputStream, long position, int length, boolean append) {
++
+         Stopwatch stopwatch = Stopwatch.createStarted();
+         AttributesBuilder attributesBuilder = newAttributesBuilder()
+             .put(LABEL_OPERATION, OPERATION_POSIX_WRITE);

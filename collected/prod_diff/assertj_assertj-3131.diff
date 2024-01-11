@@ -1,0 +1,1755 @@
+diff --git a/assertj-core/src/main/java/org/assertj/core/api/AbstractClassAssert.java b/assertj-core/src/main/java/org/assertj/core/api/AbstractClassAssert.java
+index 123f34968..9e983a9e5 100644
+--- a/assertj-core/src/main/java/org/assertj/core/api/AbstractClassAssert.java
++++ b/assertj-core/src/main/java/org/assertj/core/api/AbstractClassAssert.java
+@@ -60,7 +60,8 @@ import org.assertj.core.internal.Classes;
+  * @author Mikhail Mazursky
+  */
+ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>>
+-    extends AbstractAssert<SELF, Class<?>> {
++    extends AbstractAssert<SELF, Class<?>>
++    implements AnnotatedElementAssert<SELF, Class<?>> {
+ 
+   Classes classes = Classes.instance();
+ 
+@@ -597,36 +598,8 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
+     if (Modifier.isStatic(actual.getModifiers())) throw assertionError(shouldNotBeStatic(actual));
+   }
+ 
+-  /**
+-   * Verifies that the actual {@code Class} has the given {@code Annotation}s.
+-   * <p>
+-   * Example:
+-   * <pre><code class='java'> &#64;Target(ElementType.TYPE)
+-   * &#64;Retention(RetentionPolicy.RUNTIME)
+-   * private static @interface Force { }
+-   *
+-   * &#64;Target(ElementType.TYPE)
+-   * &#64;Retention(RetentionPolicy.RUNTIME)
+-   * private static @interface Hero { }
+-   *
+-   * &#64;Target(ElementType.TYPE)
+-   * &#64;Retention(RetentionPolicy.RUNTIME)
+-   * private static @interface DarkSide { }
+-   *
+-   * &#64;Hero &#64;Force
+-   * class Jedi implements Jedi {}
+-   *
+-   * // this assertion succeeds:
+-   * assertThat(Jedi.class).containsAnnotations(Force.class, Hero.class);
+-   *
+-   * // this assertion fails:
+-   * assertThat(Jedi.class).containsAnnotations(Force.class, DarkSide.class);</code></pre>
+-   *
+-   * @param annotations annotations who must be attached to the class
+-   * @return {@code this} assertions object
+-   * @throws AssertionError if {@code actual} is {@code null}.
+-   * @throws AssertionError if the actual {@code Class} doesn't contains all of these annotations.
+-   */
++  /** {@inheritDoc} */
++  @Override
+   @SafeVarargs
+   public final SELF hasAnnotations(Class<? extends Annotation>... annotations) {
+     return hasAnnotationsForProxy(annotations);
+@@ -640,27 +613,8 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
+     return myself;
+   }
+ 
+-  /**
+-   * Verifies that the actual {@code Class} has the given {@code Annotation}.
+-   * <p>
+-   * Example:
+-   * <pre><code class='java'> &#64;Target(ElementType.TYPE)
+-   * &#64;Retention(RetentionPolicy.RUNTIME)
+-   * private static @interface Force { }
+-   * &#64;Force
+-   * class Jedi implements Jedi {}
+-   *
+-   * // this assertion succeeds:
+-   * assertThat(Jedi.class).containsAnnotation(Force.class);
+-   *
+-   * // this assertion fails:
+-   * assertThat(Jedi.class).containsAnnotation(DarkSide.class);</code></pre>
+-   *
+-   * @param annotation annotations who must be attached to the class
+-   * @return {@code this} assertions object
+-   * @throws AssertionError if {@code actual} is {@code null}.
+-   * @throws AssertionError if the actual {@code Class} doesn't contains all of these annotations.
+-   */
++  /** {@inheritDoc} */
++  @Override
+   public SELF hasAnnotation(Class<? extends Annotation> annotation) {
+     classes.assertContainsAnnotations(info, actual, array(annotation));
+     return myself;
+diff --git a/assertj-core/src/main/java/org/assertj/core/api/AbstractConstructorAssert.java b/assertj-core/src/main/java/org/assertj/core/api/AbstractConstructorAssert.java
+new file mode 100644
+index 000000000..3e0701a40
+--- /dev/null
++++ b/assertj-core/src/main/java/org/assertj/core/api/AbstractConstructorAssert.java
+@@ -0,0 +1,32 @@
++/*
++ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
++ * the License. You may obtain a copy of the License at
++ *
++ * http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
++ * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
++ * specific language governing permissions and limitations under the License.
++ *
++ * Copyright 2012-2023 the original author or authors.
++ */
++package org.assertj.core.api;
++
++import java.lang.reflect.Constructor;
++
++/**
++ * Base class for all implementations of assertions for {@link Constructor}s.
++ *
++ * @param <SELF> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/1IZIRcY"
++ *          target="_blank">Emulating 'self types' using Java Generics to simplify fluent API implementation</a>&quot;
++ *          for more details.
++ *
++ * @author William Bakker
++ */
++public abstract class AbstractConstructorAssert<SELF extends AbstractConstructorAssert<SELF, ACTUAL>, ACTUAL extends Constructor<?>>
++    extends AbstractExecutableAssert<SELF, Constructor<?>> {
++
++  protected AbstractConstructorAssert(Constructor<?> actual, Class<?> selfType) {
++    super(actual, selfType);
++  }
++}
+diff --git a/assertj-core/src/main/java/org/assertj/core/api/AbstractExecutableAssert.java b/assertj-core/src/main/java/org/assertj/core/api/AbstractExecutableAssert.java
+new file mode 100644
+index 000000000..698d5201e
+--- /dev/null
++++ b/assertj-core/src/main/java/org/assertj/core/api/AbstractExecutableAssert.java
+@@ -0,0 +1,105 @@
++/*
++ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
++ * the License. You may obtain a copy of the License at
++ *
++ * http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
++ * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
++ * specific language governing permissions and limitations under the License.
++ *
++ * Copyright 2012-2023 the original author or authors.
++ */
++package org.assertj.core.api;
++
++import org.assertj.core.internal.Executables;
++
++import java.lang.annotation.Annotation;
++import java.lang.reflect.Executable;
++import java.lang.reflect.Method;
++import java.lang.reflect.Modifier;
++
++import static org.assertj.core.error.MemberModifierShouldBe.shouldBePackagePrivate;
++import static org.assertj.core.error.MemberModifierShouldBe.shouldBeProtected;
++import static org.assertj.core.error.MemberModifierShouldBe.shouldBePublic;
++import static org.assertj.core.util.Arrays.array;
++
++/**
++ * Base class for all implementations of assertions for {@link Method}s.
++ *
++ * @param <SELF> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/1IZIRcY"
++ *          target="_blank">Emulating 'self types' using Java Generics to simplify fluent API implementation</a>&quot;
++ *          for more details.
++ *
++ * @author William Bakker
++ */
++public abstract class AbstractExecutableAssert<SELF extends AbstractExecutableAssert<SELF, ACTUAL>, ACTUAL extends Executable>
++    extends AbstractAssert<SELF, ACTUAL> implements ExecutableAssert<SELF, ACTUAL> {
++
++  Executables executables = Executables.instance();
++
++  protected AbstractExecutableAssert(ACTUAL actual, Class<?> selfType) {
++    super(actual, selfType);
++  }
++
++  /** {@inheritDoc} */
++  @Override
++  public SELF isPublic() {
++    isNotNull();
++    assertIsPublic();
++    return myself;
++  }
++
++  private void assertIsPublic() {
++    if (!Modifier.isPublic(actual.getModifiers())) throw assertionError(shouldBePublic(actual));
++  }
++
++  /** {@inheritDoc} */
++  @Override
++  public SELF isProtected() {
++    isNotNull();
++    assertIsProtected();
++    return myself;
++  }
++
++  private void assertIsProtected() {
++    if (!Modifier.isProtected(actual.getModifiers())) throw assertionError(shouldBeProtected(actual));
++  }
++
++  /** {@inheritDoc} */
++  @Override
++  public SELF isPackagePrivate() {
++    isNotNull();
++    assertIsPackagePrivate();
++    return myself;
++  }
++
++  private void assertIsPackagePrivate() {
++    final int modifiers = actual.getModifiers();
++    if (Modifier.isPublic(modifiers) || Modifier.isProtected(modifiers) || Modifier.isPrivate(modifiers)) {
++      throw assertionError(shouldBePackagePrivate(actual));
++    }
++  }
++
++  /** {@inheritDoc} */
++  @SafeVarargs
++  @Override
++  public final SELF hasAnnotations(Class<? extends Annotation>... annotations) {
++    return hasAnnotationsForProxy(annotations);
++  }
++
++  // This method is protected in order to be proxied for SoftAssertions / Assumptions.
++  // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
++  // in order to avoid compiler warning in user code
++  protected SELF hasAnnotationsForProxy(Class<? extends Annotation>[] annotations) {
++    executables.assertContainsAnnotations(info, actual, annotations);
++    return myself;
++  }
++
++  /** {@inheritDoc} */
++  @Override
++  public SELF hasAnnotation(Class<? extends Annotation> annotation) {
++    executables.assertContainsAnnotations(info, actual, array(annotation));
++    return myself;
++  }
++}
+diff --git a/assertj-core/src/main/java/org/assertj/core/api/AbstractFieldAssert.java b/assertj-core/src/main/java/org/assertj/core/api/AbstractFieldAssert.java
+new file mode 100644
+index 000000000..4870f956f
+--- /dev/null
++++ b/assertj-core/src/main/java/org/assertj/core/api/AbstractFieldAssert.java
+@@ -0,0 +1,178 @@
++/*
++ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
++ * the License. You may obtain a copy of the License at
++ *
++ * http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
++ * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
++ * specific language governing permissions and limitations under the License.
++ *
++ * Copyright 2012-2023 the original author or authors.
++ */
++package org.assertj.core.api;
++
++import java.lang.reflect.Field;
++import java.lang.reflect.Modifier;
++
++import static org.assertj.core.error.MemberModifierShouldBe.shouldBeFinal;
++import static org.assertj.core.error.MemberModifierShouldBe.shouldBePackagePrivate;
++import static org.assertj.core.error.MemberModifierShouldBe.shouldBeProtected;
++import static org.assertj.core.error.MemberModifierShouldBe.shouldBePublic;
++import static org.assertj.core.error.MemberModifierShouldBe.shouldBeStatic;
++import static org.assertj.core.error.MemberModifierShouldBe.shouldNotBeFinal;
++import static org.assertj.core.error.MemberModifierShouldBe.shouldNotBeStatic;
++
++/**
++ * Base class for all implementations of assertions for {@link Field}s.
++ *
++ * @param <SELF> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/1IZIRcY"
++ *          target="_blank">Emulating 'self types' using Java Generics to simplify fluent API implementation</a>&quot;
++ *          for more details.
++ *
++ * @author William Bakker
++ */
++public abstract class AbstractFieldAssert<SELF extends AbstractFieldAssert<SELF>>
++    extends AbstractAssert<SELF, Field> implements MemberAssert<SELF, Field> {
++
++  protected AbstractFieldAssert(Field actual, Class<?> selfType) {
++    super(actual, selfType);
++  }
++
++  /** {@inheritDoc} */
++  @Override
++  public SELF isPublic() {
++    isNotNull();
++    assertIsPublic();
++    return myself;
++  }
++
++  private void assertIsPublic() {
++    if (!Modifier.isPublic(actual.getModifiers())) throw assertionError(shouldBePublic(actual));
++  }
++
++  /** {@inheritDoc} */
++  @Override
++  public SELF isProtected() {
++    isNotNull();
++    assertIsProtected();
++    return myself;
++  }
++
++  private void assertIsProtected() {
++    if (!Modifier.isProtected(actual.getModifiers())) throw assertionError(shouldBeProtected(actual));
++  }
++
++  /** {@inheritDoc} */
++  @Override
++  public SELF isPackagePrivate() {
++    isNotNull();
++    assertIsPackagePrivate();
++    return myself;
++  }
++
++  private void assertIsPackagePrivate() {
++    final int modifiers = actual.getModifiers();
++    if (Modifier.isPublic(modifiers) || Modifier.isProtected(modifiers) || Modifier.isPrivate(modifiers)) {
++      throw assertionError(shouldBePackagePrivate(actual));
++    }
++  }
++
++  /**
++   * Verifies that the actual {@code Field} is final (has {@code final} modifier).
++   * <p>
++   * Example:
++   * <pre><code class='java'>  // this assertion succeeds:
++   * assertThat(Math.class.getDeclaredField("PI")).isFinal();
++   *
++   * // this assertion fails:
++   * assertThat(AtomicLong.class.getDeclaredField("value")).isFinal(); </code></pre>
++   *
++   * @return {@code this} assertions object
++   * @throws AssertionError if {@code actual} is {@code null}.
++   * @throws AssertionError if the actual {@code Field} is not final.
++   */
++  public SELF isFinal() {
++    isNotNull();
++    assertIsFinal();
++    return myself;
++  }
++
++  private void assertIsFinal() {
++    if (!Modifier.isFinal(actual.getModifiers())) throw assertionError(shouldBeFinal(actual));
++  }
++
++  /**
++   * Verifies that the actual {@code Field} is not final (does not have {@code final} modifier).
++   * <p>
++   * Example:
++   * <pre><code class='java'>  // this assertion succeeds:
++   * assertThat(AtomicLong.class.getDeclaredField("value")).isNotFinal();
++   *
++   * // this assertion fails:
++   * assertThat(Math.class.getDeclaredField("PI")).isNotFinal(); </code></pre>
++   *
++   * @return {@code this} assertions object
++   * @throws AssertionError if {@code actual} is {@code null}.
++   * @throws AssertionError if the actual {@code Field} is final.
++   */
++  public SELF isNotFinal() {
++    isNotNull();
++    assertIsNotFinal();
++    return myself;
++  }
++
++  private void assertIsNotFinal() {
++    if (Modifier.isFinal(actual.getModifiers())) throw assertionError(shouldNotBeFinal(actual));
++  }
++
++  /**
++   * Verifies that the actual {@code Field} is static (has {@code static} modifier).
++   * <p>
++   * Example:
++   * <pre><code class='java'>  // this assertion succeeds:
++   * assertThat(Math.class.getDeclaredField("PI")).isStatic();
++   *
++   * // this assertion fails:
++   * assertThat(AtomicLong.class.getDeclaredField("value")).isStatic(); </code></pre>
++   *
++   * @return {@code this} assertions object
++   * @throws AssertionError if {@code actual} is {@code null}.
++   * @throws AssertionError if the actual {@code Field} is not static.
++   * @since 3.23.0
++   */
++  public SELF isStatic() {
++    isNotNull();
++    assertIsStatic();
++    return myself;
++  }
++
++  private void assertIsStatic() {
++    if (!Modifier.isStatic(actual.getModifiers())) throw assertionError(shouldBeStatic(actual));
++  }
++
++  /**
++   * Verifies that the actual {@code Field} is not static (does not have {@code static} modifier).
++   * <p>
++   * Example:
++   * <pre><code class='java'>  // this assertion succeeds:
++   * assertThat(AtomicLong.class.getDeclaredField("value")).isNotStatic();
++   *
++   * // this assertion fails:
++   * assertThat(Math.class.getDeclaredField("PI")).isNotStatic(); </code></pre>
++   *
++   * @return {@code this} assertions object
++   * @throws AssertionError if {@code actual} is {@code null}.
++   * @throws AssertionError if the actual {@code Field} is static.
++   * @since 3.23.0
++   */
++  public SELF isNotStatic() {
++    isNotNull();
++    assertIsNotStatic();
++    return myself;
++  }
++
++  private void assertIsNotStatic() {
++    if (Modifier.isStatic(actual.getModifiers())) throw assertionError(shouldNotBeStatic(actual));
++  }
++}
+diff --git a/assertj-core/src/main/java/org/assertj/core/api/AbstractMethodAssert.java b/assertj-core/src/main/java/org/assertj/core/api/AbstractMethodAssert.java
+new file mode 100644
+index 000000000..20153b47d
+--- /dev/null
++++ b/assertj-core/src/main/java/org/assertj/core/api/AbstractMethodAssert.java
+@@ -0,0 +1,163 @@
++/*
++ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
++ * the License. You may obtain a copy of the License at
++ *
++ * http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
++ * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
++ * specific language governing permissions and limitations under the License.
++ *
++ * Copyright 2012-2023 the original author or authors.
++ */
++package org.assertj.core.api;
++
++import java.lang.reflect.Method;
++import java.lang.reflect.Modifier;
++
++import static org.assertj.core.error.MemberModifierShouldBe.shouldBeFinal;
++import static org.assertj.core.error.MemberModifierShouldBe.shouldBeStatic;
++import static org.assertj.core.error.MemberModifierShouldBe.shouldNotBeFinal;
++import static org.assertj.core.error.MemberModifierShouldBe.shouldNotBeStatic;
++import static org.assertj.core.error.ShouldBeAbstract.shouldBeAbstract;
++
++/**
++ * Base class for all implementations of assertions for {@link Method}s.
++ *
++ * @param <SELF> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/1IZIRcY"
++ *          target="_blank">Emulating 'self types' using Java Generics to simplify fluent API implementation</a>&quot;
++ *          for more details.
++ *
++ * @author William Bakker
++ */
++public abstract class AbstractMethodAssert<SELF extends AbstractMethodAssert<SELF>>
++    extends AbstractExecutableAssert<SELF, Method> {
++
++  protected AbstractMethodAssert(Method actual, Class<?> selfType) {
++    super(actual, selfType);
++  }
++
++  /**
++   * Verifies that the actual {@code Method} is abstract (has {@code abstract} modifier).
++   * <p>
++   * Example:
++   * <pre><code class='java'>  // this assertion succeeds:
++   * assertThat(Number.class.getDeclaredMethod("intValue")).isAbstract();
++   *
++   * // this assertion fails:
++   * assertThat(Math.class.getDeclaredMethod("abs", long.class)).isAbstract(); </code></pre>
++   *
++   * @return {@code this} assertions object
++   * @throws AssertionError if {@code actual} is {@code null}.
++   * @throws AssertionError if the actual {@code Method} is not abstract.
++   *
++   * @since 3.12.0
++   */
++  public SELF isAbstract() {
++    isNotNull();
++    assertIsAbstract();
++    return myself;
++  }
++
++  private void assertIsAbstract() {
++    if (!Modifier.isAbstract(actual.getModifiers())) throw assertionError(shouldBeAbstract(actual));
++  }
++
++  /**
++   * Verifies that the actual {@code Method} is final (has {@code final} modifier).
++   * <p>
++   * Example:
++   * <pre><code class='java'>  // this assertion succeeds:
++   * assertThat(AtomicLong.class.getDeclaredMethod("get")).isFinal();
++   *
++   * // this assertion fails:
++   * assertThat(Math.class.getDeclaredMethod("abs", long.class)).isFinal(); </code></pre>
++   *
++   * @return {@code this} assertions object
++   * @throws AssertionError if {@code actual} is {@code null}.
++   * @throws AssertionError if the actual {@code Method} is not final.
++   */
++  public SELF isFinal() {
++    isNotNull();
++    assertIsFinal();
++    return myself;
++  }
++
++  private void assertIsFinal() {
++    if (!Modifier.isFinal(actual.getModifiers())) throw assertionError(shouldBeFinal(actual));
++  }
++
++  /**
++   * Verifies that the actual {@code Method} is not final (does not have {@code final} modifier).
++   * <p>
++   * Example:
++   * <pre><code class='java'>  // this assertion succeeds:
++   * assertThat(Math.class.getDeclaredMethod("abs", long.class)).isNotFinal();
++   *
++   * // this assertion fails:
++   * assertThat(AtomicLong.class.getDeclaredMethod("get")).isNotFinal(); </code></pre>
++   *
++   * @return {@code this} assertions object
++   * @throws AssertionError if {@code actual} is {@code null}.
++   * @throws AssertionError if the actual {@code Method} is final.
++   */
++  public SELF isNotFinal() {
++    isNotNull();
++    assertIsNotFinal();
++    return myself;
++  }
++
++  private void assertIsNotFinal() {
++    if (Modifier.isFinal(actual.getModifiers())) throw assertionError(shouldNotBeFinal(actual));
++  }
++
++  /**
++   * Verifies that the actual {@code Method} is static (has {@code static} modifier).
++   * <p>
++   * Example:
++   * <pre><code class='java'>  // this assertion succeeds:
++   * assertThat(Math.class.getDeclaredMethod("abs", long.class)).isStatic();
++   *
++   * // this assertion fails:
++   * assertThat(AtomicLong.class.getDeclaredMethod("get")).isStatic(); </code></pre>
++   *
++   * @return {@code this} assertions object
++   * @throws AssertionError if {@code actual} is {@code null}.
++   * @throws AssertionError if the actual {@code Method} is not static.
++   * @since 3.23.0
++   */
++  public SELF isStatic() {
++    isNotNull();
++    assertIsStatic();
++    return myself;
++  }
++
++  private void assertIsStatic() {
++    if (!Modifier.isStatic(actual.getModifiers())) throw assertionError(shouldBeStatic(actual));
++  }
++
++  /**
++   * Verifies that the actual {@code Method} is not static (does not have {@code static} modifier).
++   * <p>
++   * Example:
++   * <pre><code class='java'>  // this assertion succeeds:
++   * assertThat(AtomicLong.class.getDeclaredMethod("get")).isNotStatic();
++   *
++   * // this assertion fails:
++   * assertThat(Math.class.getDeclaredMethod("abs", long.class)).isNotStatic(); </code></pre>
++   *
++   * @return {@code this} assertions object
++   * @throws AssertionError if {@code actual} is {@code null}.
++   * @throws AssertionError if the actual {@code Method} is static.
++   * @since 3.23.0
++   */
++  public SELF isNotStatic() {
++    isNotNull();
++    assertIsNotStatic();
++    return myself;
++  }
++
++  private void assertIsNotStatic() {
++    if (Modifier.isStatic(actual.getModifiers())) throw assertionError(shouldNotBeStatic(actual));
++  }
++}
+diff --git a/assertj-core/src/main/java/org/assertj/core/api/AnnotatedElementAssert.java b/assertj-core/src/main/java/org/assertj/core/api/AnnotatedElementAssert.java
+new file mode 100644
+index 000000000..3898b1718
+--- /dev/null
++++ b/assertj-core/src/main/java/org/assertj/core/api/AnnotatedElementAssert.java
+@@ -0,0 +1,79 @@
++/*
++ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
++ * the License. You may obtain a copy of the License at
++ *
++ * http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
++ * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
++ * specific language governing permissions and limitations under the License.
++ *
++ * Copyright 2012-2023 the original author or authors.
++ */
++package org.assertj.core.api;
++
++import java.lang.annotation.Annotation;
++import java.lang.reflect.AnnotatedElement;
++
++/**
++ * Assertion methods for {@code AnnotatedElement}s.
++ *
++ * @author William Bakker
++ */
++public interface AnnotatedElementAssert<SELF extends AnnotatedElementAssert<SELF, ACTUAL>, ACTUAL extends AnnotatedElement> {
++
++  /**
++   * Verifies that the actual {@code AnnotatedElement} has the given {@code Annotation}s.
++   * <p>
++   * Example:
++   * <pre><code class='java'>  &#64;Target(ElementType.TYPE)
++   * &#64;Retention(RetentionPolicy.RUNTIME)
++   * private static @interface Force { }
++   *
++   * &#64;Target(ElementType.TYPE)
++   * &#64;Retention(RetentionPolicy.RUNTIME)
++   * private static @interface Hero { }
++   *
++   * &#64;Target(ElementType.TYPE)
++   * &#64;Retention(RetentionPolicy.RUNTIME)
++   * private static @interface DarkSide { }
++   *
++   * &#64;Hero &#64;Force
++   * class Jedi implements Jedi {}
++   *
++   * // this assertion succeeds:
++   * assertThat(Jedi.class).hasAnnotations(Force.class, Hero.class);
++   *
++   * // this assertion fails:
++   * assertThat(Jedi.class).hasAnnotations(Force.class, DarkSide.class);</code></pre>
++   *
++   * @param annotations annotations who must be attached to the {@code AnnotatedElement}
++   * @return {@code this} assertions object
++   * @throws AssertionError if {@code actual} is {@code null}.
++   * @throws AssertionError if the actual {@code AnnotatedElement} doesn't contains all of these annotations.
++   */
++  SELF hasAnnotations(Class<? extends Annotation>... annotations);
++
++  /**
++   * Verifies that the actual {@code AnnotedElement} has the given {@code Annotation}.
++   * <p>
++   * Example:
++   * <pre><code class='java'> &#64;Target(ElementType.TYPE)
++   * &#64;Retention(RetentionPolicy.RUNTIME)
++   * private static @interface Force { }
++   * &#64;Force
++   * class Jedi implements Jedi {}
++   *
++   * // this assertion succeeds:
++   * assertThat(Jedi.class).containsAnnotation(Force.class);
++   *
++   * // this assertion fails:
++   * assertThat(Jedi.class).containsAnnotation(DarkSide.class);</code></pre>
++   *
++   * @param annotation annotations who must be attached to the {@code AnnotatedElement}
++   * @return {@code this} assertions object
++   * @throws AssertionError if {@code actual} is {@code null}.
++   * @throws AssertionError if the actual {@code AnnotatedElement} doesn't contains all of these annotations.
++   */
++  SELF hasAnnotation(Class<? extends Annotation> annotation);
++}
+diff --git a/assertj-core/src/main/java/org/assertj/core/api/Assertions.java b/assertj-core/src/main/java/org/assertj/core/api/Assertions.java
+index 9b0bcff16..cae7726f2 100644
+--- a/assertj-core/src/main/java/org/assertj/core/api/Assertions.java
++++ b/assertj-core/src/main/java/org/assertj/core/api/Assertions.java
+@@ -19,6 +19,9 @@ import java.io.File;
+ import java.io.IOException;
+ import java.io.InputStream;
+ import java.io.UncheckedIOException;
++import java.lang.reflect.Constructor;
++import java.lang.reflect.Field;
++import java.lang.reflect.Method;
+ import java.math.BigDecimal;
+ import java.math.BigInteger;
+ import java.net.URI;
+@@ -303,6 +306,21 @@ public class Assertions implements InstanceOfAssertFactories {
+     return AssertionsForClassTypes.assertThat(actual);
+   }
+ 
++  /**
++   * Creates a new instance of <code>{@link ConstructorAssert}</code> from the given {@link java.lang.reflect.Constructor}.
++   *
++   * Example:
++   * <pre><code class='java'> Constructor constructor = Object.class.getDeclaredConstructor();
++   * assertThat(constructor).isPublic(); </code></pre>
++   *
++   * @param actual the constructor to test.
++   * @return the created assertion object.
++   * @since 3.25.0
++   */
++  public static AbstractConstructorAssert<?, Constructor<?>> assertThat(Constructor<?> actual) {
++    return AssertionsForClassTypes.assertThat(actual);
++  }
++
+   /**
+    * Creates a new instance of <code>{@link BigDecimalAssert}</code>.
+    *
+@@ -477,6 +495,36 @@ public class Assertions implements InstanceOfAssertFactories {
+     return AssertionsForClassTypes.assertThat(actual);
+   }
+ 
++  /**
++   * Creates a new instance of <code>{@link FieldAssert}</code> from the given {@link java.lang.reflect.Field}.
++   *
++   * Example:
++   * <pre><code class='java'> Field field = Math.class.getDeclaredField("PI");
++   * assertThat(field).isPublic(); </code></pre>
++   *
++   * @param actual the field to test.
++   * @return the created assertion object.
++   * @since 3.25.0
++   */
++  public static AbstractFieldAssert<?> assertThat(Field actual) {
++    return AssertionsForClassTypes.assertThat(actual);
++  }
++
++  /**
++   * Creates a new instance of <code>{@link MethodAssert}</code> from the given {@link java.lang.reflect.Method}.
++   *
++   * Example:
++   * <pre><code class='java'> Method method = Math.class.getDeclaredMethod("abs", long.class);
++   * assertThat(method).isPublic(); </code></pre>
++   *
++   * @param actual the method to test.
++   * @return the created assertion object.
++   * @since 3.25.0
++   */
++  public static AbstractMethodAssert<?> assertThat(Method actual) {
++    return AssertionsForClassTypes.assertThat(actual);
++  }
++
+   /**
+    * Creates a new instance of <code>{@link DoubleAssert}</code>.
+    *
+diff --git a/assertj-core/src/main/java/org/assertj/core/api/AssertionsForClassTypes.java b/assertj-core/src/main/java/org/assertj/core/api/AssertionsForClassTypes.java
+index 2b2425194..b62e5ec68 100644
+--- a/assertj-core/src/main/java/org/assertj/core/api/AssertionsForClassTypes.java
++++ b/assertj-core/src/main/java/org/assertj/core/api/AssertionsForClassTypes.java
+@@ -17,6 +17,9 @@ import static org.assertj.core.data.Percentage.withPercentage;
+ import java.io.File;
+ import java.io.InputStream;
+ import java.io.UncheckedIOException;
++import java.lang.reflect.Constructor;
++import java.lang.reflect.Field;
++import java.lang.reflect.Method;
+ import java.math.BigDecimal;
+ import java.net.URI;
+ import java.net.URL;
+@@ -308,6 +311,16 @@ public class AssertionsForClassTypes {
+     return new ClassAssert(actual);
+   }
+ 
++  /**
++   * Creates a new instance of <code>{@link ConstructorAssert}</code>.
++   *
++   * @param actual the actual value.
++   * @return the created assertion object.
++   */
++  public static ConstructorAssert assertThat(Constructor<?> actual) {
++    return new ConstructorAssert(actual);
++  }
++
+   /**
+    * Creates a new instance of <code>{@link DoubleAssert}</code>.
+    *
+@@ -369,6 +382,16 @@ public class AssertionsForClassTypes {
+     return new InputStreamAssert(actual);
+   }
+ 
++  /**
++   * Creates a new instance of <code>{@link FieldAssert}</code>.
++   *
++   * @param actual the actual value.
++   * @return the created assertion object.
++   */
++  public static FieldAssert assertThat(Field actual) {
++    return new FieldAssert(actual);
++  }
++
+   /**
+    * Creates a new instance of <code>{@link FloatAssert}</code>.
+    *
+@@ -492,6 +515,16 @@ public class AssertionsForClassTypes {
+     return new Long2DArrayAssert(actual);
+   }
+ 
++  /**
++   * Creates a new instance of <code>{@link MethodAssert}</code>.
++   *
++   * @param actual the actual value.
++   * @return the created assertion object.
++   */
++  public static MethodAssert assertThat(Method actual) {
++    return new MethodAssert(actual);
++  }
++
+   /**
+    * Creates a new instance of <code>{@link ObjectAssert}</code>.
+    *
+diff --git a/assertj-core/src/main/java/org/assertj/core/api/BDDAssertions.java b/assertj-core/src/main/java/org/assertj/core/api/BDDAssertions.java
+index ee84813bf..4f8b6c548 100644
+--- a/assertj-core/src/main/java/org/assertj/core/api/BDDAssertions.java
++++ b/assertj-core/src/main/java/org/assertj/core/api/BDDAssertions.java
+@@ -16,6 +16,9 @@ import java.io.File;
+ import java.io.IOException;
+ import java.io.InputStream;
+ import java.io.UncheckedIOException;
++import java.lang.reflect.Constructor;
++import java.lang.reflect.Field;
++import java.lang.reflect.Method;
+ import java.math.BigDecimal;
+ import java.math.BigInteger;
+ import java.net.URI;
+@@ -132,6 +135,7 @@ import org.assertj.core.util.CheckReturnValue;
+  * @author Julien Meddah
+  * @author William Delanoue
+  * @author Mariusz Smykula
++ * @author William Bakker
+  */
+ @CheckReturnValue
+ public class BDDAssertions extends Assertions {
+@@ -3800,4 +3804,49 @@ public class BDDAssertions extends Assertions {
+   public static void useDefaultRepresentation() {
+     Assertions.useDefaultRepresentation();
+   }
++
++  /**
++   * Creates a new instance of <code>{@link FieldAssert}</code> from the given {@link java.lang.reflect.Field}.
++   *
++   * Example:
++   * <pre><code class='java'> Field field = Math.class.getDeclaredField("PI");
++   * then(field).isPublic(); </code></pre>
++   *
++   * @param actual the field to test.
++   * @return the created assertion object.
++   * @since 3.25.0
++   */
++  public static AbstractFieldAssert<?> then(Field actual) {
++    return assertThat(actual);
++  }
++
++  /**
++   * Creates a new instance of <code>{@link ConstructorAssert}</code> from the given {@link java.lang.reflect.Constructor}.
++   *
++   * Example:
++   * <pre><code class='java'> Constructor constructor = Object.class.getDeclaredConstructor();
++   * then(constructor).isPublic(); </code></pre>
++   *
++   * @param actual the constructor to test.
++   * @return the created assertion object.
++   * @since 3.25.0
++   */
++  public static AbstractConstructorAssert<?, Constructor<?>> then(Constructor<?> actual) {
++    return assertThat(actual);
++  }
++
++  /**
++   * Creates a new instance of <code>{@link MethodAssert}</code> from the given {@link java.lang.reflect.Method}.
++   *
++   * Example:
++   * <pre><code class='java'> Method method = Math.class.getDeclaredMethod("abs", long.class);
++   * then(method).isPublic(); </code></pre>
++   *
++   * @param actual the method to test.
++   * @return the created assertion object.
++   * @since 3.25.0
++   */
++  public static AbstractMethodAssert<?> then(Method actual) {
++    return assertThat(actual);
++  }
+ }
+diff --git a/assertj-core/src/main/java/org/assertj/core/api/BDDSoftAssertionsProvider.java b/assertj-core/src/main/java/org/assertj/core/api/BDDSoftAssertionsProvider.java
+index cc921f5b6..fdcebc2e6 100644
+--- a/assertj-core/src/main/java/org/assertj/core/api/BDDSoftAssertionsProvider.java
++++ b/assertj-core/src/main/java/org/assertj/core/api/BDDSoftAssertionsProvider.java
+@@ -12,6 +12,9 @@
+  */
+ package org.assertj.core.api;
+ 
++import java.lang.reflect.Constructor;
++import java.lang.reflect.Field;
++import java.lang.reflect.Method;
+ import java.nio.file.Path;
+ import java.time.Duration;
+ import java.time.Instant;
+@@ -417,4 +420,36 @@ public interface BDDSoftAssertionsProvider extends Java6BDDSoftAssertionsProvide
+     return proxy(LongAdderAssert.class, LongAdder.class, actual);
+   }
+ 
++  /**
++   * Create assertion for {@link Field}.
++   *
++   * @param actual the actual value.
++   *
++   * @return the created assertion object.
++   */
++  default AbstractFieldAssert<?> then(Field actual) {
++    return proxy(FieldAssert.class, Field.class, actual);
++  }
++
++  /**
++   * Create assertion for {@link Method}.
++   *
++   * @param actual the actual value.
++   *
++   * @return the created assertion object.
++   */
++  default AbstractMethodAssert<?> then(Method actual) {
++    return proxy(MethodAssert.class, Method.class, actual);
++  }
++
++  /**
++   * Create assertion for {@link Constructor}.
++   *
++   * @param actual the actual value.
++   *
++   * @return the created assertion object.
++   */
++  default AbstractConstructorAssert<?, Constructor<?>> then(Constructor<?> actual) {
++    return proxy(ConstructorAssert.class, Constructor.class, actual);
++  }
+ }
+diff --git a/assertj-core/src/main/java/org/assertj/core/api/ConstructorAssert.java b/assertj-core/src/main/java/org/assertj/core/api/ConstructorAssert.java
+new file mode 100644
+index 000000000..59f105255
+--- /dev/null
++++ b/assertj-core/src/main/java/org/assertj/core/api/ConstructorAssert.java
+@@ -0,0 +1,31 @@
++/*
++ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
++ * the License. You may obtain a copy of the License at
++ *
++ * http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
++ * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
++ * specific language governing permissions and limitations under the License.
++ *
++ * Copyright 2012-2023 the original author or authors.
++ */
++package org.assertj.core.api;
++
++import java.lang.reflect.Constructor;
++
++/**
++ * Assertion methods for {@code Constructor}s.
++ * <p>
++ * To create a new instance of this class, invoke <code>{@link Assertions#assertThat(Constructor)}</code>
++ * </p>
++ * 
++ * @author William Bakker
++ */
++public class ConstructorAssert extends AbstractConstructorAssert<ConstructorAssert, Constructor<?>> {
++
++  public ConstructorAssert(Constructor<?> actual) {
++    super(actual, ConstructorAssert.class);
++  }
++
++}
+diff --git a/assertj-core/src/main/java/org/assertj/core/api/ExecutableAssert.java b/assertj-core/src/main/java/org/assertj/core/api/ExecutableAssert.java
+new file mode 100644
+index 000000000..063156a08
+--- /dev/null
++++ b/assertj-core/src/main/java/org/assertj/core/api/ExecutableAssert.java
+@@ -0,0 +1,25 @@
++/*
++ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
++ * the License. You may obtain a copy of the License at
++ *
++ * http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
++ * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
++ * specific language governing permissions and limitations under the License.
++ *
++ * Copyright 2012-2023 the original author or authors.
++ */
++package org.assertj.core.api;
++
++import java.lang.reflect.Executable;
++
++/**
++ * Assertion methods for {@code Executable}s.
++ *
++ * @author William Bakker
++ */
++public interface ExecutableAssert<SELF extends ExecutableAssert<SELF, ACTUAL>, ACTUAL extends Executable>
++    extends MemberAssert<SELF, ACTUAL>, AnnotatedElementAssert<SELF, ACTUAL> {
++
++}
+diff --git a/assertj-core/src/main/java/org/assertj/core/api/FieldAssert.java b/assertj-core/src/main/java/org/assertj/core/api/FieldAssert.java
+new file mode 100644
+index 000000000..ea7ac7385
+--- /dev/null
++++ b/assertj-core/src/main/java/org/assertj/core/api/FieldAssert.java
+@@ -0,0 +1,31 @@
++/*
++ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
++ * the License. You may obtain a copy of the License at
++ *
++ * http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
++ * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
++ * specific language governing permissions and limitations under the License.
++ *
++ * Copyright 2012-2023 the original author or authors.
++ */
++package org.assertj.core.api;
++
++import java.lang.reflect.Field;
++
++/**
++ * Assertion fields for {@code Field}s.
++ * <p>
++ * To create a new instance of this class, invoke <code>{@link Assertions#assertThat(Field)}</code>
++ * </p>
++ * 
++ * @author William Bakker
++ */
++public class FieldAssert extends AbstractFieldAssert<FieldAssert> {
++
++  public FieldAssert(Field actual) {
++    super(actual, FieldAssert.class);
++  }
++
++}
+diff --git a/assertj-core/src/main/java/org/assertj/core/api/InstanceOfAssertFactories.java b/assertj-core/src/main/java/org/assertj/core/api/InstanceOfAssertFactories.java
+index 22e484398..7abc0b0f8 100644
+--- a/assertj-core/src/main/java/org/assertj/core/api/InstanceOfAssertFactories.java
++++ b/assertj-core/src/main/java/org/assertj/core/api/InstanceOfAssertFactories.java
+@@ -14,6 +14,9 @@ package org.assertj.core.api;
+ 
+ import java.io.File;
+ import java.io.InputStream;
++import java.lang.reflect.Constructor;
++import java.lang.reflect.Field;
++import java.lang.reflect.Method;
+ import java.math.BigDecimal;
+ import java.math.BigInteger;
+ import java.net.URI;
+@@ -1008,4 +1011,21 @@ public interface InstanceOfAssertFactories {
+     return new InstanceOfAssertFactory<>(comparableType, Assertions::assertThat);
+   }
+ 
++  /**
++   * {@link InstanceOfAssertFactory} for a {@link Field}.
++   */
++  InstanceOfAssertFactory<Field, AbstractFieldAssert<?>> FIELD = new InstanceOfAssertFactory<>(Field.class,
++                                                                                               Assertions::assertThat);
++
++  /**
++   * {@link InstanceOfAssertFactory} for a {@link Method}.
++   */
++  InstanceOfAssertFactory<Method, AbstractMethodAssert<?>> METHOD = new InstanceOfAssertFactory<>(Method.class,
++                                                                                                  Assertions::assertThat);
++
++  /**
++   * {@link InstanceOfAssertFactory} for a {@link Constructor}.
++   */
++  InstanceOfAssertFactory<Constructor, AbstractConstructorAssert<?, Constructor<?>>> CONSTRUCTOR = new InstanceOfAssertFactory<>(Constructor.class,
++                                                                                                                                 Assertions::assertThat);
+ }
+diff --git a/assertj-core/src/main/java/org/assertj/core/api/MemberAssert.java b/assertj-core/src/main/java/org/assertj/core/api/MemberAssert.java
+new file mode 100644
+index 000000000..6d1c1b744
+--- /dev/null
++++ b/assertj-core/src/main/java/org/assertj/core/api/MemberAssert.java
+@@ -0,0 +1,97 @@
++/*
++ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
++ * the License. You may obtain a copy of the License at
++ *
++ * http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
++ * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
++ * specific language governing permissions and limitations under the License.
++ *
++ * Copyright 2012-2023 the original author or authors.
++ */
++package org.assertj.core.api;
++
++import java.lang.reflect.Member;
++
++/**
++ * Assertion methods for {@code Member}s.
++ *
++ * @author William Bakker
++ */
++public interface MemberAssert<SELF extends MemberAssert<SELF, ACTUAL>, ACTUAL extends Member> {
++  /**
++   * Verifies that the actual {@code Member} is public (has {@code public} modifier).
++   * <p>
++   * Example:
++   * <pre><code class='java'>  class Container {
++   *   public void publicMethod() {};
++   *   protected void protectedMethod() {};
++   *   void packagePrivateMethod() {};
++   * }
++   *
++   * // this assertion succeeds:
++   * assertThat(Container.class.getDeclaredMethod("publicMethod")).isPublic();
++   *
++   * // these assertions fail:
++   * assertThat(Container.class.getDeclaredMethod("protectedMethod")).isPublic();
++   * assertThat(Container.class.getDeclaredMethod("packagePrivateMethod")).isPublic(); </code></pre>
++   *
++   * @return {@code this} assertions object
++   * @throws AssertionError if {@code actual} is {@code null}.
++   * @throws AssertionError if the actual {@code Member} is not public.
++   *
++   * @since 3.x.x
++   */
++  public SELF isPublic();
++
++  /**
++   * Verifies that the actual {@code Method} is protected (has {@code protected} modifier).
++   * <p>
++   * Example:
++   * <pre><code class='java'>  class Container {
++   *   public void publicMethod() {};
++   *   protected void protectedMethod() {};
++   *   void packagePrivateMethod() {};
++   * }
++   *
++   * // this assertion succeeds:
++   * assertThat(Container.class.getDeclaredMethod("protectedMethod")).isPublic();
++   *
++   * // these assertions fail:
++   * assertThat(Container.class.getDeclaredMethod("publicMethod")).isPublic();
++   * assertThat(Container.class.getDeclaredMethod("packagePrivateMethod")).isPublic(); </code></pre>
++   *
++   * @return {@code this} assertions object
++   * @throws AssertionError if {@code actual} is {@code null}.
++   * @throws AssertionError if the actual {@code Method} is not protected.
++   *
++   * @since 2.7.0 / 3.7.0
++   */
++  SELF isProtected();
++
++  /**
++   * Verifies that the actual {@code Method} is package-private (has no modifier).
++   * <p>
++   * Example:
++   * <pre><code class='java'>  class Container {
++   *   public void publicMethod() {};
++   *   protected void protectedMethod() {};
++   *   void packagePrivateMethod() {};
++   * }
++   *
++   * // this assertion succeeds:
++   * assertThat(Container.class.getDeclaredMethod("packagePrivateMethod")).isPublic();
++   *
++   * // these assertions fail:
++   * assertThat(Container.class.getDeclaredMethod("publicMethod")).isPublic();
++   * assertThat(Container.class.getDeclaredMethod("protectedMethod")).isPublic(); </code></pre>
++   *
++   * @return {@code this} assertions object
++   * @throws AssertionError if {@code actual} is {@code null}.
++   * @throws AssertionError if the actual {@code Method} is not package-private.
++   *
++   * @since 3.15.0
++   */
++  SELF isPackagePrivate();
++}
+diff --git a/assertj-core/src/main/java/org/assertj/core/api/MethodAssert.java b/assertj-core/src/main/java/org/assertj/core/api/MethodAssert.java
+new file mode 100644
+index 000000000..195816cc1
+--- /dev/null
++++ b/assertj-core/src/main/java/org/assertj/core/api/MethodAssert.java
+@@ -0,0 +1,31 @@
++/*
++ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
++ * the License. You may obtain a copy of the License at
++ *
++ * http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
++ * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
++ * specific language governing permissions and limitations under the License.
++ *
++ * Copyright 2012-2023 the original author or authors.
++ */
++package org.assertj.core.api;
++
++import java.lang.reflect.Method;
++
++/**
++ * Assertion methods for {@code Method}s.
++ * <p>
++ * To create a new instance of this class, invoke <code>{@link Assertions#assertThat(Method)}</code>
++ * </p>
++ * 
++ * @author William Bakker
++ */
++public class MethodAssert extends AbstractMethodAssert<MethodAssert> {
++
++  public MethodAssert(Method actual) {
++    super(actual, MethodAssert.class);
++  }
++
++}
+diff --git a/assertj-core/src/main/java/org/assertj/core/api/StandardSoftAssertionsProvider.java b/assertj-core/src/main/java/org/assertj/core/api/StandardSoftAssertionsProvider.java
+index 6bca1bbb5..553c9b118 100644
+--- a/assertj-core/src/main/java/org/assertj/core/api/StandardSoftAssertionsProvider.java
++++ b/assertj-core/src/main/java/org/assertj/core/api/StandardSoftAssertionsProvider.java
+@@ -12,6 +12,9 @@
+  */
+ package org.assertj.core.api;
+ 
++import java.lang.reflect.Constructor;
++import java.lang.reflect.Field;
++import java.lang.reflect.Method;
+ import java.nio.file.Path;
+ import java.time.Duration;
+ import java.time.Instant;
+@@ -414,4 +417,36 @@ public interface StandardSoftAssertionsProvider extends Java6StandardSoftAsserti
+     return proxy(LongAdderAssert.class, LongAdder.class, actual);
+   }
+ 
++  /**
++   * Create assertion for {@link Field}.
++   *
++   * @param actual the actual value.
++   *
++   * @return the created assertion object.
++   */
++  default AbstractFieldAssert<?> assertThat(Field actual) {
++    return proxy(FieldAssert.class, Field.class, actual);
++  }
++
++  /**
++   * Create assertion for {@link Method}.
++   *
++   * @param actual the actual value.
++   *
++   * @return the created assertion object.
++   */
++  default AbstractMethodAssert<?> assertThat(Method actual) {
++    return proxy(MethodAssert.class, Method.class, actual);
++  }
++
++  /**
++   * Create assertion for {@link Constructor}.
++   *
++   * @param actual the actual value.
++   *
++   * @return the created assertion object.
++   */
++  default AbstractConstructorAssert<?, Constructor<?>> assertThat(Constructor<?> actual) {
++    return proxy(ConstructorAssert.class, Constructor.class, actual);
++  }
+ }
+diff --git a/assertj-core/src/main/java/org/assertj/core/api/WithAssertions.java b/assertj-core/src/main/java/org/assertj/core/api/WithAssertions.java
+index 23458bcff..3f65a8020 100644
+--- a/assertj-core/src/main/java/org/assertj/core/api/WithAssertions.java
++++ b/assertj-core/src/main/java/org/assertj/core/api/WithAssertions.java
+@@ -16,6 +16,9 @@ import java.io.File;
+ import java.io.IOException;
+ import java.io.InputStream;
+ import java.io.UncheckedIOException;
++import java.lang.reflect.Constructor;
++import java.lang.reflect.Field;
++import java.lang.reflect.Method;
+ import java.math.BigDecimal;
+ import java.math.BigInteger;
+ import java.net.URI;
+@@ -3321,6 +3324,36 @@ public interface WithAssertions extends InstanceOfAssertFactories {
+     return Assertions.assertThat(actual);
+   }
+ 
++  /**
++   * Creates a new instance of <code>{@link FieldAssert}</code>.
++   *
++   * @param actual the actual value.
++   * @return the created assertion object.
++   */
++  default AbstractFieldAssert<?> assertThat(Field actual) {
++    return Assertions.assertThat(actual);
++  }
++
++  /**
++   * Creates a new instance of <code>{@link MethodAssert}</code>.
++   *
++   * @param actual the actual value.
++   * @return the created assertion object.
++   */
++  default AbstractMethodAssert<?> assertThat(Method actual) {
++    return Assertions.assertThat(actual);
++  }
++
++  /**
++   * Creates a new instance of <code>{@link ConstructorAssert}</code>.
++   *
++   * @param actual the actual value.
++   * @return the created assertion object.
++   */
++  default AbstractConstructorAssert<?, Constructor<?>> assertThat(Constructor<?> actual) {
++    return Assertions.assertThat(actual);
++  }
++
+   /**
+    * Delegates the creation of the {@link Assert} to the {@link AssertProvider#assertThat()} of the given component.
+    *
+diff --git a/assertj-core/src/main/java/org/assertj/core/error/MemberModifierShouldBe.java b/assertj-core/src/main/java/org/assertj/core/error/MemberModifierShouldBe.java
+new file mode 100644
+index 000000000..534da0110
+--- /dev/null
++++ b/assertj-core/src/main/java/org/assertj/core/error/MemberModifierShouldBe.java
+@@ -0,0 +1,123 @@
++/*
++ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
++ * the License. You may obtain a copy of the License at
++ *
++ * http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
++ * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
++ * specific language governing permissions and limitations under the License.
++ *
++ * Copyright 2012-2023 the original author or authors.
++ */
++package org.assertj.core.error;
++
++import java.lang.reflect.Member;
++import java.lang.reflect.Modifier;
++import java.util.StringJoiner;
++
++import static java.lang.reflect.Modifier.isPrivate;
++import static java.lang.reflect.Modifier.isProtected;
++import static java.lang.reflect.Modifier.isPublic;
++
++/**
++ * Error message factory for an assertion which checks that an member has (or has not) a specific modifier.
++ *
++ * @author William Bakker
++ */
++public class MemberModifierShouldBe extends BasicErrorMessageFactory {
++
++  private static final String PACKAGE_PRIVATE = "package-private";
++
++  private MemberModifierShouldBe(Member actual, boolean positive, String modifier) {
++    super("%nExpecting actual:%n  %s%n" + (positive ? "to" : "not to") + " be a %s member but was %s.",
++          actual, modifier, modifiers(actual));
++  }
++
++  /**
++   * Creates a new instance for a positive check of the {@code final} modifier.
++   *
++   * @param actual the actual value in the failed assertion.
++   * @return the created {@code ErrorMessageFactory}.
++   */
++  public static ErrorMessageFactory shouldBeFinal(Member actual) {
++    return new MemberModifierShouldBe(actual, true, Modifier.toString(Modifier.FINAL));
++  }
++
++  /**
++   * Creates a new instance for a negative check of the {@code final} modifier.
++   *
++   * @param actual the actual value in the failed assertion.
++   * @return the created {@code ErrorMessageFactory}.
++   */
++  public static ErrorMessageFactory shouldNotBeFinal(Member actual) {
++    return new MemberModifierShouldBe(actual, false, Modifier.toString(Modifier.FINAL));
++  }
++
++  /**
++   * Creates a new instance for a positive check of the {@code public} modifier.
++   *
++   * @param actual the actual value in the failed assertion.
++   * @return the created {@code ErrorMessageFactory}.
++   */
++  public static ErrorMessageFactory shouldBePublic(Member actual) {
++    return new MemberModifierShouldBe(actual, true, Modifier.toString(Modifier.PUBLIC));
++  }
++
++  /**
++   * Creates a new instance for a positive check of the {@code protected} modifier.
++   *
++   * @param actual the actual value in the failed assertion.
++   * @return the created {@code ErrorMessageFactory}.
++   */
++  public static ErrorMessageFactory shouldBeProtected(Member actual) {
++    return new MemberModifierShouldBe(actual, true, Modifier.toString(Modifier.PROTECTED));
++  }
++
++  /**
++   * Creates a new instance for a positive check of the {@code package-private} modifier.
++   *
++   * @param actual the actual value in the failed assertion.
++   * @return the created {@code ErrorMessageFactory}.
++   */
++  public static ErrorMessageFactory shouldBePackagePrivate(Member actual) {
++    return new MemberModifierShouldBe(actual, true, PACKAGE_PRIVATE);
++  }
++
++  /**
++   * Creates a new instance for a positive check of the {@code static} modifier.
++   *
++   * @param actual the actual value in the failed assertion.
++   * @return the created {@code ErrorMessageFactory}.
++   */
++  public static ErrorMessageFactory shouldBeStatic(Member actual) {
++    return new MemberModifierShouldBe(actual, true, Modifier.toString(Modifier.STATIC));
++  }
++
++  /**
++   * Creates a new instance for a negative check of the {@code static} modifier.
++   *
++   * @param actual the actual value in the failed assertion.
++   * @return the created {@code ErrorMessageFactory}.
++   */
++  public static ErrorMessageFactory shouldNotBeStatic(Member actual) {
++    return new MemberModifierShouldBe(actual, false, Modifier.toString(Modifier.STATIC));
++  }
++
++  private static String modifiers(Member actual) {
++    int modifiers = actual.getModifiers();
++    boolean isPackagePrivate = !isPublic(modifiers) && !isProtected(modifiers) && !isPrivate(modifiers);
++    String modifiersDescription = Modifier.toString(modifiers);
++    StringJoiner sj = new StringJoiner(" ");
++
++    if (isPackagePrivate) {
++      sj.add(PACKAGE_PRIVATE);
++    }
++    if (!modifiersDescription.isEmpty()) {
++      sj.add(modifiersDescription);
++    }
++
++    return sj.toString();
++  }
++
++}
+diff --git a/assertj-core/src/main/java/org/assertj/core/error/ShouldBeAbstract.java b/assertj-core/src/main/java/org/assertj/core/error/ShouldBeAbstract.java
+index dce21118a..c35b5548b 100644
+--- a/assertj-core/src/main/java/org/assertj/core/error/ShouldBeAbstract.java
++++ b/assertj-core/src/main/java/org/assertj/core/error/ShouldBeAbstract.java
+@@ -12,13 +12,29 @@
+  */
+ package org.assertj.core.error;
+ 
++import java.lang.reflect.Executable;
++
++/**
++ * Creates an error message indicating that an assertion that verifies
++ * that a class or executable should be abstract failed.
++ *
++ * @author William Bakker
++ */
+ public class ShouldBeAbstract extends BasicErrorMessageFactory {
+ 
+   public static ErrorMessageFactory shouldBeAbstract(Class<?> actual) {
+     return new ShouldBeAbstract(actual);
+   }
+ 
++  public static ErrorMessageFactory shouldBeAbstract(Executable actual) {
++    return new ShouldBeAbstract(actual);
++  }
++
+   private ShouldBeAbstract(Class<?> actual) {
+     super("%nExpecting actual:%n  %s%nto be abstract", actual);
+   }
++
++  private ShouldBeAbstract(Executable actual) {
++    super("%nExpecting actual:%n  %s%nto be abstract", actual);
++  }
+ }
+diff --git a/assertj-core/src/main/java/org/assertj/core/error/ShouldHaveAnnotations.java b/assertj-core/src/main/java/org/assertj/core/error/ShouldHaveAnnotations.java
+index 276a32b62..306574d5c 100644
+--- a/assertj-core/src/main/java/org/assertj/core/error/ShouldHaveAnnotations.java
++++ b/assertj-core/src/main/java/org/assertj/core/error/ShouldHaveAnnotations.java
+@@ -13,10 +13,11 @@
+ package org.assertj.core.error;
+ 
+ import java.lang.annotation.Annotation;
++import java.lang.reflect.AnnotatedElement;
+ import java.util.Collection;
+ 
+ /**
+- * Creates an error message indicating that an assertion that verifies that a class has annotations failed.
++ * Creates an error message indicating that an assertion that verifies that an {@code AnnotatedElement} has annotations failed.
+  * 
+  * @author William Delanoue
+  * @author Joel Costigliola
+@@ -31,13 +32,31 @@ public class ShouldHaveAnnotations extends BasicErrorMessageFactory {
+    * @param missing missing annotations for this class
+    * @return the created {@code ErrorMessageFactory}.
+    */
++  public static ErrorMessageFactory shouldHaveAnnotations(AnnotatedElement actual,
++                                                          Collection<Class<? extends Annotation>> expected,
++                                                          Collection<Class<? extends Annotation>> missing) {
++    return new ShouldHaveAnnotations(actual, expected, missing);
++  }
++
++  /**
++   * Creates a new <code>{@link ShouldHaveAnnotations}</code>.
++   *
++   * @param actual the actual value in the failed assertion.
++   * @param expected expected annotations for this class
++   * @param missing missing annotations for this class
++   * @return the created {@code ErrorMessageFactory}.
++   *
++   * @deprecated This method is retained for binary compatibility with assertj 3.24.2 and older.
++   *             Use {@link #shouldHaveAnnotations(AnnotatedElement, Collection, Collection)} instead
++   */
++  @Deprecated
+   public static ErrorMessageFactory shouldHaveAnnotations(Class<?> actual,
+                                                           Collection<Class<? extends Annotation>> expected,
+                                                           Collection<Class<? extends Annotation>> missing) {
+     return new ShouldHaveAnnotations(actual, expected, missing);
+   }
+ 
+-  private ShouldHaveAnnotations(Class<?> actual, Collection<Class<? extends Annotation>> expected,
++  private ShouldHaveAnnotations(AnnotatedElement actual, Collection<Class<? extends Annotation>> expected,
+                                 Collection<Class<? extends Annotation>> missing) {
+     super("%nExpecting%n  %s%nto have annotations:%n  %s%nbut the following annotations were not found:%n  %s", actual, expected,
+           missing);
+diff --git a/assertj-core/src/main/java/org/assertj/core/internal/AnnotatedElements.java b/assertj-core/src/main/java/org/assertj/core/internal/AnnotatedElements.java
+new file mode 100644
+index 000000000..e946052ed
+--- /dev/null
++++ b/assertj-core/src/main/java/org/assertj/core/internal/AnnotatedElements.java
+@@ -0,0 +1,83 @@
++/*
++ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
++ * the License. You may obtain a copy of the License at
++ *
++ * http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
++ * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
++ * specific language governing permissions and limitations under the License.
++ *
++ * Copyright 2012-2023 the original author or authors.
++ */
++package org.assertj.core.internal;
++
++import org.assertj.core.api.AssertionInfo;
++
++import java.lang.annotation.Annotation;
++import java.lang.reflect.AnnotatedElement;
++import java.util.LinkedHashSet;
++import java.util.Set;
++
++import static java.util.Objects.requireNonNull;
++import static org.assertj.core.error.ShouldHaveAnnotations.shouldHaveAnnotations;
++import static org.assertj.core.util.Sets.newLinkedHashSet;
++
++/**
++ * Reusable assertions for <code>{@link AnnotatedElement}</code>s.
++ *
++ * @author William Bakker
++ */
++public class AnnotatedElements {
++
++  private static final AnnotatedElements INSTANCE = new AnnotatedElements();
++
++  /**
++   * Returns the singleton instance of this class.
++   *
++   * @return the singleton instance of this class.
++   */
++  public static AnnotatedElements instance() {
++    return INSTANCE;
++  }
++
++  Failures failures = Failures.instance();
++
++  /**
++   * Verifies that the actual {@code AnnotatedElement} contains the given {@code Annotation}s.
++   *
++   * @param info contains information about the assertion.
++   * @param actual the "actual" {@code AnnotatedElement}.
++   * @param annotations annotations who must be attached to the {@code AnnotatedElement}
++   * @throws AssertionError if {@code actual} is {@code null}.
++   * @throws AssertionError if the actual {@code AnnotatedElement} doesn't contains all of these annotations.
++   */
++  public void assertContainsAnnotations(AssertionInfo info,
++                                        AnnotatedElement actual,
++                                        Class<? extends Annotation>[] annotations) {
++    assertNotNull(info, actual);
++    Set<Class<? extends Annotation>> expected = newLinkedHashSet(annotations);
++    Set<Class<? extends Annotation>> missing = new LinkedHashSet<>();
++    for (Class<? extends Annotation> other : expected) {
++      classParameterIsNotNull(other);
++      if (actual.getAnnotation(other) == null) missing.add(other);
++    }
++
++    if (!missing.isEmpty()) throw failures.failure(info, shouldHaveAnnotations(actual, expected, missing));
++  }
++
++  private static void assertNotNull(AssertionInfo info, AnnotatedElement actual) {
++    Objects.instance().assertNotNull(info, actual);
++  }
++
++  /**
++   * used to check that the class to compare is not null, in that case throws a {@link NullPointerException} with an
++   * explicit message.
++   *
++   * @param clazz the class to check
++   * @throws NullPointerException with an explicit message if the given class is null
++   */
++  private static void classParameterIsNotNull(Class<?> clazz) {
++    requireNonNull(clazz, "The class to compare actual with should not be null");
++  }
++}
+diff --git a/assertj-core/src/main/java/org/assertj/core/internal/Classes.java b/assertj-core/src/main/java/org/assertj/core/internal/Classes.java
+index 6c45b7db4..0de42a9de 100644
+--- a/assertj-core/src/main/java/org/assertj/core/internal/Classes.java
++++ b/assertj-core/src/main/java/org/assertj/core/internal/Classes.java
+@@ -49,7 +49,7 @@ import org.assertj.core.util.Arrays;
+  * 
+  * @author William Delanoue
+  */
+-public class Classes {
++public class Classes extends AnnotatedElements {
+ 
+   private static final Classes INSTANCE = new Classes();
+ 
+@@ -89,28 +89,6 @@ public class Classes {
+     if (!missing.isEmpty()) throw failures.failure(info, shouldBeAssignableFrom(actual, expected, missing));
+   }
+ 
+-  /**
+-   * Verifies that the actual {@code Class} contains the given {@code Annotation}s.
+-   * 
+-   * @param info contains information about the assertion.
+-   * @param actual the "actual" {@code Class}.
+-   * @param annotations annotations who must be attached to the class
+-   * @throws AssertionError if {@code actual} is {@code null}.
+-   * @throws AssertionError if the actual {@code Class} doesn't contains all of these annotations.
+-   */
+-  public void assertContainsAnnotations(AssertionInfo info, Class<?> actual,
+-                                        Class<? extends Annotation>[] annotations) {
+-    assertNotNull(info, actual);
+-    Set<Class<? extends Annotation>> expected = newLinkedHashSet(annotations);
+-    Set<Class<? extends Annotation>> missing = new LinkedHashSet<>();
+-    for (Class<? extends Annotation> other : expected) {
+-      classParameterIsNotNull(other);
+-      if (actual.getAnnotation(other) == null) missing.add(other);
+-    }
+-
+-    if (!missing.isEmpty()) throw failures.failure(info, shouldHaveAnnotations(actual, expected, missing));
+-  }
+-
+   /**
+    * Verifies that the actual {@code Class} has the {@code fields}.
+    * 
+@@ -394,7 +372,7 @@ public class Classes {
+    * used to check that the class to compare is not null, in that case throws a {@link NullPointerException} with an
+    * explicit message.
+    * 
+-   * @param clazz the date to check
++   * @param clazz the class to check
+    * @throws NullPointerException with an explicit message if the given class is null
+    */
+   private static void classParameterIsNotNull(Class<?> clazz) {
+diff --git a/assertj-core/src/main/java/org/assertj/core/internal/Executables.java b/assertj-core/src/main/java/org/assertj/core/internal/Executables.java
+new file mode 100644
+index 000000000..a2e72c729
+--- /dev/null
++++ b/assertj-core/src/main/java/org/assertj/core/internal/Executables.java
+@@ -0,0 +1,82 @@
++/*
++ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
++ * the License. You may obtain a copy of the License at
++ *
++ * http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
++ * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
++ * specific language governing permissions and limitations under the License.
++ *
++ * Copyright 2012-2023 the original author or authors.
++ */
++package org.assertj.core.internal;
++
++import org.assertj.core.api.AssertionInfo;
++
++import java.lang.annotation.Annotation;
++import java.lang.reflect.Executable;
++import java.util.LinkedHashSet;
++import java.util.Set;
++
++import static java.util.Objects.requireNonNull;
++import static org.assertj.core.error.ShouldHaveAnnotations.shouldHaveAnnotations;
++import static org.assertj.core.util.Sets.newLinkedHashSet;
++
++/**
++ * Reusable assertions for <code>{@link Executable}</code>s.
++ * 
++ * @author William Bakker
++ */
++public class Executables extends AnnotatedElements {
++
++  private static final Executables INSTANCE = new Executables();
++
++  /**
++   * Returns the singleton instance of this class.
++   * 
++   * @return the singleton instance of this class.
++   */
++  public static Executables instance() {
++    return INSTANCE;
++  }
++
++  private Failures failures = Failures.instance();
++
++  /**
++   * Verifies that the actual {@code Executable} contains the given {@code Annotation}s.
++   * 
++   * @param info contains information about the assertion.
++   * @param actual the "actual" {@code Executable}.
++   * @param annotations annotations who must be attached to the executable
++   * @throws AssertionError if {@code actual} is {@code null}.
++   * @throws AssertionError if the actual {@code Class} doesn't contains all of these annotations.
++   */
++  public void assertContainsAnnotations(AssertionInfo info, Executable actual,
++                                        Class<? extends Annotation>[] annotations) {
++    assertNotNull(info, actual);
++    Set<Class<? extends Annotation>> expected = newLinkedHashSet(annotations);
++    Set<Class<? extends Annotation>> missing = new LinkedHashSet<>();
++    for (Class<? extends Annotation> other : expected) {
++      classParameterIsNotNull(other);
++      if (actual.getAnnotation(other) == null) missing.add(other);
++    }
++
++    if (!missing.isEmpty()) throw failures.failure(info, shouldHaveAnnotations(actual, expected, missing));
++  }
++
++  private static void assertNotNull(AssertionInfo info, Executable actual) {
++    Objects.instance().assertNotNull(info, actual);
++  }
++
++  /**
++   * used to check that the class to compare is not null, in that case throws a {@link NullPointerException} with an
++   * explicit message.
++   *
++   * @param clazz the class to check
++   * @throws NullPointerException with an explicit message if the given class is null
++   */
++  private static void classParameterIsNotNull(Class<?> clazz) {
++    requireNonNull(clazz, "The class to compare actual with should not be null");
++  }
++}

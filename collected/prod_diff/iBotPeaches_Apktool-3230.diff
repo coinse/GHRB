@@ -1,0 +1,13 @@
+diff --git a/brut.apktool/apktool-lib/src/main/java/brut/androlib/res/decoder/ARSCDecoder.java b/brut.apktool/apktool-lib/src/main/java/brut/androlib/res/decoder/ARSCDecoder.java
+index 08ca6121..285d6be5 100644
+--- a/brut.apktool/apktool-lib/src/main/java/brut/androlib/res/decoder/ARSCDecoder.java
++++ b/brut.apktool/apktool-lib/src/main/java/brut/androlib/res/decoder/ARSCDecoder.java
+@@ -122,7 +122,7 @@ public class ARSCDecoder {
+             }
+         }
+ 
+-        if (mPkg.getResSpecCount() > 0) {
++        if (mPkg != null && mPkg.getResSpecCount() > 0) {
+             addMissingResSpecs();
+         }
+ 

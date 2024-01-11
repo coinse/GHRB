@@ -1,0 +1,2940 @@
+{
+  "apache_rocketmq": {
+    "apache_rocketmq-6864": {
+      "bug_id": "apache_rocketmq-6864",
+      "PR_number": 6864,
+      "PR_createdAt": "2023-06-07T03:25:18Z",
+      "merge_commit": "3ac885705d9fa36870c1b059e1089c158fa66285",
+      "buggy_commits": [
+        {
+          "oid": "0b76f6f6194d608ed6c97023d36c30940ec6189e",
+          "message": "Fix the problem that the proxy in the cluster mode obtains the wrong address of broker (#6909)\n\nFix the problem that the proxy in the cluster mode obtains the wrong address of the broker."
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/apache/rocketmq/issues/6863",
+        "createdAt": "2023-06-07T03:21:34Z",
+        "content": "bug_report_all/apache_rocketmq-6864.json"
+      },
+      "changed_tests": [
+        "filter/src/test/java/org/apache/rocketmq/filter/ExpressionTest.java",
+        "filter/src/test/java/org/apache/rocketmq/filter/ParserTest.java"
+      ],
+      "PR_url": "https://github.com/apache/rocketmq/pull/6864",
+      "merge_commit_url": "https://github.com/apache/rocketmq/commit/3ac885705d9fa36870c1b059e1089c158fa66285",
+      "buggy_commit": "0b76f6f6194d608ed6c97023d36c30940ec6189e"
+    },
+    "apache_rocketmq-6883": {
+      "bug_id": "apache_rocketmq-6883",
+      "PR_number": 6883,
+      "PR_createdAt": "2023-06-09T07:04:57Z",
+      "merge_commit": "7996ec3b3f7ccea01f66951ac639b48303bbf7a6",
+      "buggy_commits": [
+        {
+          "oid": "737c1e53383350a5671fa207ee0e4ce932850bac",
+          "message": "[ISSUE #7029] Add a config to determine whether pop response should return the actual retry topic or tamper with the original topic (#7030)"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/apache/rocketmq/issues/6879",
+        "createdAt": "2023-06-09T05:52:58Z",
+        "content": "bug_report_all/apache_rocketmq-6883.json"
+      },
+      "changed_tests": [
+        "common/src/test/java/org/apache/rocketmq/common/utils/ConcurrentHashMapUtilsTest.java"
+      ],
+      "PR_url": "https://github.com/apache/rocketmq/pull/6883",
+      "merge_commit_url": "https://github.com/apache/rocketmq/commit/7996ec3b3f7ccea01f66951ac639b48303bbf7a6",
+      "buggy_commit": "737c1e53383350a5671fa207ee0e4ce932850bac"
+    },
+    "apache_rocketmq-6885": {
+      "bug_id": "apache_rocketmq-6885",
+      "PR_number": 6885,
+      "PR_createdAt": "2023-06-09T09:42:44Z",
+      "merge_commit": "aea5811df007c2abf2d46eea931e4c867514e0eb",
+      "buggy_commits": [
+        {
+          "oid": "3dda55e812240ee5bb667d078fb49acc13f0ccb4",
+          "message": "[RIP-64] Heartbeat Optimization  (#6724)"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/apache/rocketmq/issues/6884",
+        "createdAt": "2023-06-09T09:26:05Z",
+        "content": "bug_report_all/apache_rocketmq-6885.json"
+      },
+      "changed_tests": [
+        "proxy/src/test/java/org/apache/rocketmq/proxy/service/sysmessage/HeartbeatSyncerTest.java"
+      ],
+      "PR_url": "https://github.com/apache/rocketmq/pull/6885",
+      "merge_commit_url": "https://github.com/apache/rocketmq/commit/aea5811df007c2abf2d46eea931e4c867514e0eb",
+      "buggy_commit": "3dda55e812240ee5bb667d078fb49acc13f0ccb4"
+    },
+    "apache_rocketmq-6891": {
+      "bug_id": "apache_rocketmq-6891",
+      "PR_number": 6891,
+      "PR_createdAt": "2023-06-12T07:36:09Z",
+      "merge_commit": "aaa4a4b5fcc1f3b395264375b9067303820cd38c",
+      "buggy_commits": [
+        {
+          "oid": "4291971c03611bb17cedc4a282296babd4478b3b",
+          "message": "[ISSUE #5866] fix  client-side memory leak of inactive channel (#5867)\n\n* fix #5866 Client-side memory leak of inactive channel\r\n\r\n* also accept RemotingSendRequestException when NettyRemotingAbstract#failFast invoked.\r\n\r\n---------\r\n\r\nCo-authored-by: moling <zhangshuo.zs@alibaba-inc.com>"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/apache/rocketmq/issues/6889",
+        "createdAt": "2023-06-12T07:25:48Z",
+        "content": "bug_report_all/apache_rocketmq-6891.json"
+      },
+      "changed_tests": [
+        "broker/src/test/java/org/apache/rocketmq/broker/subscription/SubscriptionGroupManagerTest.java",
+        "broker/src/test/java/org/apache/rocketmq/broker/topic/TopicConfigManagerTest.java"
+      ],
+      "PR_url": "https://github.com/apache/rocketmq/pull/6891",
+      "merge_commit_url": "https://github.com/apache/rocketmq/commit/aaa4a4b5fcc1f3b395264375b9067303820cd38c",
+      "buggy_commit": "4291971c03611bb17cedc4a282296babd4478b3b"
+    },
+    "apache_rocketmq-6909": {
+      "bug_id": "apache_rocketmq-6909",
+      "PR_number": 6909,
+      "PR_createdAt": "2023-06-15T06:56:28Z",
+      "merge_commit": "0b76f6f6194d608ed6c97023d36c30940ec6189e",
+      "buggy_commits": [
+        {
+          "oid": "2246c32537297174a7e7b921031a14de42ffbcb7",
+          "message": "Add attributesBuilderSupplier for BrokerMetricsManager (#6901)\n\n* Add attributesBuilderSupplier for BrokerMetricsManager\r\n\r\n* fix\r\n\r\n* add initial value"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/apache/rocketmq/issues/6908",
+        "createdAt": "2023-06-15T06:53:23Z",
+        "content": "bug_report_all/apache_rocketmq-6909.json"
+      },
+      "changed_tests": [
+        "proxy/src/test/java/org/apache/rocketmq/proxy/service/route/ClusterTopicRouteServiceTest.java"
+      ],
+      "PR_url": "https://github.com/apache/rocketmq/pull/6909",
+      "merge_commit_url": "https://github.com/apache/rocketmq/commit/0b76f6f6194d608ed6c97023d36c30940ec6189e",
+      "buggy_commit": "2246c32537297174a7e7b921031a14de42ffbcb7"
+    },
+    "apache_rocketmq-6915": {
+      "bug_id": "apache_rocketmq-6915",
+      "PR_number": 6915,
+      "PR_createdAt": "2023-06-17T14:23:09Z",
+      "merge_commit": "867c296150ec9734d10917dffe3fb453317e7fc2",
+      "buggy_commits": [
+        {
+          "oid": "9899be15e7fcac45f60988ea84c41c1a6f615554",
+          "message": "[ISSUE #6933] Support recreate file if local cq and tiered storage offset not match"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/apache/rocketmq/issues/6916",
+        "createdAt": "2023-06-17T14:27:26Z",
+        "content": "bug_report_all/apache_rocketmq-6915.json"
+      },
+      "changed_tests": [
+        "filter/src/test/java/org/apache/rocketmq/filter/ExpressionTest.java"
+      ],
+      "PR_url": "https://github.com/apache/rocketmq/pull/6915",
+      "merge_commit_url": "https://github.com/apache/rocketmq/commit/867c296150ec9734d10917dffe3fb453317e7fc2",
+      "buggy_commit": "9899be15e7fcac45f60988ea84c41c1a6f615554"
+    },
+    "apache_rocketmq-6930": {
+      "bug_id": "apache_rocketmq-6930",
+      "PR_number": 6930,
+      "PR_createdAt": "2023-06-21T15:07:02Z",
+      "merge_commit": "1f0cdc88f86ff0293db0b67168d50950e76aeb5a",
+      "buggy_commits": [
+        {
+          "oid": "6238caaac92fb1870f5eb234ddce86f3be045c79",
+          "message": "[ISSUE #6841] new feature: pop batch ack implementation broker-side (#6842)"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/apache/rocketmq/issues/6929",
+        "createdAt": "2023-06-21T15:06:28Z",
+        "content": "bug_report_all/apache_rocketmq-6930.json"
+      },
+      "changed_tests": [
+        "tieredstore/src/test/java/org/apache/rocketmq/tieredstore/TieredMessageFetcherTest.java"
+      ],
+      "PR_url": "https://github.com/apache/rocketmq/pull/6930",
+      "merge_commit_url": "https://github.com/apache/rocketmq/commit/1f0cdc88f86ff0293db0b67168d50950e76aeb5a",
+      "buggy_commit": "6238caaac92fb1870f5eb234ddce86f3be045c79"
+    },
+    "apache_rocketmq-6941": {
+      "bug_id": "apache_rocketmq-6941",
+      "PR_number": 6941,
+      "PR_createdAt": "2023-06-25T05:19:25Z",
+      "merge_commit": "16ef5755375e7c8f4fb11dd63f5fdfdfa25668e7",
+      "buggy_commits": [
+        {
+          "oid": "e369d7deac6e4dde950a8da7c3d976bb26d0e6b5",
+          "message": "[maven-release-plugin] prepare for next development iteration (#6939)"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/apache/rocketmq/issues/4612",
+        "createdAt": "2022-07-15T06:55:25Z",
+        "content": "bug_report_all/apache_rocketmq-6941.json"
+      },
+      "changed_tests": [
+        "client/src/test/java/org/apache/rocketmq/client/trace/TraceDataEncoderTest.java"
+      ],
+      "PR_url": "https://github.com/apache/rocketmq/pull/6941",
+      "merge_commit_url": "https://github.com/apache/rocketmq/commit/16ef5755375e7c8f4fb11dd63f5fdfdfa25668e7",
+      "buggy_commit": "e369d7deac6e4dde950a8da7c3d976bb26d0e6b5"
+    },
+    "apache_rocketmq-6955": {
+      "bug_id": "apache_rocketmq-6955",
+      "PR_number": 6955,
+      "PR_createdAt": "2023-06-27T11:27:14Z",
+      "merge_commit": "87075c26623c2c40486c4189e2fb1855426a8ae9",
+      "buggy_commits": [
+        {
+          "oid": "8ab99aceb704e4c8906b9d6d57c97143a59b04c7",
+          "message": "[ISSUE #6754] Support reentrant orderly consumption for proxy (#6755)"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/apache/rocketmq/issues/6956",
+        "createdAt": "2023-06-28T02:23:37Z",
+        "content": "bug_report_all/apache_rocketmq-6955.json"
+      },
+      "changed_tests": [
+        "proxy/src/test/java/org/apache/rocketmq/proxy/common/ReceiptHandleGroupTest.java"
+      ],
+      "PR_url": "https://github.com/apache/rocketmq/pull/6955",
+      "merge_commit_url": "https://github.com/apache/rocketmq/commit/87075c26623c2c40486c4189e2fb1855426a8ae9",
+      "buggy_commit": "8ab99aceb704e4c8906b9d6d57c97143a59b04c7"
+    },
+    "apache_rocketmq-6958": {
+      "bug_id": "apache_rocketmq-6958",
+      "PR_number": 6958,
+      "PR_createdAt": "2023-06-28T03:06:33Z",
+      "merge_commit": "00fc42b8be848fc3f5c550cbab007b92f128dc38",
+      "buggy_commits": [
+        {
+          "oid": "955428278ccd9bfa0f15e21a8d3040c5213358bd",
+          "message": "[ISSUE #6991] Delete rocketmq.client.logUseSlf4j=true in JAVA_OPT"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/apache/rocketmq/issues/6957",
+        "createdAt": "2023-06-28T02:55:39Z",
+        "content": "bug_report_all/apache_rocketmq-6958.json"
+      },
+      "changed_tests": [
+        "remoting/src/test/java/org/apache/rocketmq/remoting/ProxyProtocolTest.java",
+        "remoting/src/test/java/org/apache/rocketmq/remoting/TlsTest.java"
+      ],
+      "PR_url": "https://github.com/apache/rocketmq/pull/6958",
+      "merge_commit_url": "https://github.com/apache/rocketmq/commit/00fc42b8be848fc3f5c550cbab007b92f128dc38",
+      "buggy_commit": "955428278ccd9bfa0f15e21a8d3040c5213358bd"
+    },
+    "apache_rocketmq-6965": {
+      "bug_id": "apache_rocketmq-6965",
+      "PR_number": 6965,
+      "PR_createdAt": "2023-06-29T05:52:49Z",
+      "merge_commit": "bbbe737e4e57ebc32581220fa8766cf32f7833eb",
+      "buggy_commits": [
+        {
+          "oid": "87075c26623c2c40486c4189e2fb1855426a8ae9",
+          "message": "[ISSUE #6955] add removeOne method for ReceiptHandleGroup (#6955)"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/apache/rocketmq/issues/6964",
+        "createdAt": "2023-06-29T05:42:27Z",
+        "content": "bug_report_all/apache_rocketmq-6965.json"
+      },
+      "changed_tests": [
+        "proxy/src/test/java/org/apache/rocketmq/proxy/grpc/v2/client/ClientActivityTest.java",
+        "proxy/src/test/java/org/apache/rocketmq/proxy/grpc/v2/common/GrpcClientSettingsManagerTest.java",
+        "proxy/src/test/java/org/apache/rocketmq/proxy/remoting/activity/PullMessageActivityTest.java",
+        "proxy/src/test/java/org/apache/rocketmq/proxy/remoting/channel/RemotingChannelManagerTest.java"
+      ],
+      "PR_url": "https://github.com/apache/rocketmq/pull/6965",
+      "merge_commit_url": "https://github.com/apache/rocketmq/commit/bbbe737e4e57ebc32581220fa8766cf32f7833eb",
+      "buggy_commit": "87075c26623c2c40486c4189e2fb1855426a8ae9"
+    },
+    "apache_rocketmq-6969": {
+      "bug_id": "apache_rocketmq-6969",
+      "PR_number": 6969,
+      "PR_createdAt": "2023-06-29T16:13:16Z",
+      "merge_commit": "5914ff8dbb9d37e2cb48ef9c4f0256c6185b4659",
+      "buggy_commits": [
+        {
+          "oid": "70a66eda2c08eb5fca38356659cb6de1ac75e25e",
+          "message": "Fix LEAK: HAProxyMessage.release() was not called before it's garbage-collected (#7025)\n\nCall HAProxyMessage.release() after reading it.\r\n\r\n---------\r\n\r\nCo-authored-by: \u5f92\u949f <shuangxi.dsx@alibaba-inc.com>"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/apache/rocketmq/issues/6968",
+        "createdAt": "2023-06-29T15:50:03Z",
+        "content": "bug_report_all/apache_rocketmq-6969.json"
+      },
+      "changed_tests": [
+        "acl/src/test/java/org/apache/rocketmq/acl/RemotingClientAccessTest.java"
+      ],
+      "PR_url": "https://github.com/apache/rocketmq/pull/6969",
+      "merge_commit_url": "https://github.com/apache/rocketmq/commit/5914ff8dbb9d37e2cb48ef9c4f0256c6185b4659",
+      "buggy_commit": "70a66eda2c08eb5fca38356659cb6de1ac75e25e"
+    },
+    "apache_rocketmq-6972": {
+      "bug_id": "apache_rocketmq-6972",
+      "PR_number": 6972,
+      "PR_createdAt": "2023-06-30T05:10:33Z",
+      "merge_commit": "95ccd50d2813a3fa3225f8f8a9df03e9cb904326",
+      "buggy_commits": [
+        {
+          "oid": "6fce427e109d905530b17e64aa5dc9bc19795c5d",
+          "message": "[ISSUE ##7719] Add more property check for dealy message when auto-batch chack (#7720)"
+        },
+        {
+          "oid": "831a91593607160c6dce8c73d423267a79e6dc6c",
+          "message": "bugfix1: printProgressWithFixedWidth may cause ArithmeticException;\nbugfix2: offsetWriter may be closed before export all message;"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/apache/rocketmq/issues/6971",
+        "createdAt": "2023-06-30T05:03:31Z",
+        "content": "bug_report_all/apache_rocketmq-6972.json"
+      },
+      "changed_tests": [
+        "tools/src/test/java/org/apache/rocketmq/tools/command/message/ExportMessageCommandTest.java",
+        "tools/src/test/java/org/apache/rocketmq/tools/command/message/ImportMessageCommandTest.java"
+      ],
+      "PR_url": "https://github.com/apache/rocketmq/pull/6972",
+      "merge_commit_url": "https://github.com/apache/rocketmq/commit/95ccd50d2813a3fa3225f8f8a9df03e9cb904326",
+      "buggy_commit": "6fce427e109d905530b17e64aa5dc9bc19795c5d"
+    },
+    "apache_rocketmq-7011": {
+      "bug_id": "apache_rocketmq-7011",
+      "PR_number": 7011,
+      "PR_createdAt": "2023-07-11T05:39:08Z",
+      "merge_commit": "b4496be68705c1c0b282a07a1adeab4fffd670fe",
+      "buggy_commits": [
+        {
+          "oid": "15c6889bb0abd014c06ef1452f791db9daa1ea08",
+          "message": "fix receive message activity attempt id not correct (#7012)\n\nfix receive message activity attempt id not correct"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/apache/rocketmq/issues/7010",
+        "createdAt": "2023-07-10T12:32:20Z",
+        "content": "bug_report_all/apache_rocketmq-7011.json"
+      },
+      "changed_tests": [
+        "proxy/src/test/java/org/apache/rocketmq/proxy/remoting/activity/AbstractRemotingActivityTest.java"
+      ],
+      "PR_url": "https://github.com/apache/rocketmq/pull/7011",
+      "merge_commit_url": "https://github.com/apache/rocketmq/commit/b4496be68705c1c0b282a07a1adeab4fffd670fe",
+      "buggy_commit": "15c6889bb0abd014c06ef1452f791db9daa1ea08"
+    },
+    "apache_rocketmq-7027": {
+      "bug_id": "apache_rocketmq-7027",
+      "PR_number": 7027,
+      "PR_createdAt": "2023-07-14T09:50:50Z",
+      "merge_commit": "9ceabaec0cf8758fa40be229a766d7b7669d8757",
+      "buggy_commits": [
+        {
+          "oid": "6fce427e109d905530b17e64aa5dc9bc19795c5d",
+          "message": "[ISSUE ##7719] Add more property check for dealy message when auto-batch chack (#7720)"
+        },
+        {
+          "oid": "89e3a616d25e69f3e8da7d290d6d0465c54053f3",
+          "message": "add test case"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/apache/rocketmq/issues/7026",
+        "createdAt": "2023-07-14T09:31:51Z",
+        "content": "bug_report_all/apache_rocketmq-7027.json"
+      },
+      "changed_tests": [
+        "proxy/src/test/java/org/apache/rocketmq/proxy/service/route/ClusterTopicRouteServiceTest.java"
+      ],
+      "PR_url": "https://github.com/apache/rocketmq/pull/7027",
+      "merge_commit_url": "https://github.com/apache/rocketmq/commit/9ceabaec0cf8758fa40be229a766d7b7669d8757",
+      "buggy_commit": "6fce427e109d905530b17e64aa5dc9bc19795c5d"
+    },
+    "apache_rocketmq-7038": {
+      "bug_id": "apache_rocketmq-7038",
+      "PR_number": 7038,
+      "PR_createdAt": "2023-07-18T12:58:55Z",
+      "merge_commit": "2c5808b9fdab8cae63318c89f34ad48a1ab6e962",
+      "buggy_commits": [
+        {
+          "oid": "e0f5295fed8791d93bfa5b8420074c00b651ddfe",
+          "message": "passing the renew event type to create the correct context (#7045)"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/apache/rocketmq/issues/7035",
+        "createdAt": "2023-07-18T08:02:28Z",
+        "content": "bug_report_all/apache_rocketmq-7038.json"
+      },
+      "changed_tests": [
+        "tieredstore/src/test/java/org/apache/rocketmq/tieredstore/file/TieredCommitLogTest.java",
+        "tieredstore/src/test/java/org/apache/rocketmq/tieredstore/metrics/TieredStoreMetricsManagerTest.java"
+      ],
+      "PR_url": "https://github.com/apache/rocketmq/pull/7038",
+      "merge_commit_url": "https://github.com/apache/rocketmq/commit/2c5808b9fdab8cae63318c89f34ad48a1ab6e962",
+      "buggy_commit": "e0f5295fed8791d93bfa5b8420074c00b651ddfe"
+    },
+    "apache_rocketmq-7048": {
+      "bug_id": "apache_rocketmq-7048",
+      "PR_number": 7048,
+      "PR_createdAt": "2023-07-19T09:03:44Z",
+      "merge_commit": "ebad3c8a6b41915edb3db65fca593123b296042d",
+      "buggy_commits": [
+        {
+          "oid": "2c5808b9fdab8cae63318c89f34ad48a1ab6e962",
+          "message": "[#ISSUE 7035] Fix correct min offset behavior in tiered storage (#7038)"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/apache/rocketmq/issues/7047",
+        "createdAt": "2023-07-19T09:02:43Z",
+        "content": "bug_report_all/apache_rocketmq-7048.json"
+      },
+      "changed_tests": [
+        "remoting/src/test/java/org/apache/rocketmq/remoting/netty/NettyRemotingClientTest.java"
+      ],
+      "PR_url": "https://github.com/apache/rocketmq/pull/7048",
+      "merge_commit_url": "https://github.com/apache/rocketmq/commit/ebad3c8a6b41915edb3db65fca593123b296042d",
+      "buggy_commit": "2c5808b9fdab8cae63318c89f34ad48a1ab6e962"
+    },
+    "apache_rocketmq-7073": {
+      "bug_id": "apache_rocketmq-7073",
+      "PR_number": 7073,
+      "PR_createdAt": "2023-07-24T09:05:38Z",
+      "merge_commit": "d0a69be563785ca815dc31ef1aab4c1bc5588c01",
+      "buggy_commits": [
+        {
+          "oid": "d79737788078707168c0258c4af0d800de32c137",
+          "message": "[ISSUE #7056] Avoid close success channel if invokeSync most time cost on get connection for channel (#7057)\n\n* fix: avoid close success channel if invokeSync most time cost on get channel\r\n\r\nChange-Id: I29741cf55ac6333bfa30fef755357b78a22b1325\r\n\r\n* fix: ci style\r\n\r\nChange-Id: I8c9b86e9cb6f1463bf213e64c9b8c139afa794c8"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/apache/rocketmq/issues/6810",
+        "createdAt": "2023-05-25T07:11:32Z",
+        "content": "bug_report_all/apache_rocketmq-7073.json"
+      },
+      "changed_tests": [
+        "broker/src/test/java/org/apache/rocketmq/broker/client/ProducerManagerTest.java"
+      ],
+      "PR_url": "https://github.com/apache/rocketmq/pull/7073",
+      "merge_commit_url": "https://github.com/apache/rocketmq/commit/d0a69be563785ca815dc31ef1aab4c1bc5588c01",
+      "buggy_commit": "d79737788078707168c0258c4af0d800de32c137"
+    },
+    "apache_rocketmq-7090": {
+      "bug_id": "apache_rocketmq-7090",
+      "PR_number": 7090,
+      "PR_createdAt": "2023-07-28T07:56:27Z",
+      "merge_commit": "ff3ac6a49012999fff23fde3a6acdb2291ccf110",
+      "buggy_commits": [
+        {
+          "oid": "6fce427e109d905530b17e64aa5dc9bc19795c5d",
+          "message": "[ISSUE ##7719] Add more property check for dealy message when auto-batch chack (#7720)"
+        },
+        {
+          "oid": "80f8fa353b75a8dfdae8f6721fa0c6a5b5adcb5d",
+          "message": "fix:consumer offset compatible problem caused by LmqConsumerOffsetManager"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/apache/rocketmq/issues/7087",
+        "createdAt": "2023-07-27T12:12:36Z",
+        "content": "bug_report_all/apache_rocketmq-7090.json"
+      },
+      "changed_tests": [
+        "broker/src/test/java/org/apache/rocketmq/broker/offset/LmqConsumerOffsetManagerTest.java"
+      ],
+      "PR_url": "https://github.com/apache/rocketmq/pull/7090",
+      "merge_commit_url": "https://github.com/apache/rocketmq/commit/ff3ac6a49012999fff23fde3a6acdb2291ccf110",
+      "buggy_commit": "6fce427e109d905530b17e64aa5dc9bc19795c5d"
+    },
+    "apache_rocketmq-7105": {
+      "bug_id": "apache_rocketmq-7105",
+      "PR_number": 7105,
+      "PR_createdAt": "2023-08-01T09:54:47Z",
+      "merge_commit": "ab61183030f4f230619ea539cbd2cb977234208b",
+      "buggy_commits": [
+        {
+          "oid": "a1bf49d5d07cf64374bc3dde5ab43add831433ad",
+          "message": "[ISSUE #7093] Avoid dispatch tasks too much cause dispatch task failed (#7094)\n\n* Avoid dispatch tasks too much cause dispatch task failed\r\n\r\n* set schedule task async"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/apache/rocketmq/issues/7104",
+        "createdAt": "2023-08-01T09:53:38Z",
+        "content": "bug_report_all/apache_rocketmq-7105.json"
+      },
+      "changed_tests": [
+        "proxy/src/test/java/org/apache/rocketmq/proxy/service/receipt/DefaultReceiptHandleManagerTest.java"
+      ],
+      "PR_url": "https://github.com/apache/rocketmq/pull/7105",
+      "merge_commit_url": "https://github.com/apache/rocketmq/commit/ab61183030f4f230619ea539cbd2cb977234208b",
+      "buggy_commit": "a1bf49d5d07cf64374bc3dde5ab43add831433ad"
+    },
+    "apache_rocketmq-7120": {
+      "bug_id": "apache_rocketmq-7120",
+      "PR_number": 7120,
+      "PR_createdAt": "2023-08-05T06:33:59Z",
+      "merge_commit": "f5656543519bcd6c5fe59875535311a44b10ad2b",
+      "buggy_commits": [
+        {
+          "oid": "2113fa371b9c2bf7c512f8ad234e51c616f1362c",
+          "message": "[ISSUE #7453] Fix the problem in constructing the GetMessageResult (#7456)\n\n* Fix the problem in constructing the GetMessageResult\r\n\r\n* Optimize the initialization size of GetMessageResult"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/apache/rocketmq/issues/7064",
+        "createdAt": "2023-07-23T03:32:37Z",
+        "content": "bug_report_all/apache_rocketmq-7120.json"
+      },
+      "changed_tests": [
+        "store/src/test/java/org/apache/rocketmq/store/DefaultMessageStoreTest.java",
+        "store/src/test/java/org/apache/rocketmq/store/MultiDispatchTest.java",
+        "store/src/test/java/org/apache/rocketmq/store/RocksDBMessageStoreTest.java",
+        "store/src/test/java/org/apache/rocketmq/store/StoreTestUtil.java",
+        "store/src/test/java/org/apache/rocketmq/store/ha/HAServerTest.java",
+        "store/src/test/java/org/apache/rocketmq/store/ha/autoswitch/AutoSwitchHATest.java"
+      ],
+      "PR_url": "https://github.com/apache/rocketmq/pull/7120",
+      "merge_commit_url": "https://github.com/apache/rocketmq/commit/f5656543519bcd6c5fe59875535311a44b10ad2b",
+      "buggy_commit": "2113fa371b9c2bf7c512f8ad234e51c616f1362c"
+    },
+    "apache_rocketmq-7130": {
+      "bug_id": "apache_rocketmq-7130",
+      "PR_number": 7130,
+      "PR_createdAt": "2023-08-08T02:40:55Z",
+      "merge_commit": "c0ba453f38183266cf9a69be754e620311e1923b",
+      "buggy_commits": [
+        {
+          "oid": "99b39a35f29e491862296d56b7938a995d153974",
+          "message": "[ISSUE #7115] Fix grpc response message NPE (#7116)"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/apache/rocketmq/issues/7129",
+        "createdAt": "2023-08-08T02:38:20Z",
+        "content": "bug_report_all/apache_rocketmq-7130.json"
+      },
+      "changed_tests": [
+        "acl/src/test/java/org/apache/rocketmq/acl/plain/PlainAccessControlFlowTest.java",
+        "acl/src/test/java/org/apache/rocketmq/acl/plain/PlainAccessValidatorTest.java",
+        "acl/src/test/java/org/apache/rocketmq/acl/plain/PlainPermissionManagerTest.java"
+      ],
+      "PR_url": "https://github.com/apache/rocketmq/pull/7130",
+      "merge_commit_url": "https://github.com/apache/rocketmq/commit/c0ba453f38183266cf9a69be754e620311e1923b",
+      "buggy_commit": "99b39a35f29e491862296d56b7938a995d153974"
+    },
+    "apache_rocketmq-7167": {
+      "bug_id": "apache_rocketmq-7167",
+      "PR_number": 7167,
+      "PR_createdAt": "2023-08-11T07:58:49Z",
+      "merge_commit": "dfb4a2c4dd69c354737e16da63098a5e7209b7dd",
+      "buggy_commits": [
+        {
+          "oid": "6fce427e109d905530b17e64aa5dc9bc19795c5d",
+          "message": "[ISSUE ##7719] Add more property check for dealy message when auto-batch chack (#7720)"
+        },
+        {
+          "oid": "82426f48f5b139788b5d823a964aa6e01f39ae6c",
+          "message": "Merge branch 'develop' into issue_7143_topic_config"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/apache/rocketmq/issues/7143",
+        "createdAt": "2023-08-09T04:47:41Z",
+        "content": "bug_report_all/apache_rocketmq-7167.json"
+      },
+      "changed_tests": [
+        "tools/src/test/java/org/apache/rocketmq/tools/command/broker/BrokerConsumeStatsSubCommandTest.java",
+        "tools/src/test/java/org/apache/rocketmq/tools/command/topic/GetTopicConfigSubCommandTest.java"
+      ],
+      "PR_url": "https://github.com/apache/rocketmq/pull/7167",
+      "merge_commit_url": "https://github.com/apache/rocketmq/commit/dfb4a2c4dd69c354737e16da63098a5e7209b7dd",
+      "buggy_commit": "6fce427e109d905530b17e64aa5dc9bc19795c5d"
+    },
+    "apache_rocketmq-7179": {
+      "bug_id": "apache_rocketmq-7179",
+      "PR_number": 7179,
+      "PR_createdAt": "2023-08-14T01:16:04Z",
+      "merge_commit": "05e7cde610255ed9410fffb0f153efe7c2c8a326",
+      "buggy_commits": [
+        {
+          "oid": "2b93e1e32fd458d9df2091e89ea259ddd4d54061",
+          "message": "Update mqbroker to use runbroker.sh instead of runserver.sh when use --enable-proxy (#7150)\n\nUpdate mqbroker to use runbroker.sh instead of runserver.sh when enabling `--enable-proxy`\r\nthis allow JVM `heap` and `gc` configuration using broker's settings instead of other common serverices'(proxy,namenode, etc).\r\nour main purpose, like the filename `mqbroker` suggest, is to start broker (which embeds a proxy), so use broker's config is reasonable\r\n\r\nchinese version\r\nmqbroker\u7684--enable-proxy\u9009\u9879\u662f\u542f\u52a8\u5185\u5d4c\u4e86proxy\u7684broker\uff0c\u800c\u4e0d\u662f\u5185\u5d4cbroker\u7684proxy\uff0c\u800c\u4e14broker\u7684\u5de5\u4f5c\u91cf\u548c\u91cd\u8981\u7a0b\u5ea6\u5927\u4e8eproxy\uff0c\u6240\u4ee5\u4f7f\u7528broker\u7684gc\u548cheap\u914d\u7f6e\u66f4\u5408\u9002"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/apache/rocketmq/issues/7042",
+        "createdAt": "2023-07-19T05:52:39Z",
+        "content": "bug_report_all/apache_rocketmq-7179.json"
+      },
+      "changed_tests": [
+        "remoting/src/test/java/org/apache/rocketmq/remoting/TlsTest.java"
+      ],
+      "PR_url": "https://github.com/apache/rocketmq/pull/7179",
+      "merge_commit_url": "https://github.com/apache/rocketmq/commit/05e7cde610255ed9410fffb0f153efe7c2c8a326",
+      "buggy_commit": "2b93e1e32fd458d9df2091e89ea259ddd4d54061"
+    },
+    "apache_rocketmq-7180": {
+      "bug_id": "apache_rocketmq-7180",
+      "PR_number": 7180,
+      "PR_createdAt": "2023-08-14T05:02:20Z",
+      "merge_commit": "744167bd01fab6821b4d5ae1794dc845153d5156",
+      "buggy_commits": [
+        {
+          "oid": "fec141481496c53a0db398367006c34264662d18",
+          "message": "[ISSUE #7166] Optimize the display format of admin (#7210)"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/apache/rocketmq/issues/7142",
+        "createdAt": "2023-08-09T04:34:48Z",
+        "content": "bug_report_all/apache_rocketmq-7180.json"
+      },
+      "changed_tests": [
+        "tools/src/test/java/org/apache/rocketmq/tools/command/metadata/KvConfigToJsonCommandTest.java"
+      ],
+      "PR_url": "https://github.com/apache/rocketmq/pull/7180",
+      "merge_commit_url": "https://github.com/apache/rocketmq/commit/744167bd01fab6821b4d5ae1794dc845153d5156",
+      "buggy_commit": "fec141481496c53a0db398367006c34264662d18"
+    },
+    "apache_rocketmq-7206": {
+      "bug_id": "apache_rocketmq-7206",
+      "PR_number": 7206,
+      "PR_createdAt": "2023-08-17T08:01:00Z",
+      "merge_commit": "72d796f2b20b3ec6aebca8c004d9275d7c749a95",
+      "buggy_commits": [
+        {
+          "oid": "05e7cde610255ed9410fffb0f153efe7c2c8a326",
+          "message": "[ISSUE #7042] maven-compile job failed, Because TlsTest's serverRejectsSSLClient test case will throw TooLongFrameException (#7179)"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/apache/rocketmq/issues/7205",
+        "createdAt": "2023-08-17T07:55:43Z",
+        "content": "bug_report_all/apache_rocketmq-7206.json"
+      },
+      "changed_tests": [
+        "test/src/main/java/org/apache/rocketmq/test/client/rmq/RMQPopClient.java",
+        "test/src/test/java/org/apache/rocketmq/test/client/consumer/pop/BasePopNormally.java",
+        "test/src/test/java/org/apache/rocketmq/test/client/consumer/pop/BatchAckIT.java"
+      ],
+      "PR_url": "https://github.com/apache/rocketmq/pull/7206",
+      "merge_commit_url": "https://github.com/apache/rocketmq/commit/72d796f2b20b3ec6aebca8c004d9275d7c749a95",
+      "buggy_commit": "05e7cde610255ed9410fffb0f153efe7c2c8a326"
+    },
+    "apache_rocketmq-7209": {
+      "bug_id": "apache_rocketmq-7209",
+      "PR_number": 7209,
+      "PR_createdAt": "2023-08-17T14:15:42Z",
+      "merge_commit": "f82718ae3b77a16b553c03f672dc971a2d5d48fa",
+      "buggy_commits": [
+        {
+          "oid": "d000ef947d7c99918ceba0fa451c1e29fd84ba07",
+          "message": "[ISSUE #7283] Incorrect dledger commitlog min offset after mappedFile re delete failed (#7284)"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/apache/rocketmq/issues/7208",
+        "createdAt": "2023-08-17T14:13:18Z",
+        "content": "bug_report_all/apache_rocketmq-7209.json"
+      },
+      "changed_tests": [
+        "broker/src/test/java/org/apache/rocketmq/broker/processor/AdminBrokerProcessorTest.java"
+      ],
+      "PR_url": "https://github.com/apache/rocketmq/pull/7209",
+      "merge_commit_url": "https://github.com/apache/rocketmq/commit/f82718ae3b77a16b553c03f672dc971a2d5d48fa",
+      "buggy_commit": "d000ef947d7c99918ceba0fa451c1e29fd84ba07"
+    },
+    "apache_rocketmq-7217": {
+      "bug_id": "apache_rocketmq-7217",
+      "PR_number": 7217,
+      "PR_createdAt": "2023-08-21T07:58:41Z",
+      "merge_commit": "43b31dc868b8e06ea124b51d1bf0da4ada4b3ee8",
+      "buggy_commits": [
+        {
+          "oid": "6fce427e109d905530b17e64aa5dc9bc19795c5d",
+          "message": "[ISSUE ##7719] Add more property check for dealy message when auto-batch chack (#7720)"
+        },
+        {
+          "oid": "e113666c1361bea10933adb9390775f154f3cc08",
+          "message": "[ISSUE #7218] Daemon mode to start broker or other components in RocketMQ.\n\nrollback rmq.logback-test.xml and using add ListAppender in single test method."
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/apache/rocketmq/issues/7171",
+        "createdAt": "2023-08-11T15:48:16Z",
+        "content": "bug_report_all/apache_rocketmq-7217.json"
+      },
+      "changed_tests": [
+        "broker/src/test/java/org/apache/rocketmq/broker/BrokerStartupTest.java",
+        "common/src/test/java/org/apache/rocketmq/common/MixAllTest.java"
+      ],
+      "PR_url": "https://github.com/apache/rocketmq/pull/7217",
+      "merge_commit_url": "https://github.com/apache/rocketmq/commit/43b31dc868b8e06ea124b51d1bf0da4ada4b3ee8",
+      "buggy_commit": "6fce427e109d905530b17e64aa5dc9bc19795c5d"
+    },
+    "apache_rocketmq-7224": {
+      "bug_id": "apache_rocketmq-7224",
+      "PR_number": 7224,
+      "PR_createdAt": "2023-08-22T08:20:36Z",
+      "merge_commit": "9bb73b9a38548b99ac5126c40380c3c2e7fc586e",
+      "buggy_commits": [
+        {
+          "oid": "bdede35db365a49b211cdc249c68b0f60a3df46d",
+          "message": "[ISSUE #7124] Fix the typos in the code comments (#7125)"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/apache/rocketmq/issues/7222",
+        "createdAt": "2023-08-22T08:13:09Z",
+        "content": "bug_report_all/apache_rocketmq-7224.json"
+      },
+      "changed_tests": [
+        "tieredstore/src/test/java/org/apache/rocketmq/tieredstore/file/TieredIndexFileTest.java"
+      ],
+      "PR_url": "https://github.com/apache/rocketmq/pull/7224",
+      "merge_commit_url": "https://github.com/apache/rocketmq/commit/9bb73b9a38548b99ac5126c40380c3c2e7fc586e",
+      "buggy_commit": "bdede35db365a49b211cdc249c68b0f60a3df46d"
+    },
+    "apache_rocketmq-7225": {
+      "bug_id": "apache_rocketmq-7225",
+      "PR_number": 7225,
+      "PR_createdAt": "2023-08-22T08:23:07Z",
+      "merge_commit": "77e8e54b37c3fc3ea0beffc1ace6f5bf20af10d9",
+      "buggy_commits": [
+        {
+          "oid": "017ad110475e8024585327b44f47e5e97aabc63b",
+          "message": "[ISSUE #7219] Fix Concurrent modify syncStateSet and Mark synchronizing frequently when shrink. (#7220)"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/apache/rocketmq/issues/7223",
+        "createdAt": "2023-08-22T08:16:19Z",
+        "content": "bug_report_all/apache_rocketmq-7225.json"
+      },
+      "changed_tests": [
+        "proxy/src/test/java/org/apache/rocketmq/proxy/grpc/v2/consumer/AckMessageActivityTest.java",
+        "proxy/src/test/java/org/apache/rocketmq/proxy/processor/BaseProcessorTest.java",
+        "proxy/src/test/java/org/apache/rocketmq/proxy/processor/ConsumerProcessorTest.java",
+        "proxy/src/test/java/org/apache/rocketmq/proxy/service/mqclient/MQClientAPIExtTest.java"
+      ],
+      "PR_url": "https://github.com/apache/rocketmq/pull/7225",
+      "merge_commit_url": "https://github.com/apache/rocketmq/commit/77e8e54b37c3fc3ea0beffc1ace6f5bf20af10d9",
+      "buggy_commit": "017ad110475e8024585327b44f47e5e97aabc63b"
+    },
+    "apache_rocketmq-7276": {
+      "bug_id": "apache_rocketmq-7276",
+      "PR_number": 7276,
+      "PR_createdAt": "2023-08-28T05:03:32Z",
+      "merge_commit": "3e100103af68588528bf32f3752a85e8023f46f8",
+      "buggy_commits": [
+        {
+          "oid": "b4f73e2aabc1b141cec98431899e4090340adf0f",
+          "message": "[ISSUE #7271] Optimize the configuration for setting the quantity of TimerDequeuePutMessageService (#7272)"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/apache/rocketmq/issues/7277",
+        "createdAt": "2023-08-28T09:21:25Z",
+        "content": "bug_report_all/apache_rocketmq-7276.json"
+      },
+      "changed_tests": [
+        "tools/src/test/java/org/apache/rocketmq/tools/command/metadata/ExportMetadataInRocksDBCommandTest.java"
+      ],
+      "PR_url": "https://github.com/apache/rocketmq/pull/7276",
+      "merge_commit_url": "https://github.com/apache/rocketmq/commit/3e100103af68588528bf32f3752a85e8023f46f8",
+      "buggy_commit": "b4f73e2aabc1b141cec98431899e4090340adf0f"
+    },
+    "apache_rocketmq-7287": {
+      "bug_id": "apache_rocketmq-7287",
+      "PR_number": 7287,
+      "PR_createdAt": "2023-08-31T08:28:46Z",
+      "merge_commit": "86057eefdffec817eacd93ad1e971a4ca5139a78",
+      "buggy_commits": [
+        {
+          "oid": "6fce427e109d905530b17e64aa5dc9bc19795c5d",
+          "message": "[ISSUE ##7719] Add more property check for dealy message when auto-batch chack (#7720)"
+        },
+        {
+          "oid": "f14716ab34f0708306a0f89a731efb7c34aed396",
+          "message": "Broker don't check name server host is correct or not"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/apache/rocketmq/issues/7285",
+        "createdAt": "2023-08-31T06:00:06Z",
+        "content": "bug_report_all/apache_rocketmq-7287.json"
+      },
+      "changed_tests": [
+        "broker/src/test/java/org/apache/rocketmq/broker/util/NetworkUtilTest.java"
+      ],
+      "PR_url": "https://github.com/apache/rocketmq/pull/7287",
+      "merge_commit_url": "https://github.com/apache/rocketmq/commit/86057eefdffec817eacd93ad1e971a4ca5139a78",
+      "buggy_commit": "6fce427e109d905530b17e64aa5dc9bc19795c5d"
+    },
+    "apache_rocketmq-7322": {
+      "bug_id": "apache_rocketmq-7322",
+      "PR_number": 7322,
+      "PR_createdAt": "2023-09-07T07:09:35Z",
+      "merge_commit": "84156084a4c5228e1d2fe21e068fff330bbc40d1",
+      "buggy_commits": [
+        {
+          "oid": "c36bb78e850129b9db40adc5b0e1b9bfd5c8fd2e",
+          "message": "[ISSUE 7313]  Enhancement Optimization Method name (#7420)\n\n* Enhancment/method_name/#7313/\r\n\r\n* Enhancment/method_name/#7313/\r\n\r\n* Enhancment/method_name/#7313/"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/apache/rocketmq/issues/7321",
+        "createdAt": "2023-09-07T06:57:33Z",
+        "content": "bug_report_all/apache_rocketmq-7322.json"
+      },
+      "changed_tests": [
+        "remoting/src/test/java/org/apache/rocketmq/remoting/RemotingServerTest.java",
+        "remoting/src/test/java/org/apache/rocketmq/remoting/netty/MockChannel.java",
+        "remoting/src/test/java/org/apache/rocketmq/remoting/netty/MockChannelPromise.java",
+        "remoting/src/test/java/org/apache/rocketmq/remoting/netty/NettyRemotingAbstractTest.java",
+        "remoting/src/test/java/org/apache/rocketmq/remoting/netty/NettyRemotingClientTest.java"
+      ],
+      "PR_url": "https://github.com/apache/rocketmq/pull/7322",
+      "merge_commit_url": "https://github.com/apache/rocketmq/commit/84156084a4c5228e1d2fe21e068fff330bbc40d1",
+      "buggy_commit": "c36bb78e850129b9db40adc5b0e1b9bfd5c8fd2e"
+    },
+    "apache_rocketmq-7325": {
+      "bug_id": "apache_rocketmq-7325",
+      "PR_number": 7325,
+      "PR_createdAt": "2023-09-07T08:03:16Z",
+      "merge_commit": "0dbd0772b99f618f757d42cd64542b83e2100e4f",
+      "buggy_commits": [
+        {
+          "oid": "dad6b4dadfec7a58e78a6715ec16c2eb6b17ff27",
+          "message": "[ISSUE #7334] `registerIncrementBrokerData` for single topic update (#7335)\n\nSigned-off-by: Ziy1-Tan <ajb459684460@gmail.com>"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/apache/rocketmq/issues/7326",
+        "createdAt": "2023-09-07T08:09:10Z",
+        "content": "bug_report_all/apache_rocketmq-7325.json"
+      },
+      "changed_tests": [
+        "test/src/test/java/org/apache/rocketmq/test/route/CreateAndUpdateTopicIT.java"
+      ],
+      "PR_url": "https://github.com/apache/rocketmq/pull/7325",
+      "merge_commit_url": "https://github.com/apache/rocketmq/commit/0dbd0772b99f618f757d42cd64542b83e2100e4f",
+      "buggy_commit": "dad6b4dadfec7a58e78a6715ec16c2eb6b17ff27"
+    },
+    "apache_rocketmq-7329": {
+      "bug_id": "apache_rocketmq-7329",
+      "PR_number": 7329,
+      "PR_createdAt": "2023-09-08T07:33:07Z",
+      "merge_commit": "c100d815d754d7cb330bc63e145bafd2d9b59cb1",
+      "buggy_commits": [
+        {
+          "oid": "6fd0073d6475c539e8f4c30dc4f104a56a21d724",
+          "message": "[ISSUE #7319] Optimize fault-tolerant mechanism for sending messages and hot update switch (#7320)"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/apache/rocketmq/issues/7328",
+        "createdAt": "2023-09-08T07:32:37Z",
+        "content": "bug_report_all/apache_rocketmq-7329.json"
+      },
+      "changed_tests": [
+        "test/src/main/java/org/apache/rocketmq/test/util/StatUtil.java"
+      ],
+      "PR_url": "https://github.com/apache/rocketmq/pull/7329",
+      "merge_commit_url": "https://github.com/apache/rocketmq/commit/c100d815d754d7cb330bc63e145bafd2d9b59cb1",
+      "buggy_commit": "6fd0073d6475c539e8f4c30dc4f104a56a21d724"
+    },
+    "apache_rocketmq-7346": {
+      "bug_id": "apache_rocketmq-7346",
+      "PR_number": 7346,
+      "PR_createdAt": "2023-09-11T15:05:07Z",
+      "merge_commit": "1a8e7cb17cb29ed33b0196b52e452a6e76ade781",
+      "buggy_commits": [
+        {
+          "oid": "dddd58d2cc8622eb70f55b447ffb772700c0e916",
+          "message": "Set experimental_ui_max_stdouterr_bytes to 10MB in bazel (#7348)\n\n* Set experimental_ui_max_stdouterr_bytes to 10MB and Fix IT"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/apache/rocketmq/issues/7345",
+        "createdAt": "2023-09-11T15:04:25Z",
+        "content": "bug_report_all/apache_rocketmq-7346.json"
+      },
+      "changed_tests": [
+        "tieredstore/src/test/java/org/apache/rocketmq/tieredstore/file/TieredFlatFileTest.java"
+      ],
+      "PR_url": "https://github.com/apache/rocketmq/pull/7346",
+      "merge_commit_url": "https://github.com/apache/rocketmq/commit/1a8e7cb17cb29ed33b0196b52e452a6e76ade781",
+      "buggy_commit": "dddd58d2cc8622eb70f55b447ffb772700c0e916"
+    },
+    "apache_rocketmq-7352": {
+      "bug_id": "apache_rocketmq-7352",
+      "PR_number": 7352,
+      "PR_createdAt": "2023-09-13T06:57:44Z",
+      "merge_commit": "4a8e0d5b851d1f9573cda79b7d2e42ee498809da",
+      "buggy_commits": [
+        {
+          "oid": "fd32dae2ab59f86dd215eeec405bf4fa6212bcb3",
+          "message": "[ISSUE #6633] Not clear uninitialized files and fix metadata recover (#7342)"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/apache/rocketmq/issues/7351",
+        "createdAt": "2023-09-13T06:57:18Z",
+        "content": "bug_report_all/apache_rocketmq-7352.json"
+      },
+      "changed_tests": [
+        "broker/src/test/java/org/apache/rocketmq/broker/processor/AdminBrokerProcessorTest.java"
+      ],
+      "PR_url": "https://github.com/apache/rocketmq/pull/7352",
+      "merge_commit_url": "https://github.com/apache/rocketmq/commit/4a8e0d5b851d1f9573cda79b7d2e42ee498809da",
+      "buggy_commit": "fd32dae2ab59f86dd215eeec405bf4fa6212bcb3"
+    },
+    "apache_rocketmq-7382": {
+      "bug_id": "apache_rocketmq-7382",
+      "PR_number": 7382,
+      "PR_createdAt": "2023-09-22T02:54:55Z",
+      "merge_commit": "88a9d939ce110381b3b418370d4711c0c214dc7f",
+      "buggy_commits": [
+        {
+          "oid": "73b3fde83765e066541e3455cd1e6604292a9b7c",
+          "message": "[maven-release-plugin] prepare for next development iteration (#7379)"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/apache/rocketmq/issues/7381",
+        "createdAt": "2023-09-22T02:42:55Z",
+        "content": "bug_report_all/apache_rocketmq-7382.json"
+      },
+      "changed_tests": [
+        "store/src/test/java/org/apache/rocketmq/store/timer/TimerMetricsTest.java"
+      ],
+      "PR_url": "https://github.com/apache/rocketmq/pull/7382",
+      "merge_commit_url": "https://github.com/apache/rocketmq/commit/88a9d939ce110381b3b418370d4711c0c214dc7f",
+      "buggy_commit": "73b3fde83765e066541e3455cd1e6604292a9b7c"
+    },
+    "apache_rocketmq-7419": {
+      "bug_id": "apache_rocketmq-7419",
+      "PR_number": 7419,
+      "PR_createdAt": "2023-10-01T09:18:33Z",
+      "merge_commit": "27759f3556c279f63c13bc94fe3ad6ca55558114",
+      "buggy_commits": [
+        {
+          "oid": "70dc93abbcb9bf161378d66fcaca55bedc78b905",
+          "message": "Fix tiered store README.md error about Configuration (#7436)\n\n* Fix tiered store README.md error about Configuration\r\n\r\n* Fix change tieredStoreFilePath to tieredStoreFilepath\r\n\r\n* revert README.md change\r\n\r\n---------\r\n\r\nCo-authored-by: yangguodong.cn <yangguodong.cn@bytedance.com>"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/apache/rocketmq/issues/7418",
+        "createdAt": "2023-10-01T09:16:14Z",
+        "content": "bug_report_all/apache_rocketmq-7419.json"
+      },
+      "changed_tests": [
+        "common/src/test/java/org/apache/rocketmq/common/UtilAllTest.java"
+      ],
+      "PR_url": "https://github.com/apache/rocketmq/pull/7419",
+      "merge_commit_url": "https://github.com/apache/rocketmq/commit/27759f3556c279f63c13bc94fe3ad6ca55558114",
+      "buggy_commit": "70dc93abbcb9bf161378d66fcaca55bedc78b905"
+    },
+    "apache_rocketmq-7426": {
+      "bug_id": "apache_rocketmq-7426",
+      "PR_number": 7426,
+      "PR_createdAt": "2023-10-09T03:28:36Z",
+      "merge_commit": "3808387e1389278edbe4ef023d200ecb3015622b",
+      "buggy_commits": [
+        {
+          "oid": "b9ffe0f9576f68b8a37cf3e2f68051658ae5a9a2",
+          "message": "[ISSUE #7296] Add ChannelEventListener for MQClientAPIImpl (#7324)\n\n* Add ChannelEventListener for MQClientAPIImpl\r\n\r\n* add heartbeat when channel connect\r\n\r\n* remove log\r\n\r\n* Add enableHeartbeatChannelEventListener for ClientConfig"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/apache/rocketmq/issues/7429",
+        "createdAt": "2023-10-09T07:53:32Z",
+        "content": "bug_report_all/apache_rocketmq-7426.json"
+      },
+      "changed_tests": [
+        "proxy/src/test/java/org/apache/rocketmq/proxy/service/sysmessage/HeartbeatSyncerTest.java"
+      ],
+      "PR_url": "https://github.com/apache/rocketmq/pull/7426",
+      "merge_commit_url": "https://github.com/apache/rocketmq/commit/3808387e1389278edbe4ef023d200ecb3015622b",
+      "buggy_commit": "b9ffe0f9576f68b8a37cf3e2f68051658ae5a9a2"
+    },
+    "apache_rocketmq-7432": {
+      "bug_id": "apache_rocketmq-7432",
+      "PR_number": 7432,
+      "PR_createdAt": "2023-10-09T12:40:44Z",
+      "merge_commit": "b18e564addbcff50165a5e1d9d4ab7db789d901b",
+      "buggy_commits": [
+        {
+          "oid": "0027a1486d4f2d6f7dce3010751167e883783945",
+          "message": "[ISSUE #7412] Fix pop revive message error when reput checkpoint"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/apache/rocketmq/issues/7431",
+        "createdAt": "2023-10-09T12:38:59Z",
+        "content": "bug_report_all/apache_rocketmq-7432.json"
+      },
+      "changed_tests": [
+        "controller/src/test/java/org/apache/rocketmq/controller/impl/DLedgerControllerTest.java"
+      ],
+      "PR_url": "https://github.com/apache/rocketmq/pull/7432",
+      "merge_commit_url": "https://github.com/apache/rocketmq/commit/b18e564addbcff50165a5e1d9d4ab7db789d901b",
+      "buggy_commit": "0027a1486d4f2d6f7dce3010751167e883783945"
+    },
+    "apache_rocketmq-7445": {
+      "bug_id": "apache_rocketmq-7445",
+      "PR_number": 7445,
+      "PR_createdAt": "2023-10-11T02:52:43Z",
+      "merge_commit": "5d492c338258d07613103e6ae16df4c6fa5b3838",
+      "buggy_commits": [
+        {
+          "oid": "7e4879a3bc120d6289aabc8354a2811f349ac8a6",
+          "message": "[ISSUE #7441] Fix log \"Init the confirmOffset\" keep printing error in controller mode (#7442)\n\n* typo int readme[ecosystem]\r\n\r\n* fix keep printing log problem"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/apache/rocketmq/issues/7444",
+        "createdAt": "2023-10-11T02:47:35Z",
+        "content": "bug_report_all/apache_rocketmq-7445.json"
+      },
+      "changed_tests": [
+        "common/src/test/java/org/apache/rocketmq/common/UtilAllTest.java"
+      ],
+      "PR_url": "https://github.com/apache/rocketmq/pull/7445",
+      "merge_commit_url": "https://github.com/apache/rocketmq/commit/5d492c338258d07613103e6ae16df4c6fa5b3838",
+      "buggy_commit": "7e4879a3bc120d6289aabc8354a2811f349ac8a6"
+    },
+    "apache_rocketmq-7468": {
+      "bug_id": "apache_rocketmq-7468",
+      "PR_number": 7468,
+      "PR_createdAt": "2023-10-16T09:34:09Z",
+      "merge_commit": "91349f30b96db2e16b71d65a535d81f11b60bda5",
+      "buggy_commits": [
+        {
+          "oid": "f90c55341ce253f6b532a83de47172ad14928e9e",
+          "message": "[ISSUE #7497] Extract the frequency of calling updateNamesrvAddr into a configuration (#7498)\n\nmerge"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/apache/rocketmq/issues/7437",
+        "createdAt": "2023-10-10T07:50:13Z",
+        "content": "bug_report_all/apache_rocketmq-7468.json"
+      },
+      "changed_tests": [
+        "common/src/test/java/org/apache/rocketmq/common/MessageExtBrokerInnerTest.java",
+        "store/src/test/java/org/apache/rocketmq/store/AppendPropCRCTest.java",
+        "store/src/test/java/org/apache/rocketmq/store/BatchPutMessageTest.java",
+        "store/src/test/java/org/apache/rocketmq/store/MessageExtBrokerInnerTest.java",
+        "store/src/test/java/org/apache/rocketmq/store/ha/autoswitch/AutoSwitchHATest.java",
+        "tieredstore/src/test/java/org/apache/rocketmq/tieredstore/file/CompositeQueueFlatFileTest.java",
+        "tieredstore/src/test/java/org/apache/rocketmq/tieredstore/util/MessageBufferUtilTest.java"
+      ],
+      "PR_url": "https://github.com/apache/rocketmq/pull/7468",
+      "merge_commit_url": "https://github.com/apache/rocketmq/commit/91349f30b96db2e16b71d65a535d81f11b60bda5",
+      "buggy_commit": "f90c55341ce253f6b532a83de47172ad14928e9e"
+    }
+  },
+  "OpenAPITools_openapi-generator": {
+    "OpenAPITools_openapi-generator-15808": {
+      "bug_id": "OpenAPITools_openapi-generator-15808",
+      "PR_number": 15808,
+      "PR_createdAt": "2023-06-11T10:22:44Z",
+      "merge_commit": "3b832c9fd4b13fd2b107ba77927224444e605bb0",
+      "buggy_commits": [
+        {
+          "oid": "9fe5cc0b010a48c8ce86d8b99ca2a96f2e1b92ad",
+          "message": "[csharp-netcore] Configure the API key in string format for HttpSigningConfiguration (#15818)\n\n* added property in HttpSIgningConfiguration to accept API key in string format.\r\n\r\n* remove trailing space, update samples\r\n\r\n* updated the sample code.\r\n\r\n* Revert \"updated the sample code.\"\r\n\r\nThis reverts commit 5b945c7a59ef03782dc5f48d97784894d6b41614.\r\n\r\n* fix the sample code compilation error for split function.\r\n\r\n* updated the sample code after the split function fix.\r\n\r\n* Removed the either or check for filePath or KeyString.\r\n\r\n---------\r\n\r\nCo-authored-by: Aanisha Mishra <aanisha.mishra05@gmail.com>\r\nCo-authored-by: Vikrant Balyan (vvb) <vvb@cisco.com>\r\nCo-authored-by: Vikrant Balyan <vvb@users.noreply.github.com>\r\nCo-authored-by: Sebastien Rosset <serosset@cisco.com>\r\nCo-authored-by: William Cheng <wing328hk@gmail.com>"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/OpenAPITools/openapi-generator/issues/15684",
+        "createdAt": "2023-05-30T06:04:04Z",
+        "content": "bug_report_all/OpenAPITools_openapi-generator-15808.json"
+      },
+      "changed_tests": [
+        "modules/openapi-generator/src/test/java/org/openapitools/codegen/java/JavaClientCodegenTest.java",
+        "modules/openapi-generator/src/test/java/org/openapitools/codegen/java/assertions/AbstractAnnotationAssert.java"
+      ],
+      "PR_url": "https://github.com/OpenAPITools/openapi-generator/pull/15808",
+      "merge_commit_url": "https://github.com/OpenAPITools/openapi-generator/commit/3b832c9fd4b13fd2b107ba77927224444e605bb0",
+      "buggy_commit": "9fe5cc0b010a48c8ce86d8b99ca2a96f2e1b92ad"
+    },
+    "OpenAPITools_openapi-generator-15862": {
+      "bug_id": "OpenAPITools_openapi-generator-15862",
+      "PR_number": 15862,
+      "PR_createdAt": "2023-06-16T08:03:47Z",
+      "merge_commit": "14fc61a293ef4c862671fd2651c4dfe6540df665",
+      "buggy_commits": [
+        {
+          "oid": "396c6753b1526d9b7dfa455a61d5da40282cbc45",
+          "message": "[Java][Haskell][Python] fix errors with empty strings, missing basePath (#15866)\n\n* various fixes\r\n\r\n* generate samples & docs"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/OpenAPITools/openapi-generator/issues/15402",
+        "createdAt": "2023-05-03T10:01:12Z",
+        "content": "bug_report_all/OpenAPITools_openapi-generator-15862.json"
+      },
+      "changed_tests": [
+        "samples/client/petstore/java/okhttp-gson/src/test/java/org/openapitools/client/JSONTest.java",
+        "samples/client/petstore/java/okhttp-gson/src/test/java/org/openapitools/client/model/ArrayDefaultTest.java"
+      ],
+      "PR_url": "https://github.com/OpenAPITools/openapi-generator/pull/15862",
+      "merge_commit_url": "https://github.com/OpenAPITools/openapi-generator/commit/14fc61a293ef4c862671fd2651c4dfe6540df665",
+      "buggy_commit": "396c6753b1526d9b7dfa455a61d5da40282cbc45"
+    },
+    "OpenAPITools_openapi-generator-15898": {
+      "bug_id": "OpenAPITools_openapi-generator-15898",
+      "PR_number": 15898,
+      "PR_createdAt": "2023-06-22T15:41:42Z",
+      "merge_commit": "b2280e23f7d537d6d0f1f09b23124249aed2f661",
+      "buggy_commits": [
+        {
+          "oid": "b1b8acee485b9cacb02a7c1e92b61df928c08032",
+          "message": "Update openapi-generator-online Dockerfile to use openjdk11 image (#15947)\n\n* test docker\r\n\r\n* update\r\n\r\n* mvn\r\n\r\n* skip run"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/OpenAPITools/openapi-generator/issues/13488",
+        "createdAt": "2022-09-21T14:38:41Z",
+        "content": "bug_report_all/OpenAPITools_openapi-generator-15898.json"
+      },
+      "changed_tests": [
+        "modules/openapi-generator/src/test/java/org/openapitools/codegen/kotlin/spring/KotlinSpringServerCodegenTest.java"
+      ],
+      "PR_url": "https://github.com/OpenAPITools/openapi-generator/pull/15898",
+      "merge_commit_url": "https://github.com/OpenAPITools/openapi-generator/commit/b2280e23f7d537d6d0f1f09b23124249aed2f661",
+      "buggy_commit": "b1b8acee485b9cacb02a7c1e92b61df928c08032"
+    },
+    "OpenAPITools_openapi-generator-15907": {
+      "bug_id": "OpenAPITools_openapi-generator-15907",
+      "PR_number": 15907,
+      "PR_createdAt": "2023-06-23T07:58:38Z",
+      "merge_commit": "3224e86377836d26e579168b9aadb79f4b43af8f",
+      "buggy_commits": [
+        {
+          "oid": "22e1e4e45014568410c54f2398051988061deafb",
+          "message": "[PHP-Symfony] fix name mismatch in generated README (#15961) (#15963)\n\nThis fixes the generated README so it  suggests to implement the `class DefaultApi`\r\nin a file named DefaultApi.php (instead of DefaultApiInterface.php)"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/OpenAPITools/openapi-generator/issues/15904",
+        "createdAt": "2023-06-23T06:30:58Z",
+        "content": "bug_report_all/OpenAPITools_openapi-generator-15907.json"
+      },
+      "changed_tests": [
+        "modules/openapi-generator/src/test/java/org/openapitools/codegen/postman/PostmanCollectionCodegenTest.java"
+      ],
+      "PR_url": "https://github.com/OpenAPITools/openapi-generator/pull/15907",
+      "merge_commit_url": "https://github.com/OpenAPITools/openapi-generator/commit/3224e86377836d26e579168b9aadb79f4b43af8f",
+      "buggy_commit": "22e1e4e45014568410c54f2398051988061deafb"
+    }
+  },
+  "FasterXML_jackson-databind": {
+    "FasterXML_jackson-databind-3962": {
+      "bug_id": "FasterXML_jackson-databind-3962",
+      "PR_number": 3962,
+      "PR_createdAt": "2023-06-01T03:21:42Z",
+      "merge_commit": "404d64b0ccc5581da711302b0f774c605431d1ff",
+      "buggy_commits": [
+        {
+          "oid": "17eb07afd308d8923779addc0b654db53b869587",
+          "message": "Tiny improvement to #3690 test (wrt #3924)"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/FasterXML/jackson-databind/issues/3924",
+        "createdAt": "2023-05-12T09:25:35Z",
+        "content": "bug_report_all/FasterXML_jackson-databind-3962.json"
+      },
+      "changed_tests": [
+        "src/test/java/com/fasterxml/jackson/databind/convert/DisableCoercions3690Test.java"
+      ],
+      "PR_url": "https://github.com/FasterXML/jackson-databind/pull/3962",
+      "merge_commit_url": "https://github.com/FasterXML/jackson-databind/commit/404d64b0ccc5581da711302b0f774c605431d1ff",
+      "buggy_commit": "17eb07afd308d8923779addc0b654db53b869587"
+    },
+    "FasterXML_jackson-databind-3998": {
+      "bug_id": "FasterXML_jackson-databind-3998",
+      "PR_number": 3998,
+      "PR_createdAt": "2023-06-19T18:36:43Z",
+      "merge_commit": "0a4b3a14209b16a0d110b15018a66134cebf861b",
+      "buggy_commits": [
+        {
+          "oid": "778198c5d5679c8dceb4902b301d297ca6ff973f",
+          "message": "Implement `withSettings` (#3996)"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/FasterXML/jackson-databind/issues/3965",
+        "createdAt": "2023-06-05T01:20:18Z",
+        "content": "bug_report_all/FasterXML_jackson-databind-3998.json"
+      },
+      "changed_tests": [
+        "src/test/java/com/fasterxml/jackson/databind/node/NodeFeaturesTest.java"
+      ],
+      "PR_url": "https://github.com/FasterXML/jackson-databind/pull/3998",
+      "merge_commit_url": "https://github.com/FasterXML/jackson-databind/commit/0a4b3a14209b16a0d110b15018a66134cebf861b",
+      "buggy_commit": "778198c5d5679c8dceb4902b301d297ca6ff973f"
+    },
+    "FasterXML_jackson-databind-4050": {
+      "bug_id": "FasterXML_jackson-databind-4050",
+      "PR_number": 4050,
+      "PR_createdAt": "2023-07-20T14:59:09Z",
+      "merge_commit": "8c820ef76cafc8d4041a9e4ed0a463b7446b3db7",
+      "buggy_commits": [
+        {
+          "oid": "deaf38f8c596bdef61e245ba14625a2f3d7f3dd4",
+          "message": "Fix #3906 (#4057)"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/FasterXML/jackson-databind/issues/4047",
+        "createdAt": "2023-07-18T06:48:58Z",
+        "content": "bug_report_all/FasterXML_jackson-databind-4050.json"
+      },
+      "changed_tests": [
+        "src/test/java/com/fasterxml/jackson/databind/node/TestConversions.java"
+      ],
+      "PR_url": "https://github.com/FasterXML/jackson-databind/pull/4050",
+      "merge_commit_url": "https://github.com/FasterXML/jackson-databind/commit/8c820ef76cafc8d4041a9e4ed0a463b7446b3db7",
+      "buggy_commit": "deaf38f8c596bdef61e245ba14625a2f3d7f3dd4"
+    },
+    "FasterXML_jackson-databind-4065": {
+      "bug_id": "FasterXML_jackson-databind-4065",
+      "PR_number": 4065,
+      "PR_createdAt": "2023-08-02T15:33:06Z",
+      "merge_commit": "3579be0d0f81be74fef5d6955952023193ce52c4",
+      "buggy_commits": [
+        {
+          "oid": "73eca590a04adc6efb35c74835692725104ea536",
+          "message": "Minor Javadoc improvements"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/FasterXML/jackson-databind/issues/4061",
+        "createdAt": "2023-07-30T06:48:38Z",
+        "content": "bug_report_all/FasterXML_jackson-databind-4065.json"
+      },
+      "changed_tests": [
+        "src/test/java/com/fasterxml/jackson/databind/jsontype/JsonTypeInfoSimpleClassName4061Test.java"
+      ],
+      "PR_url": "https://github.com/FasterXML/jackson-databind/pull/4065",
+      "merge_commit_url": "https://github.com/FasterXML/jackson-databind/commit/3579be0d0f81be74fef5d6955952023193ce52c4",
+      "buggy_commit": "73eca590a04adc6efb35c74835692725104ea536"
+    },
+    "FasterXML_jackson-databind-4072": {
+      "bug_id": "FasterXML_jackson-databind-4072",
+      "PR_number": 4072,
+      "PR_createdAt": "2023-08-09T13:58:27Z",
+      "merge_commit": "efad166f165504359fa1a7db7499960dd5f3c847",
+      "buggy_commits": [
+        {
+          "oid": "c6522de69fb2f4aed36fae7bde56b878c54c15d0",
+          "message": "Make NamedType collection predictable (#4086)"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/FasterXML/jackson-databind/issues/4071",
+        "createdAt": "2023-08-08T07:44:14Z",
+        "content": "bug_report_all/FasterXML_jackson-databind-4072.json"
+      },
+      "changed_tests": [
+        "src/test/java/com/fasterxml/jackson/databind/exc/CustomExceptionDeser4071Test.java"
+      ],
+      "PR_url": "https://github.com/FasterXML/jackson-databind/pull/4072",
+      "merge_commit_url": "https://github.com/FasterXML/jackson-databind/commit/efad166f165504359fa1a7db7499960dd5f3c847",
+      "buggy_commit": "c6522de69fb2f4aed36fae7bde56b878c54c15d0"
+    },
+    "FasterXML_jackson-databind-4159": {
+      "bug_id": "FasterXML_jackson-databind-4159",
+      "PR_number": 4159,
+      "PR_createdAt": "2023-10-15T12:17:33Z",
+      "merge_commit": "9065be2244867fed8f1e9675c5664b3a0d37a277",
+      "buggy_commits": [
+        {
+          "oid": "597d1bbdd79130faebbe1d75f97a4e074ea82105",
+          "message": "enable java 21 testing in CI (#4130)"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/FasterXML/jackson-databind/issues/3569",
+        "createdAt": "2022-08-09T11:52:19Z",
+        "content": "bug_report_all/FasterXML_jackson-databind-4159.json"
+      },
+      "changed_tests": [
+        "src/test/java/com/fasterxml/jackson/databind/jsontype/deftyping/TestDefaultForEnums.java"
+      ],
+      "PR_url": "https://github.com/FasterXML/jackson-databind/pull/4159",
+      "merge_commit_url": "https://github.com/FasterXML/jackson-databind/commit/9065be2244867fed8f1e9675c5664b3a0d37a277",
+      "buggy_commit": "597d1bbdd79130faebbe1d75f97a4e074ea82105"
+    },
+    "FasterXML_jackson-databind-4195": {
+      "bug_id": "FasterXML_jackson-databind-4195",
+      "PR_number": 4195,
+      "PR_createdAt": "2023-11-09T00:23:14Z",
+      "merge_commit": "722edd45f20dd9f1bf845c8eed9bfd023783f40a",
+      "buggy_commits": [
+        {
+          "oid": "5612abaaaae85f2ca83e2dd49faa7b588dcefed1",
+          "message": "Merge branch '2.16' into 2.17"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/FasterXML/jackson-databind/issues/4194",
+        "createdAt": "2023-11-08T02:03:45Z",
+        "content": "bug_report_all/FasterXML_jackson-databind-4195.json"
+      },
+      "changed_tests": [
+        "src/test/java/com/fasterxml/jackson/databind/node/NumberNodes1770Test.java"
+      ],
+      "PR_url": "https://github.com/FasterXML/jackson-databind/pull/4195",
+      "merge_commit_url": "https://github.com/FasterXML/jackson-databind/commit/722edd45f20dd9f1bf845c8eed9bfd023783f40a",
+      "buggy_commit": "5612abaaaae85f2ca83e2dd49faa7b588dcefed1"
+    },
+    "FasterXML_jackson-databind-4249": {
+      "bug_id": "FasterXML_jackson-databind-4249",
+      "PR_number": 4249,
+      "PR_createdAt": "2023-12-08T02:53:43Z",
+      "merge_commit": "6edd415a0f1ac17bd0fbd82dec5fb00a53ab7905",
+      "buggy_commits": [
+        {
+          "oid": "26f232ad4b13dba7f1e57e447a8e75b1c6ec7c6a",
+          "message": "Improve `JsonNodeDeserializer` handling of NaN wrt `USE_BIG_DECIMAL_FOR_FLOATS` (#4245)"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/FasterXML/jackson-databind/issues/4248",
+        "createdAt": "2023-12-08T02:47:38Z",
+        "content": "bug_report_all/FasterXML_jackson-databind-4249.json"
+      },
+      "changed_tests": [
+        "src/test/java/com/fasterxml/jackson/databind/exc/ExceptionDeserializationTest.java"
+      ],
+      "PR_url": "https://github.com/FasterXML/jackson-databind/pull/4249",
+      "merge_commit_url": "https://github.com/FasterXML/jackson-databind/commit/6edd415a0f1ac17bd0fbd82dec5fb00a53ab7905",
+      "buggy_commit": "26f232ad4b13dba7f1e57e447a8e75b1c6ec7c6a"
+    },
+    "FasterXML_jackson-databind-4273": {
+      "bug_id": "FasterXML_jackson-databind-4273",
+      "PR_number": 4273,
+      "PR_createdAt": "2023-12-20T14:59:24Z",
+      "merge_commit": "ef478ed1645111c3cf69ce47da9970f55f37273b",
+      "buggy_commits": [
+        {
+          "oid": "4afceacea960d5339b796feae5cfbc2ed39e2033",
+          "message": "Add `TokenBuffer` support for `JsonParser.getNumberTypeFP()`"
+        },
+        {
+          "oid": "35f0c609f32fccff25c3815e6871e5a4080af94b",
+          "message": "Minor refactoring"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/FasterXML/jackson-databind/issues/1114",
+        "createdAt": "2016-02-02T04:37:02Z",
+        "content": "bug_report_all/FasterXML_jackson-databind-4273.json"
+      },
+      "changed_tests": [
+        "src/test/java/com/fasterxml/jackson/databind/format/NumberFormatTest.java"
+      ],
+      "PR_url": "https://github.com/FasterXML/jackson-databind/pull/4273",
+      "merge_commit_url": "https://github.com/FasterXML/jackson-databind/commit/ef478ed1645111c3cf69ce47da9970f55f37273b",
+      "buggy_commit": "4afceacea960d5339b796feae5cfbc2ed39e2033"
+    }
+  },
+  "jhy_jsoup": {
+    "jhy_jsoup-2010": {
+      "bug_id": "jhy_jsoup-2010",
+      "PR_number": 2010,
+      "PR_createdAt": "2023-10-11T22:23:30Z",
+      "merge_commit": "144835d98e8fd6c5f825d90fc39e30a575c5b48b",
+      "buggy_commits": [
+        {
+          "oid": "0cfc14c8d99885f17b5f1bd73b0571d3e29f0b41",
+          "message": "Bump com.github.siom79.japicmp:japicmp-maven-plugin from 0.17.3 to 0.18.1 (#2007)\n\nBump com.github.siom79.japicmp:japicmp-maven-plugin\r\n\r\nBumps [com.github.siom79.japicmp:japicmp-maven-plugin](https://github.com/siom79/japicmp) from 0.17.3 to 0.18.1.\r\n- [Release notes](https://github.com/siom79/japicmp/releases)\r\n- [Changelog](https://github.com/siom79/japicmp/blob/master/release.py)\r\n- [Commits](https://github.com/siom79/japicmp/compare/japicmp-base-0.17.3...japicmp-base-0.18.1)\r\n\r\n---\r\nupdated-dependencies:\r\n- dependency-name: com.github.siom79.japicmp:japicmp-maven-plugin\r\n  dependency-type: direct:production\r\n  update-type: version-update:semver-minor\r\n...\r\n\r\nSigned-off-by: dependabot[bot] <support@github.com>\r\nCo-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/jhy/jsoup/issues/2009",
+        "createdAt": "2023-10-11T22:19:35Z",
+        "content": "bug_report_all/jhy_jsoup-2010.json"
+      },
+      "changed_tests": [
+        "src/test/java/org/jsoup/nodes/FormElementTest.java"
+      ],
+      "PR_url": "https://github.com/jhy/jsoup/pull/2010",
+      "merge_commit_url": "https://github.com/jhy/jsoup/commit/144835d98e8fd6c5f825d90fc39e30a575c5b48b",
+      "buggy_commit": "0cfc14c8d99885f17b5f1bd73b0571d3e29f0b41"
+    },
+    "jhy_jsoup-2017": {
+      "bug_id": "jhy_jsoup-2017",
+      "PR_number": 2017,
+      "PR_createdAt": "2023-10-24T04:37:17Z",
+      "merge_commit": "61ac59b7103e6b1932cd1c65d7ddc59df3cc9978",
+      "buggy_commits": [
+        {
+          "oid": "8b6e745bb8dff9d3a1a62bb8530f77d14c351398",
+          "message": "Next release will be 1.17.1"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/jhy/jsoup/issues/1514",
+        "createdAt": "2021-04-16T11:26:14Z",
+        "content": "bug_report_all/jhy_jsoup-2017.json"
+      },
+      "changed_tests": [
+        "src/test/java/org/jsoup/select/ElementsTest.java"
+      ],
+      "PR_url": "https://github.com/jhy/jsoup/pull/2017",
+      "merge_commit_url": "https://github.com/jhy/jsoup/commit/61ac59b7103e6b1932cd1c65d7ddc59df3cc9978",
+      "buggy_commit": "8b6e745bb8dff9d3a1a62bb8530f77d14c351398"
+    }
+  },
+  "alibaba_nacos": {
+    "alibaba_nacos-10755": {
+      "bug_id": "alibaba_nacos-10755",
+      "PR_number": 10755,
+      "PR_createdAt": "2023-07-10T03:44:06Z",
+      "merge_commit": "a83e2cc5425641177c804a6a4ab61d931e932d31",
+      "buggy_commits": [
+        {
+          "oid": "c7a20bd13217bb795e5848293ebece1f196a6f62",
+          "message": "[ISSUE #10734] Implement http request param check filter and http param extractors (#10758)\n\n* For #10734,Implement grpc server interceptor and grpc param extractors\r\n\r\n* For #10734,add unit test for grpc server interceptor and grpc param extractors\r\n\r\n* For #10734,alter the test case\r\n\r\n* For #10734,delete the ConnectionSetupRequestParamExtractor\r\n\r\n* For #10734,add the naming http request param check filter and implement the naming http request param extractors\r\n\r\n* For #10734,add unit test for naming http request param extractors\r\n\r\n* For #10734,Implement grpc server interceptor and grpc param extractors\r\n\r\n* For #10734,add unit test for grpc server interceptor and grpc param extractors\r\n\r\n* For #10734,delete the ConnectionSetupRequestParamExtractor\r\n\r\n* For #10734,add the naming http request param check filter and implement the naming http request param extractors\r\n\r\n* For #10734,add unit test for naming http request param extractors\r\n\r\n* For #10734,add the config http request param check filter and implement the config http request param extractors and unit test\r\n\r\n* For #10734,add the console http request param check filter and implement the console http request param extractors and unit test\r\n\r\n* For #10734,fix code style\r\n\r\n* For #10734,alter the logic of exception handle in filter\r\n\r\n* For #10734,fix code style"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/alibaba/nacos/issues/10769",
+        "createdAt": "2023-07-11T10:07:00Z",
+        "content": "bug_report_all/alibaba_nacos-10755.json"
+      },
+      "changed_tests": [
+        "plugin/datasource/src/test/java/com/alibaba/nacos/plugin/datasource/impl/derby/ConfigInfoMapperByDerbyTest.java",
+        "plugin/datasource/src/test/java/com/alibaba/nacos/plugin/datasource/impl/derby/HistoryConfigInfoMapperByDerbyTest.java",
+        "plugin/datasource/src/test/java/com/alibaba/nacos/plugin/datasource/impl/mysql/ConfigInfoMapperByMySqlTest.java",
+        "plugin/datasource/src/test/java/com/alibaba/nacos/plugin/datasource/impl/mysql/HistoryConfigInfoMapperByMySqlTest.java"
+      ],
+      "PR_url": "https://github.com/alibaba/nacos/pull/10755",
+      "merge_commit_url": "https://github.com/alibaba/nacos/commit/a83e2cc5425641177c804a6a4ab61d931e932d31",
+      "buggy_commit": "c7a20bd13217bb795e5848293ebece1f196a6f62"
+    },
+    "alibaba_nacos-10775": {
+      "bug_id": "alibaba_nacos-10775",
+      "PR_number": 10775,
+      "PR_createdAt": "2023-07-12T08:16:15Z",
+      "merge_commit": "8adca685f6b91eb5d4e420878814ea8238356d22",
+      "buggy_commits": [
+        {
+          "oid": "e57b43c21879eb42de1249cd979065346d418b30",
+          "message": "[ISSUE #10744]feat:Add HealthControllerV2 and HealthControllerV2Test (#10786)\n\n* [ISSUE #10744]feat:Add HealthControllerV2 and HealthControllerV2Test\r\n\r\n* fix:V2 api return Result"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/alibaba/nacos/issues/10734",
+        "createdAt": "2023-07-05T08:58:58Z",
+        "content": "bug_report_all/alibaba_nacos-10775.json"
+      },
+      "changed_tests": [
+        "core/src/test/java/com/alibaba/nacos/core/paramcheck/impl/ServiceListRequestParamExtractorTest.java",
+        "core/src/test/java/com/alibaba/nacos/core/paramcheck/impl/ServiceQueryRequestParamExtractorTest.java",
+        "core/src/test/java/com/alibaba/nacos/core/paramcheck/impl/SubscribeServiceRequestParamExtractorTest.java",
+        "test/naming-test/src/test/java/com/alibaba/nacos/test/naming/AbstractInstanceOperate_ITCase.java"
+      ],
+      "PR_url": "https://github.com/alibaba/nacos/pull/10775",
+      "merge_commit_url": "https://github.com/alibaba/nacos/commit/8adca685f6b91eb5d4e420878814ea8238356d22",
+      "buggy_commit": "e57b43c21879eb42de1249cd979065346d418b30"
+    },
+    "alibaba_nacos-10958": {
+      "bug_id": "alibaba_nacos-10958",
+      "PR_number": 10958,
+      "PR_createdAt": "2023-08-14T01:33:05Z",
+      "merge_commit": "37d45ad8b62eb8733dd18adc4187d2e1bff65220",
+      "buggy_commits": [
+        {
+          "oid": "86cf2082a9eb7ad2f63a339238deff5d1c344369",
+          "message": "Fix exception code error.(#10925) (#10926)"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/alibaba/nacos/issues/10952",
+        "createdAt": "2023-08-12T06:32:54Z",
+        "content": "bug_report_all/alibaba_nacos-10958.json"
+      },
+      "changed_tests": [
+        "common/src/test/java/com/alibaba/nacos/common/remote/client/RpcClientTest.java"
+      ],
+      "PR_url": "https://github.com/alibaba/nacos/pull/10958",
+      "merge_commit_url": "https://github.com/alibaba/nacos/commit/37d45ad8b62eb8733dd18adc4187d2e1bff65220",
+      "buggy_commit": "86cf2082a9eb7ad2f63a339238deff5d1c344369"
+    },
+    "alibaba_nacos-11240": {
+      "bug_id": "alibaba_nacos-11240",
+      "PR_number": 11240,
+      "PR_createdAt": "2023-10-09T14:10:13Z",
+      "merge_commit": "d85e3f7f314d532825d0d942d1598d633eddc3e1",
+      "buggy_commits": [
+        {
+          "oid": "7911eb03dbe3f2616edf8b4accd9dcb1d6eef3d7",
+          "message": "ISSUE #11212 (#11213)\n\n* Use pgrep in shutdown.sh\r\n\r\n* Fix dot"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/alibaba/nacos/issues/11231",
+        "createdAt": "2023-10-08T10:27:54Z",
+        "content": "bug_report_all/alibaba_nacos-11240.json"
+      },
+      "changed_tests": [
+        "sys/src/test/java/com/alibaba/nacos/sys/utils/PropertiesUtilTest.java"
+      ],
+      "PR_url": "https://github.com/alibaba/nacos/pull/11240",
+      "merge_commit_url": "https://github.com/alibaba/nacos/commit/d85e3f7f314d532825d0d942d1598d633eddc3e1",
+      "buggy_commit": "7911eb03dbe3f2616edf8b4accd9dcb1d6eef3d7"
+    }
+  },
+  "apache_dubbo": {
+    "apache_dubbo-12474": {
+      "bug_id": "apache_dubbo-12474",
+      "PR_number": 12474,
+      "PR_createdAt": "2023-06-07T08:56:56Z",
+      "merge_commit": "a758a1e7e0efd5d9465cde6088c04f25fa11aa4a",
+      "buggy_commits": [
+        {
+          "oid": "04d132fee1cf23f6c0eada7131c9b5ab18b8ded7",
+          "message": "Check reference after register (#12472)\n\n* Check reference after register\r\n\r\n* Add logs\r\n\r\n* Fix method\r\n\r\n* Fix style\r\n\r\n* Fix remove\r\n\r\n* Fix remove"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/apache/dubbo/issues/12473",
+        "createdAt": "2023-06-07T08:55:46Z",
+        "content": "bug_report_all/apache_dubbo-12474.json"
+      },
+      "changed_tests": [
+        "dubbo-config/dubbo-config-spring/src/test/java/org/apache/dubbo/config/spring/schema/DubboNamespaceHandlerTest.java"
+      ],
+      "PR_url": "https://github.com/apache/dubbo/pull/12474",
+      "merge_commit_url": "https://github.com/apache/dubbo/commit/a758a1e7e0efd5d9465cde6088c04f25fa11aa4a",
+      "buggy_commit": "04d132fee1cf23f6c0eada7131c9b5ab18b8ded7"
+    },
+    "apache_dubbo-12582": {
+      "bug_id": "apache_dubbo-12582",
+      "PR_number": 12582,
+      "PR_createdAt": "2023-06-21T12:40:24Z",
+      "merge_commit": "0add70e3f5a530766bfacf65392190afe3fd2a85",
+      "buggy_commits": [
+        {
+          "oid": "10870708eb99a10fcfb25f71138e8d43cde566c4",
+          "message": ":fire: remove applicationName in jvm metric (#12770)\n\n* :fire: remove applicationName in jvm metric\r\n\r\n* :fire: remove applicationName in jvm metric\r\n\r\n* :fire: remove applicationName in jvm metric"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/apache/dubbo/issues/12531",
+        "createdAt": "2023-06-14T12:14:12Z",
+        "content": "bug_report_all/apache_dubbo-12582.json"
+      },
+      "changed_tests": [
+        "dubbo-metrics/dubbo-metrics-registry/src/test/java/org/apache/dubbo/metrics/registry/metrics/collector/RegistryMetricsCollectorTest.java",
+        "dubbo-metrics/dubbo-metrics-registry/src/test/java/org/apache/dubbo/metrics/registry/metrics/collector/RegistryMetricsTest.java",
+        "dubbo-metrics/dubbo-metrics-registry/src/test/java/org/apache/dubbo/metrics/registry/metrics/collector/RegistryStatCompositeTest.java"
+      ],
+      "PR_url": "https://github.com/apache/dubbo/pull/12582",
+      "merge_commit_url": "https://github.com/apache/dubbo/commit/0add70e3f5a530766bfacf65392190afe3fd2a85",
+      "buggy_commit": "10870708eb99a10fcfb25f71138e8d43cde566c4"
+    },
+    "apache_dubbo-13029": {
+      "bug_id": "apache_dubbo-13029",
+      "PR_number": 13029,
+      "PR_createdAt": "2023-09-08T19:08:27Z",
+      "merge_commit": "8a509e9601fab4af278859c9d947fca8f5f0fa27",
+      "buggy_commits": [
+        {
+          "oid": "d9db031469c27eb2e1c7438cf92e217b7f6817c4",
+          "message": "fix: AbortPolicyWithReport concurrency issues https://github.com/apache/dubbo/issues/13042 (#13043)"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/apache/dubbo/issues/13030",
+        "createdAt": "2023-09-08T19:16:08Z",
+        "content": "bug_report_all/apache_dubbo-13029.json"
+      },
+      "changed_tests": [
+        "dubbo-filter/dubbo-filter-validation/src/test/java/org/apache/dubbo/validation/support/jvalidation/JValidatorTest.java",
+        "dubbo-filter/dubbo-filter-validation/src/test/java/org/apache/dubbo/validation/support/jvalidation/mock/JValidatorTestTarget.java"
+      ],
+      "PR_url": "https://github.com/apache/dubbo/pull/13029",
+      "merge_commit_url": "https://github.com/apache/dubbo/commit/8a509e9601fab4af278859c9d947fca8f5f0fa27",
+      "buggy_commit": "d9db031469c27eb2e1c7438cf92e217b7f6817c4"
+    },
+    "apache_dubbo-13224": {
+      "bug_id": "apache_dubbo-13224",
+      "PR_number": 13224,
+      "PR_createdAt": "2023-10-17T09:53:39Z",
+      "merge_commit": "f995ef506c2e3306f9cbcd4bc33ad169a3da0b7e",
+      "buggy_commits": [
+        {
+          "oid": "02e486a1dccef10a03b81575fb3b7158d3cd9299",
+          "message": "Fix unable to receive go away frame (#13228)\n\n* Fix unable to receive go away frame\r\n\r\n* Rename\r\n\r\n* rename"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/apache/dubbo/issues/13222",
+        "createdAt": "2023-10-17T09:49:21Z",
+        "content": "bug_report_all/apache_dubbo-13224.json"
+      },
+      "changed_tests": [
+        "dubbo-rpc/dubbo-rpc-triple/src/test/java/org/apache/dubbo/rpc/protocol/tri/call/ReflectionServerCallTest.java"
+      ],
+      "PR_url": "https://github.com/apache/dubbo/pull/13224",
+      "merge_commit_url": "https://github.com/apache/dubbo/commit/f995ef506c2e3306f9cbcd4bc33ad169a3da0b7e",
+      "buggy_commit": "02e486a1dccef10a03b81575fb3b7158d3cd9299"
+    }
+  },
+  "Hakky54_sslcontext-kickstart": {
+    "Hakky54_sslcontext-kickstart-345": {
+      "bug_id": "Hakky54_sslcontext-kickstart-345",
+      "PR_number": 345,
+      "PR_createdAt": "2023-06-09T18:31:43Z",
+      "merge_commit": "c02cfcae1a28629f94cd17d984245649c7595fb5",
+      "buggy_commits": [
+        {
+          "oid": "45458e61c9e862527c395e39c8dd483a80e90560",
+          "message": "Added contributors"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/Hakky54/sslcontext-kickstart/issues/344",
+        "createdAt": "2023-06-09T08:40:10Z",
+        "content": "bug_report_all/Hakky54_sslcontext-kickstart-345.json"
+      },
+      "changed_tests": [
+        "sslcontext-kickstart/src/test/java/nl/altindag/ssl/SSLFactoryIT.java",
+        "sslcontext-kickstart/src/test/java/nl/altindag/ssl/trustmanager/CompositeX509ExtendedTrustManagerShould.java",
+        "sslcontext-kickstart/src/test/java/nl/altindag/ssl/trustmanager/InflatableX509ExtendedTrustManagerShould.java",
+        "sslcontext-kickstart/src/test/java/nl/altindag/ssl/util/TrustManagerUtilsShould.java"
+      ],
+      "PR_url": "https://github.com/Hakky54/sslcontext-kickstart/pull/345",
+      "merge_commit_url": "https://github.com/Hakky54/sslcontext-kickstart/commit/c02cfcae1a28629f94cd17d984245649c7595fb5",
+      "buggy_commit": "45458e61c9e862527c395e39c8dd483a80e90560"
+    },
+    "Hakky54_sslcontext-kickstart-357": {
+      "bug_id": "Hakky54_sslcontext-kickstart-357",
+      "PR_number": 357,
+      "PR_createdAt": "2023-06-19T19:39:00Z",
+      "merge_commit": "7caf6824da81f5e40f6c8a1b940cffa3af091b72",
+      "buggy_commits": [
+        {
+          "oid": "dc57f3d9297a702ba63f14a2e8f0ca5854c3badc",
+          "message": "Log if UnsafeTrustManager is being used."
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/Hakky54/sslcontext-kickstart/issues/356",
+        "createdAt": "2023-06-19T13:56:17Z",
+        "content": "bug_report_all/Hakky54_sslcontext-kickstart-357.json"
+      },
+      "changed_tests": [
+        "sslcontext-kickstart/src/test/java/nl/altindag/ssl/util/KeyStoreUtilsShould.java"
+      ],
+      "PR_url": "https://github.com/Hakky54/sslcontext-kickstart/pull/357",
+      "merge_commit_url": "https://github.com/Hakky54/sslcontext-kickstart/commit/7caf6824da81f5e40f6c8a1b940cffa3af091b72",
+      "buggy_commit": "dc57f3d9297a702ba63f14a2e8f0ca5854c3badc"
+    },
+    "Hakky54_sslcontext-kickstart-363": {
+      "bug_id": "Hakky54_sslcontext-kickstart-363",
+      "PR_number": 363,
+      "PR_createdAt": "2023-07-20T22:56:56Z",
+      "merge_commit": "f2899c2fbabe382c70d8874a8113fa377414ae1b",
+      "buggy_commits": [
+        {
+          "oid": "49d227bffffcb9a8dafb142adca157f07aaf7d5c",
+          "message": "[maven-release-plugin] prepare for next development iteration"
+        },
+        {
+          "oid": "6d4e94b3b7260d54625172ef7a0222921e76c97f",
+          "message": "Added option to filter out not supported ciphers and protocols"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/Hakky54/sslcontext-kickstart/issues/362",
+        "createdAt": "2023-07-20T04:03:06Z",
+        "content": "bug_report_all/Hakky54_sslcontext-kickstart-363.json"
+      },
+      "changed_tests": [
+        "sslcontext-kickstart/src/test/java/nl/altindag/ssl/SSLFactoryShould.java"
+      ],
+      "PR_url": "https://github.com/Hakky54/sslcontext-kickstart/pull/363",
+      "merge_commit_url": "https://github.com/Hakky54/sslcontext-kickstart/commit/f2899c2fbabe382c70d8874a8113fa377414ae1b",
+      "buggy_commit": "49d227bffffcb9a8dafb142adca157f07aaf7d5c"
+    },
+    "Hakky54_sslcontext-kickstart-368": {
+      "bug_id": "Hakky54_sslcontext-kickstart-368",
+      "PR_number": 368,
+      "PR_createdAt": "2023-08-03T21:19:11Z",
+      "merge_commit": "424a1aba749fe5452481ac1a89e04585666a9755",
+      "buggy_commits": [
+        {
+          "oid": "c698bae5ec8920b892027d9a5972bb4bef039bcc",
+          "message": "Return unmodifiableMap"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/Hakky54/sslcontext-kickstart/issues/367",
+        "createdAt": "2023-08-03T13:43:24Z",
+        "content": "bug_report_all/Hakky54_sslcontext-kickstart-368.json"
+      },
+      "changed_tests": [
+        "sslcontext-kickstart/src/test/java/nl/altindag/ssl/util/CertificateUtilsShould.java",
+        "sslcontext-kickstart/src/test/java/nl/altindag/ssl/util/KeyStoreUtilsShould.java",
+        "sslcontext-kickstart/src/test/java/nl/altindag/ssl/util/LinuxCertificateUtilsShould.java"
+      ],
+      "PR_url": "https://github.com/Hakky54/sslcontext-kickstart/pull/368",
+      "merge_commit_url": "https://github.com/Hakky54/sslcontext-kickstart/commit/424a1aba749fe5452481ac1a89e04585666a9755",
+      "buggy_commit": "c698bae5ec8920b892027d9a5972bb4bef039bcc"
+    },
+    "Hakky54_sslcontext-kickstart-370": {
+      "bug_id": "Hakky54_sslcontext-kickstart-370",
+      "PR_number": 370,
+      "PR_createdAt": "2023-08-08T16:18:32Z",
+      "merge_commit": "4b69734b1bba2cfc451e6f7318a6b405f60c36d2",
+      "buggy_commits": [
+        {
+          "oid": "0e19970e552c5ca6c83a98241a68d0f8de9be67d",
+          "message": "Resolve sonar issue"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/Hakky54/sslcontext-kickstart/issues/369",
+        "createdAt": "2023-08-08T08:51:23Z",
+        "content": "bug_report_all/Hakky54_sslcontext-kickstart-370.json"
+      },
+      "changed_tests": [
+        "sslcontext-kickstart/src/test/java/nl/altindag/ssl/util/MacCertificateUtilsShould.java"
+      ],
+      "PR_url": "https://github.com/Hakky54/sslcontext-kickstart/pull/370",
+      "merge_commit_url": "https://github.com/Hakky54/sslcontext-kickstart/commit/4b69734b1bba2cfc451e6f7318a6b405f60c36d2",
+      "buggy_commit": "0e19970e552c5ca6c83a98241a68d0f8de9be67d"
+    },
+    "Hakky54_sslcontext-kickstart-392": {
+      "bug_id": "Hakky54_sslcontext-kickstart-392",
+      "PR_number": 392,
+      "PR_createdAt": "2023-10-12T12:11:01Z",
+      "merge_commit": "d1f522c59748a2cdf6363cbc369d37067c488468",
+      "buggy_commits": [
+        {
+          "oid": "85808eebe74b0ce0dd0adbae72eb68a1e66d7d35",
+          "message": "Merge pull request #390 from Hakky54/dependabot/maven/sslcontext-kickstart-for-netty/io.netty-netty-codec-http2-4.1.100.Final\n\nBump io.netty:netty-codec-http2 from 4.1.99.Final to 4.1.100.Final in /sslcontext-kickstart-for-netty"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/Hakky54/sslcontext-kickstart/issues/391",
+        "createdAt": "2023-10-11T06:35:27Z",
+        "content": "bug_report_all/Hakky54_sslcontext-kickstart-392.json"
+      },
+      "changed_tests": [
+        "sslcontext-kickstart/src/test/java/nl/altindag/ssl/SSLFactoryShould.java",
+        "sslcontext-kickstart/src/test/java/nl/altindag/ssl/trustmanager/EnhanceableX509ExtendedTrustManagerShould.java",
+        "sslcontext-kickstart/src/test/java/nl/altindag/ssl/util/TrustManagerUtilsShould.java"
+      ],
+      "PR_url": "https://github.com/Hakky54/sslcontext-kickstart/pull/392",
+      "merge_commit_url": "https://github.com/Hakky54/sslcontext-kickstart/commit/d1f522c59748a2cdf6363cbc369d37067c488468",
+      "buggy_commit": "85808eebe74b0ce0dd0adbae72eb68a1e66d7d35"
+    }
+  },
+  "google_gson": {
+    "google_gson-2410": {
+      "bug_id": "google_gson-2410",
+      "PR_number": 2410,
+      "PR_createdAt": "2023-06-05T20:16:48Z",
+      "merge_commit": "a80bc24e04d0747314bffcc5779a1412c86f6468",
+      "buggy_commits": [
+        {
+          "oid": "e7f85dff8a17928fd3f0451e59f76ee72764430c",
+          "message": "Bump maven-surefire-plugin from 3.1.0 to 3.1.2 (#2411)\n\nBumps [maven-surefire-plugin](https://github.com/apache/maven-surefire) from 3.1.0 to 3.1.2.\r\n- [Release notes](https://github.com/apache/maven-surefire/releases)\r\n- [Commits](https://github.com/apache/maven-surefire/compare/surefire-3.1.0...surefire-3.1.2)\r\n\r\n---\r\nupdated-dependencies:\r\n- dependency-name: org.apache.maven.plugins:maven-surefire-plugin\r\n  dependency-type: direct:production\r\n  update-type: version-update:semver-patch\r\n...\r\n\r\nSigned-off-by: dependabot[bot] <support@github.com>\r\nCo-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/google/gson/issues/2405",
+        "createdAt": "2023-06-01T21:39:33Z",
+        "content": "bug_report_all/google_gson-2410.json"
+      },
+      "changed_tests": [
+        "gson/src/test/java/com/google/gson/functional/DefaultTypeAdaptersTest.java",
+        "gson/src/test/java/com/google/gson/functional/NamingPolicyTest.java",
+        "gson/src/test/java/com/google/gson/functional/ObjectTest.java",
+        "gson/src/test/java/com/google/gson/functional/ReflectionAccessTest.java",
+        "gson/src/test/java/com/google/gson/functional/StreamingTypeAdaptersTest.java",
+        "gson/src/test/java/com/google/gson/reflect/TypeTokenTest.java",
+        "gson/src/test/java/com/google/gson/stream/JsonReaderTest.java",
+        "shrinker-test/src/test/java/com/google/gson/it/ShrinkingIT.java"
+      ],
+      "PR_url": "https://github.com/google/gson/pull/2410",
+      "merge_commit_url": "https://github.com/google/gson/commit/a80bc24e04d0747314bffcc5779a1412c86f6468",
+      "buggy_commit": "e7f85dff8a17928fd3f0451e59f76ee72764430c"
+    },
+    "google_gson-2420": {
+      "bug_id": "google_gson-2420",
+      "PR_number": 2420,
+      "PR_createdAt": "2023-06-17T14:44:03Z",
+      "merge_commit": "ecb9f8c8adab5446225461b7f8aea16c79e2e104",
+      "buggy_commits": [
+        {
+          "oid": "6d9c3566b71900c54644a9f71ce028696ee5d4bd",
+          "message": "Document minimum Android API level and add workflow to check compatibility (#2431)"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/google/gson/issues/2401",
+        "createdAt": "2023-05-29T12:40:12Z",
+        "content": "bug_report_all/google_gson-2420.json"
+      },
+      "changed_tests": [
+        "gson/src/test/java/com/google/gson/functional/Java17RecordTest.java",
+        "gson/src/test/java/com/google/gson/internal/ConstructorConstructorTest.java",
+        "shrinker-test/src/main/java/com/example/ClassWithJsonAdapterAnnotation.java",
+        "shrinker-test/src/main/java/com/example/DefaultConstructorMain.java",
+        "shrinker-test/src/test/java/com/google/gson/it/ShrinkingIT.java"
+      ],
+      "PR_url": "https://github.com/google/gson/pull/2420",
+      "merge_commit_url": "https://github.com/google/gson/commit/ecb9f8c8adab5446225461b7f8aea16c79e2e104",
+      "buggy_commit": "6d9c3566b71900c54644a9f71ce028696ee5d4bd"
+    },
+    "google_gson-2435": {
+      "bug_id": "google_gson-2435",
+      "PR_number": 2435,
+      "PR_createdAt": "2023-07-15T14:12:14Z",
+      "merge_commit": "7ee5ad6cd1640d957f3a73d89a271ee2ef9c7956",
+      "buggy_commits": [
+        {
+          "oid": "393db094dd089ea463bc1a215bd7971fd5feab42",
+          "message": "Add test for unused class to shrinker-test (#2455)"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/google/gson/issues/1028",
+        "createdAt": "2017-03-01T22:05:41Z",
+        "content": "bug_report_all/google_gson-2435.json"
+      },
+      "changed_tests": [
+        "gson/src/test/java/com/google/gson/GsonTest.java",
+        "gson/src/test/java/com/google/gson/functional/InstanceCreatorTest.java",
+        "gson/src/test/java/com/google/gson/functional/JsonAdapterAnnotationOnClassesTest.java",
+        "gson/src/test/java/com/google/gson/functional/JsonAdapterAnnotationOnFieldsTest.java"
+      ],
+      "PR_url": "https://github.com/google/gson/pull/2435",
+      "merge_commit_url": "https://github.com/google/gson/commit/7ee5ad6cd1640d957f3a73d89a271ee2ef9c7956",
+      "buggy_commit": "393db094dd089ea463bc1a215bd7971fd5feab42"
+    },
+    "google_gson-2440": {
+      "bug_id": "google_gson-2440",
+      "PR_number": 2440,
+      "PR_createdAt": "2023-07-20T22:15:08Z",
+      "merge_commit": "e7cf5c458374e5fc69dbdce6de5cb2c881521135",
+      "buggy_commits": [
+        {
+          "oid": "45acc4db428217a890a27ef00165a78232fc55d3",
+          "message": "Suppress serialization warnings. (#2502)\n\nRecent versions of javac emit a warning if a serializable class has\r\na non-transient instance field with a declared type that does not\r\ninherit `Serializable`. In this context, we know that the actual\r\nvalues will always be serializable."
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/google/gson/issues/2438",
+        "createdAt": "2023-07-20T11:09:25Z",
+        "content": "bug_report_all/google_gson-2440.json"
+      },
+      "changed_tests": [
+        "gson/src/test/java/com/google/gson/functional/ObjectTest.java"
+      ],
+      "PR_url": "https://github.com/google/gson/pull/2440",
+      "merge_commit_url": "https://github.com/google/gson/commit/e7cf5c458374e5fc69dbdce6de5cb2c881521135",
+      "buggy_commit": "45acc4db428217a890a27ef00165a78232fc55d3"
+    },
+    "google_gson-2476": {
+      "bug_id": "google_gson-2476",
+      "PR_number": 2476,
+      "PR_createdAt": "2023-08-22T20:14:56Z",
+      "merge_commit": "70bda4b9c9eb8d0b567f8715a67dbada00b02216",
+      "buggy_commits": [
+        {
+          "oid": "ddc76ea4cc7dc8ccb0930ddfee668e2f53a4426c",
+          "message": "Bump org.graalvm.buildtools:native-maven-plugin from 0.9.24 to 0.9.25 (#2482)\n\nBumps [org.graalvm.buildtools:native-maven-plugin](https://github.com/graalvm/native-build-tools) from 0.9.24 to 0.9.25.\r\n- [Release notes](https://github.com/graalvm/native-build-tools/releases)\r\n- [Commits](https://github.com/graalvm/native-build-tools/commits)\r\n\r\n---\r\nupdated-dependencies:\r\n- dependency-name: org.graalvm.buildtools:native-maven-plugin\r\n  dependency-type: direct:production\r\n  update-type: version-update:semver-patch\r\n...\r\n\r\nSigned-off-by: dependabot[bot] <support@github.com>\r\nCo-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/google/gson/issues/2407",
+        "createdAt": "2023-06-04T00:44:31Z",
+        "content": "bug_report_all/google_gson-2476.json"
+      },
+      "changed_tests": [
+        "gson/src/test/java/com/google/gson/internal/bind/JsonTreeWriterTest.java",
+        "gson/src/test/java/com/google/gson/stream/JsonWriterTest.java"
+      ],
+      "PR_url": "https://github.com/google/gson/pull/2476",
+      "merge_commit_url": "https://github.com/google/gson/commit/70bda4b9c9eb8d0b567f8715a67dbada00b02216",
+      "buggy_commit": "ddc76ea4cc7dc8ccb0930ddfee668e2f53a4426c"
+    },
+    "google_gson-2479": {
+      "bug_id": "google_gson-2479",
+      "PR_number": 2479,
+      "PR_createdAt": "2023-08-25T19:28:05Z",
+      "merge_commit": "0109f451299e7780a334d1844548d3a3346a9b39",
+      "buggy_commits": [
+        {
+          "oid": "4dfae77af3d543bea2782f85a154cc070290f086",
+          "message": "Bump com.github.siom79.japicmp:japicmp-maven-plugin (#2504)\n\nBumps [com.github.siom79.japicmp:japicmp-maven-plugin](https://github.com/siom79/japicmp) from 0.18.0 to 0.18.1.\r\n- [Release notes](https://github.com/siom79/japicmp/releases)\r\n- [Changelog](https://github.com/siom79/japicmp/blob/master/release.py)\r\n- [Commits](https://github.com/siom79/japicmp/compare/japicmp-base-0.18.0...japicmp-base-0.18.1)\r\n\r\n---\r\nupdated-dependencies:\r\n- dependency-name: com.github.siom79.japicmp:japicmp-maven-plugin\r\n  dependency-type: direct:production\r\n  update-type: version-update:semver-patch\r\n...\r\n\r\nSigned-off-by: dependabot[bot] <support@github.com>\r\nCo-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/google/gson/issues/2436",
+        "createdAt": "2023-07-16T13:37:57Z",
+        "content": "bug_report_all/google_gson-2479.json"
+      },
+      "changed_tests": [
+        "gson/src/test/java/com/google/gson/GsonBuilderTest.java",
+        "gson/src/test/java/com/google/gson/GsonTest.java"
+      ],
+      "PR_url": "https://github.com/google/gson/pull/2479",
+      "merge_commit_url": "https://github.com/google/gson/commit/0109f451299e7780a334d1844548d3a3346a9b39",
+      "buggy_commit": "4dfae77af3d543bea2782f85a154cc070290f086"
+    },
+    "google_gson-2498": {
+      "bug_id": "google_gson-2498",
+      "PR_number": 2498,
+      "PR_createdAt": "2023-09-23T20:14:37Z",
+      "merge_commit": "1898edc180aaac56164e6997b48856600b0fc87a",
+      "buggy_commits": [
+        {
+          "oid": "ce8cab63e56dcb30a7e81dd5ef2ca5660750de24",
+          "message": "Bump com.google.errorprone:error_prone_core from 2.24.0 to 2.24.1 (#2590)\n\nBumps [com.google.errorprone:error_prone_core](https://github.com/google/error-prone) from 2.24.0 to 2.24.1.\r\n- [Release notes](https://github.com/google/error-prone/releases)\r\n- [Commits](https://github.com/google/error-prone/compare/v2.24.0...v2.24.1)\r\n\r\n---\r\nupdated-dependencies:\r\n- dependency-name: com.google.errorprone:error_prone_core\r\n  dependency-type: direct:production\r\n  update-type: version-update:semver-patch\r\n...\r\n\r\nSigned-off-by: dependabot[bot] <support@github.com>\r\nCo-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>"
+        },
+        {
+          "oid": "c805eb124c9abce925d425e53ea4cd8c5f0e7aba",
+          "message": "Merge branch 'main' into marcono1234/anonymous-local-custom-serialization"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/google/gson/issues/1510",
+        "createdAt": "2019-04-11T05:27:21Z",
+        "content": "bug_report_all/google_gson-2498.json"
+      },
+      "changed_tests": [
+        "gson/src/test/java/com/google/gson/ExposeAnnotationExclusionStrategyTest.java",
+        "gson/src/test/java/com/google/gson/InnerClassExclusionStrategyTest.java",
+        "gson/src/test/java/com/google/gson/VersionExclusionStrategyTest.java",
+        "gson/src/test/java/com/google/gson/functional/EnumTest.java",
+        "gson/src/test/java/com/google/gson/functional/ObjectTest.java"
+      ],
+      "PR_url": "https://github.com/google/gson/pull/2498",
+      "merge_commit_url": "https://github.com/google/gson/commit/1898edc180aaac56164e6997b48856600b0fc87a",
+      "buggy_commit": "ce8cab63e56dcb30a7e81dd5ef2ca5660750de24"
+    },
+    "google_gson-2549": {
+      "bug_id": "google_gson-2549",
+      "PR_number": 2549,
+      "PR_createdAt": "2023-11-20T13:00:10Z",
+      "merge_commit": "58d1a9f0eb396ff64a622532e2ba5c5c726165e6",
+      "buggy_commits": [
+        {
+          "oid": "5471932375be4bb0c27a8a1d38f9f4566d6da7db",
+          "message": "Bump com.diffplug.spotless:spotless-maven-plugin from 2.41.0 to 2.41.1 (#2566)\n\nBumps [com.diffplug.spotless:spotless-maven-plugin](https://github.com/diffplug/spotless) from 2.41.0 to 2.41.1.\r\n- [Changelog](https://github.com/diffplug/spotless/blob/main/CHANGES.md)\r\n- [Commits](https://github.com/diffplug/spotless/compare/lib/2.41.0...maven/2.41.1)\r\n\r\n---\r\nupdated-dependencies:\r\n- dependency-name: com.diffplug.spotless:spotless-maven-plugin\r\n  dependency-type: direct:production\r\n  update-type: version-update:semver-patch\r\n...\r\n\r\nSigned-off-by: dependabot[bot] <support@github.com>\r\nCo-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/google/gson/issues/2547",
+        "createdAt": "2023-11-19T01:29:05Z",
+        "content": "bug_report_all/google_gson-2549.json"
+      },
+      "changed_tests": [
+        "gson/src/test/java/com/google/gson/internal/bind/DefaultDateTypeAdapterTest.java"
+      ],
+      "PR_url": "https://github.com/google/gson/pull/2549",
+      "merge_commit_url": "https://github.com/google/gson/commit/58d1a9f0eb396ff64a622532e2ba5c5c726165e6",
+      "buggy_commit": "5471932375be4bb0c27a8a1d38f9f4566d6da7db"
+    },
+    "google_gson-2571": {
+      "bug_id": "google_gson-2571",
+      "PR_number": 2571,
+      "PR_createdAt": "2023-12-07T07:37:19Z",
+      "merge_commit": "ecbc9c0109da3f44a340fb8185f8e24ea32e6038",
+      "buggy_commits": [
+        {
+          "oid": "ce8cab63e56dcb30a7e81dd5ef2ca5660750de24",
+          "message": "Bump com.google.errorprone:error_prone_core from 2.24.0 to 2.24.1 (#2590)\n\nBumps [com.google.errorprone:error_prone_core](https://github.com/google/error-prone) from 2.24.0 to 2.24.1.\r\n- [Release notes](https://github.com/google/error-prone/releases)\r\n- [Commits](https://github.com/google/error-prone/compare/v2.24.0...v2.24.1)\r\n\r\n---\r\nupdated-dependencies:\r\n- dependency-name: com.google.errorprone:error_prone_core\r\n  dependency-type: direct:production\r\n  update-type: version-update:semver-patch\r\n...\r\n\r\nSigned-off-by: dependabot[bot] <support@github.com>\r\nCo-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>"
+        },
+        {
+          "oid": "b9f96f5fec7f9f718589da534903b3ae0c7efdf8",
+          "message": "spotless"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/google/gson/issues/2563",
+        "createdAt": "2023-12-04T11:19:10Z",
+        "content": "bug_report_all/google_gson-2571.json"
+      },
+      "changed_tests": [
+        "gson/src/test/java/com/google/gson/HandleRawEnumTest.java",
+        "gson/src/test/java/com/google/gson/functional/InferenceFromTypeVariableTest.java"
+      ],
+      "PR_url": "https://github.com/google/gson/pull/2571",
+      "merge_commit_url": "https://github.com/google/gson/commit/ecbc9c0109da3f44a340fb8185f8e24ea32e6038",
+      "buggy_commit": "ce8cab63e56dcb30a7e81dd5ef2ca5660750de24"
+    },
+    "google_gson-2573": {
+      "bug_id": "google_gson-2573",
+      "PR_number": 2573,
+      "PR_createdAt": "2023-12-11T10:08:31Z",
+      "merge_commit": "011ccaa5d376d85d5cd52d6449ce4a2d44f9a215",
+      "buggy_commits": [
+        {
+          "oid": "ce8cab63e56dcb30a7e81dd5ef2ca5660750de24",
+          "message": "Bump com.google.errorprone:error_prone_core from 2.24.0 to 2.24.1 (#2590)\n\nBumps [com.google.errorprone:error_prone_core](https://github.com/google/error-prone) from 2.24.0 to 2.24.1.\r\n- [Release notes](https://github.com/google/error-prone/releases)\r\n- [Commits](https://github.com/google/error-prone/compare/v2.24.0...v2.24.1)\r\n\r\n---\r\nupdated-dependencies:\r\n- dependency-name: com.google.errorprone:error_prone_core\r\n  dependency-type: direct:production\r\n  update-type: version-update:semver-patch\r\n...\r\n\r\nSigned-off-by: dependabot[bot] <support@github.com>\r\nCo-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>"
+        },
+        {
+          "oid": "1f5fa7f12b7fe84b5012332941cd5f393cd96572",
+          "message": "crlf"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/google/gson/issues/2563",
+        "createdAt": "2023-12-04T11:19:10Z",
+        "content": "bug_report_all/google_gson-2573.json"
+      },
+      "changed_tests": [
+        "gson/src/test/java/com/google/gson/functional/InferenceFromTypeVariableTest.java"
+      ],
+      "PR_url": "https://github.com/google/gson/pull/2573",
+      "merge_commit_url": "https://github.com/google/gson/commit/011ccaa5d376d85d5cd52d6449ce4a2d44f9a215",
+      "buggy_commit": "ce8cab63e56dcb30a7e81dd5ef2ca5660750de24"
+    }
+  },
+  "iBotPeaches_Apktool": {
+    "iBotPeaches_Apktool-3113": {
+      "bug_id": "iBotPeaches_Apktool-3113",
+      "PR_number": 3113,
+      "PR_createdAt": "2023-07-01T23:44:10Z",
+      "merge_commit": "70d941d18d6a06c9cc90a7433515176caade9594",
+      "buggy_commits": [
+        {
+          "oid": "5cd94d6aa0bb8824ffa2bfbecb6f4747a0916547",
+          "message": "refactor Apkecoder - streamline decode procedure (#3109)"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/iBotPeaches/Apktool/issues/3112",
+        "createdAt": "2023-07-01T23:36:02Z",
+        "content": "bug_report_all/iBotPeaches_Apktool-3113.json"
+      },
+      "changed_tests": [
+        "brut.apktool/apktool-lib/src/test/java/brut/androlib/androlib/InvalidSdkBoundingTest.java"
+      ],
+      "PR_url": "https://github.com/iBotPeaches/Apktool/pull/3113",
+      "merge_commit_url": "https://github.com/iBotPeaches/Apktool/commit/70d941d18d6a06c9cc90a7433515176caade9594",
+      "buggy_commit": "5cd94d6aa0bb8824ffa2bfbecb6f4747a0916547"
+    },
+    "iBotPeaches_Apktool-3172": {
+      "bug_id": "iBotPeaches_Apktool-3172",
+      "PR_number": 3172,
+      "PR_createdAt": "2023-07-19T11:09:10Z",
+      "merge_commit": "ca07a0a56cd0ce3418151c8ddc296625f7200026",
+      "buggy_commits": [
+        {
+          "oid": "ab4069306cc1ef31a70421b3988d2bbbc7982970",
+          "message": "build: test on JDK 20 (#3177)"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/iBotPeaches/Apktool/issues/3169",
+        "createdAt": "2023-07-19T01:54:28Z",
+        "content": "bug_report_all/iBotPeaches_Apktool-3172.json"
+      },
+      "changed_tests": [
+        "brut.apktool/apktool-lib/src/test/java/brut/androlib/yaml/ConsistentPropertyTest.java"
+      ],
+      "PR_url": "https://github.com/iBotPeaches/Apktool/pull/3172",
+      "merge_commit_url": "https://github.com/iBotPeaches/Apktool/commit/ca07a0a56cd0ce3418151c8ddc296625f7200026",
+      "buggy_commit": "ab4069306cc1ef31a70421b3988d2bbbc7982970"
+    },
+    "iBotPeaches_Apktool-3201": {
+      "bug_id": "iBotPeaches_Apktool-3201",
+      "PR_number": 3201,
+      "PR_createdAt": "2023-07-23T10:28:26Z",
+      "merge_commit": "54836509ed39cd54eb5b53fc627eb0dfbed5d8af",
+      "buggy_commits": [
+        {
+          "oid": "fbae38690a98e680921439a542928726b86d892d",
+          "message": "build: start new dev cycle (2.8.2-SNAPSHOT)"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/iBotPeaches/Apktool/issues/3199",
+        "createdAt": "2023-07-23T05:27:12Z",
+        "content": "bug_report_all/iBotPeaches_Apktool-3201.json"
+      },
+      "changed_tests": [
+        "brut.apktool/apktool-lib/src/test/java/brut/androlib/decode/SparseFlagTest.java"
+      ],
+      "PR_url": "https://github.com/iBotPeaches/Apktool/pull/3201",
+      "merge_commit_url": "https://github.com/iBotPeaches/Apktool/commit/54836509ed39cd54eb5b53fc627eb0dfbed5d8af",
+      "buggy_commit": "fbae38690a98e680921439a542928726b86d892d"
+    },
+    "iBotPeaches_Apktool-3208": {
+      "bug_id": "iBotPeaches_Apktool-3208",
+      "PR_number": 3208,
+      "PR_createdAt": "2023-07-23T22:26:48Z",
+      "merge_commit": "7f0d94ede9bb3bb0428fa6fd108c064c5cba0510",
+      "buggy_commits": [
+        {
+          "oid": "5d5c33aba60e2fea9eacedd3bc93250f3acbf008",
+          "message": "fix: adjust helper files to include system property sets (#3215)"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/iBotPeaches/Apktool/issues/3204",
+        "createdAt": "2023-07-23T14:47:30Z",
+        "content": "bug_report_all/iBotPeaches_Apktool-3208.json"
+      },
+      "changed_tests": [
+        "brut.apktool/apktool-lib/src/test/java/brut/androlib/aapt2/DebuggableFalseChangeToTrueTest.java",
+        "brut.apktool/apktool-lib/src/test/java/brut/androlib/aapt2/DebuggableTrueAddedTest.java",
+        "brut.apktool/apktool-lib/src/test/java/brut/androlib/aapt2/DebuggableTrueRetainedTest.java"
+      ],
+      "PR_url": "https://github.com/iBotPeaches/Apktool/pull/3208",
+      "merge_commit_url": "https://github.com/iBotPeaches/Apktool/commit/7f0d94ede9bb3bb0428fa6fd108c064c5cba0510",
+      "buggy_commit": "5d5c33aba60e2fea9eacedd3bc93250f3acbf008"
+    },
+    "iBotPeaches_Apktool-3230": {
+      "bug_id": "iBotPeaches_Apktool-3230",
+      "PR_number": 3230,
+      "PR_createdAt": "2023-07-29T10:35:14Z",
+      "merge_commit": "486fb20084b6dd6ee4821b0691d12da89facd02c",
+      "buggy_commits": [
+        {
+          "oid": "fe93fd21d1adaa65c05c443dfb72257047eace50",
+          "message": "refactor: manual YAML Cleanup (#3229)\n\n* refactor: add missing license headers\r\n\r\n* fix: remove unused exceptions\r\n\r\n* refactor: remove unused single quote / slash param"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/iBotPeaches/Apktool/issues/2701",
+        "createdAt": "2021-11-24T17:52:27Z",
+        "content": "bug_report_all/iBotPeaches_Apktool-3230.json"
+      },
+      "changed_tests": [
+        "brut.apktool/apktool-lib/src/test/java/brut/androlib/decode/EmptyArscTest.java"
+      ],
+      "PR_url": "https://github.com/iBotPeaches/Apktool/pull/3230",
+      "merge_commit_url": "https://github.com/iBotPeaches/Apktool/commit/486fb20084b6dd6ee4821b0691d12da89facd02c",
+      "buggy_commit": "fe93fd21d1adaa65c05c443dfb72257047eace50"
+    },
+    "iBotPeaches_Apktool-3299": {
+      "bug_id": "iBotPeaches_Apktool-3299",
+      "PR_number": 3299,
+      "PR_createdAt": "2023-08-27T17:23:13Z",
+      "merge_commit": "81a7e1e4345edfebf58086756e1cc53b0b776c27",
+      "buggy_commits": [
+        {
+          "oid": "06c5f462e0c7c67703d58762a2919697306da947",
+          "message": "refactor: use proper enum (0 on both) for setMethod() (#3297)"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/iBotPeaches/Apktool/issues/3298",
+        "createdAt": "2023-08-27T13:41:37Z",
+        "content": "bug_report_all/iBotPeaches_Apktool-3299.json"
+      },
+      "changed_tests": [
+        "brut.apktool/apktool-lib/src/test/java/brut/androlib/decode/SparseFlagTest.java"
+      ],
+      "PR_url": "https://github.com/iBotPeaches/Apktool/pull/3299",
+      "merge_commit_url": "https://github.com/iBotPeaches/Apktool/commit/81a7e1e4345edfebf58086756e1cc53b0b776c27",
+      "buggy_commit": "06c5f462e0c7c67703d58762a2919697306da947"
+    },
+    "iBotPeaches_Apktool-3374": {
+      "bug_id": "iBotPeaches_Apktool-3374",
+      "PR_number": 3374,
+      "PR_createdAt": "2023-10-07T00:24:25Z",
+      "merge_commit": "7fe58ca0c2b10a7cf7b501f6c3f22f292541e59f",
+      "buggy_commits": [
+        {
+          "oid": "01cf954c23894edb8b23c8d6e79c007cab0de459",
+          "message": "Update Windows helper script to handle /c properly. (#2973)"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/iBotPeaches/Apktool/issues/3369",
+        "createdAt": "2023-10-04T23:47:19Z",
+        "content": "bug_report_all/iBotPeaches_Apktool-3374.json"
+      },
+      "changed_tests": [
+        "brut.apktool/apktool-lib/src/test/java/brut/androlib/aapt2/BuildAndDecodeTest.java"
+      ],
+      "PR_url": "https://github.com/iBotPeaches/Apktool/pull/3374",
+      "merge_commit_url": "https://github.com/iBotPeaches/Apktool/commit/7fe58ca0c2b10a7cf7b501f6c3f22f292541e59f",
+      "buggy_commit": "01cf954c23894edb8b23c8d6e79c007cab0de459"
+    },
+    "iBotPeaches_Apktool-3417": {
+      "bug_id": "iBotPeaches_Apktool-3417",
+      "PR_number": 3417,
+      "PR_createdAt": "2023-11-02T10:38:17Z",
+      "merge_commit": "eec0288e69b2992511bf35ea362daffa9f9094ab",
+      "buggy_commits": [
+        {
+          "oid": "63b19764482df5b99e7770e2c58a4c1fc547cca1",
+          "message": "build(deps): bump org.apache.commons:commons-text from 1.10.0 to 1.11.0 (#3414)\n\nBumps org.apache.commons:commons-text from 1.10.0 to 1.11.0.\r\n\r\n---\r\nupdated-dependencies:\r\n- dependency-name: org.apache.commons:commons-text\r\n  dependency-type: direct:production\r\n  update-type: version-update:semver-minor\r\n...\r\n\r\nSigned-off-by: dependabot[bot] <support@github.com>\r\nCo-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/iBotPeaches/Apktool/issues/3416",
+        "createdAt": "2023-11-01T03:01:12Z",
+        "content": "bug_report_all/iBotPeaches_Apktool-3417.json"
+      },
+      "changed_tests": [
+        "brut.apktool/apktool-lib/src/test/java/brut/androlib/aapt2/BuildAndDecodeTest.java"
+      ],
+      "PR_url": "https://github.com/iBotPeaches/Apktool/pull/3417",
+      "merge_commit_url": "https://github.com/iBotPeaches/Apktool/commit/eec0288e69b2992511bf35ea362daffa9f9094ab",
+      "buggy_commit": "63b19764482df5b99e7770e2c58a4c1fc547cca1"
+    }
+  },
+  "FasterXML_jackson-core": {
+    "FasterXML_jackson-core-1064": {
+      "bug_id": "FasterXML_jackson-core-1064",
+      "PR_number": 1064,
+      "PR_createdAt": "2023-07-20T07:59:53Z",
+      "merge_commit": "a4ca94f4cfe2030d1313a0038f0b8de6fd6b811e",
+      "buggy_commits": [
+        {
+          "oid": "0beb6fdb604a426356c5b9d51dd65a367592c6d3",
+          "message": "Minor test cleanup"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/FasterXML/jackson-core/issues/1089",
+        "createdAt": "2023-08-26T03:10:21Z",
+        "content": "bug_report_all/FasterXML_jackson-core-1064.json"
+      },
+      "changed_tests": [
+        "src/test/java/com/fasterxml/jackson/core/TestJDKSerializability.java",
+        "src/test/java/com/fasterxml/jackson/core/io/BufferRecyclerPoolTest.java",
+        "src/test/java/com/fasterxml/jackson/core/io/TestIOContext.java",
+        "src/test/java/com/fasterxml/jackson/core/io/TestMergedStream.java",
+        "src/test/java/com/fasterxml/jackson/core/util/ReadConstrainedTextBufferTest.java"
+      ],
+      "PR_url": "https://github.com/FasterXML/jackson-core/pull/1064",
+      "merge_commit_url": "https://github.com/FasterXML/jackson-core/commit/a4ca94f4cfe2030d1313a0038f0b8de6fd6b811e",
+      "buggy_commit": "0beb6fdb604a426356c5b9d51dd65a367592c6d3"
+    }
+  },
+  "assertj_assertj": {
+    "assertj_assertj-3131": {
+      "bug_id": "assertj_assertj-3131",
+      "PR_number": 3131,
+      "PR_createdAt": "2023-07-31T14:05:42Z",
+      "merge_commit": "b4893ad4766ece038906f7a48741dae419a15476",
+      "buggy_commits": [
+        {
+          "oid": "e9422e92769e4da26a112a7c1a364df87b8f8756",
+          "message": "[maven-release-plugin] prepare for next development iteration"
+        },
+        {
+          "oid": "6368fbc3a58434260452e69b0857857531671068",
+          "message": "Add assertions for java.lang.reflect. Fix #3130\n\nThis changes adds assertions for classes:\n* Field\n* Method\n* Constructor\n\nFormatting"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/assertj/assertj/issues/3130",
+        "createdAt": "2023-07-31T12:22:05Z",
+        "content": "bug_report_all/assertj_assertj-3131.json"
+      },
+      "changed_tests": [
+        "assertj-core/src/test/java/org/assertj/core/api/member/MemberAssert_isProtected_Test.java",
+        "assertj-core/src/test/java/org/assertj/core/api/member/MemberAssert_isPublic_Test.java",
+        "assertj-core/src/test/java/org/assertj/core/api/method/MethodAssert_isAbstract_Test.java",
+        "assertj-core/src/test/java/org/assertj/core/api/method/MethodAssert_isFinal_Test.java",
+        "assertj-core/src/test/java/org/assertj/core/api/method/MethodAssert_isNotFinal_Test.java",
+        "assertj-core/src/test/java/org/assertj/core/api/method/MethodAssert_isNotStatic_Test.java",
+        "assertj-core/src/test/java/org/assertj/core/api/method/MethodAssert_isStatic_Test.java",
+        "assertj-core/src/test/java/org/assertj/core/error/MemberModifierShouldBe_create_Test.java",
+        "assertj-core/src/test/java/org/assertj/core/error/ShouldBeAbstract_create_Test.java",
+        "assertj-core/src/test/java/org/assertj/core/error/ShouldHaveAnnotations_create_Test.java"
+      ],
+      "PR_url": "https://github.com/assertj/assertj/pull/3131",
+      "merge_commit_url": "https://github.com/assertj/assertj/commit/b4893ad4766ece038906f7a48741dae419a15476",
+      "buggy_commit": "e9422e92769e4da26a112a7c1a364df87b8f8756"
+    },
+    "assertj_assertj-3142": {
+      "bug_id": "assertj_assertj-3142",
+      "PR_number": 3142,
+      "PR_createdAt": "2023-08-06T20:34:05Z",
+      "merge_commit": "9ab5fff325434b01842e8dba795cb35973ee5d52",
+      "buggy_commits": [
+        {
+          "oid": "e9422e92769e4da26a112a7c1a364df87b8f8756",
+          "message": "[maven-release-plugin] prepare for next development iteration"
+        },
+        {
+          "oid": "80e7c81796c09a064148059c8c8b1198b72ff3fa",
+          "message": "feat: add assertions for JDK YearMonth type (#3141)"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/assertj/assertj/issues/3141",
+        "createdAt": "2023-08-06T20:32:59Z",
+        "content": "bug_report_all/assertj_assertj-3142.json"
+      },
+      "changed_tests": [
+        "assertj-core/src/test/java/org/assertj/core/api/yearmonth/YearMonthAssert_isEqualTo_Test.java",
+        "assertj-core/src/test/java/org/assertj/core/api/yearmonth/YearMonthAssert_isInTheFuture_Test.java",
+        "assertj-core/src/test/java/org/assertj/core/api/yearmonth/YearMonthAssert_isInThePast_Test.java",
+        "assertj-core/src/test/java/org/assertj/core/api/yearmonth/YearMonthAssert_isIn_Test.java",
+        "assertj-core/src/test/java/org/assertj/core/api/yearmonth/YearMonthAssert_isNotEqualTo_Test.java",
+        "assertj-core/src/test/java/org/assertj/core/api/yearmonth/YearMonthAssert_isNotIn_Test.java",
+        "assertj-core/src/test/java/org/assertj/core/api/yearmonth/YearMonthAssert_isStrictlyBetween_Test.java",
+        "assertj-core/src/test/java/org/assertj/core/api/yearmonth/YearMonthAssert_isStrictlyBetween_with_String_parameters_Test.java",
+        "assertj-core/src/test/java/org/assertj/core/api/yearmonth/YearMonthAssert_isToday_Test.java",
+        "assertj-core/src/test/java/org/assertj/core/presentation/StandardRepresentation_toStringOf_Test.java"
+      ],
+      "PR_url": "https://github.com/assertj/assertj/pull/3142",
+      "merge_commit_url": "https://github.com/assertj/assertj/commit/9ab5fff325434b01842e8dba795cb35973ee5d52",
+      "buggy_commit": "e9422e92769e4da26a112a7c1a364df87b8f8756"
+    },
+    "assertj_assertj-3185": {
+      "bug_id": "assertj_assertj-3185",
+      "PR_number": 3185,
+      "PR_createdAt": "2023-09-16T05:49:29Z",
+      "merge_commit": "decd9ce7ef7cecbfb382d8abe08dbc7e8312e8e6",
+      "buggy_commits": [
+        {
+          "oid": "e9422e92769e4da26a112a7c1a364df87b8f8756",
+          "message": "[maven-release-plugin] prepare for next development iteration"
+        },
+        {
+          "oid": "18c41141a80ff8e1bd1a6b14b5e0ac21a89dd4cd",
+          "message": "Disable tests failing on Windows\n\n* The conversion shell scripts cannot be executed on Windows.\n* Path related tests trying to create symbolic links fail with an\nexception on Windows, as documented in\njava.nio.file.Files.createSymbolicLink(Path, Path, FileAttribute<?>...)"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/assertj/assertj/issues/3183",
+        "createdAt": "2023-09-15T17:41:31Z",
+        "content": "bug_report_all/assertj_assertj-3185.json"
+      },
+      "changed_tests": [
+        "assertj-core/src/test/java/org/assertj/core/internal/paths/Paths_assertHasNoParent_Test.java",
+        "assertj-core/src/test/java/org/assertj/core/internal/paths/Paths_assertHasParentRaw_Test.java",
+        "assertj-core/src/test/java/org/assertj/core/internal/paths/Paths_assertHasParent_Test.java",
+        "assertj-core/src/test/java/org/assertj/core/internal/paths/Paths_assertIsCanonical_Test.java",
+        "assertj-core/src/test/java/org/assertj/core/internal/paths/Paths_assertIsSymbolicLink_Test.java",
+        "assertj-core/src/test/java/org/assertj/core/internal/paths/Paths_assertNotExists_Test.java",
+        "assertj-core/src/test/java/org/assertj/core/internal/paths/Paths_assertStartsWithRaw_Test.java",
+        "assertj-core/src/test/java/org/assertj/core/internal/paths/Paths_assertStartsWith_Test.java",
+        "assertj-core/src/test/java/org/assertj/scripts/Convert_Junit5_Assertions_To_Assertj_Test.java",
+        "assertj-core/src/test/java/org/assertj/scripts/Convert_Junit_Assertions_To_Assertj_Test.java"
+      ],
+      "PR_url": "https://github.com/assertj/assertj/pull/3185",
+      "merge_commit_url": "https://github.com/assertj/assertj/commit/decd9ce7ef7cecbfb382d8abe08dbc7e8312e8e6",
+      "buggy_commit": "e9422e92769e4da26a112a7c1a364df87b8f8756"
+    },
+    "assertj_assertj-3219": {
+      "bug_id": "assertj_assertj-3219",
+      "PR_number": 3219,
+      "PR_createdAt": "2023-10-12T15:46:11Z",
+      "merge_commit": "86f8b58efc00be1951a92f4ad477416b74559632",
+      "buggy_commits": [
+        {
+          "oid": "e2c418bc8ea5bcaf332bc79aa796f86c03ea1694",
+          "message": "Invoke `isNotNull` in `returns` and `doesNotReturn` (#3224)"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/assertj/assertj/issues/2764",
+        "createdAt": "2022-09-05T04:54:24Z",
+        "content": "bug_report_all/assertj_assertj-3219.json"
+      },
+      "changed_tests": [
+        "assertj-core/src/test/java/org/assertj/core/api/Assertions_allOf_with_ThrowingConsumer_Test.java",
+        "assertj-core/src/test/java/org/assertj/core/api/Assertions_anyOf_with_ThrowingConsumer_Test.java",
+        "assertj-core/src/test/java/org/assertj/core/api/Assertions_sync_with_BDDAssertions_WithAssertions_and_soft_assertions_variants_Test.java"
+      ],
+      "PR_url": "https://github.com/assertj/assertj/pull/3219",
+      "merge_commit_url": "https://github.com/assertj/assertj/commit/86f8b58efc00be1951a92f4ad477416b74559632",
+      "buggy_commit": "e2c418bc8ea5bcaf332bc79aa796f86c03ea1694"
+    },
+    "assertj_assertj-3223": {
+      "bug_id": "assertj_assertj-3223",
+      "PR_number": 3223,
+      "PR_createdAt": "2023-10-14T13:15:41Z",
+      "merge_commit": "4afc64e3b44ee44670748f6450f6c5a24bbb2593",
+      "buggy_commits": [
+        {
+          "oid": "e9422e92769e4da26a112a7c1a364df87b8f8756",
+          "message": "[maven-release-plugin] prepare for next development iteration"
+        },
+        {
+          "oid": "2083929caf0f0ed28c78e0e4a7b0e69eef682c35",
+          "message": "Add package name when unambiguous classes with same name in different package"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/assertj/assertj/issues/3084",
+        "createdAt": "2023-06-15T18:43:18Z",
+        "content": "bug_report_all/assertj_assertj-3223.json"
+      },
+      "changed_tests": [
+        "assertj-core/src/test/java/org/assertj/core/internal/UnambiguousRepresentation_Test.java",
+        "assertj-core/src/test/java/org/assertj/core/presentation/CompositeRepresentation_Test.java",
+        "assertj-core/src/test/java/org/assertj/core/presentation/StandardRepresentation_unambiguousToStringOf_Test.java",
+        "assertj-core/src/test/java/org/assertj/core/util/introspection/ClassUtils_areSameClassInDifferentPackages_Test.java"
+      ],
+      "PR_url": "https://github.com/assertj/assertj/pull/3223",
+      "merge_commit_url": "https://github.com/assertj/assertj/commit/4afc64e3b44ee44670748f6450f6c5a24bbb2593",
+      "buggy_commit": "e9422e92769e4da26a112a7c1a364df87b8f8756"
+    },
+    "assertj_assertj-3224": {
+      "bug_id": "assertj_assertj-3224",
+      "PR_number": 3224,
+      "PR_createdAt": "2023-10-16T16:38:37Z",
+      "merge_commit": "e2c418bc8ea5bcaf332bc79aa796f86c03ea1694",
+      "buggy_commits": [
+        {
+          "oid": "cb7a249ba0146bd5bef04c774df892acb6dd416d",
+          "message": "Bump com.fasterxml.jackson.core:jackson-databind from 2.15.2 to 2.15.3 (#3221)\n\nBumps [com.fasterxml.jackson.core:jackson-databind](https://github.com/FasterXML/jackson) from 2.15.2 to 2.15.3.\n- [Commits](https://github.com/FasterXML/jackson/commits)\n\n---\nupdated-dependencies:\n- dependency-name: com.fasterxml.jackson.core:jackson-databind\n  dependency-type: direct:development\n  update-type: version-update:semver-patch\n...\n\nSigned-off-by: dependabot[bot] <support@github.com>\nCo-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/assertj/assertj/issues/3222",
+        "createdAt": "2023-10-14T13:03:40Z",
+        "content": "bug_report_all/assertj_assertj-3224.json"
+      },
+      "changed_tests": [
+        "assertj-core/src/test/java/org/assertj/core/api/object/ObjectAssert_doesNotReturn_Test.java",
+        "assertj-core/src/test/java/org/assertj/core/api/object/ObjectAssert_returns_Test.java"
+      ],
+      "PR_url": "https://github.com/assertj/assertj/pull/3224",
+      "merge_commit_url": "https://github.com/assertj/assertj/commit/e2c418bc8ea5bcaf332bc79aa796f86c03ea1694",
+      "buggy_commit": "cb7a249ba0146bd5bef04c774df892acb6dd416d"
+    },
+    "assertj_assertj-3232": {
+      "bug_id": "assertj_assertj-3232",
+      "PR_number": 3232,
+      "PR_createdAt": "2023-10-23T15:42:30Z",
+      "merge_commit": "f2f362f755ee44a626ad93640e875158576cbe4c",
+      "buggy_commits": [
+        {
+          "oid": "e9422e92769e4da26a112a7c1a364df87b8f8756",
+          "message": "[maven-release-plugin] prepare for next development iteration"
+        },
+        {
+          "oid": "7f754908c7d56cb0d6bf7937e805eb405b19a089",
+          "message": "fixed formatting issues"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/assertj/assertj/issues/3229",
+        "createdAt": "2023-10-20T18:06:57Z",
+        "content": "bug_report_all/assertj_assertj-3232.json"
+      },
+      "changed_tests": [
+        "assertj-core/src/test/java/org/assertj/core/api/string_/StringAssert_bytes_Test.java"
+      ],
+      "PR_url": "https://github.com/assertj/assertj/pull/3232",
+      "merge_commit_url": "https://github.com/assertj/assertj/commit/f2f362f755ee44a626ad93640e875158576cbe4c",
+      "buggy_commit": "e9422e92769e4da26a112a7c1a364df87b8f8756"
+    },
+    "assertj_assertj-3241": {
+      "bug_id": "assertj_assertj-3241",
+      "PR_number": 3241,
+      "PR_createdAt": "2023-10-28T14:22:30Z",
+      "merge_commit": "dc2f8bb39f3c52d743eb8f8c44a7ffbe8c772e1c",
+      "buggy_commits": [
+        {
+          "oid": "e9422e92769e4da26a112a7c1a364df87b8f8756",
+          "message": "[maven-release-plugin] prepare for next development iteration"
+        },
+        {
+          "oid": "ff3cc336cec4c27910c2af6a3fe94b684da6d32d",
+          "message": "run license format"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/assertj/assertj/issues/2018",
+        "createdAt": "2020-10-13T01:47:28Z",
+        "content": "bug_report_all/assertj_assertj-3241.json"
+      },
+      "changed_tests": [
+        "assertj-tests/assertj-integration-tests/assertj-core-java-17/src/test/java/org/assertj/core/tests/java17/Assertions_usingRecursiveComparison_with_Record_Test.java",
+        "assertj-tests/assertj-integration-tests/assertj-core-java-17/src/test/java/org/assertj/core/tests/java17/util/AssertionErrors.java"
+      ],
+      "PR_url": "https://github.com/assertj/assertj/pull/3241",
+      "merge_commit_url": "https://github.com/assertj/assertj/commit/dc2f8bb39f3c52d743eb8f8c44a7ffbe8c772e1c",
+      "buggy_commit": "e9422e92769e4da26a112a7c1a364df87b8f8756"
+    },
+    "assertj_assertj-3261": {
+      "bug_id": "assertj_assertj-3261",
+      "PR_number": 3261,
+      "PR_createdAt": "2023-11-19T00:15:50Z",
+      "merge_commit": "2db97e470bf2e7dee04a938c4e5ebc551ea9468c",
+      "buggy_commits": [
+        {
+          "oid": "e9422e92769e4da26a112a7c1a364df87b8f8756",
+          "message": "[maven-release-plugin] prepare for next development iteration"
+        },
+        {
+          "oid": "68583181d48cbe12526e9c135f322b0b2cea0bf1",
+          "message": "Add doesNotThrowAnyExceptionExcept to AbstractThrowableAssert"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/assertj/assertj/issues/3248",
+        "createdAt": "2023-11-02T08:21:44Z",
+        "content": "bug_report_all/assertj_assertj-3261.json"
+      },
+      "changed_tests": [
+        "assertj-core/src/test/java/org/assertj/core/api/Assertions_assertThatCode_Test.java",
+        "assertj-core/src/test/java/org/assertj/core/error/ShouldNotHaveThrownExcept_create_Test.java"
+      ],
+      "PR_url": "https://github.com/assertj/assertj/pull/3261",
+      "merge_commit_url": "https://github.com/assertj/assertj/commit/2db97e470bf2e7dee04a938c4e5ebc551ea9468c",
+      "buggy_commit": "e9422e92769e4da26a112a7c1a364df87b8f8756"
+    },
+    "assertj_assertj-3316": {
+      "bug_id": "assertj_assertj-3316",
+      "PR_number": 3316,
+      "PR_createdAt": "2024-01-02T14:01:56Z",
+      "merge_commit": "13603dd06d95b347dbd97745ba5ca5e86ef0247a",
+      "buggy_commits": [
+        {
+          "oid": "e9422e92769e4da26a112a7c1a364df87b8f8756",
+          "message": "[maven-release-plugin] prepare for next development iteration"
+        },
+        {
+          "oid": "c8068478c64c3fbdbeaddf8a8cd893068bf7d0b3",
+          "message": "Move implementation of hasPermittedSubclasses from Classes to AbstractClassAssert"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/assertj/assertj/issues/3263",
+        "createdAt": "2023-11-19T20:53:02Z",
+        "content": "bug_report_all/assertj_assertj-3316.json"
+      },
+      "changed_tests": [
+        "assertj-core/src/test/java/org/assertj/core/api/classes/ClassAssert_hasPermittedSubclasses.java",
+        "assertj-core/src/test/java/org/assertj/core/error/ShouldHavePermittedSubclasses_create_Test.java",
+        "assertj-tests/assertj-integration-tests/assertj-core-java-17/src/test/java/org/assertj/core/tests/java17/Assertions_assertThat_with_Class_Test.java"
+      ],
+      "PR_url": "https://github.com/assertj/assertj/pull/3316",
+      "merge_commit_url": "https://github.com/assertj/assertj/commit/13603dd06d95b347dbd97745ba5ca5e86ef0247a",
+      "buggy_commit": "e9422e92769e4da26a112a7c1a364df87b8f8756"
+    },
+    "assertj_assertj-3318": {
+      "bug_id": "assertj_assertj-3318",
+      "PR_number": 3318,
+      "PR_createdAt": "2024-01-02T21:28:12Z",
+      "merge_commit": "2a7c5a6e205e29d42e9886657987893cb03b6875",
+      "buggy_commits": [
+        {
+          "oid": "887f97b65da068e03308a6373a0c8a76912377aa",
+          "message": "Update license headers"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/assertj/assertj/issues/3314",
+        "createdAt": "2024-01-01T17:39:09Z",
+        "content": "bug_report_all/assertj_assertj-3318.json"
+      },
+      "changed_tests": [
+        "assertj-core/src/test/java/org/assertj/core/api/Assertions_assertThatThrownBy_Test.java",
+        "assertj-core/src/test/java/org/assertj/core/api/throwable/ThrowableAssert_built_from_ThrowingCallable_Test.java",
+        "assertj-core/src/test/java/org/assertj/core/api/throwable/ThrowableAssert_built_with_then_method_Test.java"
+      ],
+      "PR_url": "https://github.com/assertj/assertj/pull/3318",
+      "merge_commit_url": "https://github.com/assertj/assertj/commit/2a7c5a6e205e29d42e9886657987893cb03b6875",
+      "buggy_commit": "887f97b65da068e03308a6373a0c8a76912377aa"
+    }
+  },
+  "checkstyle_checkstyle": {
+    "checkstyle_checkstyle-13291": {
+      "bug_id": "checkstyle_checkstyle-13291",
+      "PR_number": 13291,
+      "PR_createdAt": "2023-06-22T05:09:41Z",
+      "merge_commit": "34e7d5c714b2df62781790537c6127b5712ec097",
+      "buggy_commits": [
+        {
+          "oid": "2bd1a8bb63bcf0f4e5e90fb52e4c5aaccf53657b",
+          "message": "Issue #13328: Kill mutation for HiddenField"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/checkstyle/checkstyle/issues/13279",
+        "createdAt": "2023-06-20T21:13:07Z",
+        "content": "bug_report_all/checkstyle_checkstyle-13291.json"
+      },
+      "changed_tests": [
+        "src/test/java/com/puppycrawl/tools/checkstyle/checks/coding/ModifiedControlVariableCheckTest.java",
+        "src/test/java/com/puppycrawl/tools/checkstyle/grammar/java20/Java20AstRegressionTest.java",
+        "src/test/resources-noncompilable/com/puppycrawl/tools/checkstyle/checks/coding/modifiedcontrolvariable/InputModifiedControlVariableRecordDecomposition.java",
+        "src/test/resources-noncompilable/com/puppycrawl/tools/checkstyle/grammar/java20/InputJava20RecordDecompositionEnhancedForLoop.java",
+        "src/test/resources-noncompilable/com/puppycrawl/tools/checkstyle/grammar/java20/InputJava20RecordDecompositionEnhancedForLoopTricky.java"
+      ],
+      "PR_url": "https://github.com/checkstyle/checkstyle/pull/13291",
+      "merge_commit_url": "https://github.com/checkstyle/checkstyle/commit/34e7d5c714b2df62781790537c6127b5712ec097",
+      "buggy_commit": "2bd1a8bb63bcf0f4e5e90fb52e4c5aaccf53657b"
+    },
+    "checkstyle_checkstyle-13327": {
+      "bug_id": "checkstyle_checkstyle-13327",
+      "PR_number": 13327,
+      "PR_createdAt": "2023-06-27T20:06:56Z",
+      "merge_commit": "61eb1ae8fb640763d7b3f260c8f7860adef5fdd3",
+      "buggy_commits": [
+        {
+          "oid": "cf76b654d4f29fc315677edef738df6c36c34652",
+          "message": "Issue #13328: Kill mutation for PackageNamesLoader"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/checkstyle/checkstyle/issues/13301",
+        "createdAt": "2023-06-24T11:33:20Z",
+        "content": "bug_report_all/checkstyle_checkstyle-13327.json"
+      },
+      "changed_tests": [
+        "src/test/java/com/puppycrawl/tools/checkstyle/internal/XdocsPagesTest.java"
+      ],
+      "PR_url": "https://github.com/checkstyle/checkstyle/pull/13327",
+      "merge_commit_url": "https://github.com/checkstyle/checkstyle/commit/61eb1ae8fb640763d7b3f260c8f7860adef5fdd3",
+      "buggy_commit": "cf76b654d4f29fc315677edef738df6c36c34652"
+    },
+    "checkstyle_checkstyle-13357": {
+      "bug_id": "checkstyle_checkstyle-13357",
+      "PR_number": 13357,
+      "PR_createdAt": "2023-07-04T12:31:48Z",
+      "merge_commit": "bb64c20cbcf6e543b297b6e809f379bd8746b5e7",
+      "buggy_commits": [
+        {
+          "oid": "f4a33f90bf8eda8ef2cdf7f66fd60878d2aa1736",
+          "message": "Issue #12974: Updated Fall through docs"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/checkstyle/checkstyle/issues/13134",
+        "createdAt": "2023-06-02T07:25:24Z",
+        "content": "bug_report_all/checkstyle_checkstyle-13357.json"
+      },
+      "changed_tests": [
+        "src/test/java/com/puppycrawl/tools/checkstyle/internal/XdocsJavaDocsTest.java",
+        "src/test/java/com/puppycrawl/tools/checkstyle/internal/XdocsPagesTest.java",
+        "src/test/java/com/puppycrawl/tools/checkstyle/internal/utils/XdocGenerator.java",
+        "src/test/java/com/puppycrawl/tools/checkstyle/internal/utils/XdocUtil.java",
+        "src/xdocs-examples/java/com/puppycrawl/tools/checkstyle/checks/whitespace/WhitespaceAfterExamplesTest.java"
+      ],
+      "PR_url": "https://github.com/checkstyle/checkstyle/pull/13357",
+      "merge_commit_url": "https://github.com/checkstyle/checkstyle/commit/bb64c20cbcf6e543b297b6e809f379bd8746b5e7",
+      "buggy_commit": "f4a33f90bf8eda8ef2cdf7f66fd60878d2aa1736"
+    },
+    "checkstyle_checkstyle-13395": {
+      "bug_id": "checkstyle_checkstyle-13395",
+      "PR_number": 13395,
+      "PR_createdAt": "2023-07-13T14:09:47Z",
+      "merge_commit": "c0a276172745144310ec4d3db50248a85413bf3c",
+      "buggy_commits": [
+        {
+          "oid": "d6cee1a33536f65f29462d3f97e8f6699f9b1a02",
+          "message": "Issue #13321: Kill mutation for SuppressionLoader"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/checkstyle/checkstyle/issues/13389",
+        "createdAt": "2023-07-12T08:02:30Z",
+        "content": "bug_report_all/checkstyle_checkstyle-13395.json"
+      },
+      "changed_tests": [
+        "src/test/java/com/puppycrawl/tools/checkstyle/internal/XdocsPagesTest.java",
+        "src/test/java/com/puppycrawl/tools/checkstyle/internal/utils/XdocUtil.java"
+      ],
+      "PR_url": "https://github.com/checkstyle/checkstyle/pull/13395",
+      "merge_commit_url": "https://github.com/checkstyle/checkstyle/commit/c0a276172745144310ec4d3db50248a85413bf3c",
+      "buggy_commit": "d6cee1a33536f65f29462d3f97e8f6699f9b1a02"
+    },
+    "checkstyle_checkstyle-13456": {
+      "bug_id": "checkstyle_checkstyle-13456",
+      "PR_number": 13456,
+      "PR_createdAt": "2023-07-26T16:25:24Z",
+      "merge_commit": "a35f33caff9a6474f742495fd3b9a02bb40bdcaa",
+      "buggy_commits": [
+        {
+          "oid": "f74293afa82555fad346798705c65009325ea99a",
+          "message": "Pull #13505: Restore usage of TreeSet"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/checkstyle/checkstyle/issues/13428",
+        "createdAt": "2023-07-24T18:46:24Z",
+        "content": "bug_report_all/checkstyle_checkstyle-13456.json"
+      },
+      "changed_tests": [
+        "src/test/java/com/puppycrawl/tools/checkstyle/internal/XdocsPagesTest.java"
+      ],
+      "PR_url": "https://github.com/checkstyle/checkstyle/pull/13456",
+      "merge_commit_url": "https://github.com/checkstyle/checkstyle/commit/a35f33caff9a6474f742495fd3b9a02bb40bdcaa",
+      "buggy_commit": "f74293afa82555fad346798705c65009325ea99a"
+    },
+    "checkstyle_checkstyle-13607": {
+      "bug_id": "checkstyle_checkstyle-13607",
+      "PR_number": 13607,
+      "PR_createdAt": "2023-08-24T10:59:46Z",
+      "merge_commit": "2d69d7e99e58c5ccf66b644366efd0fa40e1063e",
+      "buggy_commits": [
+        {
+          "oid": "97f559153c64c84554d097df88f6477ee005966c",
+          "message": "Issue #13399: Implement module properties macro"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/checkstyle/checkstyle/issues/13596",
+        "createdAt": "2023-08-23T00:51:22Z",
+        "content": "bug_report_all/checkstyle_checkstyle-13607.json"
+      },
+      "changed_tests": [
+        "src/test/java/com/puppycrawl/tools/checkstyle/checks/javadoc/MissingJavadocMethodCheckTest.java",
+        "src/test/java/com/puppycrawl/tools/checkstyle/internal/XdocsJavaDocsTest.java",
+        "src/test/java/com/puppycrawl/tools/checkstyle/utils/CheckUtilTest.java",
+        "src/test/resources-noncompilable/com/puppycrawl/tools/checkstyle/checks/javadoc/missingjavadocmethod/InputMissingJavadocMethodBasic.java",
+        "src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/missingjavadocmethod/InputMissingJavadocMethodSetterGetter3.java",
+        "src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/missingjavadocmethod/InputMissingJavadocMethodSetterGetter4.java"
+      ],
+      "PR_url": "https://github.com/checkstyle/checkstyle/pull/13607",
+      "merge_commit_url": "https://github.com/checkstyle/checkstyle/commit/2d69d7e99e58c5ccf66b644366efd0fa40e1063e",
+      "buggy_commit": "97f559153c64c84554d097df88f6477ee005966c"
+    },
+    "checkstyle_checkstyle-13662": {
+      "bug_id": "checkstyle_checkstyle-13662",
+      "PR_number": 13662,
+      "PR_createdAt": "2023-08-29T14:54:26Z",
+      "merge_commit": "7f6df92a4f2cf2db3c954577ef856594645e459b",
+      "buggy_commits": [
+        {
+          "oid": "54649c930bfd0fc09f59fb5afdd8c6df82c680a5",
+          "message": "Issue #13501: Kill mutation for CodePointUtil"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/checkstyle/checkstyle/issues/13429",
+        "createdAt": "2023-07-24T18:55:46Z",
+        "content": "bug_report_all/checkstyle_checkstyle-13662.json"
+      },
+      "changed_tests": [
+        "src/test/java/com/puppycrawl/tools/checkstyle/internal/XdocsJavaDocsTest.java"
+      ],
+      "PR_url": "https://github.com/checkstyle/checkstyle/pull/13662",
+      "merge_commit_url": "https://github.com/checkstyle/checkstyle/commit/7f6df92a4f2cf2db3c954577ef856594645e459b",
+      "buggy_commit": "54649c930bfd0fc09f59fb5afdd8c6df82c680a5"
+    },
+    "checkstyle_checkstyle-13667": {
+      "bug_id": "checkstyle_checkstyle-13667",
+      "PR_number": 13667,
+      "PR_createdAt": "2023-08-30T08:31:36Z",
+      "merge_commit": "babe10971931f035997f3d735e643a1b00b05db2",
+      "buggy_commits": [
+        {
+          "oid": "acecbd4d7ec4a20c1c1130dfcdd8823e01ae3a8a",
+          "message": "Issue #13501: Kill mutation for JavaParser2"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/checkstyle/checkstyle/issues/13666",
+        "createdAt": "2023-08-30T07:20:01Z",
+        "content": "bug_report_all/checkstyle_checkstyle-13667.json"
+      },
+      "changed_tests": [
+        "src/test/java/com/puppycrawl/tools/checkstyle/internal/XdocsPagesTest.java"
+      ],
+      "PR_url": "https://github.com/checkstyle/checkstyle/pull/13667",
+      "merge_commit_url": "https://github.com/checkstyle/checkstyle/commit/babe10971931f035997f3d735e643a1b00b05db2",
+      "buggy_commit": "acecbd4d7ec4a20c1c1130dfcdd8823e01ae3a8a"
+    },
+    "checkstyle_checkstyle-13964": {
+      "bug_id": "checkstyle_checkstyle-13964",
+      "PR_number": 13964,
+      "PR_createdAt": "2023-10-28T11:55:08Z",
+      "merge_commit": "76a65e13e6e75b36106f49b7d27b2727d17dc153",
+      "buggy_commits": [
+        {
+          "oid": "c93a60b71e8bdbc07871bfabaf718356f1e0d728",
+          "message": "Issue #13839: migrate SuppressWarningsHolder to use property macro"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/checkstyle/checkstyle/issues/13839",
+        "createdAt": "2023-10-06T13:26:59Z",
+        "content": "bug_report_all/checkstyle_checkstyle-13964.json"
+      },
+      "changed_tests": [
+        "src/test/java/com/puppycrawl/tools/checkstyle/internal/XdocsPagesTest.java"
+      ],
+      "PR_url": "https://github.com/checkstyle/checkstyle/pull/13964",
+      "merge_commit_url": "https://github.com/checkstyle/checkstyle/commit/76a65e13e6e75b36106f49b7d27b2727d17dc153",
+      "buggy_commit": "c93a60b71e8bdbc07871bfabaf718356f1e0d728"
+    },
+    "checkstyle_checkstyle-13971": {
+      "bug_id": "checkstyle_checkstyle-13971",
+      "PR_number": 13971,
+      "PR_createdAt": "2023-10-30T11:14:55Z",
+      "merge_commit": "439d69c4359ace6493e19856bc613e9e293e6032",
+      "buggy_commits": [
+        {
+          "oid": "88051b80f4783a9146937f5b6dc0a6d954378bd2",
+          "message": "Issue #13693: mirgate few metrics modules to properties macros"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/checkstyle/checkstyle/issues/13930",
+        "createdAt": "2023-10-22T13:25:21Z",
+        "content": "bug_report_all/checkstyle_checkstyle-13971.json"
+      },
+      "changed_tests": [
+        "src/test/java/com/puppycrawl/tools/checkstyle/internal/XdocsJavaDocsTest.java"
+      ],
+      "PR_url": "https://github.com/checkstyle/checkstyle/pull/13971",
+      "merge_commit_url": "https://github.com/checkstyle/checkstyle/commit/439d69c4359ace6493e19856bc613e9e293e6032",
+      "buggy_commit": "88051b80f4783a9146937f5b6dc0a6d954378bd2"
+    },
+    "checkstyle_checkstyle-14000": {
+      "bug_id": "checkstyle_checkstyle-14000",
+      "PR_number": 14000,
+      "PR_createdAt": "2023-11-06T20:24:09Z",
+      "merge_commit": "abed5ad98834e90774d47fa0962504f93c25023d",
+      "buggy_commits": [
+        {
+          "oid": "45787f07ce7578cb48d2c823a543b94483e0a93b",
+          "message": "dependency: bump org.apache.maven.plugins:maven-javadoc-plugin\n\nBumps [org.apache.maven.plugins:maven-javadoc-plugin](https://github.com/apache/maven-javadoc-plugin) from 3.6.0 to 3.6.2.\n- [Release notes](https://github.com/apache/maven-javadoc-plugin/releases)\n- [Commits](https://github.com/apache/maven-javadoc-plugin/compare/maven-javadoc-plugin-3.6.0...maven-javadoc-plugin-3.6.2)\n\n---\nupdated-dependencies:\n- dependency-name: org.apache.maven.plugins:maven-javadoc-plugin\n  dependency-type: direct:production\n  update-type: version-update:semver-patch\n...\n\nSigned-off-by: dependabot[bot] <support@github.com>"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/checkstyle/checkstyle/issues/11214",
+        "createdAt": "2022-01-18T10:04:30Z",
+        "content": "bug_report_all/checkstyle_checkstyle-14000.json"
+      },
+      "changed_tests": [
+        "src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleScopeProtected1.java",
+        "src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleScopeProtected2.java",
+        "src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleScopeProtected3.java",
+        "src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleScopeProtected4.java",
+        "src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleScopePublic1.java",
+        "src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleScopePublic2.java",
+        "src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleScopePublic3.java",
+        "src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleScopePublic4.java",
+        "src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/pkginfo/invalidformat/package-info.java",
+        "src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/pkginfo/invalidinherit/package-info.java"
+      ],
+      "PR_url": "https://github.com/checkstyle/checkstyle/pull/14000",
+      "merge_commit_url": "https://github.com/checkstyle/checkstyle/commit/abed5ad98834e90774d47fa0962504f93c25023d",
+      "buggy_commit": "45787f07ce7578cb48d2c823a543b94483e0a93b"
+    },
+    "checkstyle_checkstyle-14024": {
+      "bug_id": "checkstyle_checkstyle-14024",
+      "PR_number": 14024,
+      "PR_createdAt": "2023-11-12T14:38:05Z",
+      "merge_commit": "3a23ae03d5f7cd3e59693017b5c971bb3d886770",
+      "buggy_commits": [
+        {
+          "oid": "56661180239cd29f7e59ddf880517cc9a6f7beea",
+          "message": "supplemental: Update tests for Issue #14014"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/checkstyle/checkstyle/issues/14014",
+        "createdAt": "2023-11-10T08:34:31Z",
+        "content": "bug_report_all/checkstyle_checkstyle-14024.json"
+      },
+      "changed_tests": [
+        "src/test/java/com/puppycrawl/tools/checkstyle/checks/indentation/IndentationCheckTest.java",
+        "src/test/resources-noncompilable/com/puppycrawl/tools/checkstyle/checks/indentation/indentation/InputIndentationCheckSwitchExpressionDeclarationLCurlyNewLine.java"
+      ],
+      "PR_url": "https://github.com/checkstyle/checkstyle/pull/14024",
+      "merge_commit_url": "https://github.com/checkstyle/checkstyle/commit/3a23ae03d5f7cd3e59693017b5c971bb3d886770",
+      "buggy_commit": "56661180239cd29f7e59ddf880517cc9a6f7beea"
+    },
+    "checkstyle_checkstyle-14054": {
+      "bug_id": "checkstyle_checkstyle-14054",
+      "PR_number": 14054,
+      "PR_createdAt": "2023-11-21T07:14:22Z",
+      "merge_commit": "61cb2f746e316e962b877b12b7ace2be54e10049",
+      "buggy_commits": [
+        {
+          "oid": "aa283c7ff90ebdc69e8380f66ce46a52cd4fa661",
+          "message": "minor: Remove closed issue reference"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/checkstyle/checkstyle/issues/14042",
+        "createdAt": "2023-11-18T15:09:43Z",
+        "content": "bug_report_all/checkstyle_checkstyle-14054.json"
+      },
+      "changed_tests": [
+        "src/test/resources/com/puppycrawl/tools/checkstyle/checks/coding/unusedlocalvariable/InputUnusedLocalVariableDepthOfClasses.java"
+      ],
+      "PR_url": "https://github.com/checkstyle/checkstyle/pull/14054",
+      "merge_commit_url": "https://github.com/checkstyle/checkstyle/commit/61cb2f746e316e962b877b12b7ace2be54e10049",
+      "buggy_commit": "aa283c7ff90ebdc69e8380f66ce46a52cd4fa661"
+    },
+    "checkstyle_checkstyle-14057": {
+      "bug_id": "checkstyle_checkstyle-14057",
+      "PR_number": 14057,
+      "PR_createdAt": "2023-11-21T12:33:36Z",
+      "merge_commit": "b142dda4728548a6553733b6f20b6b2dfd3d687e",
+      "buggy_commits": [
+        {
+          "oid": "210911a4ea56beb88051af6051a9d18320ce1cfb",
+          "message": "dependency: bump org.pitest:pitest-junit5-plugin from 1.2.0 to 1.2.1\n\nBumps [org.pitest:pitest-junit5-plugin](https://github.com/pitest/pitest-junit5-plugin) from 1.2.0 to 1.2.1.\n- [Commits](https://github.com/pitest/pitest-junit5-plugin/compare/1.2.0...1.2.1)\n\n---\nupdated-dependencies:\n- dependency-name: org.pitest:pitest-junit5-plugin\n  dependency-type: direct:production\n  update-type: version-update:semver-patch\n...\n\nSigned-off-by: dependabot[bot] <support@github.com>"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/checkstyle/checkstyle/issues/14064",
+        "createdAt": "2023-11-25T13:54:20Z",
+        "content": "bug_report_all/checkstyle_checkstyle-14057.json"
+      },
+      "changed_tests": [
+        "src/test/java/com/puppycrawl/tools/checkstyle/checks/regexp/RegexpCheckTest.java",
+        "src/test/resources/com/puppycrawl/tools/checkstyle/checks/regexp/regexp/InputRegexpCheckDefault.java",
+        "src/test/resources/com/puppycrawl/tools/checkstyle/checks/regexp/regexp/InputRegexpSemantic2.java",
+        "src/test/resources/com/puppycrawl/tools/checkstyle/checks/regexp/regexp/InputRegexpStartingWithEmptyLine.java",
+        "src/test/resources/com/puppycrawl/tools/checkstyle/checks/regexp/regexp/InputRegexpTrailingComment11.java"
+      ],
+      "PR_url": "https://github.com/checkstyle/checkstyle/pull/14057",
+      "merge_commit_url": "https://github.com/checkstyle/checkstyle/commit/b142dda4728548a6553733b6f20b6b2dfd3d687e",
+      "buggy_commit": "210911a4ea56beb88051af6051a9d18320ce1cfb"
+    },
+    "checkstyle_checkstyle-14089": {
+      "bug_id": "checkstyle_checkstyle-14089",
+      "PR_number": 14089,
+      "PR_createdAt": "2023-12-01T21:30:05Z",
+      "merge_commit": "5cf9a6a700e8a230f7a5ba09100e8ac0b32ce4f4",
+      "buggy_commits": [
+        {
+          "oid": "48a8abef6f6c41bdfebb00da422970c2c6a4d46e",
+          "message": "Issue #3132: fixed not checked split line new array"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/checkstyle/checkstyle/issues/13307",
+        "createdAt": "2023-06-26T01:46:15Z",
+        "content": "bug_report_all/checkstyle_checkstyle-14089.json"
+      },
+      "changed_tests": [
+        "src/test/java/com/puppycrawl/tools/checkstyle/bdd/InlineConfigParser.java",
+        "src/test/java/com/puppycrawl/tools/checkstyle/bdd/TestInputConfiguration.java",
+        "src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/abstractjavadoc/InputAbstractJavadocNonTightHtmlTags2.java",
+        "src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/abstractjavadoc/InputAbstractJavadocNonTightHtmlTags3.java"
+      ],
+      "PR_url": "https://github.com/checkstyle/checkstyle/pull/14089",
+      "merge_commit_url": "https://github.com/checkstyle/checkstyle/commit/5cf9a6a700e8a230f7a5ba09100e8ac0b32ce4f4",
+      "buggy_commit": "48a8abef6f6c41bdfebb00da422970c2c6a4d46e"
+    }
+  }
+}

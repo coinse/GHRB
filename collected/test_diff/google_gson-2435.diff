@@ -1,0 +1,843 @@
+diff --git a/gson/src/test/java/com/google/gson/GsonTest.java b/gson/src/test/java/com/google/gson/GsonTest.java
+index a8e8e88b..47c3836d 100644
+--- a/gson/src/test/java/com/google/gson/GsonTest.java
++++ b/gson/src/test/java/com/google/gson/GsonTest.java
+@@ -272,6 +272,90 @@ public final class GsonTest {
+     assertThat(otherThreadAdapter.get().toJson(null)).isEqualTo("[[\"wrapped-nested\"]]");
+   }
+ 
++  @Test
++  public void testGetDelegateAdapter() {
++    class DummyAdapter extends TypeAdapter<Number> {
++      private final int number;
++
++      DummyAdapter(int number) {
++        this.number = number;
++      }
++
++      @Override
++      public Number read(JsonReader in) throws IOException {
++        throw new AssertionError("not needed for test");
++      }
++
++      @Override
++      public void write(JsonWriter out, Number value) throws IOException {
++        throw new AssertionError("not needed for test");
++      }
++
++      // Override toString() for better assertion error messages
++      @Override
++      public String toString() {
++        return "adapter-" + number;
++      }
++    }
++
++    class DummyFactory implements TypeAdapterFactory {
++      private final DummyAdapter adapter;
++
++      DummyFactory(DummyAdapter adapter) {
++        this.adapter = adapter;
++      }
++
++      @SuppressWarnings("unchecked")
++      @Override
++      public <T> TypeAdapter<T> create(Gson gson, TypeToken<T> type) {
++        return (TypeAdapter<T>) adapter;
++      }
++
++      // Override equals to verify that reference equality check is performed by Gson,
++      // and this method is ignored
++      @Override
++      public boolean equals(Object obj) {
++        return obj instanceof DummyFactory && ((DummyFactory) obj).adapter.equals(adapter);
++      }
++
++      @Override
++      public int hashCode() {
++        return adapter.hashCode();
++      }
++    }
++
++    DummyAdapter adapter1 = new DummyAdapter(1);
++    DummyFactory factory1 = new DummyFactory(adapter1);
++    DummyAdapter adapter2 = new DummyAdapter(2);
++    DummyFactory factory2 = new DummyFactory(adapter2);
++
++    Gson gson = new GsonBuilder()
++        // Note: This is 'last in, first out' order; Gson will first use factory2, then factory1
++        .registerTypeAdapterFactory(factory1)
++        .registerTypeAdapterFactory(factory2)
++        .create();
++
++    TypeToken<?> type = TypeToken.get(Number.class);
++
++    assertThrows(NullPointerException.class, () -> gson.getDelegateAdapter(null, type));
++    assertThrows(NullPointerException.class, () -> gson.getDelegateAdapter(factory1, null));
++
++    // For unknown factory the first adapter for that type should be returned
++    assertThat(gson.getDelegateAdapter(new DummyFactory(new DummyAdapter(0)), type)).isEqualTo(adapter2);
++
++    assertThat(gson.getDelegateAdapter(factory2, type)).isEqualTo(adapter1);
++    // Default Gson adapter should be returned
++    assertThat(gson.getDelegateAdapter(factory1, type)).isNotInstanceOf(DummyAdapter.class);
++
++    DummyFactory factory1Eq = new DummyFactory(adapter1);
++    // Verify that test setup is correct
++    assertThat(factory1.equals(factory1Eq)).isTrue();
++    // Should only consider reference equality and ignore that custom `equals` method considers
++    // factories to be equal, therefore returning `adapter2` which came from `factory2` instead
++    // of skipping past `factory1`
++    assertThat(gson.getDelegateAdapter(factory1Eq, type)).isEqualTo(adapter2);
++  }
++
+   @Test
+   public void testNewJsonWriter_Default() throws IOException {
+     StringWriter writer = new StringWriter();
+diff --git a/gson/src/test/java/com/google/gson/functional/InstanceCreatorTest.java b/gson/src/test/java/com/google/gson/functional/InstanceCreatorTest.java
+index ea3f9799..e228ef15 100644
+--- a/gson/src/test/java/com/google/gson/functional/InstanceCreatorTest.java
++++ b/gson/src/test/java/com/google/gson/functional/InstanceCreatorTest.java
+@@ -33,7 +33,7 @@ import java.util.TreeSet;
+ import org.junit.Test;
+ 
+ /**
+- * Functional Test exercising custom serialization only. When test applies to both
++ * Functional Test exercising custom deserialization only. When test applies to both
+  * serialization and deserialization then add it to CustomTypeAdapterTest.
+  *
+  * @author Inderjeet Singh
+diff --git a/gson/src/test/java/com/google/gson/functional/JsonAdapterAnnotationOnClassesTest.java b/gson/src/test/java/com/google/gson/functional/JsonAdapterAnnotationOnClassesTest.java
+index 3edd8d79..d540f6e7 100644
+--- a/gson/src/test/java/com/google/gson/functional/JsonAdapterAnnotationOnClassesTest.java
++++ b/gson/src/test/java/com/google/gson/functional/JsonAdapterAnnotationOnClassesTest.java
+@@ -22,6 +22,7 @@ import static org.junit.Assert.fail;
+ import com.google.common.base.Splitter;
+ import com.google.gson.Gson;
+ import com.google.gson.GsonBuilder;
++import com.google.gson.InstanceCreator;
+ import com.google.gson.JsonDeserializationContext;
+ import com.google.gson.JsonDeserializer;
+ import com.google.gson.JsonElement;
+@@ -42,7 +43,7 @@ import java.util.Locale;
+ import org.junit.Test;
+ 
+ /**
+- * Functional tests for the {@link com.google.gson.annotations.JsonAdapter} annotation on classes.
++ * Functional tests for the {@link JsonAdapter} annotation on classes.
+  */
+ public final class JsonAdapterAnnotationOnClassesTest {
+ 
+@@ -274,4 +275,335 @@ public final class JsonAdapterAnnotationOnClassesTest {
+   private static final class D {
+     @SuppressWarnings("unused") final String value = "a";
+   }
++
++  /**
++   * Verifies that {@link TypeAdapterFactory} specified by {@code @JsonAdapter} can
++   * call {@link Gson#getDelegateAdapter} without any issues, despite the factory
++   * not being directly registered on Gson.
++   */
++  @Test
++  public void testDelegatingAdapterFactory() {
++    @SuppressWarnings("unchecked")
++    WithDelegatingFactory<String> deserialized = new Gson().fromJson("{\"custom\":{\"f\":\"de\"}}", WithDelegatingFactory.class);
++    assertThat(deserialized.f).isEqualTo("de");
++
++    deserialized = new Gson().fromJson("{\"custom\":{\"f\":\"de\"}}", new TypeToken<WithDelegatingFactory<String>>() {});
++    assertThat(deserialized.f).isEqualTo("de");
++
++    WithDelegatingFactory<String> serialized = new WithDelegatingFactory<>("se");
++    assertThat(new Gson().toJson(serialized)).isEqualTo("{\"custom\":{\"f\":\"se\"}}");
++  }
++  @JsonAdapter(WithDelegatingFactory.Factory.class)
++  private static class WithDelegatingFactory<T> {
++    T f;
++
++    WithDelegatingFactory(T f) {
++      this.f = f;
++    }
++
++    static class Factory implements TypeAdapterFactory {
++      @Override
++      public <T> TypeAdapter<T> create(Gson gson, TypeToken<T> type) {
++        if (type.getRawType() != WithDelegatingFactory.class) {
++          return null;
++        }
++
++        TypeAdapter<T> delegate = gson.getDelegateAdapter(this, type);
++
++        return new TypeAdapter<T>() {
++          @Override
++          public T read(JsonReader in) throws IOException {
++            // Perform custom deserialization
++            in.beginObject();
++            assertThat(in.nextName()).isEqualTo("custom");
++            T t = delegate.read(in);
++            in.endObject();
++
++            return t;
++          }
++
++          @Override
++          public void write(JsonWriter out, T value) throws IOException {
++            // Perform custom serialization
++            out.beginObject();
++            out.name("custom");
++            delegate.write(out, value);
++            out.endObject();
++          }
++        };
++      }
++    }
++  }
++
++  /**
++   * Similar to {@link #testDelegatingAdapterFactory}, except that the delegate is not
++   * looked up in {@code create} but instead in the adapter methods.
++   */
++  @Test
++  public void testDelegatingAdapterFactory_Delayed() {
++    WithDelayedDelegatingFactory deserialized = new Gson().fromJson("{\"custom\":{\"f\":\"de\"}}", WithDelayedDelegatingFactory.class);
++    assertThat(deserialized.f).isEqualTo("de");
++
++    WithDelayedDelegatingFactory serialized = new WithDelayedDelegatingFactory("se");
++    assertThat(new Gson().toJson(serialized)).isEqualTo("{\"custom\":{\"f\":\"se\"}}");
++  }
++  @JsonAdapter(WithDelayedDelegatingFactory.Factory.class)
++  private static class WithDelayedDelegatingFactory {
++    String f;
++
++    WithDelayedDelegatingFactory(String f) {
++      this.f = f;
++    }
++
++    static class Factory implements TypeAdapterFactory {
++      @Override
++      public <T> TypeAdapter<T> create(Gson gson, TypeToken<T> type) {
++        return new TypeAdapter<T>() {
++          @SuppressWarnings("SameNameButDifferent") // suppress Error Prone warning; should be clear that `Factory` refers to enclosing class
++          private TypeAdapter<T> delegate() {
++            return gson.getDelegateAdapter(Factory.this, type);
++          }
++
++          @Override
++          public T read(JsonReader in) throws IOException {
++            // Perform custom deserialization
++            in.beginObject();
++            assertThat(in.nextName()).isEqualTo("custom");
++            T t = delegate().read(in);
++            in.endObject();
++
++            return t;
++          }
++
++          @Override
++          public void write(JsonWriter out, T value) throws IOException {
++            // Perform custom serialization
++            out.beginObject();
++            out.name("custom");
++            delegate().write(out, value);
++            out.endObject();
++          }
++        };
++      }
++    }
++  }
++
++  /**
++   * Tests behavior of {@link Gson#getDelegateAdapter} when <i>different</i> instances of the same
++   * factory class are used; one registered on the {@code GsonBuilder} and the other implicitly
++   * through {@code @JsonAdapter}.
++   */
++  @Test
++  public void testDelegating_SameFactoryClass() {
++    Gson gson = new GsonBuilder()
++        .registerTypeAdapterFactory(new WithDelegatingFactory.Factory())
++        .create();
++
++    // Should use both factories, and therefore have `{"custom": ... }` twice
++    WithDelegatingFactory<?> deserialized = gson.fromJson("{\"custom\":{\"custom\":{\"f\":\"de\"}}}", WithDelegatingFactory.class);
++    assertThat(deserialized.f).isEqualTo("de");
++
++    WithDelegatingFactory<String> serialized = new WithDelegatingFactory<>("se");
++    assertThat(gson.toJson(serialized)).isEqualTo("{\"custom\":{\"custom\":{\"f\":\"se\"}}}");
++  }
++
++  /**
++   * Tests behavior of {@link Gson#getDelegateAdapter} when the <i>same</i> instance of a factory
++   * is used (through {@link InstanceCreator}).
++   *
++   * <p><b>Important:</b> This situation is likely a rare corner case; the purpose of this test is
++   * to verify that Gson behaves reasonable, mainly that it does not cause a {@link StackOverflowError}
++   * due to infinite recursion. This test is not intended to dictate an expected behavior.
++   */
++  @Test
++  public void testDelegating_SameFactoryInstance() {
++    WithDelegatingFactory.Factory factory = new WithDelegatingFactory.Factory();
++
++    Gson gson = new GsonBuilder()
++        .registerTypeAdapterFactory(factory)
++        // Always provides same instance for factory
++        .registerTypeAdapter(WithDelegatingFactory.Factory.class, (InstanceCreator<?>) type -> factory)
++        .create();
++
++    // Current Gson.getDelegateAdapter implementation cannot tell when call is related to @JsonAdapter
++    // or not, it can only work based on the `skipPast` factory, so if the same factory instance is used
++    // the one registered with `GsonBuilder.registerTypeAdapterFactory` actually skips past the @JsonAdapter
++    // one, so the JSON string is `{"custom": ...}` instead of `{"custom":{"custom":...}}`
++    WithDelegatingFactory<?> deserialized = gson.fromJson("{\"custom\":{\"f\":\"de\"}}", WithDelegatingFactory.class);
++    assertThat(deserialized.f).isEqualTo("de");
++
++    WithDelegatingFactory<String> serialized = new WithDelegatingFactory<>("se");
++    assertThat(gson.toJson(serialized)).isEqualTo("{\"custom\":{\"f\":\"se\"}}");
++  }
++
++  /**
++   * Tests behavior of {@link Gson#getDelegateAdapter} when <i>different</i> instances of the same
++   * factory class are used; one specified with {@code @JsonAdapter} on a class, and the other specified
++   * with {@code @JsonAdapter} on a field of that class.
++   *
++   * <p><b>Important:</b> This situation is likely a rare corner case; the purpose of this test is
++   * to verify that Gson behaves reasonable, mainly that it does not cause a {@link StackOverflowError}
++   * due to infinite recursion. This test is not intended to dictate an expected behavior.
++   */
++  @Test
++  public void testDelegating_SameFactoryClass_OnClassAndField() {
++    Gson gson = new GsonBuilder()
++        .registerTypeAdapter(String.class, new TypeAdapter<String>() {
++          @Override
++          public String read(JsonReader in) throws IOException {
++            return in.nextString() + "-str";
++          }
++
++          @Override
++          public void write(JsonWriter out, String value) throws IOException {
++            out.value(value + "-str");
++          }
++        })
++        .create();
++
++    // Should use both factories, and therefore have `{"custom": ... }` once for class and once for the field,
++    // and for field also properly delegate to custom String adapter defined above
++    WithDelegatingFactoryOnClassAndField deserialized = gson.fromJson("{\"custom\":{\"f\":{\"custom\":\"de\"}}}",
++        WithDelegatingFactoryOnClassAndField.class);
++    assertThat(deserialized.f).isEqualTo("de-str");
++
++    WithDelegatingFactoryOnClassAndField serialized = new WithDelegatingFactoryOnClassAndField("se");
++    assertThat(gson.toJson(serialized)).isEqualTo("{\"custom\":{\"f\":{\"custom\":\"se-str\"}}}");
++  }
++
++  /**
++   * Tests behavior of {@link Gson#getDelegateAdapter} when the <i>same</i> instance of a factory
++   * is used (through {@link InstanceCreator}); specified with {@code @JsonAdapter} on a class,
++   * and also specified with {@code @JsonAdapter} on a field of that class.
++   *
++   * <p><b>Important:</b> This situation is likely a rare corner case; the purpose of this test is
++   * to verify that Gson behaves reasonable, mainly that it does not cause a {@link StackOverflowError}
++   * due to infinite recursion. This test is not intended to dictate an expected behavior.
++   */
++  @Test
++  public void testDelegating_SameFactoryInstance_OnClassAndField() {
++    WithDelegatingFactoryOnClassAndField.Factory factory = new WithDelegatingFactoryOnClassAndField.Factory();
++
++    Gson gson = new GsonBuilder()
++        .registerTypeAdapter(String.class, new TypeAdapter<String>() {
++          @Override
++          public String read(JsonReader in) throws IOException {
++            return in.nextString() + "-str";
++          }
++
++          @Override
++          public void write(JsonWriter out, String value) throws IOException {
++            out.value(value + "-str");
++          }
++        })
++        // Always provides same instance for factory
++        .registerTypeAdapter(WithDelegatingFactoryOnClassAndField.Factory.class, (InstanceCreator<?>) type -> factory)
++        .create();
++
++    // Because field type (`String`) differs from declaring class, JsonAdapterAnnotationTypeAdapterFactory does
++    // not confuse factories and this behaves as expected: Both the declaring class and the field each have
++    // `{"custom": ...}` and delegation for the field to the custom String adapter defined above works properly
++    WithDelegatingFactoryOnClassAndField deserialized = gson.fromJson("{\"custom\":{\"f\":{\"custom\":\"de\"}}}",
++        WithDelegatingFactoryOnClassAndField.class);
++    assertThat(deserialized.f).isEqualTo("de-str");
++
++    WithDelegatingFactoryOnClassAndField serialized = new WithDelegatingFactoryOnClassAndField("se");
++    assertThat(gson.toJson(serialized)).isEqualTo("{\"custom\":{\"f\":{\"custom\":\"se-str\"}}}");
++  }
++  // Same factory class specified on class and one of its fields
++  @JsonAdapter(WithDelegatingFactoryOnClassAndField.Factory.class)
++  private static class WithDelegatingFactoryOnClassAndField {
++    @SuppressWarnings("SameNameButDifferent") // suppress Error Prone warning; should be clear that `Factory` refers to nested class
++    @JsonAdapter(Factory.class)
++    String f;
++
++    WithDelegatingFactoryOnClassAndField(String f) {
++      this.f = f;
++    }
++
++    static class Factory implements TypeAdapterFactory {
++      @Override
++      public <T> TypeAdapter<T> create(Gson gson, TypeToken<T> type) {
++        TypeAdapter<T> delegate = gson.getDelegateAdapter(this, type);
++
++        return new TypeAdapter<T>() {
++          @Override
++          public T read(JsonReader in) throws IOException {
++            // Perform custom deserialization
++            in.beginObject();
++            assertThat(in.nextName()).isEqualTo("custom");
++            T t = delegate.read(in);
++            in.endObject();
++
++            return t;
++          }
++
++          @Override
++          public void write(JsonWriter out, T value) throws IOException {
++            // Perform custom serialization
++            out.beginObject();
++            out.name("custom");
++            delegate.write(out, value);
++            out.endObject();
++          }
++        };
++      }
++    }
++  }
++
++  /**
++   * Tests usage of {@link JsonSerializer} as {@link JsonAdapter} value
++   */
++  @Test
++  public void testJsonSerializer() {
++    Gson gson = new Gson();
++    // Verify that delegate deserializer (reflection deserializer) is used
++    WithJsonSerializer deserialized = gson.fromJson("{\"f\":\"test\"}", WithJsonSerializer.class);
++    assertThat(deserialized.f).isEqualTo("test");
++
++    String json = gson.toJson(new WithJsonSerializer());
++    // Uses custom serializer which always returns `true`
++    assertThat(json).isEqualTo("true");
++  }
++  @JsonAdapter(WithJsonSerializer.Serializer.class)
++  private static class WithJsonSerializer {
++    String f = "";
++
++    static class Serializer implements JsonSerializer<WithJsonSerializer> {
++      @Override
++      public JsonElement serialize(WithJsonSerializer src, Type typeOfSrc, JsonSerializationContext context) {
++        return new JsonPrimitive(true);
++      }
++    }
++  }
++
++  /**
++   * Tests usage of {@link JsonDeserializer} as {@link JsonAdapter} value
++   */
++  @Test
++  public void testJsonDeserializer() {
++    Gson gson = new Gson();
++    WithJsonDeserializer deserialized = gson.fromJson("{\"f\":\"test\"}", WithJsonDeserializer.class);
++    // Uses custom deserializer which always uses "123" as field value
++    assertThat(deserialized.f).isEqualTo("123");
++
++    // Verify that delegate serializer (reflection serializer) is used
++    String json = gson.toJson(new WithJsonDeserializer("abc"));
++    assertThat(json).isEqualTo("{\"f\":\"abc\"}");
++  }
++  @JsonAdapter(WithJsonDeserializer.Deserializer.class)
++  private static class WithJsonDeserializer {
++    String f;
++
++    WithJsonDeserializer(String f) {
++      this.f = f;
++    }
++
++    static class Deserializer implements JsonDeserializer<WithJsonDeserializer> {
++      @Override
++      public WithJsonDeserializer deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) {
++        return new WithJsonDeserializer("123");
++      }
++    }
++  }
+ }
+diff --git a/gson/src/test/java/com/google/gson/functional/JsonAdapterAnnotationOnFieldsTest.java b/gson/src/test/java/com/google/gson/functional/JsonAdapterAnnotationOnFieldsTest.java
+index b322ad8b..6601b2d3 100644
+--- a/gson/src/test/java/com/google/gson/functional/JsonAdapterAnnotationOnFieldsTest.java
++++ b/gson/src/test/java/com/google/gson/functional/JsonAdapterAnnotationOnFieldsTest.java
+@@ -18,21 +18,32 @@ package com.google.gson.functional;
+ 
+ import static com.google.common.truth.Truth.assertThat;
+ 
++import com.google.gson.ExclusionStrategy;
++import com.google.gson.FieldAttributes;
+ import com.google.gson.Gson;
+ import com.google.gson.GsonBuilder;
++import com.google.gson.JsonDeserializationContext;
++import com.google.gson.JsonDeserializer;
++import com.google.gson.JsonElement;
++import com.google.gson.JsonPrimitive;
++import com.google.gson.JsonSerializationContext;
++import com.google.gson.JsonSerializer;
+ import com.google.gson.TypeAdapter;
+ import com.google.gson.TypeAdapterFactory;
+ import com.google.gson.annotations.JsonAdapter;
++import com.google.gson.internal.bind.ReflectiveTypeAdapterFactory;
+ import com.google.gson.reflect.TypeToken;
+ import com.google.gson.stream.JsonReader;
+ import com.google.gson.stream.JsonWriter;
+ import java.io.IOException;
++import java.lang.reflect.Type;
+ import java.util.Arrays;
++import java.util.Collections;
+ import java.util.List;
+ import org.junit.Test;
+ 
+ /**
+- * Functional tests for the {@link com.google.gson.annotations.JsonAdapter} annotation on fields.
++ * Functional tests for the {@link JsonAdapter} annotation on fields.
+  */
+ public final class JsonAdapterAnnotationOnFieldsTest {
+   @Test
+@@ -313,4 +324,339 @@ public final class JsonAdapterAnnotationOnFieldsTest {
+       };
+     }
+   }
++
++  /**
++   * Verify that {@link JsonAdapter} annotation can overwrite adapters which
++   * can normally not be overwritten (in this case adapter for {@link JsonElement}).
++   */
++  @Test
++  public void testOverwriteBuiltIn() {
++    BuiltInOverwriting obj = new BuiltInOverwriting();
++    obj.f = new JsonPrimitive(true);
++    String json = new Gson().toJson(obj);
++    assertThat(json).isEqualTo("{\"f\":\"" + JsonElementAdapter.SERIALIZED + "\"}");
++
++    BuiltInOverwriting deserialized = new Gson().fromJson("{\"f\": 2}", BuiltInOverwriting.class);
++    assertThat(deserialized.f).isEqualTo(JsonElementAdapter.DESERIALIZED);
++  }
++
++  private static class BuiltInOverwriting {
++    @JsonAdapter(JsonElementAdapter.class)
++    JsonElement f;
++  }
++
++  private static class JsonElementAdapter extends TypeAdapter<JsonElement> {
++    static final JsonPrimitive DESERIALIZED = new JsonPrimitive("deserialized hardcoded");
++    @Override public JsonElement read(JsonReader in) throws IOException {
++      in.skipValue();
++      return DESERIALIZED;
++    }
++
++    static final String SERIALIZED = "serialized hardcoded";
++    @Override public void write(JsonWriter out, JsonElement value) throws IOException {
++      out.value(SERIALIZED);
++    }
++  }
++
++  /**
++   * Verify that exclusion strategy preventing serialization has higher precedence than
++   * {@link JsonAdapter} annotation.
++   */
++  @Test
++  public void testExcludeSerializePrecedence() {
++    Gson gson = new GsonBuilder()
++        .addSerializationExclusionStrategy(new ExclusionStrategy() {
++          @Override public boolean shouldSkipField(FieldAttributes f) {
++            return true;
++          }
++          @Override public boolean shouldSkipClass(Class<?> clazz) {
++            return false;
++          }
++        })
++        .create();
++
++    DelegatingAndOverwriting obj = new DelegatingAndOverwriting();
++    obj.f = 1;
++    obj.f2 = new JsonPrimitive(2);
++    obj.f3 = new JsonPrimitive(true);
++    String json = gson.toJson(obj);
++    assertThat(json).isEqualTo("{}");
++
++    DelegatingAndOverwriting deserialized = gson.fromJson("{\"f\":1,\"f2\":2,\"f3\":3}", DelegatingAndOverwriting.class);
++    assertThat(deserialized.f).isEqualTo(Integer.valueOf(1));
++    assertThat(deserialized.f2).isEqualTo(new JsonPrimitive(2));
++    // Verify that for deserialization type adapter specified by @JsonAdapter is used
++    assertThat(deserialized.f3).isEqualTo(JsonElementAdapter.DESERIALIZED);
++  }
++
++  /**
++   * Verify that exclusion strategy preventing deserialization has higher precedence than
++   * {@link JsonAdapter} annotation.
++   */
++  @Test
++  public void testExcludeDeserializePrecedence() {
++    Gson gson = new GsonBuilder()
++        .addDeserializationExclusionStrategy(new ExclusionStrategy() {
++          @Override public boolean shouldSkipField(FieldAttributes f) {
++            return true;
++          }
++          @Override public boolean shouldSkipClass(Class<?> clazz) {
++            return false;
++          }
++        })
++        .create();
++
++    DelegatingAndOverwriting obj = new DelegatingAndOverwriting();
++    obj.f = 1;
++    obj.f2 = new JsonPrimitive(2);
++    obj.f3 = new JsonPrimitive(true);
++    String json = gson.toJson(obj);
++    // Verify that for serialization type adapters specified by @JsonAdapter are used
++    assertThat(json).isEqualTo("{\"f\":1,\"f2\":2,\"f3\":\"" + JsonElementAdapter.SERIALIZED + "\"}");
++
++    DelegatingAndOverwriting deserialized = gson.fromJson("{\"f\":1,\"f2\":2,\"f3\":3}", DelegatingAndOverwriting.class);
++    assertThat(deserialized.f).isNull();
++    assertThat(deserialized.f2).isNull();
++    assertThat(deserialized.f3).isNull();
++  }
++
++  /**
++   * Verify that exclusion strategy preventing serialization and deserialization has
++   * higher precedence than {@link JsonAdapter} annotation.
++   *
++   * <p>This is a separate test method because {@link ReflectiveTypeAdapterFactory} handles
++   * this case differently.
++   */
++  @Test
++  public void testExcludePrecedence() {
++    Gson gson = new GsonBuilder()
++        .setExclusionStrategies(new ExclusionStrategy() {
++          @Override public boolean shouldSkipField(FieldAttributes f) {
++            return true;
++          }
++          @Override public boolean shouldSkipClass(Class<?> clazz) {
++            return false;
++          }
++        })
++        .create();
++
++    DelegatingAndOverwriting obj = new DelegatingAndOverwriting();
++    obj.f = 1;
++    obj.f2 = new JsonPrimitive(2);
++    obj.f3 = new JsonPrimitive(true);
++    String json = gson.toJson(obj);
++    assertThat(json).isEqualTo("{}");
++
++    DelegatingAndOverwriting deserialized = gson.fromJson("{\"f\":1,\"f2\":2,\"f3\":3}", DelegatingAndOverwriting.class);
++    assertThat(deserialized.f).isNull();
++    assertThat(deserialized.f2).isNull();
++    assertThat(deserialized.f3).isNull();
++  }
++
++  private static class DelegatingAndOverwriting {
++    @JsonAdapter(DelegatingAdapterFactory.class)
++    Integer f;
++    @JsonAdapter(DelegatingAdapterFactory.class)
++    JsonElement f2;
++    // Also have non-delegating adapter to make tests handle both cases
++    @JsonAdapter(JsonElementAdapter.class)
++    JsonElement f3;
++
++    static class DelegatingAdapterFactory implements TypeAdapterFactory {
++      @Override
++      public <T> TypeAdapter<T> create(Gson gson, TypeToken<T> type) {
++        return gson.getDelegateAdapter(this, type);
++      }
++    }
++  }
++
++  /**
++   * Verifies that {@link TypeAdapterFactory} specified by {@code @JsonAdapter} can
++   * call {@link Gson#getDelegateAdapter} without any issues, despite the factory
++   * not being directly registered on Gson.
++   */
++  @Test
++  public void testDelegatingAdapterFactory() {
++    @SuppressWarnings("unchecked")
++    WithDelegatingFactory<String> deserialized = new Gson().fromJson("{\"f\":\"test\"}", WithDelegatingFactory.class);
++    assertThat(deserialized.f).isEqualTo("test-custom");
++
++    deserialized = new Gson().fromJson("{\"f\":\"test\"}", new TypeToken<WithDelegatingFactory<String>>() {});
++    assertThat(deserialized.f).isEqualTo("test-custom");
++
++    WithDelegatingFactory<String> serialized = new WithDelegatingFactory<>();
++    serialized.f = "value";
++    assertThat(new Gson().toJson(serialized)).isEqualTo("{\"f\":\"value-custom\"}");
++  }
++  private static class WithDelegatingFactory<T> {
++    @SuppressWarnings("SameNameButDifferent") // suppress Error Prone warning; should be clear that `Factory` refers to nested class
++    @JsonAdapter(Factory.class)
++    T f;
++
++    static class Factory implements TypeAdapterFactory {
++      @SuppressWarnings("unchecked")
++      @Override
++      public <T> TypeAdapter<T> create(Gson gson, TypeToken<T> type) {
++        TypeAdapter<String> delegate = (TypeAdapter<String>) gson.getDelegateAdapter(this, type);
++
++        return (TypeAdapter<T>) new TypeAdapter<String>() {
++          @Override
++          public String read(JsonReader in) throws IOException {
++            // Perform custom deserialization
++            return delegate.read(in) + "-custom";
++          }
++
++          @Override
++          public void write(JsonWriter out, String value) throws IOException {
++            // Perform custom serialization
++            delegate.write(out, value + "-custom");
++          }
++        };
++      }
++    }
++  }
++
++  /**
++   * Similar to {@link #testDelegatingAdapterFactory}, except that the delegate is not
++   * looked up in {@code create} but instead in the adapter methods.
++   */
++  @Test
++  public void testDelegatingAdapterFactory_Delayed() {
++    WithDelayedDelegatingFactory deserialized = new Gson().fromJson("{\"f\":\"test\"}", WithDelayedDelegatingFactory.class);
++    assertThat(deserialized.f).isEqualTo("test-custom");
++
++    WithDelayedDelegatingFactory serialized = new WithDelayedDelegatingFactory();
++    serialized.f = "value";
++    assertThat(new Gson().toJson(serialized)).isEqualTo("{\"f\":\"value-custom\"}");
++  }
++  @SuppressWarnings("SameNameButDifferent") // suppress Error Prone warning; should be clear that `Factory` refers to nested class
++  private static class WithDelayedDelegatingFactory {
++    @JsonAdapter(Factory.class)
++    String f;
++
++    static class Factory implements TypeAdapterFactory {
++      @SuppressWarnings("unchecked")
++      @Override
++      public <T> TypeAdapter<T> create(Gson gson, TypeToken<T> type) {
++        return (TypeAdapter<T>) new TypeAdapter<String>() {
++          private TypeAdapter<String> delegate() {
++            return (TypeAdapter<String>) gson.getDelegateAdapter(Factory.this, type);
++          }
++
++          @Override
++          public String read(JsonReader in) throws IOException {
++            // Perform custom deserialization
++            return delegate().read(in) + "-custom";
++          }
++
++          @Override
++          public void write(JsonWriter out, String value) throws IOException {
++            // Perform custom serialization
++            delegate().write(out, value + "-custom");
++          }
++        };
++      }
++    }
++  }
++
++  /**
++   * Tests usage of {@link Gson#getAdapter(TypeToken)} in the {@code create} method of the factory.
++   * Existing code was using that as workaround because {@link Gson#getDelegateAdapter} previously
++   * did not work in combination with {@code @JsonAdapter}, see https://github.com/google/gson/issues/1028.
++   */
++  @Test
++  public void testGetAdapterDelegation() {
++    Gson gson = new Gson();
++    GetAdapterDelegation deserialized = gson.fromJson("{\"f\":\"de\"}", GetAdapterDelegation.class);
++    assertThat(deserialized.f).isEqualTo("de-custom");
++
++    String json = gson.toJson(new GetAdapterDelegation("se"));
++    assertThat(json).isEqualTo("{\"f\":\"se-custom\"}");
++  }
++  private static class GetAdapterDelegation {
++    @SuppressWarnings("SameNameButDifferent") // suppress Error Prone warning; should be clear that `Factory` refers to nested class
++    @JsonAdapter(Factory.class)
++    String f;
++
++    GetAdapterDelegation(String f) {
++      this.f = f;
++    }
++
++    static class Factory implements TypeAdapterFactory {
++      @SuppressWarnings("unchecked")
++      @Override
++      public <T> TypeAdapter<T> create(Gson gson, TypeToken<T> type) {
++        // Uses `Gson.getAdapter` instead of `Gson.getDelegateAdapter`
++        TypeAdapter<String> delegate = (TypeAdapter<String>) gson.getAdapter(type);
++
++        return (TypeAdapter<T>) new TypeAdapter<String>() {
++          @Override
++          public String read(JsonReader in) throws IOException {
++            return delegate.read(in) + "-custom";
++          }
++
++          @Override
++          public void write(JsonWriter out, String value) throws IOException {
++            delegate.write(out, value + "-custom");
++          }
++        };
++      }
++    }
++  }
++
++  /**
++   * Tests usage of {@link JsonSerializer} as {@link JsonAdapter} value on a field
++   */
++  @Test
++  public void testJsonSerializer() {
++    Gson gson = new Gson();
++    // Verify that delegate deserializer for List is used
++    WithJsonSerializer deserialized = gson.fromJson("{\"f\":[1,2,3]}", WithJsonSerializer.class);
++    assertThat(deserialized.f).isEqualTo(Arrays.asList(1, 2, 3));
++
++    String json = gson.toJson(new WithJsonSerializer());
++    // Uses custom serializer which always returns `true`
++    assertThat(json).isEqualTo("{\"f\":true}");
++  }
++  private static class WithJsonSerializer {
++    @JsonAdapter(Serializer.class)
++    List<Integer> f = Collections.emptyList();
++
++    static class Serializer implements JsonSerializer<List<Integer>> {
++      @Override
++      public JsonElement serialize(List<Integer> src, Type typeOfSrc, JsonSerializationContext context) {
++        return new JsonPrimitive(true);
++      }
++    }
++  }
++
++  /**
++   * Tests usage of {@link JsonDeserializer} as {@link JsonAdapter} value on a field
++   */
++  @Test
++  public void testJsonDeserializer() {
++    Gson gson = new Gson();
++    WithJsonDeserializer deserialized = gson.fromJson("{\"f\":[5]}", WithJsonDeserializer.class);
++    // Uses custom deserializer which always returns `[3, 2, 1]`
++    assertThat(deserialized.f).isEqualTo(Arrays.asList(3, 2, 1));
++
++    // Verify that delegate serializer for List is used
++    String json = gson.toJson(new WithJsonDeserializer(Arrays.asList(4, 5, 6)));
++    assertThat(json).isEqualTo("{\"f\":[4,5,6]}");
++  }
++  private static class WithJsonDeserializer {
++    @JsonAdapter(Deserializer.class)
++    List<Integer> f;
++
++    WithJsonDeserializer(List<Integer> f) {
++      this.f = f;
++    }
++
++    static class Deserializer implements JsonDeserializer<List<Integer>> {
++      @Override
++      public List<Integer> deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) {
++        return Arrays.asList(3, 2, 1);
++      }
++    }
++  }
+ }

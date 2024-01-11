@@ -1,0 +1,83 @@
+diff --git a/gson/src/main/java/com/google/gson/internal/ConstructorConstructor.java b/gson/src/main/java/com/google/gson/internal/ConstructorConstructor.java
+index 7d2dc9b6..0f488a9b 100644
+--- a/gson/src/main/java/com/google/gson/internal/ConstructorConstructor.java
++++ b/gson/src/main/java/com/google/gson/internal/ConstructorConstructor.java
+@@ -76,14 +76,15 @@ public final class ConstructorConstructor {
+     if (Modifier.isAbstract(modifiers)) {
+       // R8 performs aggressive optimizations where it removes the default constructor of a class
+       // and makes the class `abstract`; check for that here explicitly
+-      if (c.getDeclaredConstructors().length == 0) {
+-        return "Abstract classes can't be instantiated! Adjust the R8 configuration or register"
+-            + " an InstanceCreator or a TypeAdapter for this type. Class name: " + c.getName()
+-            + "\nSee " + TroubleshootingGuide.createUrl("r8-abstract-class");
+-      }
+-
+-      return "Abstract classes can't be instantiated! Register an InstanceCreator"
+-          + " or a TypeAdapter for this type. Class name: " + c.getName();
++      /*
++       * Note: Ideally should only show this R8-specific message when it is clear that R8 was
++       * used (e.g. when `c.getDeclaredConstructors().length == 0`), but on Android where this
++       * issue with R8 occurs most, R8 seems to keep some constructors for some reason while
++       * still making the class abstract
++       */
++      return "Abstract classes can't be instantiated! Adjust the R8 configuration or register"
++          + " an InstanceCreator or a TypeAdapter for this type. Class name: " + c.getName()
++          + "\nSee " + TroubleshootingGuide.createUrl("r8-abstract-class");
+     }
+     return null;
+   }
+diff --git a/shrinker-test/src/main/java/com/example/ClassWithJsonAdapterAnnotation.java b/shrinker-test/src/main/java/com/example/ClassWithJsonAdapterAnnotation.java
+index 238ee181..0cb05a25 100644
+--- a/shrinker-test/src/main/java/com/example/ClassWithJsonAdapterAnnotation.java
++++ b/shrinker-test/src/main/java/com/example/ClassWithJsonAdapterAnnotation.java
+@@ -23,6 +23,7 @@ import java.lang.reflect.Type;
+  */
+ public class ClassWithJsonAdapterAnnotation {
+   // For this field don't use @SerializedName and ignore it for deserialization
++  // Has custom ProGuard rule to keep the field name
+   @JsonAdapter(value = Adapter.class, nullSafe = false)
+   DummyClass f;
+ 
+diff --git a/shrinker-test/src/main/java/com/example/DefaultConstructorMain.java b/shrinker-test/src/main/java/com/example/DefaultConstructorMain.java
+index e570866b..4f0152f7 100644
+--- a/shrinker-test/src/main/java/com/example/DefaultConstructorMain.java
++++ b/shrinker-test/src/main/java/com/example/DefaultConstructorMain.java
+@@ -8,14 +8,24 @@ import com.google.gson.annotations.SerializedName;
+ 
+ public class DefaultConstructorMain {
+   static class TestClass {
+-    @SerializedName("s")
+     public String s;
+   }
+ 
+   // R8 rule for this class still removes no-args constructor, but doesn't make class abstract
+   static class TestClassNotAbstract {
++    public String s;
++  }
++
++  // Current Gson ProGuard rules only keep default constructor (and only then prevent R8 from
++  // making class abstract); other constructors are ignored to suggest to user adding default
++  // constructor instead of implicitly relying on JDK Unsafe
++  static class TestClassWithoutDefaultConstructor {
+     @SerializedName("s")
+     public String s;
++
++    public TestClassWithoutDefaultConstructor(String s) {
++      this.s = s;
++    }
+   }
+ 
+   /**
+@@ -34,4 +44,12 @@ public class DefaultConstructorMain {
+     TestClassNotAbstract deserialized = gson.fromJson("{\"s\": \"value\"}", same(TestClassNotAbstract.class));
+     return deserialized.s;
+   }
++
++  /**
++   * Main entrypoint, called by {@code ShrinkingIT.testNoDefaultConstructor()}.
++   */
++  public static String runTestNoDefaultConstructor() {
++    TestClassWithoutDefaultConstructor deserialized = new Gson().fromJson("{\"s\":\"value\"}", same(TestClassWithoutDefaultConstructor.class));
++    return deserialized.s;
++  }
+ }

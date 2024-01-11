@@ -1,0 +1,209 @@
+diff --git a/src/test/java/com/puppycrawl/tools/checkstyle/internal/XdocsJavaDocsTest.java b/src/test/java/com/puppycrawl/tools/checkstyle/internal/XdocsJavaDocsTest.java
+index f1238757a..7d8ae08a1 100644
+--- a/src/test/java/com/puppycrawl/tools/checkstyle/internal/XdocsJavaDocsTest.java
++++ b/src/test/java/com/puppycrawl/tools/checkstyle/internal/XdocsJavaDocsTest.java
+@@ -113,6 +113,12 @@ public class XdocsJavaDocsTest extends AbstractModuleTestSupport {
+             "MultipleStringLiterals - ignoreOccurrenceContext",
+         }).collect(Collectors.toSet()));
+ 
++    // We skip validation of examples section on modules that have this section generated
++    // until https://github.com/checkstyle/checkstyle/issues/13429
++    private static final Set<String> MODULES_EXAMPLES_TO_SKIP = Set.of(
++        "WhitespaceAfter"
++    );
++
+     private static final List<List<Node>> CHECK_PROPERTIES = new ArrayList<>();
+     private static final Map<String, String> CHECK_PROPERTY_DOC = new HashMap<>();
+     private static final Map<String, String> CHECK_TEXT = new HashMap<>();
+@@ -645,16 +651,22 @@ public class XdocsJavaDocsTest extends AbstractModuleTestSupport {
+             }
+ 
+             if (ScopeUtil.isInScope(node, Scope.PUBLIC)) {
+-                assertWithMessage(checkName + "'s class-level JavaDoc")
+-                    .that(getJavaDocText(node))
+-                    .isEqualTo(CHECK_TEXT.get("Description")
++                String expected = CHECK_TEXT.get("Description")
+                         + CHECK_TEXT.computeIfAbsent("Rule Description", unused -> "")
+                         + CHECK_TEXT.computeIfAbsent("Notes", unused -> "")
+-                        + CHECK_TEXT.computeIfAbsent("Properties", unused -> "")
+-                        + CHECK_TEXT.get("Examples")
+-                        + CHECK_TEXT.get("Parent Module")
++                        + CHECK_TEXT.computeIfAbsent("Properties", unused -> "");
++
++                if (!MODULES_EXAMPLES_TO_SKIP.contains(checkName)) {
++                    expected += CHECK_TEXT.get("Examples");
++                }
++
++                expected += CHECK_TEXT.get("Parent Module")
+                         + violationMessagesText + " @since "
+-                        + CHECK_TEXT.get("since"));
++                        + CHECK_TEXT.get("since");
++
++                assertWithMessage(checkName + "'s class-level JavaDoc")
++                    .that(getJavaDocText(node))
++                    .isEqualTo(expected);
+             }
+         }
+ 
+diff --git a/src/test/java/com/puppycrawl/tools/checkstyle/internal/XdocsPagesTest.java b/src/test/java/com/puppycrawl/tools/checkstyle/internal/XdocsPagesTest.java
+index 8ba4a6533..4a28f59f0 100644
+--- a/src/test/java/com/puppycrawl/tools/checkstyle/internal/XdocsPagesTest.java
++++ b/src/test/java/com/puppycrawl/tools/checkstyle/internal/XdocsPagesTest.java
+@@ -56,6 +56,7 @@ import java.util.stream.IntStream;
+ import java.util.stream.Stream;
+ 
+ import org.apache.commons.beanutils.PropertyUtils;
++import org.junit.jupiter.api.BeforeAll;
+ import org.junit.jupiter.api.Test;
+ import org.w3c.dom.Document;
+ import org.w3c.dom.Node;
+@@ -76,10 +77,17 @@ import com.puppycrawl.tools.checkstyle.checks.javadoc.AbstractJavadocCheck;
+ import com.puppycrawl.tools.checkstyle.checks.naming.AccessModifierOption;
+ import com.puppycrawl.tools.checkstyle.internal.utils.CheckUtil;
+ import com.puppycrawl.tools.checkstyle.internal.utils.TestUtil;
++import com.puppycrawl.tools.checkstyle.internal.utils.XdocGenerator;
+ import com.puppycrawl.tools.checkstyle.internal.utils.XdocUtil;
+ import com.puppycrawl.tools.checkstyle.internal.utils.XmlUtil;
+ import com.puppycrawl.tools.checkstyle.utils.TokenUtil;
+ 
++/**
++ * Generates xdocs pages from templates and performs validations.
++ * Before running this test, the following commands have to be executed:
++ * - mvn clean compile - Required for next command
++ * - mvn plexus-component-metadata:generate-metadata - Required to find custom macros and parser
++ */
+ public class XdocsPagesTest {
+     private static final Path SITE_PATH = Paths.get("src/site/site.xml");
+ 
+@@ -214,9 +222,22 @@ public class XdocsPagesTest {
+             "WhitespaceAfter",
+             "WhitespaceAround"
+     );
++
+     private static final Set<String> GOOGLE_MODULES = Collections.unmodifiableSet(
+         CheckUtil.getConfigGoogleStyleModules());
+ 
++    /**
++     * Generate xdoc content from templates before validation.
++     * This method will be removed once
++     * <a href="https://github.com/checkstyle/checkstyle/issues/13426">#13426</a> is resolved.
++     *
++     * @throws Exception if something goes wrong
++     */
++    @BeforeAll
++    public static void generateXdocContent() throws Exception {
++        XdocGenerator.generateXdocContent();
++    }
++
+     @Test
+     public void testAllChecksPresentOnAvailableChecksPage() throws Exception {
+         final String availableChecks = Files.readString(AVAILABLE_CHECKS_PATH);
+diff --git a/src/test/java/com/puppycrawl/tools/checkstyle/internal/utils/XdocGenerator.java b/src/test/java/com/puppycrawl/tools/checkstyle/internal/utils/XdocGenerator.java
+new file mode 100644
+index 000000000..82b6fa362
+--- /dev/null
++++ b/src/test/java/com/puppycrawl/tools/checkstyle/internal/utils/XdocGenerator.java
+@@ -0,0 +1,73 @@
++///////////////////////////////////////////////////////////////////////////////////////////////
++// checkstyle: Checks Java source code and other text files for adherence to a set of rules.
++// Copyright (C) 2001-2023 the original author or authors.
++//
++// This library is free software; you can redistribute it and/or
++// modify it under the terms of the GNU Lesser General Public
++// License as published by the Free Software Foundation; either
++// version 2.1 of the License, or (at your option) any later version.
++//
++// This library is distributed in the hope that it will be useful,
++// but WITHOUT ANY WARRANTY; without even the implied warranty of
++// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++// Lesser General Public License for more details.
++//
++// You should have received a copy of the GNU Lesser General Public
++// License along with this library; if not, write to the Free Software
++// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
++///////////////////////////////////////////////////////////////////////////////////////////////
++
++package com.puppycrawl.tools.checkstyle.internal.utils;
++
++import java.io.File;
++import java.io.Reader;
++import java.nio.charset.StandardCharsets;
++import java.nio.file.Path;
++import java.util.Set;
++
++import org.apache.maven.doxia.parser.Parser;
++import org.apache.maven.doxia.sink.Sink;
++import org.apache.maven.doxia.sink.SinkFactory;
++import org.codehaus.plexus.DefaultPlexusContainer;
++import org.codehaus.plexus.PlexusContainer;
++import org.codehaus.plexus.util.ReaderFactory;
++
++import com.puppycrawl.tools.checkstyle.site.XdocsTemplateParser;
++import com.puppycrawl.tools.checkstyle.site.XdocsTemplateSinkFactory;
++
++/**
++ * Generates xdoc content from xdoc templates.
++ * This module will be removed once
++ * <a href="https://github.com/checkstyle/checkstyle/issues/13426">#13426</a> is resolved.
++ */
++public final class XdocGenerator {
++    private static final String XDOCS_TEMPLATE_HINT = "xdocs-template";
++
++    private XdocGenerator() {
++    }
++
++    public static void generateXdocContent() throws Exception {
++        final PlexusContainer plexus = new DefaultPlexusContainer();
++        final Set<Path> templatesFilePaths = XdocUtil.getXdocsTemplatesFilePaths();
++
++        for (Path path : templatesFilePaths) {
++            final String pathToFile = path.toString();
++            final File inputFile = new File(pathToFile);
++            final File outputFile = new File(pathToFile.replace(".template", ""));
++
++            final XdocsTemplateSinkFactory sinkFactory = (XdocsTemplateSinkFactory)
++                    plexus.lookup(SinkFactory.ROLE, XDOCS_TEMPLATE_HINT);
++            final Sink sink = sinkFactory.createSink(outputFile.getParentFile(),
++                    outputFile.getName(), String.valueOf(StandardCharsets.UTF_8));
++            final XdocsTemplateParser parser = (XdocsTemplateParser)
++                    plexus.lookup(Parser.ROLE, XDOCS_TEMPLATE_HINT);
++            try (Reader reader = ReaderFactory.newReader(inputFile,
++                    String.valueOf(StandardCharsets.UTF_8))) {
++                parser.parse(reader, sink);
++            }
++            finally {
++                sink.close();
++            }
++        }
++    }
++}
+diff --git a/src/test/java/com/puppycrawl/tools/checkstyle/internal/utils/XdocUtil.java b/src/test/java/com/puppycrawl/tools/checkstyle/internal/utils/XdocUtil.java
+index d37c62e54..21c81eb85 100644
+--- a/src/test/java/com/puppycrawl/tools/checkstyle/internal/utils/XdocUtil.java
++++ b/src/test/java/com/puppycrawl/tools/checkstyle/internal/utils/XdocUtil.java
+@@ -69,6 +69,25 @@ public final class XdocUtil {
+         }
+     }
+ 
++    /**
++     * Gets xdocs template file paths. These are files ending with .xml.template.
++     * This module will be removed once
++     * <a href="https://github.com/checkstyle/checkstyle/issues/13426">#13426</a> is resolved.
++     *
++     * @return a set of xdocs template file paths.
++     * @throws IOException if an I/O error occurs.
++     */
++    public static Set<Path> getXdocsTemplatesFilePaths() throws IOException {
++        final Path directory = Paths.get(DIRECTORY_PATH);
++        try (Stream<Path> stream = Files.find(directory, Integer.MAX_VALUE,
++                (path, attr) -> {
++                    return attr.isRegularFile()
++                            && path.toString().endsWith(".xml.template");
++                })) {
++            return stream.collect(Collectors.toSet());
++        }
++    }
++
+     /**
+      * Gets xdocs documentation file paths.
+      *

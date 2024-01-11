@@ -1,0 +1,21 @@
+diff --git a/sslcontext-kickstart/src/main/java/nl/altindag/ssl/util/MacCertificateUtils.java b/sslcontext-kickstart/src/main/java/nl/altindag/ssl/util/MacCertificateUtils.java
+index 4ecfebb..faeda01 100644
+--- a/sslcontext-kickstart/src/main/java/nl/altindag/ssl/util/MacCertificateUtils.java
++++ b/sslcontext-kickstart/src/main/java/nl/altindag/ssl/util/MacCertificateUtils.java
+@@ -60,7 +60,7 @@ final class MacCertificateUtils {
+         return CertificateUtils.parsePemCertificate(certificateContent);
+     }
+ 
+-    private static List<String> getKeychainFiles() {
++    static List<String> getKeychainFiles() {
+         List<String> keychainFiles = new ArrayList<>();
+         keychainFiles.add(SYSTEM_ROOT_KEYCHAIN_FILE);
+ 
+@@ -71,6 +71,7 @@ final class MacCertificateUtils {
+                 .flatMap(content -> Stream.of(content.split(System.lineSeparator()))
+                         .map(line -> line.replace(DOUBLE_QUOTES, EMPTY))
+                         .map(String::trim))
++                .filter(keyChainFile -> !keyChainFile.endsWith("login.keychain-db"))
+                 .forEach(keychainFiles::add);
+ 
+         return keychainFiles;
