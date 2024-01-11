@@ -16,6 +16,8 @@ def call_compare():
     with open("collected/report.json", 'r') as f:
         report = json.load(f)
     
+    repo_dict = dict()
+    
     for repo_name in report.keys():
         
         bid = report[repo_name].keys()
@@ -23,11 +25,18 @@ def call_compare():
         with open(f"verified_bug/verified_bugs_{repo_name}.json", 'r') as f:
             verified_bugs = json.load(f)
 
+        count = 0
+
         for b in bid:
             if b not in verified_bugs.keys():
-                output += f"{b}\n"
+                count += 1
         
-    if len(output) != 0:
+        if count != 0:
+            repo_dict[repo_name] = count
+        
+    if len(repo_dict.keys()) != 0:
+        for k, v in repo_dict.items():
+            output += f"{k}: {v}\n"
         print(output)
     else:
         print("No new bugs detected")
