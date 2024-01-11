@@ -9,7 +9,7 @@ jobs:
 
     steps:
     - name: Checkout Repo
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
 
     - name: Setup Python
       uses: actions/setup-python@v5.0.0
@@ -27,29 +27,16 @@ jobs:
         previous_date=$(date -u -d "$current_date" -d "last month" "+%Y-%m-%d")
         python collect_raw_data.py -t ${{ secrets.GITHUB_TOKEN }} -f data/existing_repos.json -d $previous_date -e
 
-    - name: Compare Output
-      run: python compare_new_data.py
-
-    - name: Check if output.txt is not empty
-      id: check_output
-      run: echo "::set-output name=file_exists::$(test -e output.txt && echo true || echo false)"
-
-    - name: Create Github issue if not empty
-      if: steps.check_output.outputs.file_exists == 'true'
+    - name: Compare Output, Create Github issue
       run: |
-        echo "output.txt exists. Creating issue..."
-
-        output_content=$(cat output.txt)
-
-        gh issue create -t "New Bugs Collected by Github Action" -b "$output_content"
+        body=$(python compare_new_data.py)
+        gh issue create -t "Output of Github Action" -b "$body"
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         REPO: ${{ github.repository }}
-    
-    - name: Create Github issue if empty
-      if: steps.check_output.outputs.file_exists == 'false'
-      run: |
-        gh issue create -t "No New Bug Detected by Github Action" -b "No new bugs were detected by Github Action"
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        REPO: ${{ github.repository }}
+
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: report
+        path: collected/report.json
