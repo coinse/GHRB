@@ -25,7 +25,7 @@ def call_compare():
 
         for b in bid:
             if b not in verified_bugs.keys():
-                output += f"{repo_name}_{b}\n"
+                output += f"{b}\n"
         
     if len(output) != 0:
         print(output)
