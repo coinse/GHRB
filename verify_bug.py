@@ -11,10 +11,8 @@ import subprocess as sp
 import javalang
 import argparse
 import shutil
+import copy
 
-import os
-import re
-import glob
 import subprocess
 import shlex
 import enlighten
@@ -580,83 +578,40 @@ def verify_bug(bug_id, buggy_commit, fixed_commit, build='maven'):
 
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser()
-    #parser.add_argument('projects', nargs='*', default=[])
-    parser.add_argument('--bug', default=None)
-    parser.add_argument('--debug', action='store_true')
-    parser.add_argument('--build', default='maven')
-    parser.add_argument('--project', nargs="*", default=None)
-    args = parser.parse_args()
-
-    if args.debug:
-        DEBUG = True
 
     with open('report.json') as f:
         report_test_mappings = json.load(f)
 
-
-    if args.bug is not None:
-        bug_id = args.bug
-        repo_name = '-'.join(bug_id.split('-')[:-1])
-        buggy_commit = report_test_mappings[repo_name][bug_id]['buggy_commit']
-        fixed_commit = report_test_mappings[repo_name][bug_id]['merge_commit']
+    projects = report_test_mappings.keys()
 
 
-        valid_tests, success_tests = verify_bug(
-            bug_id, buggy_commit, fixed_commit, args.build)
-
-        print("valid test:", valid_tests)
-        print("success_tests:", success_tests)
-
-    else:
-        # if len(args.projects) == 0:
-        #     target_projects = [config[p]['project_name'] for p in config]
-
-        # else:
-        target_projects = [config[p]['project_name']
-                            for p in args.project]
-        print(target_projects)
-        #repo_name = args.project
-        for repo_name in target_projects:
-            if os.path.exists('data-collector/report_test_mappings_w_execution_result.json'):
-                with open('data-collector/report_test_mappings_w_execution_result.json') as f:
-                    report_test_mappings_w_execution_result = json.load(f)
-            else:
-                report_test_mappings_w_execution_result = {}
-            print(repo_name)
-            assert repo_name in report_test_mappings.keys()
-
-            # owner, name = repo_name.split("_")
-            # link = "https://github.com/" + owner + "/" + name
-            # name = os.getcwd() + '/repos/' + name
-            # p = subprocess.Popen(['git', 'clone', link, name], stderr=subprocess.PIPE, stdout=subprocess.PIPE)
-            report_test_mappings_w_execution_result[repo_name] = {}
-            dataset = report_test_mappings[repo_name]
+    for repo_name in projects:
+        print(repo_name)
+        
+        dataset = report_test_mappings[repo_name]
+        report = copy.deepcopy(report_test_mappings[repo_name])
 
 
-            for bug_id in tqdm(dataset):
-                repo_name = '-'.join(bug_id.split('-')[:-1])
-                buggy_commit = report_test_mappings[repo_name][bug_id]['buggy_commit']
-                fixed_commit = report_test_mappings[repo_name][bug_id]['merge_commit']
+        for bug_id in tqdm(dataset):
+            buggy_commit = report_test_mappings[repo_name][bug_id]['buggy_commit']
+            fixed_commit = report_test_mappings[repo_name][bug_id]['merge_commit']
+
+            valid_tests, success_tests = verify_bug(
+                bug_id, buggy_commit, fixed_commit)
+
+            report[bug_id]['execution_result'] = {
+                'valid_tests': valid_tests,
+                'success_tests': success_tests,
+            }
+
+    
+        verified_bugs = {}
+
+        for bug_id, bug_info in report.items():
+            if len(bug_info['execution_result']['success_tests']) > 0:
+                verified_bugs[bug_id] = bug_info
                 
-                changed_tests = report_test_mappings[repo_name][bug_id]["changed_tests"]
-
-                valid_tests, success_tests = verify_bug(
-                    bug_id, buggy_commit, fixed_commit, args.build)
-
-                dataset[bug_id]['execution_result'] = {
-                    'valid_tests': valid_tests,
-                    'success_tests': success_tests,
-                }
-
-                report_test_mappings_w_execution_result[repo_name][bug_id] = dataset[bug_id]
-            
-            verified_bugs = {}
-
-            for repo_name in report_test_mappings_w_execution_result:
-                for bug_id, bug_info in report_test_mappings_w_execution_result[repo_name].items():
-                    if len(bug_info['execution_result']['success_tests']) > 0:
-                        verified_bugs[bug_id] = bug_info
-            print("total bugs: ", len(verified_bugs))
-            with open(f'_verified_bugs_{repo_name}.json', 'w') as f:
-                json.dump(verified_bugs, f, indent=2)
+        print("total bugs: ", len(verified_bugs))
+        with open(f'_verified_bugs_{repo_name}.json', 'w') as f:
+            json.dump(verified_bugs, f, indent=2)
+        
