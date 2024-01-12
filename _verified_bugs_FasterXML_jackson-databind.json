@@ -1,35 +1,4 @@
 {
-  "FasterXML_jackson-databind-3962": {
-    "bug_id": "FasterXML_jackson-databind-3962",
-    "PR_number": 3962,
-    "PR_createdAt": "2023-06-01T03:21:42Z",
-    "merge_commit": "404d64b0ccc5581da711302b0f774c605431d1ff",
-    "buggy_commits": [
-      {
-        "oid": "17eb07afd308d8923779addc0b654db53b869587",
-        "message": "Tiny improvement to #3690 test (wrt #3924)"
-      }
-    ],
-    "issue": {
-      "url": "https://github.com/FasterXML/jackson-databind/issues/3924",
-      "createdAt": "2023-05-12T09:25:35Z",
-      "content": "bug_report_all/FasterXML_jackson-databind-3962.json"
-    },
-    "changed_tests": [
-      "src/test/java/com/fasterxml/jackson/databind/convert/DisableCoercions3690Test.java"
-    ],
-    "PR_url": "https://github.com/FasterXML/jackson-databind/pull/3962",
-    "merge_commit_url": "https://github.com/FasterXML/jackson-databind/commit/404d64b0ccc5581da711302b0f774c605431d1ff",
-    "buggy_commit": "17eb07afd308d8923779addc0b654db53b869587",
-    "execution_result": {
-      "valid_tests": [
-        ".com.fasterxml.jackson.databind.convert.DisableCoercions3690Test.java"
-      ],
-      "success_tests": [
-        ".com.fasterxml.jackson.databind.convert.DisableCoercions3690Test.java"
-      ]
-    }
-  },
   "FasterXML_jackson-databind-4050": {
     "bug_id": "FasterXML_jackson-databind-4050",
     "PR_number": 4050,
@@ -58,41 +27,6 @@
       ],
       "success_tests": [
         ".com.fasterxml.jackson.databind.node.TestConversions.java"
-      ]
-    }
-  },
-  "FasterXML_jackson-databind-4273": {
-    "bug_id": "FasterXML_jackson-databind-4273",
-    "PR_number": 4273,
-    "PR_createdAt": "2023-12-20T14:59:24Z",
-    "merge_commit": "ef478ed1645111c3cf69ce47da9970f55f37273b",
-    "buggy_commits": [
-      {
-        "oid": "4afceacea960d5339b796feae5cfbc2ed39e2033",
-        "message": "Add `TokenBuffer` support for `JsonParser.getNumberTypeFP()`"
-      },
-      {
-        "oid": "35f0c609f32fccff25c3815e6871e5a4080af94b",
-        "message": "Minor refactoring"
-      }
-    ],
-    "issue": {
-      "url": "https://github.com/FasterXML/jackson-databind/issues/1114",
-      "createdAt": "2016-02-02T04:37:02Z",
-      "content": "bug_report_all/FasterXML_jackson-databind-4273.json"
-    },
-    "changed_tests": [
-      "src/test/java/com/fasterxml/jackson/databind/format/NumberFormatTest.java"
-    ],
-    "PR_url": "https://github.com/FasterXML/jackson-databind/pull/4273",
-    "merge_commit_url": "https://github.com/FasterXML/jackson-databind/commit/ef478ed1645111c3cf69ce47da9970f55f37273b",
-    "buggy_commit": "4afceacea960d5339b796feae5cfbc2ed39e2033",
-    "execution_result": {
-      "valid_tests": [
-        ".com.fasterxml.jackson.databind.format.NumberFormatTest.java"
-      ],
-      "success_tests": [
-        ".com.fasterxml.jackson.databind.format.NumberFormatTest.java"
       ]
     }
   }

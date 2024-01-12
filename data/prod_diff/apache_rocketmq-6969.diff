@@ -1,0 +1,220 @@
+diff --git a/acl/src/main/java/org/apache/rocketmq/acl/plain/PlainAccessResource.java b/acl/src/main/java/org/apache/rocketmq/acl/plain/PlainAccessResource.java
+index cdbd9ea9b..72aa8ca71 100644
+--- a/acl/src/main/java/org/apache/rocketmq/acl/plain/PlainAccessResource.java
++++ b/acl/src/main/java/org/apache/rocketmq/acl/plain/PlainAccessResource.java
+@@ -223,7 +223,7 @@ public class PlainAccessResource implements AccessResource {
+                     if (!request.hasGroup()) {
+                         throw new AclException("Consumer heartbeat doesn't have group");
+                     } else {
+-                        accessResource.addResourceAndPerm(request.getGroup(), Permission.SUB);
++                        accessResource.addGroupResourceAndPerm(request.getGroup(), Permission.SUB);
+                     }
+                 }
+             } else if (SendMessageRequest.getDescriptor().getFullName().equals(rpcFullName)) {
+@@ -240,15 +240,15 @@ public class PlainAccessResource implements AccessResource {
+                 accessResource.addResourceAndPerm(topic, Permission.PUB);
+             } else if (ReceiveMessageRequest.getDescriptor().getFullName().equals(rpcFullName)) {
+                 ReceiveMessageRequest request = (ReceiveMessageRequest) messageV3;
+-                accessResource.addResourceAndPerm(request.getGroup(), Permission.SUB);
++                accessResource.addGroupResourceAndPerm(request.getGroup(), Permission.SUB);
+                 accessResource.addResourceAndPerm(request.getMessageQueue().getTopic(), Permission.SUB);
+             } else if (AckMessageRequest.getDescriptor().getFullName().equals(rpcFullName)) {
+                 AckMessageRequest request = (AckMessageRequest) messageV3;
+-                accessResource.addResourceAndPerm(request.getGroup(), Permission.SUB);
++                accessResource.addGroupResourceAndPerm(request.getGroup(), Permission.SUB);
+                 accessResource.addResourceAndPerm(request.getTopic(), Permission.SUB);
+             } else if (ForwardMessageToDeadLetterQueueRequest.getDescriptor().getFullName().equals(rpcFullName)) {
+                 ForwardMessageToDeadLetterQueueRequest request = (ForwardMessageToDeadLetterQueueRequest) messageV3;
+-                accessResource.addResourceAndPerm(request.getGroup(), Permission.SUB);
++                accessResource.addGroupResourceAndPerm(request.getGroup(), Permission.SUB);
+                 accessResource.addResourceAndPerm(request.getTopic(), Permission.SUB);
+             } else if (EndTransactionRequest.getDescriptor().getFullName().equals(rpcFullName)) {
+                 EndTransactionRequest request = (EndTransactionRequest) messageV3;
+@@ -264,7 +264,7 @@ public class PlainAccessResource implements AccessResource {
+                     }
+                     if (command.getSettings().hasSubscription()) {
+                         Subscription subscription = command.getSettings().getSubscription();
+-                        accessResource.addResourceAndPerm(subscription.getGroup(), Permission.SUB);
++                        accessResource.addGroupResourceAndPerm(subscription.getGroup(), Permission.SUB);
+                         for (SubscriptionEntry entry : subscription.getSubscriptionsList()) {
+                             accessResource.addResourceAndPerm(entry.getTopic(), Permission.SUB);
+                         }
+@@ -275,17 +275,17 @@ public class PlainAccessResource implements AccessResource {
+                 }
+             } else if (NotifyClientTerminationRequest.getDescriptor().getFullName().equals(rpcFullName)) {
+                 NotifyClientTerminationRequest request = (NotifyClientTerminationRequest) messageV3;
+-                accessResource.addResourceAndPerm(request.getGroup(), Permission.SUB);
++                accessResource.addGroupResourceAndPerm(request.getGroup(), Permission.SUB);
+             } else if (QueryRouteRequest.getDescriptor().getFullName().equals(rpcFullName)) {
+                 QueryRouteRequest request = (QueryRouteRequest) messageV3;
+                 accessResource.addResourceAndPerm(request.getTopic(), Permission.ANY);
+             } else if (QueryAssignmentRequest.getDescriptor().getFullName().equals(rpcFullName)) {
+                 QueryAssignmentRequest request = (QueryAssignmentRequest) messageV3;
+-                accessResource.addResourceAndPerm(request.getGroup(), Permission.SUB);
++                accessResource.addGroupResourceAndPerm(request.getGroup(), Permission.SUB);
+                 accessResource.addResourceAndPerm(request.getTopic(), Permission.SUB);
+             } else if (ChangeInvisibleDurationRequest.getDescriptor().getFullName().equals(rpcFullName)) {
+                 ChangeInvisibleDurationRequest request = (ChangeInvisibleDurationRequest) messageV3;
+-                accessResource.addResourceAndPerm(request.getGroup(), Permission.SUB);
++                accessResource.addGroupResourceAndPerm(request.getGroup(), Permission.SUB);
+                 accessResource.addResourceAndPerm(request.getTopic(), Permission.SUB);
+             }
+         } catch (Throwable t) {
+@@ -299,6 +299,11 @@ public class PlainAccessResource implements AccessResource {
+         addResourceAndPerm(resourceName, permission);
+     }
+ 
++    private void addGroupResourceAndPerm(Resource resource, byte permission) {
++        String resourceName = NamespaceUtil.wrapNamespace(resource.getResourceNamespace(), resource.getName());
++        addResourceAndPerm(getRetryTopic(resourceName), permission);
++    }
++
+     public static PlainAccessResource build(PlainAccessConfig plainAccessConfig, RemoteAddressStrategy remoteAddressStrategy) {
+         PlainAccessResource plainAccessResource = new PlainAccessResource();
+         plainAccessResource.setAccessKey(plainAccessConfig.getAccessKey());
+diff --git a/proxy/src/main/java/org/apache/rocketmq/proxy/ProxyStartup.java b/proxy/src/main/java/org/apache/rocketmq/proxy/ProxyStartup.java
+index ea13bb808..06d5f4525 100644
+--- a/proxy/src/main/java/org/apache/rocketmq/proxy/ProxyStartup.java
++++ b/proxy/src/main/java/org/apache/rocketmq/proxy/ProxyStartup.java
+@@ -29,11 +29,14 @@ import org.apache.commons.cli.DefaultParser;
+ import org.apache.commons.cli.Option;
+ import org.apache.commons.cli.Options;
+ import org.apache.commons.lang3.StringUtils;
++import org.apache.rocketmq.acl.AccessValidator;
++import org.apache.rocketmq.acl.plain.PlainAccessValidator;
+ import org.apache.rocketmq.broker.BrokerController;
+ import org.apache.rocketmq.broker.BrokerStartup;
+ import org.apache.rocketmq.common.MixAll;
+ import org.apache.rocketmq.common.constant.LoggerName;
+ import org.apache.rocketmq.common.thread.ThreadPoolMonitor;
++import org.apache.rocketmq.common.utils.ServiceProvider;
+ import org.apache.rocketmq.logging.org.slf4j.Logger;
+ import org.apache.rocketmq.logging.org.slf4j.LoggerFactory;
+ import org.apache.rocketmq.common.utils.AbstractStartAndShutdown;
+@@ -75,16 +78,17 @@ public class ProxyStartup {
+ 
+             MessagingProcessor messagingProcessor = createMessagingProcessor();
+ 
++            List<AccessValidator> accessValidators = loadAccessValidators();
+             // create grpcServer
+             GrpcServer grpcServer = GrpcServerBuilder.newBuilder(executor, ConfigurationManager.getProxyConfig().getGrpcServerPort())
+                 .addService(createServiceProcessor(messagingProcessor))
+                 .addService(ChannelzService.newInstance(100))
+                 .addService(ProtoReflectionService.newInstance())
+-                .configInterceptor()
++                .configInterceptor(accessValidators)
+                 .build();
+             PROXY_START_AND_SHUTDOWN.appendStartAndShutdown(grpcServer);
+ 
+-            RemotingProtocolServer remotingServer = new RemotingProtocolServer(messagingProcessor);
++            RemotingProtocolServer remotingServer = new RemotingProtocolServer(messagingProcessor, accessValidators);
+             PROXY_START_AND_SHUTDOWN.appendStartAndShutdown(remotingServer);
+ 
+             // start servers one by one.
+@@ -109,6 +113,15 @@ public class ProxyStartup {
+         log.info(new Date() + " rocketmq-proxy startup successfully");
+     }
+ 
++    protected static List<AccessValidator> loadAccessValidators() {
++        List<AccessValidator> accessValidators = ServiceProvider.load(AccessValidator.class);
++        if (accessValidators.isEmpty()) {
++            log.info("ServiceProvider loaded no AccessValidator, using default org.apache.rocketmq.acl.plain.PlainAccessValidator");
++            accessValidators.add(new PlainAccessValidator());
++        }
++        return accessValidators;
++    }
++
+     protected static void initConfiguration(CommandLineArgument commandLineArgument) throws Exception {
+         if (StringUtils.isNotBlank(commandLineArgument.getProxyConfigPath())) {
+             System.setProperty(Configuration.CONFIG_PATH_PROPERTY, commandLineArgument.getProxyConfigPath());
+diff --git a/proxy/src/main/java/org/apache/rocketmq/proxy/grpc/GrpcServerBuilder.java b/proxy/src/main/java/org/apache/rocketmq/proxy/grpc/GrpcServerBuilder.java
+index 437b9216b..9cddd3013 100644
+--- a/proxy/src/main/java/org/apache/rocketmq/proxy/grpc/GrpcServerBuilder.java
++++ b/proxy/src/main/java/org/apache/rocketmq/proxy/grpc/GrpcServerBuilder.java
+@@ -28,9 +28,7 @@ import java.util.List;
+ import java.util.concurrent.ThreadPoolExecutor;
+ import java.util.concurrent.TimeUnit;
+ import org.apache.rocketmq.acl.AccessValidator;
+-import org.apache.rocketmq.acl.plain.PlainAccessValidator;
+ import org.apache.rocketmq.common.constant.LoggerName;
+-import org.apache.rocketmq.common.utils.ServiceProvider;
+ import org.apache.rocketmq.logging.org.slf4j.Logger;
+ import org.apache.rocketmq.logging.org.slf4j.LoggerFactory;
+ import org.apache.rocketmq.proxy.config.ConfigurationManager;
+@@ -98,14 +96,8 @@ public class GrpcServerBuilder {
+         return new GrpcServer(this.serverBuilder.build());
+     }
+ 
+-    public GrpcServerBuilder configInterceptor() {
++    public GrpcServerBuilder configInterceptor(List<AccessValidator> accessValidators) {
+         // grpc interceptors, including acl, logging etc.
+-        List<AccessValidator> accessValidators = ServiceProvider.load(AccessValidator.class);
+-        if (accessValidators.isEmpty()) {
+-            log.info("ServiceProvider loaded no AccessValidator, using default org.apache.rocketmq.acl.plain.PlainAccessValidator");
+-            accessValidators.add(new PlainAccessValidator());
+-        }
+-
+         this.serverBuilder.intercept(new AuthenticationInterceptor(accessValidators));
+ 
+         this.serverBuilder
+diff --git a/proxy/src/main/java/org/apache/rocketmq/proxy/remoting/RemotingProtocolServer.java b/proxy/src/main/java/org/apache/rocketmq/proxy/remoting/RemotingProtocolServer.java
+index f08094c16..bcc9edd09 100644
+--- a/proxy/src/main/java/org/apache/rocketmq/proxy/remoting/RemotingProtocolServer.java
++++ b/proxy/src/main/java/org/apache/rocketmq/proxy/remoting/RemotingProtocolServer.java
+@@ -19,7 +19,6 @@ package org.apache.rocketmq.proxy.remoting;
+ 
+ import com.google.common.util.concurrent.ThreadFactoryBuilder;
+ import io.netty.channel.Channel;
+-import java.util.ArrayList;
+ import java.util.List;
+ import java.util.concurrent.BlockingQueue;
+ import java.util.concurrent.CompletableFuture;
+@@ -28,15 +27,14 @@ import java.util.concurrent.ScheduledExecutorService;
+ import java.util.concurrent.ThreadPoolExecutor;
+ import java.util.concurrent.TimeUnit;
+ import org.apache.rocketmq.acl.AccessValidator;
+-import org.apache.rocketmq.acl.plain.PlainAccessValidator;
+ import org.apache.rocketmq.client.exception.MQClientException;
+ import org.apache.rocketmq.common.constant.LoggerName;
+ import org.apache.rocketmq.common.future.FutureTaskExt;
+ import org.apache.rocketmq.common.thread.ThreadPoolMonitor;
+ import org.apache.rocketmq.common.thread.ThreadPoolStatusMonitor;
++import org.apache.rocketmq.common.utils.StartAndShutdown;
+ import org.apache.rocketmq.logging.org.slf4j.Logger;
+ import org.apache.rocketmq.logging.org.slf4j.LoggerFactory;
+-import org.apache.rocketmq.common.utils.StartAndShutdown;
+ import org.apache.rocketmq.proxy.config.ConfigurationManager;
+ import org.apache.rocketmq.proxy.config.ProxyConfig;
+ import org.apache.rocketmq.proxy.processor.MessagingProcessor;
+@@ -86,11 +84,11 @@ public class RemotingProtocolServer implements StartAndShutdown, RemotingProxyOu
+     protected final ThreadPoolExecutor defaultExecutor;
+     protected final ScheduledExecutorService timerExecutor;
+ 
+-    public RemotingProtocolServer(MessagingProcessor messagingProcessor) {
++    public RemotingProtocolServer(MessagingProcessor messagingProcessor, List<AccessValidator> accessValidators) {
+         this.messagingProcessor = messagingProcessor;
+         this.remotingChannelManager = new RemotingChannelManager(this, messagingProcessor.getProxyRelayService());
+ 
+-        RequestPipeline pipeline = createRequestPipeline();
++        RequestPipeline pipeline = createRequestPipeline(accessValidators);
+         this.getTopicRouteActivity = new GetTopicRouteActivity(pipeline, messagingProcessor);
+         this.clientManagerActivity = new ClientManagerActivity(pipeline, messagingProcessor, remotingChannelManager);
+         this.consumerManagerActivity = new ConsumerManagerActivity(pipeline, messagingProcessor);
+@@ -254,15 +252,12 @@ public class RemotingProtocolServer implements StartAndShutdown, RemotingProxyOu
+         return future;
+     }
+ 
+-    protected RequestPipeline createRequestPipeline() {
++    protected RequestPipeline createRequestPipeline(List<AccessValidator> accessValidators) {
+         RequestPipeline pipeline = (ctx, request, context) -> {
+         };
+-
+-        List<AccessValidator> accessValidatorList = new ArrayList<>();
+-        accessValidatorList.add(new PlainAccessValidator());
+         // add pipeline
+         // the last pipe add will execute at the first
+-        return pipeline.pipe(new AuthenticationPipeline(accessValidatorList));
++        return pipeline.pipe(new AuthenticationPipeline(accessValidators));
+     }
+ 
+     protected class ThreadPoolHeadSlowTimeMillsMonitor implements ThreadPoolStatusMonitor {

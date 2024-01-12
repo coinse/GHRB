@@ -392,5 +392,195 @@
         ".org.apache.rocketmq.proxy.service.route.ClusterTopicRouteServiceTest.java"
       ]
     }
+  },
+  "apache_rocketmq-6969": {
+    "bug_id": "apache_rocketmq-6969",
+    "PR_number": 6969,
+    "PR_createdAt": "2023-06-29T16:13:16Z",
+    "merge_commit": "5914ff8dbb9d37e2cb48ef9c4f0256c6185b4659",
+    "buggy_commits": [
+      {
+        "oid": "70a66eda2c08eb5fca38356659cb6de1ac75e25e",
+        "message": "Fix LEAK: HAProxyMessage.release() was not called before it's garbage-collected (#7025)\n\nCall HAProxyMessage.release() after reading it.\r\n\r\n---------\r\n\r\nCo-authored-by: \u5f92\u949f <shuangxi.dsx@alibaba-inc.com>"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/apache/rocketmq/issues/6968",
+      "createdAt": "2023-06-29T15:50:03Z",
+      "content": "bug_report_all/apache_rocketmq-6969.json"
+    },
+    "changed_tests": [
+      "acl/src/test/java/org/apache/rocketmq/acl/RemotingClientAccessTest.java"
+    ],
+    "PR_url": "https://github.com/apache/rocketmq/pull/6969",
+    "merge_commit_url": "https://github.com/apache/rocketmq/commit/5914ff8dbb9d37e2cb48ef9c4f0256c6185b4659",
+    "buggy_commit": "70a66eda2c08eb5fca38356659cb6de1ac75e25e",
+    "execution_result": {
+      "valid_tests": [
+        ".org.apache.rocketmq.acl.RemotingClientAccessTest.java"
+      ],
+      "success_tests": [
+        ".org.apache.rocketmq.acl.RemotingClientAccessTest.java"
+      ]
+    }
+  },
+  "apache_rocketmq-7027": {
+    "bug_id": "apache_rocketmq-7027",
+    "PR_number": 7027,
+    "PR_createdAt": "2023-07-14T09:50:50Z",
+    "merge_commit": "9ceabaec0cf8758fa40be229a766d7b7669d8757",
+    "buggy_commits": [
+      {
+        "oid": "6fce427e109d905530b17e64aa5dc9bc19795c5d",
+        "message": "[ISSUE ##7719] Add more property check for dealy message when auto-batch chack (#7720)"
+      },
+      {
+        "oid": "89e3a616d25e69f3e8da7d290d6d0465c54053f3",
+        "message": "add test case"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/apache/rocketmq/issues/7026",
+      "createdAt": "2023-07-14T09:31:51Z",
+      "content": "bug_report_all/apache_rocketmq-7027.json"
+    },
+    "changed_tests": [
+      "proxy/src/test/java/org/apache/rocketmq/proxy/service/route/ClusterTopicRouteServiceTest.java"
+    ],
+    "PR_url": "https://github.com/apache/rocketmq/pull/7027",
+    "merge_commit_url": "https://github.com/apache/rocketmq/commit/9ceabaec0cf8758fa40be229a766d7b7669d8757",
+    "buggy_commit": "6fce427e109d905530b17e64aa5dc9bc19795c5d",
+    "execution_result": {
+      "valid_tests": [
+        ".org.apache.rocketmq.proxy.service.route.ClusterTopicRouteServiceTest.java"
+      ],
+      "success_tests": [
+        ".org.apache.rocketmq.proxy.service.route.ClusterTopicRouteServiceTest.java"
+      ]
+    }
+  },
+  "apache_rocketmq-7048": {
+    "bug_id": "apache_rocketmq-7048",
+    "PR_number": 7048,
+    "PR_createdAt": "2023-07-19T09:03:44Z",
+    "merge_commit": "ebad3c8a6b41915edb3db65fca593123b296042d",
+    "buggy_commits": [
+      {
+        "oid": "2c5808b9fdab8cae63318c89f34ad48a1ab6e962",
+        "message": "[#ISSUE 7035] Fix correct min offset behavior in tiered storage (#7038)"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/apache/rocketmq/issues/7047",
+      "createdAt": "2023-07-19T09:02:43Z",
+      "content": "bug_report_all/apache_rocketmq-7048.json"
+    },
+    "changed_tests": [
+      "remoting/src/test/java/org/apache/rocketmq/remoting/netty/NettyRemotingClientTest.java"
+    ],
+    "PR_url": "https://github.com/apache/rocketmq/pull/7048",
+    "merge_commit_url": "https://github.com/apache/rocketmq/commit/ebad3c8a6b41915edb3db65fca593123b296042d",
+    "buggy_commit": "2c5808b9fdab8cae63318c89f34ad48a1ab6e962",
+    "execution_result": {
+      "valid_tests": [
+        ".org.apache.rocketmq.remoting.netty.NettyRemotingClientTest.java"
+      ],
+      "success_tests": [
+        ".org.apache.rocketmq.remoting.netty.NettyRemotingClientTest.java"
+      ]
+    }
+  },
+  "apache_rocketmq-7073": {
+    "bug_id": "apache_rocketmq-7073",
+    "PR_number": 7073,
+    "PR_createdAt": "2023-07-24T09:05:38Z",
+    "merge_commit": "d0a69be563785ca815dc31ef1aab4c1bc5588c01",
+    "buggy_commits": [
+      {
+        "oid": "d79737788078707168c0258c4af0d800de32c137",
+        "message": "[ISSUE #7056] Avoid close success channel if invokeSync most time cost on get connection for channel (#7057)\n\n* fix: avoid close success channel if invokeSync most time cost on get channel\r\n\r\nChange-Id: I29741cf55ac6333bfa30fef755357b78a22b1325\r\n\r\n* fix: ci style\r\n\r\nChange-Id: I8c9b86e9cb6f1463bf213e64c9b8c139afa794c8"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/apache/rocketmq/issues/6810",
+      "createdAt": "2023-05-25T07:11:32Z",
+      "content": "bug_report_all/apache_rocketmq-7073.json"
+    },
+    "changed_tests": [
+      "broker/src/test/java/org/apache/rocketmq/broker/client/ProducerManagerTest.java"
+    ],
+    "PR_url": "https://github.com/apache/rocketmq/pull/7073",
+    "merge_commit_url": "https://github.com/apache/rocketmq/commit/d0a69be563785ca815dc31ef1aab4c1bc5588c01",
+    "buggy_commit": "d79737788078707168c0258c4af0d800de32c137",
+    "execution_result": {
+      "valid_tests": [
+        ".org.apache.rocketmq.broker.client.ProducerManagerTest.java"
+      ],
+      "success_tests": [
+        ".org.apache.rocketmq.broker.client.ProducerManagerTest.java"
+      ]
+    }
+  },
+  "apache_rocketmq-7209": {
+    "bug_id": "apache_rocketmq-7209",
+    "PR_number": 7209,
+    "PR_createdAt": "2023-08-17T14:15:42Z",
+    "merge_commit": "f82718ae3b77a16b553c03f672dc971a2d5d48fa",
+    "buggy_commits": [
+      {
+        "oid": "d000ef947d7c99918ceba0fa451c1e29fd84ba07",
+        "message": "[ISSUE #7283] Incorrect dledger commitlog min offset after mappedFile re delete failed (#7284)"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/apache/rocketmq/issues/7208",
+      "createdAt": "2023-08-17T14:13:18Z",
+      "content": "bug_report_all/apache_rocketmq-7209.json"
+    },
+    "changed_tests": [
+      "broker/src/test/java/org/apache/rocketmq/broker/processor/AdminBrokerProcessorTest.java"
+    ],
+    "PR_url": "https://github.com/apache/rocketmq/pull/7209",
+    "merge_commit_url": "https://github.com/apache/rocketmq/commit/f82718ae3b77a16b553c03f672dc971a2d5d48fa",
+    "buggy_commit": "d000ef947d7c99918ceba0fa451c1e29fd84ba07",
+    "execution_result": {
+      "valid_tests": [
+        ".org.apache.rocketmq.broker.processor.AdminBrokerProcessorTest.java"
+      ],
+      "success_tests": [
+        ".org.apache.rocketmq.broker.processor.AdminBrokerProcessorTest.java"
+      ]
+    }
+  },
+  "apache_rocketmq-7346": {
+    "bug_id": "apache_rocketmq-7346",
+    "PR_number": 7346,
+    "PR_createdAt": "2023-09-11T15:05:07Z",
+    "merge_commit": "1a8e7cb17cb29ed33b0196b52e452a6e76ade781",
+    "buggy_commits": [
+      {
+        "oid": "dddd58d2cc8622eb70f55b447ffb772700c0e916",
+        "message": "Set experimental_ui_max_stdouterr_bytes to 10MB in bazel (#7348)\n\n* Set experimental_ui_max_stdouterr_bytes to 10MB and Fix IT"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/apache/rocketmq/issues/7345",
+      "createdAt": "2023-09-11T15:04:25Z",
+      "content": "bug_report_all/apache_rocketmq-7346.json"
+    },
+    "changed_tests": [
+      "tieredstore/src/test/java/org/apache/rocketmq/tieredstore/file/TieredFlatFileTest.java"
+    ],
+    "PR_url": "https://github.com/apache/rocketmq/pull/7346",
+    "merge_commit_url": "https://github.com/apache/rocketmq/commit/1a8e7cb17cb29ed33b0196b52e452a6e76ade781",
+    "buggy_commit": "dddd58d2cc8622eb70f55b447ffb772700c0e916",
+    "execution_result": {
+      "valid_tests": [
+        ".org.apache.rocketmq.tieredstore.file.TieredFlatFileTest.java"
+      ],
+      "success_tests": [
+        ".org.apache.rocketmq.tieredstore.file.TieredFlatFileTest.java"
+      ]
+    }
   }
 }

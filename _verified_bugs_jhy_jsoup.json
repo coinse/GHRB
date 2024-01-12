@@ -29,36 +29,5 @@
         ".org.jsoup.nodes.FormElementTest.java"
       ]
     }
-  },
-  "jhy_jsoup-2017": {
-    "bug_id": "jhy_jsoup-2017",
-    "PR_number": 2017,
-    "PR_createdAt": "2023-10-24T04:37:17Z",
-    "merge_commit": "61ac59b7103e6b1932cd1c65d7ddc59df3cc9978",
-    "buggy_commits": [
-      {
-        "oid": "8b6e745bb8dff9d3a1a62bb8530f77d14c351398",
-        "message": "Next release will be 1.17.1"
-      }
-    ],
-    "issue": {
-      "url": "https://github.com/jhy/jsoup/issues/1514",
-      "createdAt": "2021-04-16T11:26:14Z",
-      "content": "bug_report_all/jhy_jsoup-2017.json"
-    },
-    "changed_tests": [
-      "src/test/java/org/jsoup/select/ElementsTest.java"
-    ],
-    "PR_url": "https://github.com/jhy/jsoup/pull/2017",
-    "merge_commit_url": "https://github.com/jhy/jsoup/commit/61ac59b7103e6b1932cd1c65d7ddc59df3cc9978",
-    "buggy_commit": "8b6e745bb8dff9d3a1a62bb8530f77d14c351398",
-    "execution_result": {
-      "valid_tests": [
-        ".org.jsoup.select.ElementsTest.java"
-      ],
-      "success_tests": [
-        ".org.jsoup.select.ElementsTest.java"
-      ]
-    }
   }
 }

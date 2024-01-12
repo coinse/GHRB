@@ -552,6 +552,6 @@ if __name__ == '__main__':
         print("total bugs: ", len(verified_bugs))
 
         if len(verified_bugs) > 0:
-            with open(f'_verified_bugs_{repo_name}.json', 'w') as f:
+            with open(f'a_verified_bugs_{repo_name}.json', 'w') as f:
                 json.dump(verified_bugs, f, indent=2)
         
