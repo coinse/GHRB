@@ -21,20 +21,6 @@ import enlighten
 file_path = os.getcwd()
 
 config = {
-    # 'google_gson': {
-    #     'repo_path': '/root/data/GHRB/repos/gson/gson/',
-    #     'src_dir': 'src/main/java/',
-    #     'test_prefix': 'src/test/java/',
-    #     'project_name': 'google_gson',
-    #     'project_id': 'gson'
-    # },
-    # 'assertj_assertj-core': {
-    #     'repo_path': '/root/data/GHRB/repos/assertj-core/',
-    #     'src_dir': 'src/main/java/',
-    #     'test_prefix': 'src/test/java/',
-    #     'project_name': 'assertj_assertj-core',
-    #     'project_id': 'assertj'
-    # },
     'alibaba_fastjson': {
         'repo_path': file_path + '/repos/fastjson',
         'src_dir': 'src/main/java/',
@@ -55,13 +41,6 @@ config = {
         'test_prefix': 'src/test/java',
         'project_name': 'ReactiveX_RxJava',
         'project_id': 'RxJava'
-    },
-    'EnterpriseQualityCoding_FizzBuzzEnterpriseEdition': {
-        'repo_path': file_path + '/repos/FizzBuzzEnterpriseEdition',
-        'src_dir': 'src/main/java',
-        'test_prefix': 'src/test/java',
-        'project_name': 'EnterpriseQualityCoding_FizzBuzzEnterpriseEdition',
-        'project_id': 'FizzBuzzEnterpriseEdition'
     },
     'LMAX-Exchange_disruptor': {
         'repo_path': file_path + '/repos/disruptor',
@@ -205,37 +184,13 @@ config = {
         'repo_path': file_path + '/repos/spring-framework',
         'project_name': 'spring-projects_spring-framework'
     },
-    'termux_termux-app': {
-        'repo_path': file_path + '/repos/termux-app',
-        'project_name': 'termux_termux-app'
-    },
-    'bumptech_glide': {
-        'repo_path': file_path + '/repos/glide',
-        'project_name': 'bumptech_glide'
-    },
     'square_retrofit': {
         'repo_path': file_path + '/repos/retrofit',
         'project_name': 'square_retrofit'
     },
-    "skylot_jadx": {
-        'repo_path': file_path + '/repos/jadx',
-        'project_name': 'skylot_jadx'
-    },
-    "grpc_grpc-java": {
-        'repo_path': file_path + '/repos/grpc-java',
-        'project_name': 'grpc_grpc-java'
-    },
-    "cucumber_cucumber-jvm": {
-        'repo_path': file_path + '/repos/cucumber-jvm',
-        'project_name': 'cucumber_cucumber-jvm'
-    },
     'javaparser_javaparser': {
         'repo_path': file_path + '/repos/javaparser',
         'project_name': 'javaparser_javaparser'
-    },
-    "hazelcast_hazelcast": {
-        'repo_path': file_path + '/repos/hazelcast',
-        'project_name': 'hazelcast_hazelcast'
     }
     }
 
@@ -441,8 +396,7 @@ def verify_in_buggy_version(buggy_commit, test_patch_dir, repo_path, test_prefix
     for idx, test_id in enumerate(changed_test_id):
 
         if build == "maven":
-            #sp.run(['mvn', 'clean', 'install', '-Dmaven.compiler.source=1.8', '-Dmaven.compiler.target=1.8'], stdout=sp.PIPE, stderr=sp.PIPE, cwd=repo_path)
-            #sp.run(['mvn', 'dependency:resolve', '-U'], cwd=repo_path)
+
             test_process = sp.run(['timeout', '30m', 'mvn', 'clean', 'test', '-Denforcer.skip=true',
                                 f'-Dtest={test_id}', '-DfailIfNoTests=false', '-Dsurefire.failIfNoSpecifiedTests=false'], stdout=sp.PIPE, stderr=sp.PIPE, cwd=repo_path)
         elif build == 'gradle':
@@ -453,17 +407,7 @@ def verify_in_buggy_version(buggy_commit, test_patch_dir, repo_path, test_prefix
             test_process = sp.run(['./gradlew', 'clean', ':test',
                                 '--tests', f'{test_id}'], stdout=sp.PIPE, stderr=sp.PIPE, cwd=repo_path)
         elif build == "maven-specify":
-            # test_process = sp.run(['timeout', '20m', 'mvn', 'clean',  '-DargLine="-Xmx1024m"', 'test', '-Dcheckstyle.skip', '-Denforcer.skip=true',
-            #                     f'-Dtest={test_id}', '-DfailIfNoTests=false'], stdout=sp.PIPE, stderr=sp.PIPE, cwd=repo_path)
-            # test_process = sp.run(['timeout', '20m', '../mvnw', '-f', '../pom.xml',
-            #                         'clean', 'test', '-Denforcer.skip=true', '-DskipExamples',
-            #                     f'-Dtest={test_id}', '-DfailIfNoTests=false'], stdout=sp.PIPE, stderr=sp.PIPE, cwd=repo_path)
-            #run_process = sp.run(['./mvnw', 'clean', 'install', '-DskipTests'], stdout=sp.PIPE, cwd=repo_path)
-            # test_process = sp.run(['timeout', '25m', './mvnw', 'clean', 'test', '-DfailIfNoTests=false', '-T1C', '-Prelease', '-Denforcer.skip=true',
-            #                        '-Djacoco.skip=true', '-Dcheckstyle.skip=true', '-Drat.skip=true',
-            #                        '-Dmaven.javadoc.skip=true', '-DskipTests=javaparser-core,javaparser-core-testing,javaparser-core-testing-bdd'
-            #                     f'-Dtest={test_id}',
-            #                     '-Dsurefire.failIfNoSpecifiedTests=false'], stdout=sp.PIPE, stderr=sp.PIPE, cwd=repo_path)
+
             test_process = sp.run(['timeout', '10m', './mvnw', 'clean', 'test', '-DfailIfNoTests=false', '-Denforcer.skip=true',
                                    '-Djacoco.skip=true', '-Dcheckstyle.skip=true',
                                    '-Dmaven.javadoc.skip=true', "-Dargline='-Xmx1024m'",
@@ -477,15 +421,6 @@ def verify_in_buggy_version(buggy_commit, test_patch_dir, repo_path, test_prefix
         # print(captured_stderr)
 
 
-        # if DEBUG:
-        #     if build == 'maven':
-        #         log_content = captured_stdout
-        #     elif build == 'gradle':
-        #         log_content = captured_stderr
-        #     os.makedirs(f'log/{repo_path.split("/")[-2]}', exist_ok=True)
-        #     with open(f'./log/{repo_path.split("/")[-2]}/verify_bug_{buggy_commit}_{test_id}.log', 'w') as f:
-        #         f.write(log_content)
-
         if build == 'maven' and 'There are test failures' in captured_stdout:
             print("There are test failures")
             valid_tests.append(test_id)
@@ -498,7 +433,7 @@ def verify_in_buggy_version(buggy_commit, test_patch_dir, repo_path, test_prefix
         
 
     specified_repo_path = None
-    # output_repo = specified_repo_path if build=="maven-specify" else repo_path
+
     return valid_tests, repo_path, modules
 
 
@@ -579,6 +514,9 @@ def verify_bug(bug_id, buggy_commit, fixed_commit, build='maven'):
 
 if __name__ == '__main__':
 
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--file', default="report.json")
+
     with open('report.json') as f:
         report_test_mappings = json.load(f)
 
@@ -610,8 +548,10 @@ if __name__ == '__main__':
         for bug_id, bug_info in report.items():
             if len(bug_info['execution_result']['success_tests']) > 0:
                 verified_bugs[bug_id] = bug_info
-                
+
         print("total bugs: ", len(verified_bugs))
-        with open(f'_verified_bugs_{repo_name}.json', 'w') as f:
-            json.dump(verified_bugs, f, indent=2)
+
+        if len(verified_bugs) > 0:
+            with open(f'_verified_bugs_{repo_name}.json', 'w') as f:
+                json.dump(verified_bugs, f, indent=2)
         
