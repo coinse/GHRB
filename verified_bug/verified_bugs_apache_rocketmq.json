@@ -393,37 +393,6 @@
       ]
     }
   },
-  "apache_rocketmq-6969": {
-    "bug_id": "apache_rocketmq-6969",
-    "PR_number": 6969,
-    "PR_createdAt": "2023-06-29T16:13:16Z",
-    "merge_commit": "5914ff8dbb9d37e2cb48ef9c4f0256c6185b4659",
-    "buggy_commits": [
-      {
-        "oid": "70a66eda2c08eb5fca38356659cb6de1ac75e25e",
-        "message": "Fix LEAK: HAProxyMessage.release() was not called before it's garbage-collected (#7025)\n\nCall HAProxyMessage.release() after reading it.\r\n\r\n---------\r\n\r\nCo-authored-by: \u5f92\u949f <shuangxi.dsx@alibaba-inc.com>"
-      }
-    ],
-    "issue": {
-      "url": "https://github.com/apache/rocketmq/issues/6968",
-      "createdAt": "2023-06-29T15:50:03Z",
-      "content": "bug_report_all/apache_rocketmq-6969.json"
-    },
-    "changed_tests": [
-      "acl/src/test/java/org/apache/rocketmq/acl/RemotingClientAccessTest.java"
-    ],
-    "PR_url": "https://github.com/apache/rocketmq/pull/6969",
-    "merge_commit_url": "https://github.com/apache/rocketmq/commit/5914ff8dbb9d37e2cb48ef9c4f0256c6185b4659",
-    "buggy_commit": "70a66eda2c08eb5fca38356659cb6de1ac75e25e",
-    "execution_result": {
-      "valid_tests": [
-        ".org.apache.rocketmq.acl.RemotingClientAccessTest.java"
-      ],
-      "success_tests": [
-        ".org.apache.rocketmq.acl.RemotingClientAccessTest.java"
-      ]
-    }
-  },
   "apache_rocketmq-7027": {
     "bug_id": "apache_rocketmq-7027",
     "PR_number": 7027,

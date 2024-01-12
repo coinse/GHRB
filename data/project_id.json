@@ -53,7 +53,7 @@
   },
   "jackson-databind": {
     "owner": "FasterXML",
-    "number_of_bugs": 3,
+    "number_of_bugs": 4,
     "commit_db": "commit_db/jackson-databind_bugs.csv",
     "repo_path": "/root/framework/repos/jackson-databind",
     "requirements": {
@@ -105,7 +105,7 @@
   },
   "jsoup": {
     "owner": "jhy",
-    "number_of_bugs": 4,
+    "number_of_bugs": 5,
     "commit_db": "commit_db/jsoup_bugs.csv",
     "repo_path": "/root/framework/repos/jsoup",
     "requirements": {
@@ -131,7 +131,7 @@
   },
   "nacos": {
     "owner": "alibaba",
-    "number_of_bugs": 5,
+    "number_of_bugs": 6,
     "commit_db": "commit_db/nacos_bugs.csv",
     "repo_path": "/root/framework/repos/nacos",
     "requirements": {
@@ -170,7 +170,7 @@
   },
   "rocketmq": {
     "owner": "apache",
-    "number_of_bugs": 12,
+    "number_of_bugs": 17,
     "commit_db": "commit_db/rocketmq_bugs.csv",
     "repo_path": "/root/framework/repos/rocketmq",
     "requirements": {

@@ -3,3 +3,4 @@ bug_id,revision.id.buggy,revision.id.fixed,report.id,report.url
 2,23ea77ef4b0b79b7a0033ea218a45c0d4e45af83,4a278e9b8e9c0515ee005775703a40d7b0a86d2f,jhy_jsoup-1848,https://github.com/jhy/jsoup/issues/1837
 3,1762412a28fa7b08ccf71d93fc4c98dc73086e03,4100d302cfb3f7cbcc722ebe694c9c8a2c2d3c05,jhy_jsoup-1871,https://github.com/jhy/jsoup/issues/499
 4,f284d35658a8ec46a4caca07b495dc66691cbc17,401c8b010e01a03d5af00b88387e0dc3a8c1c8a4,jhy_jsoup-1950,https://github.com/jhy/jsoup/issues/1949
+5,0cfc14c8d99885f17b5f1bd73b0571d3e29f0b41,144835d98e8fd6c5f825d90fc39e30a575c5b48b,jhy_jsoup-2010,https://github.com/jhy/jsoup/issues/2009
