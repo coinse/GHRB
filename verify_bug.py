@@ -16,6 +16,7 @@ import copy
 import subprocess
 import shlex
 import enlighten
+import pandas as pd
 
 
 file_path = os.getcwd()
@@ -685,3 +686,47 @@ if __name__ == '__main__':
             shutil.move(f"{cur_dir}/collected/prod_diff/{bug}.diff", f"{cur_dir}/data/prod_diff/{bug}.diff")
 
     subprocess.run(["rm", "-rf", f"{cur_dir}/collected"])
+
+    # Auto Verify
+
+    subprocess.run(["python", "debug/collector.py"])
+
+    with open("/root/framework/data/project_id.json", "r") as f:
+        project_id = json.load(f)
+
+    wrong_bug = []
+    
+    for bug_name in bug_names:
+        name_number = bug_name.split("_")[1]
+        bug_number = name_number.split("-")[-1]
+        pid = name_number.replace("-" + bug_number, "")
+
+        commit_db = project_id[pid]["commit_db"]
+        commit_db = pd.read_csv(commit_db)
+
+        bug_id = commit_db.loc[commit_db['report.id'] == bug_name]["bug_id"].values[0]
+
+        subprocess.run(["rm", "-rf", "testing"])
+        checkout = shlex.split(f"./cli.py checkout -p {pid} -v {bug_id}b -w /root/framework/testing")
+        subprocess.run([checkout])
+        compil = shlex.split("./cli.py compile -w /root/framework/testing")
+        subprocess.run([compil])
+        test = shlex.split("./cli.py test -w /root/framework/testing")
+        run = subprocess.run([test], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+
+        if "Failure" not in run.stdout.decode():
+            wrong_bug.append(bug_name)
+        else:
+            subprocess.run(["rm", "-rf", "testing"])
+            checkout = shlex.split(f"./cli.py checkout -p {pid} -v {bug_id}b -w /root/framework/testing")
+            subprocess.run([checkout])
+            compil = shlex.split("./cli.py compile -w /root/framework/testing")
+            subprocess.run([compil])
+            test = shlex.split("./cli.py test -w /root/framework/testing -q")
+            run = subprocess.run([test], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            if "Failure" in run.stdout.decode():
+                wrong_bug.append(bug_name)
+        
+    
+            
+
