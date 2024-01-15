@@ -120,7 +120,7 @@ The `verify_bug.py` script accounts for verifying the bugs collected from above.
     * Checkout to the buggy commit, apply both test diff and prod diff, and verify that the **test passes**.
 * Move the diff files for the verified pull requests from above into `data/test_diff` and `data/prod_diff`
 
-Moving the diff files to `data` directory, moving the output file of `collect_raw_data.py` to `verified_bug`, and running `collector.py` in `/debug` will make the bugs to be accessible using `./cli.py`.
+Moving the diff files to `data` directory, moving the output file of `collect_raw_data.py` to `verified_bug`, and running `collector.py` in `/debug` will make the bugs to be accessible from `./cli.py`.
 
 The current script is specifically designed for the automated pipeline for maintenance, therefore in=n order to verify the bugs of your choice, please modify the script at your will before running.
 
