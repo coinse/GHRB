@@ -12,7 +12,6 @@ import tqdm
 from bs4 import BeautifulSoup
 
 from collections import defaultdict
-from dateutil import parser
 
 from langdetect import detect, detect_langs
 from textblob import TextBlob
@@ -21,6 +20,7 @@ import langid
 from gql import gql, Client
 from gql.transport.requests import RequestsHTTPTransport
 from gql.transport.exceptions import TransportQueryError
+import argparse
 
 '''
 Collected repositories

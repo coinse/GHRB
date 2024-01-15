@@ -280,30 +280,6 @@ def pit(it, *pargs, **nargs):
     finally:
         if ctr is not None:
             ctr.close()
-'''
-alibaba_fastjson:
-    Maven 3.8.0 
-    Java version 1.8.0
-    git config --global --add safe.directory '*'
-    wget https://archive.apache.org/dist/maven/maven-3/3.8.6/binaries/apache-maven-3.8.6-bin.tar.gz -P /tmp # for running projects in GHRB benchmark
-    tar -xzvf /tmp/apache-maven-3.8.6-bin.tar.gz -C /opt
-    4003 is suspicious, build fail (not because of test fail) -> build success
-
-
-ReactiveX_RxJava:
-    wget https://services.gradle.org/distributions/gradle-7.6.2-bin.zip -P /tmp
-    unzip -d /opt/gradle /tmp/gradle-*.zip
-    export GRADLE_HOME=/opt/gradle/gradle-7.6.2
-    export PATH=${GRADLE_HOME}/bin:${PATH}
-    JDK 11
-
-TheAlgorithms_Java:
-    JDK 17
-    Maven 3.8
-
-LMAX-Exchange_disruptor:
-    gradle
-'''
 
 DEBUG = True
 
@@ -353,20 +329,10 @@ def verify_in_buggy_version(buggy_commit, test_patch_dir, repo_path, test_prefix
     fix_build_env(repo_path)
     
     modules = []
-    # if build == 'gradle':
-    #     for test_file in changed_test_files:
-    #         module = test_file.split("/")
-    #         src = module.index("src")
-    #         module = ":".join(module[:src])
-    #         modules.append(module)
+
     def replace_index (x):
         test_dir = x.split('/')
         
-        # index = test_dir.index('test') ## change to src
-        # test_dir = ".".join(test_dir[index+2:])
-        # test_dir = "." + test_dir
-        #test_dir = ".".join(test_dir)
-
         index = test_dir.index('src')
         test_dir = ".".join(test_dir[index+3:])
         test_dir = "." + test_dir
@@ -377,11 +343,7 @@ def verify_in_buggy_version(buggy_commit, test_patch_dir, repo_path, test_prefix
         repo = test_dir[0]
         return repo
     
-    # specified_repo_path = repo_path + "/" + find_repo_path(changed_test_files[0])
-    # print(specified_repo_path)
-    # changed_test_id = list(map(lambda x: x.split(
-    #     test_prefix)[-1].split('.')[0].replace('/', '.'), changed_test_files))
-    #print(repo_path)
+
     changed_test_id = list(map(lambda x: replace_index(x), changed_test_files))
     #print("changed_test_id_before: ", changed_test_id)
     if build == 'gradle':
@@ -391,7 +353,6 @@ def verify_in_buggy_version(buggy_commit, test_patch_dir, repo_path, test_prefix
             changed_test_id[i] = changed_test_id[i][:-5] ## change to replace
 
     print("changed_test_id: ", changed_test_id)
-    #repo_path = repo_path + "/quarkus/"
     valid_tests = []
     for idx, test_id in enumerate(changed_test_id):
 
@@ -400,10 +361,7 @@ def verify_in_buggy_version(buggy_commit, test_patch_dir, repo_path, test_prefix
             test_process = sp.run(['timeout', '30m', 'mvn', 'clean', 'test', '-Denforcer.skip=true',
                                 f'-Dtest={test_id}', '-DfailIfNoTests=false', '-Dsurefire.failIfNoSpecifiedTests=false'], stdout=sp.PIPE, stderr=sp.PIPE, cwd=repo_path)
         elif build == 'gradle':
-            # module = modules[idx]
-            # print(module)
-            # if "x-pack" in module:
-            #     continue
+            
             test_process = sp.run(['./gradlew', 'clean', ':test',
                                 '--tests', f'{test_id}'], stdout=sp.PIPE, stderr=sp.PIPE, cwd=repo_path)
         elif build == "maven-specify":
@@ -416,9 +374,6 @@ def verify_in_buggy_version(buggy_commit, test_patch_dir, repo_path, test_prefix
         
         captured_stdout = test_process.stdout.decode()
         captured_stderr = test_process.stderr.decode()
-
-        # print(captured_stdout)
-        # print(captured_stderr)
 
 
         if build == 'maven' and 'There are test failures' in captured_stdout:
@@ -458,7 +413,6 @@ def verify_in_fixed_version(fixed_commit, target_test_classes, repo_path, test_p
                                 f'-Dtest={test_id}', '-DfailIfNoTests=false', '-Dsurefire.failIfNoSpecifiedTests=false'], capture_output=True, cwd=repo_path)
 
         elif build == 'gradle':
-            # module = modules[idx]
             test_process = sp.run(['./gradlew', 'clean', ':test',
                                 '--tests', f'{test_id}'], stdout=sp.PIPE, stderr=sp.PIPE, cwd=repo_path)
         elif build == "maven-specify":
@@ -469,9 +423,6 @@ def verify_in_fixed_version(fixed_commit, target_test_classes, repo_path, test_p
                                 '-Dsurefire.failIfNoSpecifiedTests=false'], stdout=sp.PIPE, stderr=sp.PIPE, cwd=repo_path)
         captured_stdout = test_process.stdout.decode()
         captured_stderr = test_process.stderr.decode()
-
-        # print(captured_stdout)
-        # print(captured_stderr)
 
         if build == 'maven' and 'BUILD SUCCESS' in captured_stdout:
             print("Maven build success")
@@ -500,28 +451,176 @@ def verify_bug(bug_id, buggy_commit, fixed_commit, build='maven'):
     test_patch_dir = os.path.abspath(os.path.join(
         './collected/test_diff', f'{bug_id}.diff'))
 
-    #repo_path = "/root/GHRB/repos/sslcontext-kickstart"
-
     valid_tests, specified_repo_path, modules = verify_in_buggy_version(
         buggy_commit, test_patch_dir, repo_path, test_prefix, build)
-    # print('valid test: ', valid_tests)
+
     success_tests = verify_in_fixed_version(
         fixed_commit, valid_tests, specified_repo_path, test_prefix, build, modules)
 
     print("valid: ", valid_tests, "success: ", success_tests)
     return valid_tests, success_tests
 
+def fetch_test_diff (report_map):
+
+    new_cleaned_data = {}
+
+    repo_path = ""
+    if not os.path.isdir("collected/test_diff"):
+        os.makedirs("collected/test_diff")
+
+    for repo_name in report_map:
+        
+        new_cleaned_data[repo_name] = {}
+
+        owner, name = repo_name.split("_")
+
+        link = "https://github.com/" + owner + "/" + name
+        repo_path = os.getcwd() + '/repos/' + name
+        p = subprocess.Popen(['git', 'clone', link, repo_path], stderr=subprocess.PIPE, stdout=subprocess.PIPE)
+        
+
+        for bug_id, bug_info in report_map[repo_name].items():
+            merge_commit = bug_info['merge_commit']
+            buggy_commits = [c['oid'] for c in bug_info['buggy_commits']]
+
+            if len(bug_info['changed_tests']) != 0:
+                test_dir = bug_info['changed_tests'][0]
+                test_dir = test_dir.split('/')
+                if 'test' in test_dir:
+                    index = test_dir.index('test')
+                    test_dir = "/".join(test_dir[:index+2])
+                else:
+                    test_dir = 'src/test/java'
+
+            selected_buggy_commit = None
+            diff = None
+
+            # get diff using buggy commit and fixed commit
+            for buggy_commit in buggy_commits:
+                p = subprocess.run(shlex.split(f'git diff {buggy_commit} {merge_commit} -- {test_dir}')
+                                   , stdout=subprocess.PIPE, stderr=subprocess.PIPE
+                                   , cwd=repo_path)
+                
+
+                diff = p.stdout.decode()
+                error_msg = p.stderr.decode()
+
+
+                if len(error_msg) > 0:
+                    if merge_commit in error_msg:
+                        p = subprocess.run(shlex.split(f'git fetch origin {merge_commit}'), 
+                                           stderr=subprocess.PIPE, stdout=subprocess.PIPE,
+                                           cwd=repo_path)
+                    elif buggy_commit in error_msg:
+                        p = subprocess.run(shlex.split(f'git fetch origin {buggy_commit}'),
+                                           stderr=subprocess.PIPE, stdout=subprocess.PIPE,
+                                           cwd=repo_path)
+                    
+                    p = subprocess.run(shlex.split(f'git diff {buggy_commit} {merge_commit} -- {test_dir}'),
+                                       stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                                       cwd=repo_path)
+
+                    diff = p.stdout.decode()
+                    error_msg = p.stderr.decode()
+
+
+                if len(diff.strip()) > 0 and len(error_msg) == 0:
+                    selected_buggy_commit = buggy_commit
+                    break
+
+            if selected_buggy_commit is None:
+                print(f'Failed to find test suite for {bug_id}')
+                continue
+            else:
+                new_cleaned_data[repo_name][bug_id] = bug_info
+            
+            with open('collected/test_diff/{}.diff'.format(bug_info['bug_id']), 'w') as f:
+                f.write(diff)
+            
+
+def fetch_prod_diff (report_map):
+    
+    if not os.path.isdir("collected/prod_diff"):
+        os.makedirs("collected/prod_diff")
+    
+    for repo_name in report_map:
+
+        owner, name = repo_name.split("_")
+
+        repo_path = os.getcwd() + '/repos/' + name
+
+
+        for bug_id, bug_info in report_map[repo_name].items():
+            merge_commit = bug_info['merge_commit']
+            buggy_commits = [c['oid'] for c in bug_info['buggy_commits']]
+
+            if len(bug_info['changed_tests']) != 0:
+                test_dir = bug_info['changed_tests'][0]
+                test_dir = test_dir.split('/')
+                if 'test' in test_dir:
+                    index = test_dir.index('test')
+                    test_dir = "/".join(test_dir[:index+2])
+                else:
+                    test_dir = 'src/test/java'
+
+            selected_buggy_commit = None
+            diff = None
+
+            for buggy_commit in buggy_commits:
+                
+                p = subprocess.run(shlex.split(f"git diff {buggy_commit} {merge_commit} -- '*.java' ':!{test_dir}/*' ':!*/test/*'")
+                                , stdout=subprocess.PIPE, stderr=subprocess.PIPE
+                                , cwd=repo_path)
+                
+
+                diff = p.stdout.decode()
+                error_msg = p.stderr.decode()
+
+
+                if len(error_msg) > 0:
+                    if merge_commit in error_msg:
+                        p = subprocess.run(shlex.split(f'git fetch origin {merge_commit}'), 
+                                           stderr=subprocess.PIPE, stdout=subprocess.PIPE,
+                                           cwd=repo_path)
+                    elif buggy_commit in error_msg:
+                        p = subprocess.run(shlex.split(f'git fetch origin {buggy_commit}'),
+                                           stderr=subprocess.PIPE, stdout=subprocess.PIPE,
+                                           cwd=repo_path)
+                    
+                    p = subprocess.run(shlex.split(f"git diff {buggy_commit} {merge_commit} -- '*.java' ':!{test_dir}/*' ':!*/test/*'"),
+                                       stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                                       cwd=repo_path)
+
+                    diff = p.stdout.decode()
+                    error_msg = p.stderr.decode()
+
+
+                if len(diff.strip()) > 0 and len(error_msg) == 0:
+                    selected_buggy_commit = buggy_commit
+                    break
+
+            if selected_buggy_commit is None:
+                print(f'Failed to find prod diff for {bug_id}')
+                continue
+            
+            with open('collected/prod_diff/{}.diff'.format(bug_id), 'w') as f:
+                f.write(diff)
 
 if __name__ == '__main__':
 
     parser = argparse.ArgumentParser()
     parser.add_argument('--file', default="report.json")
+    args = parser.parse_args()
 
-    with open('report.json') as f:
+    with open(args.file, 'r') as f:
         report_test_mappings = json.load(f)
+
+    fetch_test_diff(report_test_mappings)
+    fetch_prod_diff(report_test_mappings)
 
     projects = report_test_mappings.keys()
 
+    file_names = []
 
     for repo_name in projects:
         print(repo_name)
@@ -551,7 +650,38 @@ if __name__ == '__main__':
 
         print("total bugs: ", len(verified_bugs))
 
+        file_name = f"verified_bugs_{repo_name}.json"
+
         if len(verified_bugs) > 0:
-            with open(f'a_verified_bugs_{repo_name}.json', 'w') as f:
+            with open(file_name, 'w') as f:
                 json.dump(verified_bugs, f, indent=2)
+            
+            file_names.append(file_name)
+    
+    # Remove redundant diff files
+            
+    cur_dir = os.getcwd()
+
+    bug_names = []
+
+    for file_name in file_names:
         
+        with open(file_name, "r") as f:
+            bug_list = json.load(f)
+
+        bug_names += bug_list.keys()
+
+    all_diff_list = os.listdir(cur_dir + "/collected/test_diff")
+
+    collected_test_diff = cur_dir + "/collected/test_diff"
+    collected_prod_diff = cur_dir + "/collected/prod_diff"
+
+    data_test_diff = cur_dir + "/data/test_diff"
+    data_prod_diff = cur_dir + "/data/prod_diff"
+
+    for bug in bug_names:
+        shutil.move(f"{cur_dir}/collected/test_diff/{bug}.diff", f"{cur_dir}/data/test_diff/{bug}.diff")
+        if os.path.isfile(f"{cur_dir}/collected/prod_diff/{bug}.diff"):
+            shutil.move(f"{cur_dir}/collected/prod_diff/{bug}.diff", f"{cur_dir}/data/prod_diff/{bug}.diff")
+
+    subprocess.run(["rm", "-rf", f"{cur_dir}/collected"])
