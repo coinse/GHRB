@@ -103,8 +103,8 @@ The output of the `collect_raw_data.py` script is a json file consisting of pull
 
     [
         "{Owner}_{Name} (of Repository)": {
-            "{Owner}_{Name}_{PR no.}": {...},
-            "{Owner}_{Name}_{PR no.}": {...},
+            "{Owner}_{Name}-{PR no.}": {...},
+            "{Owner}_{Name}-{PR no.}": {...},
             ...
         }
     ]
