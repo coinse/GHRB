@@ -693,16 +693,16 @@ if __name__ == '__main__':
         bug_number = bug_name.split("-")[-1]
         owner_name = bug_name.replace("-" + bug_number, "")
 
-        with open(f"verified_bug/verified_bugs_{owner_name}", "r") as f:
+        with open(f"verified_bug/verified_bugs_{owner_name}.json", "r") as f:
             v_b = json.load(f)
         
-        with open(f"verified_bugs_{owner_name}", "r") as ff:
+        with open(f"verified_bugs_{owner_name}.json", "r") as ff:
             n_v_b = json.load(ff)
         
         v_b[bug_name] = n_v_b[bug_name]
 
-        with open(f"verified_bug/verified_bugs_{owner_name}", "w") as f:
-            json.dump(v_b)
+        with open(f"verified_bug/verified_bugs_{owner_name}.json", "w") as f:
+            json.dump(v_b, f)
 
     subprocess.run(["python", "debug/collector.py"])
 
@@ -752,6 +752,6 @@ if __name__ == '__main__':
         del v_b[wrong_bug]
 
         with open(f"verified_bug/verified_bugs_{owner_name}", "w") as f:
-            json.dump(v_b)
+            json.dump(v_b, f)
 
     subprocess.run(["python", "debug/collector.py"])
