@@ -689,12 +689,27 @@ if __name__ == '__main__':
 
     # Auto Verify
 
+    for bug_name in bug_names:
+        bug_number = bug_name.split("-")[-1]
+        owner_name = bug_name.replace("-" + bug_number, "")
+
+        with open(f"verified_bug/verified_bugs_{owner_name}", "r") as f:
+            v_b = json.load(f)
+        
+        with open(f"verified_bugs_{owner_name}", "r") as ff:
+            n_v_b = json.load(ff)
+        
+        v_b[bug_name] = n_v_b[bug_name]
+
+        with open(f"verified_bug/verified_bugs_{owner_name}", "w") as f:
+            json.dump(v_b)
+
     subprocess.run(["python", "debug/collector.py"])
 
     with open("/root/framework/data/project_id.json", "r") as f:
         project_id = json.load(f)
 
-    wrong_bug = []
+    wrong_bugs = []
     
     for bug_name in bug_names:
         name_number = bug_name.split("_")[1]
@@ -715,7 +730,7 @@ if __name__ == '__main__':
         run = subprocess.run([test], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
         if "Failure" not in run.stdout.decode():
-            wrong_bug.append(bug_name)
+            wrong_bugs.append(bug_name)
         else:
             subprocess.run(["rm", "-rf", "testing"])
             checkout = shlex.split(f"./cli.py checkout -p {pid} -v {bug_id}b -w /root/framework/testing")
@@ -725,8 +740,18 @@ if __name__ == '__main__':
             test = shlex.split("./cli.py test -w /root/framework/testing -q")
             run = subprocess.run([test], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
             if "Failure" in run.stdout.decode():
-                wrong_bug.append(bug_name)
+                wrong_bugs.append(bug_name)
         
-    
-            
+    for wrong_bug in wrong_bugs:
+        bug_number = wrong_bug.split("-")[-1]
+        owner_name = wrong_bug.replace("-" + bug_number, "")
 
+        with open(f"verified_bug/verified_bugs_{owner_name}", "r") as f:
+            v_b = json.load(f)
+        
+        del v_b[wrong_bug]
+
+        with open(f"verified_bug/verified_bugs_{owner_name}", "w") as f:
+            json.dump(v_b)
+
+    subprocess.run(["python", "debug/collector.py"])
