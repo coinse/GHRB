@@ -30,7 +30,7 @@ jobs:
     - name: Compare Output, Create Github issue
       run: |
         body=$(python debug/iterate_report.py)
-        gh issue create -t "Output of Github Action" -b "$body"
+        gh issue create -t "Output of Github Action" -b "$body" -l "auto"
       env:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         REPO: ${{ github.repository }}
