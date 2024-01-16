@@ -17,6 +17,7 @@ import subprocess
 import shlex
 import enlighten
 import pandas as pd
+import sys
 
 
 file_path = os.getcwd()
@@ -687,4 +688,101 @@ if __name__ == '__main__':
 
     subprocess.run(["rm", "-rf", f"{cur_dir}/collected"])
 
+    ### Auto - Verify
+
+    for bug_name in bug_names:
+        bug_number = bug_name.split("-")[-1]
+        owner_name = bug_name.replace("-" + bug_number, "")
+
+        with open(f"verified_bug/verified_bugs_{owner_name}.json", "r") as f:
+            v_b = json.load(f)
+        
+        with open(f"verified_bugs_{owner_name}.json", "r") as ff:
+            n_v_b = json.load(ff)
+        
+        v_b[bug_name] = n_v_b[bug_name]
+
+        with open(f"verified_bug/verified_bugs_{owner_name}.json", "w") as f:
+            json.dump(v_b, f, indent=2)
+        
     
+    subprocess.run([sys.executable, "debug/collector.py"], stdout=subprocess.PIPE)
+
+    with open("/root/framework/data/project_id.json", "r") as f:
+        project_id = json.load(f)
+    
+    wrong_bugs = []
+
+    for bug_name in bug_names:
+        name_number = bug_name.split("_")[1]
+        bug_number = name_number.split("-")[-1]
+        pid = name_number.replace("-" + bug_number, "")
+
+        commit_db = project_id[pid]["commit_db"]
+        commit_db = pd.read_csv(commit_db)
+
+        bug_id = commit_db.loc[commit_db['report.id'] == bug_name]["bug_id"].values[0]
+
+        delete_testing = shlex.split("rm -rf testing")
+        subprocess.run(delete_testing)
+        checkout = shlex.split(f"{sys.executable} cli.py checkout -p {pid} -v {bug_id}b -w /root/framework/testing")
+        subprocess.run(checkout, stdout=subprocess.PIPE)
+        compil = shlex.split(f"{sys.executable} cli.py compile -w /root/framework/testing")
+        compile_err = subprocess.run(compil, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+
+        compile_err = compile_err.stderr.decode()
+        if len(compile_err) > 0:
+            print("compile error")
+            wrong_bugs.append(bug_name)
+            continue
+
+        test = shlex.split(f"{sys.executable} cli.py test -w /root/framework/testing -q")
+        test_output = subprocess.run(test, stdout=subprocess.PIPE)
+
+        test_output = test_output.stdout.decode()
+
+        if test_output.find("Failure") == -1:
+             print("no failure for buggy version")
+             wrong_bugs.append(bug_name)
+             continue
+
+        subprocess.run(delete_testing)
+        checkout = shlex.split(f"{sys.executable} cli.py checkout -p {pid} -v {bug_id}f -w /root/framework/testing")
+        subprocess.run(checkout, stdout=subprocess.PIPE)
+        compil = shlex.split(f"{sys.executable} cli.py compile -w /root/framework/testing")
+        compile_err = subprocess.run(compil, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+
+        compile_err = compile_err.stderr.decode()
+        
+        if len(compile_err) > 0:
+            print("compile error")
+            wrong_bugs.append(bug_name)
+            continue
+        
+        test = shlex.split(f"{sys.executable} cli.py test -w /root/framework/testing -q")
+        test_output = subprocess.run(test, stdout=subprocess.PIPE)
+        test_output = test_output.stdout.decode()
+        print(test_output)
+        if test_output.find("Failure") != -1:
+            print("failure for fixed version")
+            wrong_bugs.append(bug_name)
+
+    for wb in wrong_bugs:
+        print("wrong bug: ", wb)
+
+    if len(wrong_bugs) == 0:
+        print("no wrong bug")
+
+    for wrong_bug in wrong_bugs:
+        bug_number = wrong_bug.split("-")[-1]
+        owner_name = wrong_bug.replace("-" + bug_number, "")
+
+        with open(f"verified_bug/verified_bugs_{owner_name}.json", "r") as f:
+            v_b = json.load(f)
+        
+        del v_b[wrong_bug]
+
+        with open(f"verified_bug/verified_bugs_{owner_name}.json", "w") as f:
+            json.dump(v_b, f, indent=2)
+    
+    subprocess.run([sys.executable, "debug/collector.py"], stdout=subprocess.PIPE)
