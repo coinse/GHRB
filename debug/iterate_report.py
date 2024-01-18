@@ -35,8 +35,9 @@ def call_iterate():
             repo_dict[repo_name] = count
         
     if len(repo_dict.keys()) != 0:
+        output += "Repo\t\tNumber of Possible Bugs\n"
         for k, v in repo_dict.items():
-            output += f"{k}: {v}\n"
+            output += f"{k}:\t\t{v}\n"
         print(output)
     else:
         print("No new bugs detected")

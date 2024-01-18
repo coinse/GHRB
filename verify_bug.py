@@ -614,6 +614,9 @@ if __name__ == '__main__':
     parser.add_argument('--file', default="report.json")
     args = parser.parse_args()
 
+    if not os.path.isdir("unverified"):
+        os.makedirs("unverified")
+
     with open(args.file, 'r') as f:
         report_test_mappings = json.load(f)
 
@@ -650,9 +653,9 @@ if __name__ == '__main__':
             if len(bug_info['execution_result']['success_tests']) > 0:
                 verified_bugs[bug_id] = bug_info
 
-        print("total bugs: ", len(verified_bugs))
+        #print("total bugs: ", len(verified_bugs))
 
-        file_name = f"verified_bugs_{repo_name}.json"
+        file_name = f"unverified/unverified_bugs_{repo_name}.json"
 
         if len(verified_bugs) > 0:
             with open(file_name, 'w') as f:
@@ -690,6 +693,8 @@ if __name__ == '__main__':
 
     ### Auto - Verify
 
+    unverified_bugs = []
+
     for bug_name in bug_names:
         bug_number = bug_name.split("-")[-1]
         owner_name = bug_name.replace("-" + bug_number, "")
@@ -697,8 +702,11 @@ if __name__ == '__main__':
         with open(f"verified_bug/verified_bugs_{owner_name}.json", "r") as f:
             v_b = json.load(f)
         
-        with open(f"verified_bugs_{owner_name}.json", "r") as ff:
+        with open(f"unverified/unverified_bugs_{owner_name}.json", "r") as ff:
             n_v_b = json.load(ff)
+        
+        if bug_name not in v_b.keys():
+            unverified_bugs.append(bug_name)
         
         v_b[bug_name] = n_v_b[bug_name]
 
@@ -762,7 +770,6 @@ if __name__ == '__main__':
         test = shlex.split(f"{sys.executable} cli.py test -w /root/framework/testing -q")
         test_output = subprocess.run(test, stdout=subprocess.PIPE)
         test_output = test_output.stdout.decode()
-        print(test_output)
         if test_output.find("Failure") != -1:
             print("failure for fixed version")
             wrong_bugs.append(bug_name)
@@ -777,12 +784,25 @@ if __name__ == '__main__':
         bug_number = wrong_bug.split("-")[-1]
         owner_name = wrong_bug.replace("-" + bug_number, "")
 
-        with open(f"verified_bug/verified_bugs_{owner_name}.json", "r") as f:
+        with open(f"unverified_bug/unverified_bugs_{owner_name}.json", "r") as f:
             v_b = json.load(f)
         
         del v_b[wrong_bug]
 
-        with open(f"verified_bug/verified_bugs_{owner_name}.json", "w") as f:
+        with open(f"unverified_bug/unverified_bugs_{owner_name}.json", "w") as f:
             json.dump(v_b, f, indent=2)
     
+
+    for bug_name in unverified_bugs:
+        bug_number = bug_name.split("-")[-1]
+        owner_name = bug_name.replace("-" + bug_number, "")
+
+        with open(f"verified_bug/verified_bugs_{owner_name}.json", "r") as f:
+            v_b = json.load(f)
+        
+        del v_b[bug_name]
+
+        with open(f"verified_bug/verified_bugs_{owner_name}.json", "w") as f:
+            json.dump(v_b, f, indent=2)
+
     subprocess.run([sys.executable, "debug/collector.py"], stdout=subprocess.PIPE)
