@@ -37,6 +37,8 @@ Finally, check whether cli.py runs correctly via:
 
 ## Using GHRB
 
+Some example commands for the command-line interface are as follows:
+
 (Note that all directory paths given to the tool need to be absolute paths 
 within the container.)
 
@@ -48,6 +50,9 @@ within the container.)
     *  Example: `./cli.py compile -w /root/framework/testing`
  4. `test` - run the tests for a project.
     *  Example: `./cli.py test -w /root/framework/testing`
+
+
+Information of other commands can be retrieved using the `-h` flag.
 
 ## Using Fetch/Filter Scripts
 
