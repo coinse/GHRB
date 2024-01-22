@@ -480,7 +480,7 @@ def fetch_prod_diff ():
                     break
 
             if selected_buggy_commit is None:
-                print(f'Failed to find test suite for {bug_id}')
+                #print(f'Failed to find test suite for {bug_id}')
                 continue
             else:
                 new_cleaned_data[repo_name][bug_id] = bug_info
