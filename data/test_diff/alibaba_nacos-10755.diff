@@ -1,5 +1,5 @@
 diff --git a/plugin/datasource/src/test/java/com/alibaba/nacos/plugin/datasource/impl/derby/ConfigInfoMapperByDerbyTest.java b/plugin/datasource/src/test/java/com/alibaba/nacos/plugin/datasource/impl/derby/ConfigInfoMapperByDerbyTest.java
-index 7ae0c84..a6feb21 100644
+index 7ae0c8480..a6feb21c9 100644
 --- a/plugin/datasource/src/test/java/com/alibaba/nacos/plugin/datasource/impl/derby/ConfigInfoMapperByDerbyTest.java
 +++ b/plugin/datasource/src/test/java/com/alibaba/nacos/plugin/datasource/impl/derby/ConfigInfoMapperByDerbyTest.java
 @@ -39,6 +39,8 @@ public class ConfigInfoMapperByDerbyTest {
@@ -60,7 +60,7 @@ index 7ae0c84..a6feb21 100644
      }
      
 diff --git a/plugin/datasource/src/test/java/com/alibaba/nacos/plugin/datasource/impl/derby/HistoryConfigInfoMapperByDerbyTest.java b/plugin/datasource/src/test/java/com/alibaba/nacos/plugin/datasource/impl/derby/HistoryConfigInfoMapperByDerbyTest.java
-index df3e37f..0f2b027 100644
+index df3e37ffe..0f2b02733 100644
 --- a/plugin/datasource/src/test/java/com/alibaba/nacos/plugin/datasource/impl/derby/HistoryConfigInfoMapperByDerbyTest.java
 +++ b/plugin/datasource/src/test/java/com/alibaba/nacos/plugin/datasource/impl/derby/HistoryConfigInfoMapperByDerbyTest.java
 @@ -37,6 +37,8 @@ public class HistoryConfigInfoMapperByDerbyTest {
@@ -96,7 +96,7 @@ index df3e37f..0f2b027 100644
      
      @Test
 diff --git a/plugin/datasource/src/test/java/com/alibaba/nacos/plugin/datasource/impl/mysql/ConfigInfoMapperByMySqlTest.java b/plugin/datasource/src/test/java/com/alibaba/nacos/plugin/datasource/impl/mysql/ConfigInfoMapperByMySqlTest.java
-index 2793b6c..d97a350 100644
+index 2793b6cc7..d97a3507d 100644
 --- a/plugin/datasource/src/test/java/com/alibaba/nacos/plugin/datasource/impl/mysql/ConfigInfoMapperByMySqlTest.java
 +++ b/plugin/datasource/src/test/java/com/alibaba/nacos/plugin/datasource/impl/mysql/ConfigInfoMapperByMySqlTest.java
 @@ -48,6 +48,8 @@ public class ConfigInfoMapperByMySqlTest {
@@ -131,7 +131,7 @@ index 2793b6c..d97a350 100644
      
      @Test
 diff --git a/plugin/datasource/src/test/java/com/alibaba/nacos/plugin/datasource/impl/mysql/HistoryConfigInfoMapperByMySqlTest.java b/plugin/datasource/src/test/java/com/alibaba/nacos/plugin/datasource/impl/mysql/HistoryConfigInfoMapperByMySqlTest.java
-index f0222ec..23db27c 100644
+index f0222ec8a..23db27c6f 100644
 --- a/plugin/datasource/src/test/java/com/alibaba/nacos/plugin/datasource/impl/mysql/HistoryConfigInfoMapperByMySqlTest.java
 +++ b/plugin/datasource/src/test/java/com/alibaba/nacos/plugin/datasource/impl/mysql/HistoryConfigInfoMapperByMySqlTest.java
 @@ -37,6 +37,8 @@ public class HistoryConfigInfoMapperByMySqlTest {

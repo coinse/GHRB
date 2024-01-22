@@ -1,5 +1,5 @@
 diff --git a/src/test/java/com/fasterxml/jackson/databind/convert/DisableCoercions3690Test.java b/src/test/java/com/fasterxml/jackson/databind/convert/DisableCoercions3690Test.java
-index 5b0906e..a214806 100644
+index 5b0906e358..a214806b07 100644
 --- a/src/test/java/com/fasterxml/jackson/databind/convert/DisableCoercions3690Test.java
 +++ b/src/test/java/com/fasterxml/jackson/databind/convert/DisableCoercions3690Test.java
 @@ -1,11 +1,14 @@

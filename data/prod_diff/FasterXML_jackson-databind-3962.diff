@@ -1,5 +1,5 @@
 diff --git a/src/main/java/com/fasterxml/jackson/databind/deser/std/StdDeserializer.java b/src/main/java/com/fasterxml/jackson/databind/deser/std/StdDeserializer.java
-index fa8efe714..76629cb98 100644
+index fa8efe7147..76629cb980 100644
 --- a/src/main/java/com/fasterxml/jackson/databind/deser/std/StdDeserializer.java
 +++ b/src/main/java/com/fasterxml/jackson/databind/deser/std/StdDeserializer.java
 @@ -1421,7 +1421,7 @@ public abstract class StdDeserializer<T>

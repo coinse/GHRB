@@ -75,7 +75,7 @@ def iterate_repo(repos, client, fetch_pr_query, date, existing):
 
     i = 0
     error_count = 0
-    print(len(repos))
+
     while i <= len(repos)-1:
         repo = repos[i]
         try:
@@ -86,7 +86,6 @@ def iterate_repo(repos, client, fetch_pr_query, date, existing):
             owner = param["owner"]
             param["startDate"] = date
             param["query"] = f"repo:{owner}/{name} is:pr created:<{date}"
-            print(f"name: {repo['name']}")
             pr_list = []
 
             last_pr = find_last_pr_number(client, find_last_pr_query, param)
@@ -94,7 +93,7 @@ def iterate_repo(repos, client, fetch_pr_query, date, existing):
                 first_pr = find_first_pr_number(client, find_first_pr_query, param)
                 #print(first_pr)
                 if first_pr == None:
-                    print("No new PR")
+                    #print("No new PR")
                     i += 1
                     continue
                 pr_num_list = list(range(first_pr, last_pr + 1))
@@ -110,11 +109,11 @@ def iterate_repo(repos, client, fetch_pr_query, date, existing):
             with open(file_path, 'w') as o:
                 json.dump(pr_list, o, indent=2)
             
-            print(f"#{i} Done")
+            #print(f"#{i} Done")
             i += 1
             error_count = 0
         except Exception as e:
-            print(e)
+            #print(e)
             time.sleep(60 * 5)
             error_count += 1
             # if the number of error count exceeds 20, continue to next repo
@@ -333,8 +332,8 @@ def filter_test_diff_PR (filtered_pr):
         os.makedirs("collected/test_diff")
         
     for repo_name in filtered_pr:
-        if debug:
-            print("filtering repo: ", repo_name)
+        # if debug:
+        #     print("filtering repo: ", repo_name)
         
         new_cleaned_data[repo_name] = {}
 
@@ -543,26 +542,27 @@ if __name__ == "__main__":
     clone_repos(filtered_data)
     new_cleaned_data = filter_test_diff_PR (filtered_data)
 
-    final_data = dict()
+    # final_data = dict()
 
-    for repo_name in new_cleaned_data.keys():
+    # for repo_name in new_cleaned_data.keys():
 
-        bid = new_cleaned_data[repo_name].keys()
+    #     bid = new_cleaned_data[repo_name].keys()
 
-        with open(f"verified_bug/verified_bugs_{repo_name}.json", "r") as f:
-            verified_bugs = json.load(f)
+    #     with open(f"verified_bug/verified_bugs_{repo_name}.json", "r") as f:
+    #         verified_bugs = json.load(f)
         
-        for b in bid:
-            if b not in verified_bugs.keys():
-                final_data[repo_name][b] = new_cleaned_data[repo_name][b]
+    #     for b in bid:
+    #         if b not in verified_bugs.keys():
+    #             final_data[repo_name][b] = new_cleaned_data[repo_name][b]
 
     
     with open('collected/report.json', 'w') as f:
-        json.dump(final_data, f, indent=2)
+        json.dump(new_cleaned_data, f, indent=2)
     
     fetch_prod_diff()
 
-    print([f'{repo_name}: {len(final_data[repo_name])}' for repo_name in final_data])
+    #print([f'{repo_name}: {len(final_data[repo_name])}' for repo_name in final_data])
+
 
 
 
