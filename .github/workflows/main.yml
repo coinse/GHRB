@@ -4,9 +4,9 @@ on:
   schedule:
   - cron: "0 0 1 * *"
 jobs:
-  build:
+  auto-collect:
     runs-on: ubuntu-latest
-
+  
     steps:
     - name: Checkout Repo
       uses: actions/checkout@v4
@@ -22,14 +22,18 @@ jobs:
         path: Docker/requirements.txt
         
     - name: Run Script
+      id: script
       run: |
         current_date=$(date -u "+%Y-%m-%d")
         previous_date=$(date -u -d "$current_date" -d "last month" "+%Y-%m-%d")
-        python collect_raw_data.py -t ${{ secrets.GITHUB_TOKEN }} -f data/existing_repos.json -d $previous_date -e
+        o_list=$(python collect_raw_data.py -t ${{ secrets.GITHUB_TOKEN }} -f data/existing_repos.json -d $previous_date -e)
+        echo "o_list=$o_list">> $GITHUB_OUTPUT
 
     - name: Compare Output, Create Github issue
       run: |
-        body=$(python debug/iterate_report.py)
+        body_1=${{ steps.script.outputs.o_list }}
+        body_2=$(python debug/iterate_report.py)
+        body="${body_1} ${body_2}"
         gh issue create -t "Output of Github Action" -b "$body" -l "auto"
       env:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
