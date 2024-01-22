@@ -784,12 +784,12 @@ if __name__ == '__main__':
         bug_number = wrong_bug.split("-")[-1]
         owner_name = wrong_bug.replace("-" + bug_number, "")
 
-        with open(f"unverified_bug/unverified_bugs_{owner_name}.json", "r") as f:
+        with open(f"unverified/unverified_bugs_{owner_name}.json", "r") as f:
             v_b = json.load(f)
         
         del v_b[wrong_bug]
 
-        with open(f"unverified_bug/unverified_bugs_{owner_name}.json", "w") as f:
+        with open(f"unverified/unverified_bugs_{owner_name}.json", "w") as f:
             json.dump(v_b, f, indent=2)
     
 
@@ -806,3 +806,5 @@ if __name__ == '__main__':
             json.dump(v_b, f, indent=2)
 
     subprocess.run([sys.executable, "debug/collector.py"], stdout=subprocess.PIPE)
+    delete_testing = shlex.split("rm -rf testing")
+    subprocess.run(delete_testing)

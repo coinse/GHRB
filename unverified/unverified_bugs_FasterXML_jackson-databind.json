@@ -1,66 +1,4 @@
 {
-  "FasterXML_jackson-databind-3418": {
-    "bug_id": "FasterXML_jackson-databind-3418",
-    "PR_number": 3418,
-    "PR_createdAt": "2022-03-17T14:28:57Z",
-    "merge_commit": "9f68b5101542c186c61debb7222646c29d6b3c04",
-    "buggy_commits": [
-      {
-        "oid": "851172ceb14a4c3843df0dabde8a404de4e4a67a",
-        "message": "Improve matching of failing tests to be more permissive"
-      }
-    ],
-    "issue": {
-      "url": "https://github.com/FasterXML/jackson-dataformat-xml/issues/513",
-      "createdAt": "2022-03-09T10:44:49Z",
-      "content": "bug_report_all/FasterXML_jackson-databind-3418.json"
-    },
-    "changed_tests": [
-      "src/test/java/com/fasterxml/jackson/databind/deser/std/EmptyStringAsSingleValueTest.java"
-    ],
-    "PR_url": "https://github.com/FasterXML/jackson-databind/pull/3418",
-    "merge_commit_url": "https://github.com/FasterXML/jackson-databind/commit/9f68b5101542c186c61debb7222646c29d6b3c04",
-    "buggy_commit": "851172ceb14a4c3843df0dabde8a404de4e4a67a",
-    "execution_result": {
-      "valid_tests": [
-        ".com.fasterxml.jackson.databind.deser.std.EmptyStringAsSingleValueTest"
-      ],
-      "success_tests": [
-        ".com.fasterxml.jackson.databind.deser.std.EmptyStringAsSingleValueTest"
-      ]
-    }
-  },
-  "FasterXML_jackson-databind-3868": {
-    "bug_id": "FasterXML_jackson-databind-3868",
-    "PR_number": 3868,
-    "PR_createdAt": "2023-04-07T14:56:24Z",
-    "merge_commit": "325d129810a7ebe58549cd8940ed93cc94752c7a",
-    "buggy_commits": [
-      {
-        "oid": "d8f17b9b388eb1cc6f7bd20626a45d384cb88d5a",
-        "message": "Bump actions/checkout from 3.5.2 to 3.5.3 (#3978)"
-      }
-    ],
-    "issue": {
-      "url": "https://github.com/FasterXML/jackson-databind/issues/3838",
-      "createdAt": "2023-03-22T13:41:34Z",
-      "content": "bug_report_all/FasterXML_jackson-databind-3868.json"
-    },
-    "changed_tests": [
-      "src/test/java/com/fasterxml/jackson/databind/deser/JsonIdentityInfoIdProperty3838Test.java"
-    ],
-    "PR_url": "https://github.com/FasterXML/jackson-databind/pull/3868",
-    "merge_commit_url": "https://github.com/FasterXML/jackson-databind/commit/325d129810a7ebe58549cd8940ed93cc94752c7a",
-    "buggy_commit": "d8f17b9b388eb1cc6f7bd20626a45d384cb88d5a",
-    "execution_result": {
-      "valid_tests": [
-        ".com.fasterxml.jackson.databind.deser.JsonIdentityInfoIdProperty3838Test"
-      ],
-      "success_tests": [
-        ".com.fasterxml.jackson.databind.deser.JsonIdentityInfoIdProperty3838Test"
-      ]
-    }
-  },
   "FasterXML_jackson-databind-3962": {
     "bug_id": "FasterXML_jackson-databind-3962",
     "PR_number": 3962,
@@ -120,6 +58,41 @@
       ],
       "success_tests": [
         ".com.fasterxml.jackson.databind.node.TestConversions.java"
+      ]
+    }
+  },
+  "FasterXML_jackson-databind-4273": {
+    "bug_id": "FasterXML_jackson-databind-4273",
+    "PR_number": 4273,
+    "PR_createdAt": "2023-12-20T14:59:24Z",
+    "merge_commit": "c4a5cfc35b8f326b2dac6b40d1eab3dfb0024ff0",
+    "buggy_commits": [
+      {
+        "oid": "72275e0577e1aa807004423184348ef774c6116d",
+        "message": "Merge branch '2.16' into 2.17"
+      },
+      {
+        "oid": "35f0c609f32fccff25c3815e6871e5a4080af94b",
+        "message": "Minor refactoring"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/FasterXML/jackson-databind/issues/1114",
+      "createdAt": "2016-02-02T04:37:02Z",
+      "content": "bug_report_all/FasterXML_jackson-databind-4273.json"
+    },
+    "changed_tests": [
+      "src/test/java/com/fasterxml/jackson/databind/format/NumberFormatTest.java"
+    ],
+    "PR_url": "https://github.com/FasterXML/jackson-databind/pull/4273",
+    "merge_commit_url": "https://github.com/FasterXML/jackson-databind/commit/c4a5cfc35b8f326b2dac6b40d1eab3dfb0024ff0",
+    "buggy_commit": "72275e0577e1aa807004423184348ef774c6116d",
+    "execution_result": {
+      "valid_tests": [
+        ".com.fasterxml.jackson.databind.format.NumberFormatTest.java"
+      ],
+      "success_tests": [
+        ".com.fasterxml.jackson.databind.format.NumberFormatTest.java"
       ]
     }
   },

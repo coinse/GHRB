@@ -1,0 +1,33 @@
+{
+  "jhy_jsoup-2010": {
+    "bug_id": "jhy_jsoup-2010",
+    "PR_number": 2010,
+    "PR_createdAt": "2023-10-11T22:23:30Z",
+    "merge_commit": "144835d98e8fd6c5f825d90fc39e30a575c5b48b",
+    "buggy_commits": [
+      {
+        "oid": "0cfc14c8d99885f17b5f1bd73b0571d3e29f0b41",
+        "message": "Bump com.github.siom79.japicmp:japicmp-maven-plugin from 0.17.3 to 0.18.1 (#2007)\n\nBump com.github.siom79.japicmp:japicmp-maven-plugin\r\n\r\nBumps [com.github.siom79.japicmp:japicmp-maven-plugin](https://github.com/siom79/japicmp) from 0.17.3 to 0.18.1.\r\n- [Release notes](https://github.com/siom79/japicmp/releases)\r\n- [Changelog](https://github.com/siom79/japicmp/blob/master/release.py)\r\n- [Commits](https://github.com/siom79/japicmp/compare/japicmp-base-0.17.3...japicmp-base-0.18.1)\r\n\r\n---\r\nupdated-dependencies:\r\n- dependency-name: com.github.siom79.japicmp:japicmp-maven-plugin\r\n  dependency-type: direct:production\r\n  update-type: version-update:semver-minor\r\n...\r\n\r\nSigned-off-by: dependabot[bot] <support@github.com>\r\nCo-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/jhy/jsoup/issues/2009",
+      "createdAt": "2023-10-11T22:19:35Z",
+      "content": "bug_report_all/jhy_jsoup-2010.json"
+    },
+    "changed_tests": [
+      "src/test/java/org/jsoup/nodes/FormElementTest.java"
+    ],
+    "PR_url": "https://github.com/jhy/jsoup/pull/2010",
+    "merge_commit_url": "https://github.com/jhy/jsoup/commit/144835d98e8fd6c5f825d90fc39e30a575c5b48b",
+    "buggy_commit": "0cfc14c8d99885f17b5f1bd73b0571d3e29f0b41",
+    "execution_result": {
+      "valid_tests": [
+        ".org.jsoup.nodes.FormElementTest.java"
+      ],
+      "success_tests": [
+        ".org.jsoup.nodes.FormElementTest.java"
+      ]
+    }
+  }
+}

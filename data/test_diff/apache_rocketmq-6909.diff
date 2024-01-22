@@ -1,5 +1,5 @@
 diff --git a/proxy/src/test/java/org/apache/rocketmq/proxy/service/route/ClusterTopicRouteServiceTest.java b/proxy/src/test/java/org/apache/rocketmq/proxy/service/route/ClusterTopicRouteServiceTest.java
-index b5fc1b6..15d8348 100644
+index b5fc1b671..15d83483b 100644
 --- a/proxy/src/test/java/org/apache/rocketmq/proxy/service/route/ClusterTopicRouteServiceTest.java
 +++ b/proxy/src/test/java/org/apache/rocketmq/proxy/service/route/ClusterTopicRouteServiceTest.java
 @@ -21,6 +21,8 @@ import com.github.benmanes.caffeine.cache.CacheLoader;
@@ -68,17 +68,17 @@ index b5fc1b6..15d8348 100644
      }
  
      @Test
-@@ -72,6 +110,13 @@ public class ClusterTopicRouteServiceTest extends BaseServiceTest {
+@@ -71,6 +109,13 @@ public class ClusterTopicRouteServiceTest extends BaseServiceTest {
+         assertEquals(2, this.topicRouteService.topicCache.asMap().size());
      }
  
-     @Test
++    @Test
 +    public void testGetBrokerAddr() throws Throwable {
 +        ProxyContext ctx = ProxyContext.create();
 +        assertEquals(BROKER_ADDR, topicRouteService.getBrokerAddr(ctx, BROKER_NAME));
 +        assertEquals(BROKER2_ADDR, topicRouteService.getBrokerAddr(ctx, BROKER2_NAME));
 +    }
 +
-+    @Test
+     @Test
      public void testGetTopicRouteForProxy() throws Throwable {
          ProxyContext ctx = ProxyContext.create();
-         List<Address> addressList = Lists.newArrayList(new Address(Address.AddressScheme.IPv4, HostAndPort.fromParts("127.0.0.1", 8888)));
