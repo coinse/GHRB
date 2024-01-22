@@ -542,26 +542,30 @@ if __name__ == "__main__":
     clone_repos(filtered_data)
     new_cleaned_data = filter_test_diff_PR (filtered_data)
 
-    final_data = dict()
+    # final_data = dict()
 
-    for repo_name in new_cleaned_data.keys():
+    # for repo_name in new_cleaned_data.keys():
 
-        bid = new_cleaned_data[repo_name].keys()
+    #     bid = new_cleaned_data[repo_name].keys()
 
-        with open(f"verified_bug/verified_bugs_{repo_name}.json", "r") as f:
-            verified_bugs = json.load(f)
+    #     with open(f"verified_bug/verified_bugs_{repo_name}.json", "r") as f:
+    #         verified_bugs = json.load(f)
         
-        for b in bid:
-            if b not in verified_bugs.keys():
-                final_data[repo_name][b] = new_cleaned_data[repo_name][b]
+    #     for b in bid:
+    #         if b not in verified_bugs.keys():
+    #             final_data[repo_name][b] = new_cleaned_data[repo_name][b]
 
     
     with open('collected/report.json', 'w') as f:
-        json.dump(final_data, f, indent=2)
+        json.dump(new_cleaned_data, f, indent=2)
     
     fetch_prod_diff()
 
+<<<<<<< HEAD
     #print([f'{repo_name}: {len(final_data[repo_name])}' for repo_name in final_data])
+=======
+    print([f'{repo_name}: {len(new_cleaned_data[repo_name])}' for repo_name in new_cleaned_data])
+>>>>>>> 4f933e48b8828ff25fc7b603c39a5f4ff43cce00
 
 
 
