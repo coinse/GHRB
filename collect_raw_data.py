@@ -135,8 +135,8 @@ def filter_old_PR (datapath, date):
         with open(repo_data) as f:
             collected_pr[repo_name] = json.load(f)
 
-    if debug:
-        print(f'# of Original PR: {sum([len(collected_pr[repo]) for repo in collected_pr])}')
+    # if debug:
+    #     print(f'# of Original PR: {sum([len(collected_pr[repo]) for repo in collected_pr])}')
 
     filtered_pr = defaultdict(list)
     for repo_name in collected_pr:
@@ -159,7 +159,7 @@ def filter_old_PR (datapath, date):
                 filtered_pr[repo_name].append(pr_data)
     
     if debug:
-        print(f'# of Date Filtered PR: {sum([len(filtered_pr[repo]) for repo in filtered_pr])}')
+        print(f'|PRs within relevant period|{sum([len(filtered_pr[repo]) for repo in filtered_pr])}|\n')
     return filtered_pr
     
 
@@ -191,7 +191,7 @@ def filter_no_test_PR (filtered_pr):
                 filtered_test_pr[repo_name].append(pr_data)
     
     if debug:
-        print(f'# of Test Filtered PR: {sum([len(filtered_test_pr[repo]) for repo in filtered_test_pr])}')
+        print(f'|... that also have test files|{sum([len(filtered_test_pr[repo]) for repo in filtered_test_pr])}|\n')
 
     return filtered_test_pr
 
@@ -208,7 +208,7 @@ def filter_multiple_PR (filtered_pr):
                 filtered_issue_pr[repo_name].append(pr_data)
     
     if debug:
-        print(f'# of Multiple Issue Filtered PR: {sum([len(filtered_issue_pr[repo]) for repo in filtered_issue_pr])}')
+        print(f'|... that also only mention a single issue|{sum([len(filtered_issue_pr[repo]) for repo in filtered_issue_pr])}|')
 
     return filtered_issue_pr
 
@@ -237,7 +237,7 @@ def filter_language_PR (filtered_pr):
                 filtered_lang_pr[repo_name].append(pr_data)
 
     if debug:
-        print(f'# of Language Filtered PR: {sum([len(filtered_lang_pr[repo]) for repo in filtered_lang_pr])}')
+        print(f'|... that also are in English|{sum([len(filtered_lang_pr[repo]) for repo in filtered_lang_pr])}|\n')
     return filtered_lang_pr
 
 '''
@@ -304,7 +304,7 @@ def filter_main_branch_PR (filtered_pr):
             }
 
     if debug:
-        print(f'# of Merge Filtered PR: {sum([len(filtered_main_pr[repo]) for repo in filtered_main_pr])}')
+        print(f'|... that also were merged in the main branch|{sum([len(filtered_main_pr[repo]) for repo in filtered_main_pr])}|')
 
     return filtered_main_pr
 
@@ -410,7 +410,7 @@ def filter_test_diff_PR (filtered_pr):
         del new_cleaned_data[repo_name]
     
     if debug:
-        print(f'# of Test Diff Filtered PR: {sum([len(new_cleaned_data[repo]) for repo in new_cleaned_data])}')
+        print(f'|... for which a valid test could also be extracted from the PR|{sum([len(new_cleaned_data[repo]) for repo in new_cleaned_data])}|\n')
 
     return new_cleaned_data
 
@@ -533,6 +533,10 @@ if __name__ == "__main__":
         new_repo = json.load(f)
     
     iterate_repo(new_repo, client, fetch_pr_query, args.date, args.existing)
+
+    print("## Data Gathering Statistics")
+    print("|Category|Number of PRs|")
+    print("|---|---|")
 
     filtered_data = filter_old_PR ("collected/raw_data", args.date)
     filtered_data = filter_no_test_PR (filtered_data)
