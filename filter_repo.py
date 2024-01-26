@@ -44,7 +44,7 @@ def collect_repo_data (file):
     with open(file, 'r') as f:
         links = f.readlines()
 
-    for link in tqdm.tqdm(links):
+    for link in tqdm(links):
         if link == '\n':
             break
         link = link.split("/")
@@ -55,7 +55,7 @@ def collect_repo_data (file):
 
         error = 0
         done = False
-        while done == False or error < 20:
+        while done == False and error < 20:
             try:
                 repo_result = client.execute(fetch_specific, variable_values=param)
                 repo_list[name] = repo_result
