@@ -13,7 +13,6 @@ from bs4 import BeautifulSoup
 
 from collections import defaultdict
 
-from textblob import TextBlob
 import langid
 
 from gql import gql, Client
