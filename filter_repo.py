@@ -27,7 +27,8 @@ def collect_repo_data (file):
     '''
     file needs to be composed of "github links"
     '''
-
+    if not os.path.isdir("collected"):
+        os.makedirs("collected")
     with open("scripts/graphql/fetchSpecificRepositoryData.graphql") as f:
         fetch_specific = f.read()
 
