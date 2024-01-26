@@ -13,7 +13,6 @@ from bs4 import BeautifulSoup
 
 from collections import defaultdict
 
-from langdetect import detect, detect_langs
 from textblob import TextBlob
 import langid
 
