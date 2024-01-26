@@ -8,7 +8,7 @@ import subprocess
 import shlex
 import shutil
 from time import sleep
-import tqdm
+from tqdm import tqdm
 from bs4 import BeautifulSoup
 
 from collections import defaultdict
@@ -44,7 +44,7 @@ def collect_repo_data (file):
     with open(file, 'r') as f:
         links = f.readlines()
 
-    for link in tqdm(links):
+    for link in tqdm.tqdm(links):
         if link == '\n':
             break
         link = link.split("/")
