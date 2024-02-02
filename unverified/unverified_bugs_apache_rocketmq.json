@@ -1,0 +1,33 @@
+{
+  "apache_rocketmq-7712": {
+    "bug_id": "apache_rocketmq-7712",
+    "PR_number": 7712,
+    "PR_createdAt": "2024-01-02T01:57:39Z",
+    "merge_commit": "806454bc5e29d2f157cde99bdb082f94cdb377fa",
+    "buggy_commits": [
+      {
+        "oid": "9e4fd0e68a1ea6ab1b1f3344ac9ae79af29a32c2",
+        "message": "[ISSUE #7697] Fix can't open controller metricsExporter. (#7705)"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/apache/rocketmq/issues/7710",
+      "createdAt": "2024-01-01T11:13:31Z",
+      "content": "bug_report_all/apache_rocketmq-7712.json"
+    },
+    "changed_tests": [
+      "common/src/test/java/org/apache/rocketmq/common/UtilAllTest.java"
+    ],
+    "PR_url": "https://github.com/apache/rocketmq/pull/7712",
+    "merge_commit_url": "https://github.com/apache/rocketmq/commit/806454bc5e29d2f157cde99bdb082f94cdb377fa",
+    "buggy_commit": "9e4fd0e68a1ea6ab1b1f3344ac9ae79af29a32c2",
+    "execution_result": {
+      "valid_tests": [
+        ".org.apache.rocketmq.common.UtilAllTest.java"
+      ],
+      "success_tests": [
+        ".org.apache.rocketmq.common.UtilAllTest.java"
+      ]
+    }
+  }
+}

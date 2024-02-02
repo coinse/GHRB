@@ -1,0 +1,33 @@
+{
+  "FasterXML_jackson-databind-4320": {
+    "bug_id": "FasterXML_jackson-databind-4320",
+    "PR_number": 4320,
+    "PR_createdAt": "2024-01-15T15:12:56Z",
+    "merge_commit": "094f7b445d95a768c529e7d8305809cb9f500022",
+    "buggy_commits": [
+      {
+        "oid": "79423936840c469b9a8b54166a48efea8d8ba3a2",
+        "message": "Bump the github-actions group with 2 updates (#4319)"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/FasterXML/jackson-databind/issues/4309",
+      "createdAt": "2024-01-08T14:05:06Z",
+      "content": "bug_report_all/FasterXML_jackson-databind-4320.json"
+    },
+    "changed_tests": [
+      "src/test/java/com/fasterxml/jackson/databind/deser/NullsSkip4309Test.java"
+    ],
+    "PR_url": "https://github.com/FasterXML/jackson-databind/pull/4320",
+    "merge_commit_url": "https://github.com/FasterXML/jackson-databind/commit/094f7b445d95a768c529e7d8305809cb9f500022",
+    "buggy_commit": "79423936840c469b9a8b54166a48efea8d8ba3a2",
+    "execution_result": {
+      "valid_tests": [
+        ".com.fasterxml.jackson.databind.deser.NullsSkip4309Test.java"
+      ],
+      "success_tests": [
+        ".com.fasterxml.jackson.databind.deser.NullsSkip4309Test.java"
+      ]
+    }
+  }
+}

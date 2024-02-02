@@ -121,6 +121,22 @@ def remove_test_diff ():
         if name not in all_bug:
             sp.run(["rm", "-rf", f"/root/framework/data/test_diff/{name}.diff"])
 
+def remove_prod_diff ():
+    all_bug = []
+    for file in os.listdir("/root/framework/verified_bug/"):
+        with open("/root/framework/verified_bug/" + file, 'r') as f:
+            active_bug_list = json.load(f)
+        for key in active_bug_list.keys():
+            all_bug.append(key)
+    i = 0
+    bug_dict = defaultdict(int)
+    
+    for diff in os.listdir("/root/framework/data/prod_diff/"):
+        bug_dict[diff.split("_")[-2] + "_" + diff.split("_")[-1].split("-")[0]] += 1
+        name = diff.replace(".diff", "")
+        if name not in all_bug:
+            sp.run(["rm", "-rf", f"/root/framework/data/prod_diff/{name}.diff"])
+
     
 
 if __name__ == '__main__':
@@ -129,4 +145,4 @@ if __name__ == '__main__':
     find_og_collector()
     find_total_bug()
     remove_test_diff()
-    
+    remove_prod_diff()
