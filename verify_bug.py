@@ -144,7 +144,7 @@ config = {
     },
     'iluwatar_java-design-patterns': {
         'repo_path': file_path + '/repos/java-design-patterns',
-        'project_name': 'iluwatar_java-design-patterns'
+        'project_name': 'iluwatar_java-design-patterns',
     },
     'dbeaver_dbeaver': {
         'repo_path': file_path + '/repos/dbeaver',
@@ -152,11 +152,13 @@ config = {
     },
     'seata_seata': {
         'repo_path': file_path + '/repos/seata',
-        'project_name': 'seata_seata'
+        'project_name': 'seata_seata',
+        'project_id': 'seata'
     },
     'OpenAPITools_openapi-generator': {
         'repo_path': file_path + '/repos/openapi-generator',
-        'project_name': 'OpenAPITools_openapi-generator'
+        'project_name': 'OpenAPITools_openapi-generator',
+        'project_id': 'openapi-generator'
     },
     'apache_shardingsphere': {
         'repo_path': file_path + '/repos/shardingsphere',
@@ -164,7 +166,8 @@ config = {
     },
     'alibaba_nacos': {
         'repo_path': file_path + '/repos/nacos',
-        'project_name': 'alibaba_nacos'
+        'project_name': 'alibaba_nacos',
+        'project_id': 'nacos'
     },
     'keycloak_keycloak': {
         'repo_path': file_path + '/repos/keycloak',
@@ -180,7 +183,8 @@ config = {
     },
     'iBotPeaches_Apktool': {
         'repo_path': file_path + '/repos/Apktool',
-        'project_name': 'iBotPeaches_Apktool'
+        'project_name': 'iBotPeaches_Apktool',
+        'project_id': 'Apktool'
     },
     'spring-projects_spring-framework': {
         'repo_path': file_path + '/repos/spring-framework',
@@ -188,11 +192,13 @@ config = {
     },
     'square_retrofit': {
         'repo_path': file_path + '/repos/retrofit',
-        'project_name': 'square_retrofit'
+        'project_name': 'square_retrofit',
+        'project_id': 'retrofit'
     },
     'javaparser_javaparser': {
         'repo_path': file_path + '/repos/javaparser',
-        'project_name': 'javaparser_javaparser'
+        'project_name': 'javaparser_javaparser',
+        'project_id': 'javaparser'
     }
     }
 
@@ -289,9 +295,106 @@ def get_project_from_bug_id(bug_id):
     for project_identifier in config:
         if project_identifier in bug_id:
             return project_identifier
+        
+def get_project_id_from_project(project):
+    return config[project]['project_id']
+        
+def find_env (pid):
+    with open("/root/framework/data/project_id.json", "r") as f:
+        project_id = json.load(f)
+
+    if pid not in project_id.keys():
+        output = "No matching project id"
+        return output
+
+    requirements = project_id[pid]["requirements"]
+    if len(requirements["extra"]) != 0:
+        extra = requirements["extra"]
+    
+    build = requirements["build"]
+    jdk_required = requirements["jdk"]
+    wrapper = requirements["wrapper"]
+
+    mvn_required = None
+    mvnw = False
+    gradlew = False
+
+    if build == "maven":
+        if wrapper:
+            mvnw = True
+        else:
+            mvn_required = requirements["version"]
+    elif build == "gradle":
+        if wrapper:
+            gradlew = True
+
+    JAVA_HOME = mvn_path = None
+    if jdk_required == '8':
+        JAVA_HOME = '/usr/lib/jvm/java-8-openjdk-amd64'
+    elif jdk_required == '11':
+        JAVA_HOME = '/usr/lib/jvm/java-11-openjdk-amd64'
+    elif jdk_required == '17':
+        JAVA_HOME = '/usr/lib/jvm/java-17-openjdk-amd64'
+    
+    if mvn_required is None:
+        mvn_path = None
+    elif mvn_required == '3.8.6':
+        mvn_path = '/opt/apache-maven-3.8.6/bin'
+    elif mvn_required == '3.8.1':
+        mvn_path = '/opt/apache-maven-3.8.1/bin'
+
+    new_env = os.environ.copy()
+    new_env['JAVA_HOME'] = JAVA_HOME
+    if mvn_path is not None:
+        new_env['PATH'] = os.pathsep.join([mvn_path, new_env['PATH']])
+
+    return new_env, mvnw, gradlew
 
 
-def verify_in_buggy_version(buggy_commit, test_patch_dir, repo_path, test_prefix, build):
+def run_test (new_env, mvnw, gradlew, test_case, path, command=None):
+
+    if not mvnw and not gradlew:
+        default = ['timeout', '30m', 'mvn', 'test', f'-Dtest={test_case}', '-DfailIfNoTests=false', '--errors']
+        if command is not None:
+            extra_command = command.split()
+            new_command = default + extra_command
+            run = sp.run(new_command,
+                         env=new_env, stdout=sp.PIPE, stderr=sp.PIPE, cwd=path)
+        else:
+            run = sp.run(default,
+                        env=new_env, stdout=sp.PIPE, stderr=sp.PIPE, cwd=path)
+
+    elif mvnw:
+        default = ['timeout', '10m', './mvnw', 'test', f'-Dtest={test_case}', '-DfailIfNoTests=false', '--errors']
+        if command is not None:
+            extra_command = command.split()
+            new_command = default + extra_command
+
+            run = sp.run(new_command,
+                        env=new_env, stdout=sp.PIPE, stderr=sp.PIPE, cwd=path)
+        else:
+            run = sp.run(default,
+                        env=new_env, stdout=sp.PIPE, stderr=sp.PIPE, cwd=path)
+    elif gradlew:
+        default = ["./gradlew", "test", "--tests", f'{test_case}', '--info', '--stacktrace']
+        if command is not None:
+            if 'test' in command:
+                new_command = ["./gradlew", command, '--tests', f'{test_case}']
+                run = sp.run(new_command,
+                             env=new_env, stdout=sp.PIPE, stderr=sp.PIPE, cwd=path)
+            else:
+                run = sp.run(new_command,
+                             env=new_env, stdout=sp.PIPE, stderr=sp.PIPE, cwd=path)
+        else:
+            run = sp.run(default,
+                         env=new_env, stdout=sp.PIPE, stderr=sp.PIPE, cwd=path)
+    
+    stdout = run.stdout.decode()
+    stderr = run.stderr.decode()
+
+    return stdout, stderr
+            
+def verify_in_buggy_version(buggy_commit, test_patch_dir, repo_path, test_prefix, build, pid):
 
     #print(repo_path, buggy_commit, test_patch_dir)
     p = sp.run(['git', 'reset', '--hard', 'HEAD'],
@@ -328,6 +431,17 @@ def verify_in_buggy_version(buggy_commit, test_patch_dir, repo_path, test_prefix
 
     
     print("changed_test_files: ", changed_test_files)
+
+    new_env, mvnw, gradlew = find_env(pid)
+    
+    with open("/root/framework/data/project_id.json", "r") as f:
+        project_id = json.load(f)
+    
+    if len(project_id[pid]['requirements']['extra']) != 0:
+        command = project_id[pid]['requirements']['extra']['command']
+    else:
+        command = None
+
     fix_build_env(repo_path)
     
     modules = []
@@ -358,33 +472,13 @@ def verify_in_buggy_version(buggy_commit, test_patch_dir, repo_path, test_prefix
     valid_tests = []
     for idx, test_id in enumerate(changed_test_id):
 
-        if build == "maven":
+        captured_stdout, captured_stderr = run_test (new_env, mvnw, gradlew, test_id, repo_path, command)
 
-            test_process = sp.run(['timeout', '30m', 'mvn', 'clean', 'test', '-Denforcer.skip=true',
-                                f'-Dtest={test_id}', '-DfailIfNoTests=false', '-Dsurefire.failIfNoSpecifiedTests=false'], stdout=sp.PIPE, stderr=sp.PIPE, cwd=repo_path)
-        elif build == 'gradle':
-            
-            test_process = sp.run(['./gradlew', 'clean', ':test',
-                                '--tests', f'{test_id}'], stdout=sp.PIPE, stderr=sp.PIPE, cwd=repo_path)
-        elif build == "maven-specify":
-
-            test_process = sp.run(['timeout', '10m', './mvnw', 'clean', 'test', '-DfailIfNoTests=false', '-Denforcer.skip=true',
-                                   '-Djacoco.skip=true', '-Dcheckstyle.skip=true',
-                                   '-Dmaven.javadoc.skip=true', "-Dargline='-Xmx1024m'",
-                                f'-Dtest={test_id}',
-                                '-Dsurefire.failIfNoSpecifiedTests=false'], stdout=sp.PIPE, stderr=sp.PIPE, cwd=repo_path)
-        
-        captured_stdout = test_process.stdout.decode()
-        captured_stderr = test_process.stderr.decode()
-
-
-        if build == 'maven' and 'There are test failures' in captured_stdout:
+        #print(captured_stdout)
+        if 'There are test failures' in captured_stdout:
             print("There are test failures")
             valid_tests.append(test_id)
-        elif build == 'maven-specify' and 'There are test failures' in captured_stdout:
-            print("There are test failures")
-            valid_tests.append(test_id)
-        elif build == 'gradle' and 'There were failing tests' in captured_stderr:
+        elif 'There were failing tests' in captured_stderr:
             print("There were failing tests")
             valid_tests.append(test_id)
         
@@ -394,7 +488,7 @@ def verify_in_buggy_version(buggy_commit, test_patch_dir, repo_path, test_prefix
     return valid_tests, repo_path, modules
 
 
-def verify_in_fixed_version(fixed_commit, target_test_classes, repo_path, test_prefix, build, modules):
+def verify_in_fixed_version(fixed_commit, target_test_classes, repo_path, test_prefix, build, modules, pid):
     
     sp.run(['git', 'reset', '--hard', 'HEAD'],
            cwd=repo_path, stdout=sp.DEVNULL, stderr=sp.DEVNULL)
@@ -403,39 +497,33 @@ def verify_in_fixed_version(fixed_commit, target_test_classes, repo_path, test_p
 
     sp.run(['git', 'checkout', fixed_commit], cwd=repo_path)
 
+
+    new_env, mvnw, gradlew = find_env(pid)
+    
+    with open("/root/framework/data/project_id.json", "r") as f:
+        project_id = json.load(f)
+    
+    if len(project_id[pid]['requirements']['extra']) != 0:
+        command = project_id[pid]['requirements']['extra']['command']
+    else:
+        command = None
+
     fix_build_env(repo_path)
 
     valid_tests = []
 
     print("target_test_classes: ", target_test_classes)
     for idx, test_id in enumerate(target_test_classes):
-        print(test_id)
-        if build == 'maven':
-            test_process = sp.run(['mvn', 'clean', 'test', '-Denforcer.skip=true',
-                                f'-Dtest={test_id}', '-DfailIfNoTests=false', '-Dsurefire.failIfNoSpecifiedTests=false'], capture_output=True, cwd=repo_path)
 
-        elif build == 'gradle':
-            test_process = sp.run(['./gradlew', 'clean', ':test',
-                                '--tests', f'{test_id}'], stdout=sp.PIPE, stderr=sp.PIPE, cwd=repo_path)
-        elif build == "maven-specify":
-            test_process = sp.run(['timeout', '25m', './mvnw', 'clean', 'test', '-DfailIfNoTests=false', '-Denforcer.skip=true',
-                                   '-Djacoco.skip=true', '-Dcheckstyle.skip=true',
-                                   '-Dmaven.javadoc.skip=true', "-Dargline='-Xmx1024m'",
-                                f'-Dtest={test_id}',
-                                '-Dsurefire.failIfNoSpecifiedTests=false'], stdout=sp.PIPE, stderr=sp.PIPE, cwd=repo_path)
-        captured_stdout = test_process.stdout.decode()
-        captured_stderr = test_process.stderr.decode()
+        captured_stdout, captured_stderr = run_test (new_env, mvnw, gradlew, test_id, repo_path, command)
 
-        if build == 'maven' and 'BUILD SUCCESS' in captured_stdout:
+        if 'BUILD SUCCESS' in captured_stdout:
             print("Maven build success")
             valid_tests.append(test_id)
-        elif build == 'gradle' and 'BUILD SUCCESSFUL' in captured_stdout:
+        elif 'BUILD SUCCESSFUL' in captured_stdout:
             print("Gradle build success")
             valid_tests.append(test_id)
-        elif build == 'maven-specify' and 'BUILD SUCCESS' in captured_stdout:
-            print("Maven specify build success")
-            valid_tests.append(test_id)
-        elif (build=='maven-specify' or build=='maven') and 'There are test failures' in captured_stdout:
+        elif 'There are test failures' in captured_stdout or 'There were failing tests' in captured_stdout:
             print("Test failed in fixed version")
 
     return valid_tests
@@ -452,12 +540,14 @@ def verify_bug(bug_id, buggy_commit, fixed_commit, build='maven'):
     print(bug_id)
     test_patch_dir = os.path.abspath(os.path.join(
         './collected/test_diff', f'{bug_id}.diff'))
+    
+    pid = get_project_id_from_project (project)
 
     valid_tests, specified_repo_path, modules = verify_in_buggy_version(
-        buggy_commit, test_patch_dir, repo_path, test_prefix, build)
+        buggy_commit, test_patch_dir, repo_path, test_prefix, build, pid)
 
     success_tests = verify_in_fixed_version(
-        fixed_commit, valid_tests, specified_repo_path, test_prefix, build, modules)
+        fixed_commit, valid_tests, specified_repo_path, test_prefix, build, modules, pid)
 
     print("valid: ", valid_tests, "success: ", success_tests)
     return valid_tests, success_tests
@@ -773,6 +863,7 @@ if __name__ == '__main__':
         if test_output.find("Failure") != -1:
             print("failure for fixed version")
             wrong_bugs.append(bug_name)
+            continue
 
     for wb in wrong_bugs:
         print("wrong bug: ", wb)
