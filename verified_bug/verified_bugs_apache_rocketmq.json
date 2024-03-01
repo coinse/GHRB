@@ -582,5 +582,40 @@
         ".org.apache.rocketmq.common.UtilAllTest.java"
       ]
     }
+  },
+  "apache_rocketmq-7863": {
+    "bug_id": "apache_rocketmq-7863",
+    "PR_number": 7863,
+    "PR_createdAt": "2024-02-27T07:12:56Z",
+    "merge_commit": "918accbc5307db60339705439083f42082cf0f46",
+    "buggy_commits": [
+      {
+        "oid": "a33f1d1c72a785744f586ce2e92a45f25dd5ebd5",
+        "message": "[ISSUE #7875] Add constructor for ProxyTopicRouteData (#7876)"
+      },
+      {
+        "oid": "64fda5e72a57d228d95efaca876201e2d3aa7fd0",
+        "message": "Fix exception when pop messages with multiple LMQ indexes"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/apache/rocketmq/issues/7848",
+      "createdAt": "2024-02-22T07:50:22Z",
+      "content": "bug_report_all/apache_rocketmq-7863.json"
+    },
+    "changed_tests": [
+      "client/src/test/java/org/apache/rocketmq/client/impl/MQClientAPIImplTest.java"
+    ],
+    "PR_url": "https://github.com/apache/rocketmq/pull/7863",
+    "merge_commit_url": "https://github.com/apache/rocketmq/commit/918accbc5307db60339705439083f42082cf0f46",
+    "buggy_commit": "a33f1d1c72a785744f586ce2e92a45f25dd5ebd5",
+    "execution_result": {
+      "valid_tests": [
+        ".org.apache.rocketmq.client.impl.MQClientAPIImplTest.java"
+      ],
+      "success_tests": [
+        ".org.apache.rocketmq.client.impl.MQClientAPIImplTest.java"
+      ]
+    }
   }
 }

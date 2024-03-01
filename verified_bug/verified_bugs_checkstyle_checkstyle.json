@@ -508,5 +508,41 @@
         ".com.puppycrawl.tools.checkstyle.checks.modifier.ClassMemberImpliedModifierCheckTest.java"
       ]
     }
+  },
+  "checkstyle_checkstyle-14497": {
+    "bug_id": "checkstyle_checkstyle-14497",
+    "PR_number": 14497,
+    "PR_createdAt": "2024-02-17T10:21:59Z",
+    "merge_commit": "b6eb4a6d2a945a26552ef31e9904b360fc324bdd",
+    "buggy_commits": [
+      {
+        "oid": "3b290185c1657a5d96daa0146ba9cc843fc5bb04",
+        "message": "Issue #14396: Made changes to pom.xml and checker-framework.groovy to fail execution if report generation fails"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/checkstyle/checkstyle/issues/14344",
+      "createdAt": "2024-01-24T18:23:31Z",
+      "content": "bug_report_all/checkstyle_checkstyle-14497.json"
+    },
+    "changed_tests": [
+      "src/it/java/com/google/checkstyle/test/chapter4formatting/rule462horizontalwhitespace/GenericWhitespaceTest.java",
+      "src/test/java/com/puppycrawl/tools/checkstyle/checks/whitespace/GenericWhitespaceCheckTest.java",
+      "src/test/resources-noncompilable/com/puppycrawl/tools/checkstyle/checks/whitespace/genericwhitespace/InputGenericWhitespaceBeforeRecordHeader.java",
+      "src/test/resources/com/puppycrawl/tools/checkstyle/checks/whitespace/genericwhitespace/InputGenericWhitespaceAfterNew.java",
+      "src/test/resources/com/puppycrawl/tools/checkstyle/checks/whitespace/genericwhitespace/InputGenericWhitespaceBeforeCtorInvocation.java",
+      "src/test/resources/com/puppycrawl/tools/checkstyle/checks/whitespace/genericwhitespace/InputGenericWhitespaceDefault.java"
+    ],
+    "PR_url": "https://github.com/checkstyle/checkstyle/pull/14497",
+    "merge_commit_url": "https://github.com/checkstyle/checkstyle/commit/b6eb4a6d2a945a26552ef31e9904b360fc324bdd",
+    "buggy_commit": "3b290185c1657a5d96daa0146ba9cc843fc5bb04",
+    "execution_result": {
+      "valid_tests": [
+        ".com.google.checkstyle.test.chapter4formatting.rule462horizontalwhitespace.GenericWhitespaceTest.java"
+      ],
+      "success_tests": [
+        ".com.google.checkstyle.test.chapter4formatting.rule462horizontalwhitespace.GenericWhitespaceTest.java"
+      ]
+    }
   }
 }

@@ -14,3 +14,4 @@ bug_id,revision.id.buggy,revision.id.fixed,report.id,report.url
 13,31d820c0315aeacddb78beb84ada60e8d2dd13ac,8bf2481311820f6913d5bd2df9bfc1ee1d44436e,checkstyle_checkstyle-12372,https://github.com/checkstyle/checkstyle/issues/12345
 14,f1275666a544f4d3c30f1e7b7c3ac72565278da9,7855254a0f847e53ef87ca8d9fdfcfc9fcaa8052,checkstyle_checkstyle-12444,https://github.com/checkstyle/checkstyle/issues/12443
 15,fdcc63fac125d4b8caa657512b4894727b1c1a4b,5ceb64bc7b14e74d07c6a77477f690aae89d3fc8,checkstyle_checkstyle-12831,https://github.com/checkstyle/checkstyle/issues/11569
+16,3b290185c1657a5d96daa0146ba9cc843fc5bb04,b6eb4a6d2a945a26552ef31e9904b360fc324bdd,checkstyle_checkstyle-14497,https://github.com/checkstyle/checkstyle/issues/14344
