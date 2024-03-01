@@ -6,7 +6,7 @@ import json
 def extract_github_issue (url):
     parsed_url = urlparse(url)
     path_segments = parsed_url.path.strip('/').split('/')
-    headers = {"Authorization": "token " + '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'}
+    headers = {"Authorization": "token " }
 
     owner, repo, issue_number = path_segments[0], path_segments[1], path_segments[3]
     #print(owner, repo, issue_number)
