@@ -159,7 +159,7 @@ def filter_old_PR (datapath, date):
                 filtered_pr[repo_name].append(pr_data)
     
     if debug:
-        print(f'|PRs within relevant period|{sum([len(filtered_pr[repo]) for repo in filtered_pr])}|\n')
+        print(f'|PRs within relevant period|{sum([len(filtered_pr[repo]) for repo in filtered_pr])}|  \n\n')
     return filtered_pr
     
 
@@ -191,7 +191,7 @@ def filter_no_test_PR (filtered_pr):
                 filtered_test_pr[repo_name].append(pr_data)
     
     if debug:
-        print(f'|... that also have test files|{sum([len(filtered_test_pr[repo]) for repo in filtered_test_pr])}|\n')
+        print(f'|... that also have test files|{sum([len(filtered_test_pr[repo]) for repo in filtered_test_pr])}|  \n\n')
 
     return filtered_test_pr
 
@@ -208,7 +208,7 @@ def filter_multiple_PR (filtered_pr):
                 filtered_issue_pr[repo_name].append(pr_data)
     
     if debug:
-        print(f'|... that also only mention a single issue|{sum([len(filtered_issue_pr[repo]) for repo in filtered_issue_pr])}|')
+        print(f'|... that also only mention a single issue|{sum([len(filtered_issue_pr[repo]) for repo in filtered_issue_pr])}|  \n\n')
 
     return filtered_issue_pr
 
@@ -237,7 +237,7 @@ def filter_language_PR (filtered_pr):
                 filtered_lang_pr[repo_name].append(pr_data)
 
     if debug:
-        print(f'|... that also are in English|{sum([len(filtered_lang_pr[repo]) for repo in filtered_lang_pr])}|\n')
+        print(f'|... that also are in English|{sum([len(filtered_lang_pr[repo]) for repo in filtered_lang_pr])}|  \n\n')
     return filtered_lang_pr
 
 '''
@@ -304,7 +304,7 @@ def filter_main_branch_PR (filtered_pr):
             }
 
     if debug:
-        print(f'|... that also were merged in the main branch|{sum([len(filtered_main_pr[repo]) for repo in filtered_main_pr])}|')
+        print(f'|... that also were merged in the main branch|{sum([len(filtered_main_pr[repo]) for repo in filtered_main_pr])}|  \n\n')
 
     return filtered_main_pr
 
@@ -410,7 +410,7 @@ def filter_test_diff_PR (filtered_pr):
         del new_cleaned_data[repo_name]
     
     if debug:
-        print(f'|... for which a valid test could also be extracted from the PR|{sum([len(new_cleaned_data[repo]) for repo in new_cleaned_data])}|\n')
+        print(f'|... for which a valid test could also be extracted from the PR|{sum([len(new_cleaned_data[repo]) for repo in new_cleaned_data])}|  \n\n')
 
     return new_cleaned_data
 
