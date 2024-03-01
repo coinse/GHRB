@@ -40,7 +40,7 @@ def call_iterate():
         # output += "|Repo|Number of Possible Bugs|  \n\n"
         # output += "|---|---|  \n\n"
         for k, v in repo_dict.items():
-            output += f"|{k}|{v}|  \n\n"
+            output += f"|{k}|{v}|  "
         print(output)
     else:
         print("No new bugs detected")
