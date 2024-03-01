@@ -34,8 +34,9 @@ jobs:
       run: |
         body_1=$(cat body_1.txt)
         body_2=$(python debug/iterate_report.py)
-        body="## Collecting Raw Data \n ${body_1} \n ${body_2}"
-        gh issue create -t "Output of Github Action" -b "$body" -l "auto"
+        body="# Collecting Raw Data \n ${body_1} \n ${body_2}"
+        echo $body >> markdown.md
+        gh issue create -t "Output of Github Action" -b "$(cat markdown.md)" -l "auto"
       env:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         REPO: ${{ github.repository }}
