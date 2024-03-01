@@ -1,0 +1,47 @@
+name: Check for new bugs
+
+on:
+  push:
+    branches:
+      - main
+jobs:
+  auto-collect:
+    runs-on: ubuntu-latest
+  
+    steps:
+    - name: Checkout Repo
+      uses: actions/checkout@v4
+
+    - name: Setup Python
+      uses: actions/setup-python@v5.0.0
+      with:
+        python-version: 3.8
+
+    - name: Install Requirements
+      uses: py-actions/py-dependency-install@v4
+      with:
+        path: Docker/requirements.txt
+        
+    - name: Run Script
+      id: script
+      run: |
+        current_date=$(date -u "+%Y-%m-%d")
+        previous_date=$(date -u -d "$current_date" -d "last month" "+%Y-%m-%d")
+        o_list=$(python collect_raw_data.py -t ${{ secrets.GITHUB_TOKEN }} -f data/existing_repos.json -d $previous_date -e)
+        echo $o_list >> body_1.txt
+
+    - name: Compare Output, Create Github issue
+      run: |
+        body_1=$(cat body_1.txt)
+        body_2=$(python debug/iterate_report.py)
+        body="## Collecting Raw Data ${body_1} ${body_2}"
+        gh issue create -t "Output of Github Action" -b "$body" -l "auto"
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        REPO: ${{ github.repository }}
+  
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: report
+        path: collected/report.json
