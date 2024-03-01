@@ -34,7 +34,7 @@ def call_iterate():
         if count != 0:
             repo_dict[repo_name] = count
     
-    output += "## Output Summary"
+    output += "## Output Summary \n\n"
     
     if len(repo_dict.keys()) != 0:
         output += "|Repo|Number of Possible Bugs|\n"
