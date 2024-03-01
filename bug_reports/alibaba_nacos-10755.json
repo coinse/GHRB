@@ -1,0 +1,6 @@
+{
+  "issue_id": 10769,
+  "issue_url": "https://github.com/alibaba/nacos/issues/10769",
+  "title": "optimize config server dump consistence when notify fail",
+  "description_text": "\r\n**Is your feature request related to a problem? Please describe.**\r\nIf a node  receive a config update request ,it will persist into db and async notify other nodes  to dump config to local disk in AsyncNotifyCenter .\r\nThere is a case ,if this node crashed before notify other nodes, other nodes won't receive config dump change request and stay behind of last config version until interval 6 hour all dump task running. \r\n\r\n**Describe the solution you'd like**\r\nAs a supplement \uff0c add  a dump change task to check new updated configs in db to make up for the problem above.\r\n\r\n\r\n"
+}

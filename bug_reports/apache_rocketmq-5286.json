@@ -1,0 +1,6 @@
+{
+  "issue_id": 5285,
+  "issue_url": "https://github.com/apache/rocketmq/issues/5285",
+  "title": "Add vm arguments to set useTLS for all server.",
+  "description_text": "When a server needs to call other services as a client, it may be need to set the useTLS value. So we can use the vm arguments for all server (broker, controller in namesrv, controller) ."
+}

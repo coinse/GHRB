@@ -1,0 +1,6 @@
+{
+  "issue_id": 230,
+  "issue_url": "https://github.com/Hakky54/sslcontext-kickstart/issues/230",
+  "title": "FenixHostnameVerifier issues",
+  "description_text": "Should this be an endsWith()? \r\n\r\nhttps://github.com/Hakky54/sslcontext-kickstart/blob/c779b17a64f0738d1dd2d2ec9c5e02bc6f5521f3/sslcontext-kickstart/src/main/java/nl/altindag/ssl/hostnameverifier/FenixHostnameVerifier.java#L188\r\n\r\ncan the !empty be removed if you check for size=2 anyway?\r\n\r\nhttps://github.com/Hakky54/sslcontext-kickstart/blob/c779b17a64f0738d1dd2d2ec9c5e02bc6f5521f3/sslcontext-kickstart/src/main/java/nl/altindag/ssl/hostnameverifier/FenixHostnameVerifier.java#L124\r\n\r\nIs this intentionally not checking CN?\r\n\r\nhttps://github.com/Hakky54/sslcontext-kickstart/blob/c779b17a64f0738d1dd2d2ec9c5e02bc6f5521f3/sslcontext-kickstart/src/main/java/nl/altindag/ssl/hostnameverifier/FenixHostnameVerifier.java#L119\r\n\r\ni can provide a PR for those issues if youmagree it needs to be fixed.\r\n\r\nthis verifier should probably also carry a warning that it does not know/forbid patterns in TLDs (*.co.uk instead of *.dom.co.uk or even *.com)?\r\n\r\n"
+}

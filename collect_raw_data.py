@@ -534,9 +534,9 @@ if __name__ == "__main__":
     
     iterate_repo(new_repo, client, fetch_pr_query, args.date, args.existing)
 
-    print("## Data Gathering Statistics")
-    print("|Category|Number of PRs|")
-    print("|---|---|")
+    # print("## Data Gathering Statistics")
+    # print("|Category|Number of PRs|")
+    # print("|---|---|")
 
     filtered_data = filter_old_PR ("collected/raw_data", args.date)
     filtered_data = filter_no_test_PR (filtered_data)

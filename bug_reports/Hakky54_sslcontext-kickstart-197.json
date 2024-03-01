@@ -1,0 +1,6 @@
+{
+  "issue_id": 196,
+  "issue_url": "https://github.com/Hakky54/sslcontext-kickstart/issues/196",
+  "title": "Version 7.4.3 fails to accept all certificates",
+  "description_text": "**Describe the bug**\r\nIt seems that changes in version 7.4.3 skips accept-all truststore configured using \r\n`builder.withUnsafeTrustMaterial()` or `builder.withTrustingAllCertificatesWithoutValidation()`\r\n\r\nThis is because UnsafeX509ExtendedTrustManager has 0 accepted X509Certificate\r\ntherefore it is skipped during checking in CombinableX509TrustManager \r\n\r\n**To Reproduce**\r\n```\r\nSSLFactory.Builder builder = SSLFactory.builder().withDefaultTrustMaterial();\r\nbuilder.withUnsafeTrustMaterial();\r\nSSLFactory factory = builder.build();\r\n\r\nSSLContext sslContext = factory.getSslContext();\r\nSSLContext.setDefault(sslContext);\r\n```\r\n\r\n**Expected behavior**\r\nValidation of the TLS certificate should pass and connection should be established\r\n\r\n**Environmental Data:**\r\n - Java Version 11.0\r\n - Gradle\r\n- OS MacOS\r\n\r\n**Additional context**\r\nThe test passes with 7.3.0 and 7.4.2\r\n"
+}

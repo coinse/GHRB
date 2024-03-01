@@ -1,0 +1,6 @@
+{
+  "issue_id": 121,
+  "issue_url": "https://github.com/Hakky54/sslcontext-kickstart/issues/121",
+  "title": "Remove/Disable logging in unsafe HostnameVerifier and TrustManager",
+  "description_text": "the logging in the unsafe variants of HostnameVerifier and TrustManager spam logs. There should be a way to disable this or at least log it to DEBUG.\r\n\r\nI see no reason why i would like to know that a self signed certificate is trusted. that's exactly what i want to do else i wouldn't use this specific verifier."
+}

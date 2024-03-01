@@ -1,0 +1,6 @@
+{
+  "issue_id": 9023,
+  "issue_url": "https://github.com/alibaba/nacos/issues/9023",
+  "title": "Corner case dataId 'cipher-' cause config fail to create",
+  "description_text": "\r\n**Describe the bug**\r\nwe cannot create config dataId named 'cipher-' \r\n\r\n**How to Reproduce**\r\nPOST /nacos/v1/cs/configs\r\n\r\npayload\r\n![b3e0292f2e6235b25201050f7a6ea3a](https://user-images.githubusercontent.com/94208776/186311770-f75ebf77-89fb-44bb-9db8-7a97e8573ef2.png)\r\n\r\nresponse\r\n![241b67bfb3bdacbb7da77b31c68fb84](https://user-images.githubusercontent.com/94208776/186311796-21c9939e-be57-4abb-b5ff-1a0358e48c51.png)\r\n\r\n\r\n**Desktop (please complete the following information):**\r\n - Version: nacos-server 2.1.1\r\n - Module: config\r\n\r\n"
+}

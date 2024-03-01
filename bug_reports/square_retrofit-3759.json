@@ -1,0 +1,6 @@
+{
+  "issue_id": 3758,
+  "issue_url": "https://github.com/square/retrofit/issues/3758",
+  "title": "\"@HeaderMap parameter type must be Map\" is not precise enough, since HeaderMap supports Headers too !",
+  "description_text": "Bug report.\r\n\r\n\"@HeaderMap parameter type must be Map\" is not precise enough, since HeaderMap supports Headers too !\r\n\r\n```java\r\n        } else if (annotation instanceof HeaderMap) {\r\n        if (type == Headers.class) {\r\n          return new ParameterHandler.Headers(method, p);\r\n        }\r\n\r\n        validateResolvableType(p, type);\r\n        Class<?> rawParameterType = Utils.getRawType(type);\r\n        if (!Map.class.isAssignableFrom(rawParameterType)) {\r\n          throw parameterError(method, p, \"@HeaderMap parameter type must be Map.\");\r\n        }\r\n```\r\n"
+}

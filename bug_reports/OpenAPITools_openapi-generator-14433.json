@@ -1,0 +1,6 @@
+{
+  "issue_id": 2737,
+  "issue_url": "https://github.com/OpenAPITools/openapi-generator/issues/2737",
+  "title": "[BUG] Maven Plugin creates (empty) directories if contained files are ignored",
+  "description_text": "##### Description\r\n\r\nWhen I instruct the Maven Plugin to not generate (i.e., ignore) files in a certain directory, then these files are not generated (as expected), but still the related directory gets created (and remains empty).\r\n\r\nExample:\r\nI write in my .openapi-generator-ignore file:\r\n`**/invoker/**`\r\n\r\nAs expected, none of the contained files gets generated, but I end up with an empty `invoker` directory.\r\n\r\n##### openapi-generator version\r\n4.0.0-beta3\r\n\r\n##### Suggest a fix\r\nI would expect that the code generator ensures that no generated + empty directories are present after the generation. Either you check during the generation whether any file will be generated inside or you create the directory at first and then clean up later on.\r\n"
+}

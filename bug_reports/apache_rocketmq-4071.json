@@ -1,0 +1,6 @@
+{
+  "issue_id": 4070,
+  "issue_url": "https://github.com/apache/rocketmq/issues/4070",
+  "title": "[BatchCQ]Query Message by time failed",
+  "description_text": "**BUG REPORT**\r\nQuery Message by time failed  caused by returning min offset when the target timestamp is larger than the max queue timestamp.\r\n1. Please describe the issue you observed:\r\n\r\n- What did you do (The steps to reproduce)?\r\n\r\nWhen I searched message in BatchCQ by timestamp, if the target timestamp was larger than the max timestamp in CQ unit. I got minimum offset of the BatchCQ, causing offset of the begin time is larger than the end time's. As follows:\r\n![image](https://user-images.githubusercontent.com/50660789/160822624-6160bf74-290f-4df8-9202-34a8044f6822.png)\r\n![image](https://user-images.githubusercontent.com/50660789/160822552-7e509215-2f28-4826-90c1-bb53a240e3cb.png)\r\n\r\n- What is expected to see?\r\nIf the target timestamp is larger than the max timestamp, there need return max offset.\r\n- What did you see instead?\r\nReturn min offset.\r\n2. Please tell us about your environment:\r\n5.0.0-beta\r\n"
+}

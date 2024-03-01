@@ -1,0 +1,6 @@
+{
+  "issue_id": 384,
+  "issue_url": "https://github.com/FasterXML/jackson-dataformats-text/issues/384",
+  "title": "investigate Toml big string tests ",
+  "description_text": "* tests added in #383\r\n* testBiggerString indicates that only the TextBuffer.contentAsString() check is catching the issue with the string being too big\r\n  * no matter how big the len is set to\r\n  * this is far from ideal - we should be catching exceptions when the buffer is extended but the toml code has its own logic and somehow bypasses the checks in TextBuffer until the contentAsString() call."
+}

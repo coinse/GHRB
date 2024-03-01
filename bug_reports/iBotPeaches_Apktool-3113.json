@@ -1,0 +1,6 @@
+{
+  "issue_id": 3112,
+  "issue_url": "https://github.com/iBotPeaches/Apktool/issues/3112",
+  "title": "Update for VanillaIceCream",
+  "description_text": "https://github.com/aosp-mirror/platform_frameworks_base/commit/1dd09eb77941713254f5c0192d1332c5826dd3f9\r\n\r\n * Also support `UpsideDownCake`"
+}

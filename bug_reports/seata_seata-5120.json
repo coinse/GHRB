@@ -1,0 +1,6 @@
+{
+  "issue_id": 5117,
+  "issue_url": "https://github.com/apache/incubator-seata/issues/5117",
+  "title": "some parameters are not uniform",
+  "description_text": "- [ ] I have searched the [issues](https://github.com/seata/seata/issues) of this repository and believe that this is not a duplicate.\r\n\r\n### \u2160. Issue Description\r\nSome parameters have double quotes, but some parameters do not have double quotes, which should be unified.\r\n\r\n### \u2161. Describe what happened\r\n\r\n  If there is an exception, please attach the exception trace:\r\n\r\n```\r\nJust paste your stack trace here!\r\n```\r\n\r\n\r\n### \u2162. Describe what you expected to happen\r\n\r\n\r\n### \u2163. How to reproduce it (as minimally and precisely as possible)\r\n\r\n1. xxx\r\n2. xxx\r\n3. xxx\r\n\r\n### \u2164. Anything else we need to know?\r\n\r\n\r\n### \u2165. Environment:\r\n\r\n- JDK version :\r\n- Seata version:  \r\n- OS :\r\n- Others:"
+}

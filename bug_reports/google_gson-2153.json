@@ -1,0 +1,6 @@
+{
+  "issue_id": 1831,
+  "issue_url": "https://github.com/google/gson/issues/1831",
+  "title": "Gson.getAdapter((TypeToken) null) throws exception",
+  "description_text": "The `Gson` class has logic for handling `null` arguments for `getAdapter(TypeToken)`, see:\r\nhttps://github.com/google/gson/blob/ceae88bd6667f4263bbe02e6b3710b8a683906a2/gson/src/main/java/com/google/gson/Gson.java#L434\r\n\r\nHowever, it appears the pull request which tried to keep the support for `null` arguments also broke it due to commit 31dcfa3ad6fff0ee64f0fc5b8a1712c3ef3dcf95 because it does not reassign a non-`null` value to the `type` argument anymore which later on in the method causes a `NullPointerException`.\r\n\r\nHowever that was 4 years ago and it appears support for `null` arguments might not have been used much (if at all; I did not find existing issues about this here on GitHub). Therefore maybe it would be better instead of fixing this issue to simply remove `null` handling for `getAdapter(TypeToken)` completely and to throw an exception on purpose."
+}

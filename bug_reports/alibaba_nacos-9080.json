@@ -1,0 +1,6 @@
+{
+  "issue_id": 9079,
+  "issue_url": "https://github.com/alibaba/nacos/issues/9079",
+  "title": "Bug about health check retry times.",
+  "description_text": "https://github.com/alibaba/nacos/blob/0aa695e0d3ae5209f015bf9fd23ea7f06632c002/common/src/main/java/com/alibaba/nacos/common/remote/client/RpcClient.java#L466-L483\r\n\r\nI think there's a problem here, if healthCheckRetryTimes is equal to 1, it doesn't actually retry.\r\nThe judgment condition should be\uff1areTryTimes >= 0"
+}

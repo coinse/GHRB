@@ -1,0 +1,6 @@
+{
+  "issue_id": 4048,
+  "issue_url": "https://github.com/apache/incubator-seata/issues/4048",
+  "title": "optimize DurationUtil",
+  "description_text": "the code in DurationUtil can be optimize.\r\n1. should support the `ISO-8601` format,  like `P1DT1M` means 1day and 1min.\r\n2. unified the return value of parse when input is not expect.\r\n3. other optimize\r\n\r\nif someone wanna optimize it, please leave a message below\r\n"
+}

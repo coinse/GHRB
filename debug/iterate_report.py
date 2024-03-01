@@ -34,11 +34,11 @@ def call_iterate():
         if count != 0:
             repo_dict[repo_name] = count
     
-    output += "## Output Summary  \n\n"
+    # output += "## Output Summary  \n\n"
     
     if len(repo_dict.keys()) != 0:
-        output += "|Repo|Number of Possible Bugs|  \n\n"
-        output += "|---|---|  \n\n"
+        # output += "|Repo|Number of Possible Bugs|  \n\n"
+        # output += "|---|---|  \n\n"
         for k, v in repo_dict.items():
             output += f"|{k}|{v}|  \n\n"
         print(output)

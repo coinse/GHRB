@@ -1,0 +1,6 @@
+{
+  "issue_id": 2009,
+  "issue_url": "https://github.com/jhy/jsoup/issues/2009",
+  "title": "formData retrieves \"input type=image\" incorrectly",
+  "description_text": "Method \"formData()\" from FormElement retrieve \"input type=image\" incorrectly\r\n\r\nIn the HTML form, in the submission form \"input type=image\" is not sent in the body, but using jsoup it is retrieved."
+}

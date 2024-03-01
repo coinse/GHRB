@@ -1,0 +1,6 @@
+{
+  "issue_id": 12345,
+  "issue_url": "https://github.com/checkstyle/checkstyle/issues/12345",
+  "title": "False positive in NoWhiteSpaceAfter",
+  "description_text": "hi,\r\n\r\nstarting with ~~8.45~~ 8.44, checkstyle generates a false positive for this code\r\n\r\n```\r\npublic class Demo {\r\n\r\n    Object o;\r\n\r\n    void some() {\r\n        Object oo = new Object[4];\r\n        this.o = ((Object[]) oo)[1];\r\n    }\r\n}\r\n```\r\nThis leads to message like \"There is a whitespace after 'o'\"\r\n\r\n```\r\n<?xml version=\"1.0\"?>\r\n<!DOCTYPE module PUBLIC\r\n        \"-//Checkstyle//DTD Checkstyle Configuration 1.3//EN\"\r\n        \"https://checkstyle.org/dtds/configuration_1_3.dtd\">\r\n<module name=\"Checker\">\r\n  <module name=\"TreeWalker\">\r\n    <module name=\"NoWhitespaceAfter\">\r\n    </module>\r\n  </module>\r\n</module>\r\n```\r\nproduces this output using commandline / latest release 10.3.4\r\n```\r\nStarting audit...\r\n[ERROR] ...\\Demo.java:7:33: 'o' is followed by whitespace. [NoWhitespaceAfter]\r\nAudit done.\r\nCheckstyle ends with 1 errors.\r\n```"
+}

@@ -1,0 +1,6 @@
+{
+  "issue_id": 2444,
+  "issue_url": "https://github.com/assertj/assertj/issues/2444",
+  "title": "isExactlyInstanceOf gives confusing error message when instance is an anonymous inner class",
+  "description_text": "#### Summary\r\n\r\nWhen using isExactlyInstanceOf and the actual value is an anonymous inner class, the message is confusing as it claims that the actual value is an \"instance of null\".\r\n\r\n#### Example\r\n\r\n```java\r\n    assertThat(x.red).isNotNull().isExactlyInstanceOf(A.class);\r\n```\r\nWill not fail `isNotNull` but fails on `isExactlyInstanceOf` with:\r\n```\r\njava.lang.AssertionError: \r\nExpecting:\r\n <hs.ddif.core.inject.store.BindingProvider$ProviderBinding$1@4f1bfe23>\r\nto be exactly an instance of:\r\n <hs.ddif.core.InjectorProviderTest.A>\r\nbut was an instance of:\r\n <null>\r\n```\r\nThis led me to believe the value in `x.red` is `null`, but it clearly isn't.\r\n\r\nIf it is not possible to detect the anonymous inner class type here  (it in this case is an anonymous implementation of the interface `Provider`) perhaps change the message to `but was an instance of an anonymous class`."
+}

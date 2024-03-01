@@ -1,0 +1,6 @@
+{
+  "issue_id": 499,
+  "issue_url": "https://github.com/jhy/jsoup/issues/499",
+  "title": "Allow wildcards in whitelist attributes",
+  "description_text": "HTML5 allows the use of `data-foo`, `data-foo-bar`, etc to specify information on elements. These are relatively harmless and should only contain text.\n\nCurrently, each data- attribute needs to be specified explicitly on a whitelist so that it's not removed by `Jsoup.clean()`. Can we add support for either:\n1. Wildcard attributes, e.g. `Whitelist.relaxed().addAttributes(\"a\", \"data-*\")`\n   or\n2. A new function, like `Whitelist.relaxed().allowDataAttributes(\"a\")`\n"
+}
