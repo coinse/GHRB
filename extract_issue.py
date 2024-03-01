@@ -3,10 +3,10 @@ from urllib.parse import urlparse
 import os
 import json
 
-def extract_github_issue (url):
+def extract_github_issue (url, input_token):
     parsed_url = urlparse(url)
     path_segments = parsed_url.path.strip('/').split('/')
-    headers = {"Authorization": "token " }
+    headers = {"Authorization": "token " + input_token }
 
     owner, repo, issue_number = path_segments[0], path_segments[1], path_segments[3]
     #print(owner, repo, issue_number)
@@ -21,6 +21,7 @@ def extract_github_issue (url):
         return None
 
 def iterate ():
+    input_token = input()
     for file in os.listdir("verified_bug"):
         with open(f"verified_bug/{file}", "r") as f:
             content = json.load(f)
@@ -30,7 +31,7 @@ def iterate ():
             bug_id = content[bug]["bug_id"]
             issue_url = content[bug]["issue"]["url"]
         
-            issue_info = extract_github_issue(issue_url)
+            issue_info = extract_github_issue(issue_url, input_token)
             
             output["issue_id"] = issue_info["number"]
             output["issue_url"] = issue_info["html_url"]
@@ -44,4 +45,4 @@ def iterate ():
 if __name__ == '__main__':
     if not os.path.isdir("bug_reports"):
         os.makedirs("bug_reports")
-iterate()
+    iterate()
