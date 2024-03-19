@@ -6,7 +6,7 @@ interface to easily execute code. It was constructed to facilitate
 evaluation of LLM-based automated debugging techniques, free from concern
 of training data contamination.
 
-## Current Statistics of Bugs
+## Available Bugs
 
 As of March 1st, 2024:
 
