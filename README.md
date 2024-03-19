@@ -6,6 +6,31 @@ interface to easily execute code. It was constructed to facilitate
 evaluation of LLM-based automated debugging techniques, free from concern
 of training data contamination.
 
+## Current Statistics of Bugs
+
+As of March 1st, 2024:
+
+| Project | Bugs |
+| ------- | ---- |
+| fastjson | 1 |
+| nacos | 6 |
+| dubbo | 1 |
+| rocketmq | 19 |
+| assertj | 4 |
+| checkstyle | 16 |
+| jackson-core | 3 |
+| jackson-databind | 5 |
+| jackson-dataformat-xml | 1 |
+| gson | 12 |
+| sslcontext-kickstart | 6 |
+| jsoup | 5 |
+| openapi-generator | 6 |
+| seata | 2 |
+| retrofit | 1 |
+| Apktool | 1 |
+| **Total** | **89** |
+
+
 ## Setting up GHRB
 
 First, build the docker image:
