@@ -170,7 +170,7 @@
   },
   "rocketmq": {
     "owner": "apache",
-    "number_of_bugs": 19,
+    "number_of_bugs": 22,
     "commit_db": "commit_db/rocketmq_bugs.csv",
     "repo_path": "/root/framework/repos/rocketmq",
     "requirements": {

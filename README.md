@@ -15,7 +15,7 @@ As of March 1st, 2024:
 | fastjson | 1 |
 | nacos | 6 |
 | dubbo | 1 |
-| rocketmq | 19 |
+| rocketmq | 22 |
 | assertj | 4 |
 | checkstyle | 16 |
 | jackson-core | 3 |
@@ -28,7 +28,7 @@ As of March 1st, 2024:
 | seata | 2 |
 | retrofit | 1 |
 | Apktool | 1 |
-| **Total** | **89** |
+| **Total** | **92** |
 
 
 ## Setting up GHRB

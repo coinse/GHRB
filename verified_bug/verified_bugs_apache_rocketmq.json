@@ -617,5 +617,110 @@
         ".org.apache.rocketmq.client.impl.MQClientAPIImplTest.java"
       ]
     }
+  },
+  "apache_rocketmq-7917": {
+    "bug_id": "apache_rocketmq-7917",
+    "PR_number": 7917,
+    "PR_createdAt": "2024-03-14T06:42:38Z",
+    "merge_commit": "c20ddf5067f657f02dace2dee605466460cd09ba",
+    "buggy_commits": [
+      {
+        "oid": "d2818da816edead05678de1839a53ed4cb6c2b39",
+        "message": "remove unnecessary type cast (#7971)"
+      },
+      {
+        "oid": "d535981d3c08ce95a623303af35b524c5517496d",
+        "message": "Fix send retry message permission check"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/apache/rocketmq/issues/7909",
+      "createdAt": "2024-03-13T07:30:09Z",
+      "content": "bug_report_all/apache_rocketmq-7917.json"
+    },
+    "changed_tests": [
+      "acl/src/test/java/org/apache/rocketmq/acl/plain/PlainAccessResourceTest.java"
+    ],
+    "PR_url": "https://github.com/apache/rocketmq/pull/7917",
+    "merge_commit_url": "https://github.com/apache/rocketmq/commit/c20ddf5067f657f02dace2dee605466460cd09ba",
+    "buggy_commit": "d2818da816edead05678de1839a53ed4cb6c2b39",
+    "execution_result": {
+      "valid_tests": [
+        ".org.apache.rocketmq.acl.plain.PlainAccessResourceTest.java"
+      ],
+      "success_tests": [
+        ".org.apache.rocketmq.acl.plain.PlainAccessResourceTest.java"
+      ]
+    }
+  },
+  "apache_rocketmq-7960": {
+    "bug_id": "apache_rocketmq-7960",
+    "PR_number": 7960,
+    "PR_createdAt": "2024-03-23T05:28:08Z",
+    "merge_commit": "fddf27fdd4192663ebd314fa3f6579cf7ccbfb54",
+    "buggy_commits": [
+      {
+        "oid": "d2818da816edead05678de1839a53ed4cb6c2b39",
+        "message": "remove unnecessary type cast (#7971)"
+      },
+      {
+        "oid": "9f316429b4189018fce0570e918735f82970af1e",
+        "message": "fix: use skip to fix the findAny always first"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/apache/rocketmq/issues/7958",
+      "createdAt": "2024-03-22T11:10:00Z",
+      "content": "bug_report_all/apache_rocketmq-7960.json"
+    },
+    "changed_tests": [
+      "proxy/src/test/java/org/apache/rocketmq/proxy/service/metadata/ClusterMetadataServiceTest.java"
+    ],
+    "PR_url": "https://github.com/apache/rocketmq/pull/7960",
+    "merge_commit_url": "https://github.com/apache/rocketmq/commit/fddf27fdd4192663ebd314fa3f6579cf7ccbfb54",
+    "buggy_commit": "d2818da816edead05678de1839a53ed4cb6c2b39",
+    "execution_result": {
+      "valid_tests": [
+        ".org.apache.rocketmq.proxy.service.metadata.ClusterMetadataServiceTest.java"
+      ],
+      "success_tests": [
+        ".org.apache.rocketmq.proxy.service.metadata.ClusterMetadataServiceTest.java"
+      ]
+    }
+  },
+  "apache_rocketmq-7964": {
+    "bug_id": "apache_rocketmq-7964",
+    "PR_number": 7964,
+    "PR_createdAt": "2024-03-25T12:03:30Z",
+    "merge_commit": "23baff3c1c12e328e5d2b9e6506d1d24d03cf5c3",
+    "buggy_commits": [
+      {
+        "oid": "d2818da816edead05678de1839a53ed4cb6c2b39",
+        "message": "remove unnecessary type cast (#7971)"
+      },
+      {
+        "oid": "9e2b42ea2ecdd885c8879e8a046c80217ca39d14",
+        "message": "Check consumer group existence in updateConsumerOffset"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/apache/rocketmq/issues/7963",
+      "createdAt": "2024-03-25T11:18:34Z",
+      "content": "bug_report_all/apache_rocketmq-7964.json"
+    },
+    "changed_tests": [
+      "broker/src/test/java/org/apache/rocketmq/broker/processor/ConsumerManageProcessorTest.java"
+    ],
+    "PR_url": "https://github.com/apache/rocketmq/pull/7964",
+    "merge_commit_url": "https://github.com/apache/rocketmq/commit/23baff3c1c12e328e5d2b9e6506d1d24d03cf5c3",
+    "buggy_commit": "d2818da816edead05678de1839a53ed4cb6c2b39",
+    "execution_result": {
+      "valid_tests": [
+        ".org.apache.rocketmq.broker.processor.ConsumerManageProcessorTest.java"
+      ],
+      "success_tests": [
+        ".org.apache.rocketmq.broker.processor.ConsumerManageProcessorTest.java"
+      ]
+    }
   }
 }
