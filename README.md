@@ -8,28 +8,27 @@ of training data contamination.
 
 ## Available Bugs
 
-As of March 1st, 2024:
+As of April 1st, 2024:
 
-| Project | Bugs |
-| ------- | ---- |
-| fastjson | 1 |
-| nacos | 6 |
-| dubbo | 1 |
-| rocketmq | 22 |
-| assertj | 4 |
-| checkstyle | 16 |
-| jackson-core | 3 |
-| jackson-databind | 5 |
-| jackson-dataformat-xml | 1 |
-| gson | 12 |
-| sslcontext-kickstart | 6 |
-| jsoup | 5 |
-| openapi-generator | 6 |
-| seata | 2 |
-| retrofit | 1 |
-| Apktool | 1 |
-| **Total** | **92** |
-
+| Project | Bugs | Deprecated |
+| ------- | ---- | ---------- |
+| fastjson | 1 | 0 |
+| nacos | 6 | 0 | 
+| dubbo | 1 | 0 |
+| rocketmq | 22 | 0 | 
+| assertj | 4 | 0 |
+| checkstyle | 15 | 1 |
+| jackson-core | 3 | 0 |
+| jackson-databind | 5 | 0 |
+| jackson-dataformat-xml | 1 | 0 |
+| gson | 12 | 0 | 
+| sslcontext-kickstart | 6 | 0 | 
+| jsoup | 5 | 0 |
+| openapi-generator | 6 | 0 |
+| seata | 2 | 0 |
+| retrofit | 1 | 0 |
+| Apktool | 1 | 0 |
+| **Total** | **91** | **1** |
 
 ## Setting up GHRB
 

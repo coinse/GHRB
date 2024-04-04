@@ -719,7 +719,6 @@ if __name__ == '__main__':
 
     for repo_name in projects:
         print(repo_name)
-        
         dataset = report_test_mappings[repo_name]
         report = copy.deepcopy(report_test_mappings[repo_name])
 

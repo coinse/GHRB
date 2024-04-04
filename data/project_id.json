@@ -14,7 +14,7 @@
   },
   "checkstyle": {
     "owner": "checkstyle",
-    "number_of_bugs": 16,
+    "number_of_bugs": 15,
     "commit_db": "commit_db/checkstyle_bugs.csv",
     "repo_path": "/root/framework/repos/checkstyle",
     "requirements": {

@@ -7,15 +7,15 @@ for PID in $(./cli.py pid -q); do
             continue
     fi
 
-    if [[ ! $PID == "checkstyle" ]]
-        then
-            continue
-    fi
+    # if [[ ! $PID == "checkstyle" ]]
+    #     then
+    #         continue
+    # fi
     
-    if [ $PID == "javaparser" ]
-        then
-            continue
-    fi
+    # if [ $PID == "javaparser" ]
+    #     then
+    #         continue
+    # fi
 
     rm -rf testing
     ./cli.py checkout -p $PID -v "${BID}"b -w /root/framework/testing
