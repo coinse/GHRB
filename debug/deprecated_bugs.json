@@ -1,0 +1,34 @@
+{
+    "checkstyle_checkstyle-10857": {
+    "bug_id": "checkstyle_checkstyle-10857",
+    "PR_number": 10857,
+    "PR_createdAt": "2021-10-11T18:05:43Z",
+    "merge_commit": "073289a4ad02d468bf814b689e7ec1b04cc669ef",
+    "buggy_commits": [
+      {
+        "oid": "825af33e45611897b464af0718633ab803514514",
+        "message": "Issue #10872: Make violations diff readable"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/checkstyle/checkstyle/issues/10855",
+      "createdAt": "2021-10-11T13:20:37Z",
+      "content": "bug_report_all/checkstyle_checkstyle-10857.json"
+    },
+    "changed_tests": [
+      "src/test/java/com/puppycrawl/tools/checkstyle/checks/imports/UnusedImportsCheckTest.java",
+      "src/test/resources/com/puppycrawl/tools/checkstyle/checks/imports/unusedimports/InputUnusedImportsArrayRef.java"
+    ],
+    "PR_url": "https://github.com/checkstyle/checkstyle/pull/10857",
+    "merge_commit_url": "https://github.com/checkstyle/checkstyle/commit/073289a4ad02d468bf814b689e7ec1b04cc669ef",
+    "buggy_commit": "825af33e45611897b464af0718633ab803514514",
+    "execution_result": {
+      "valid_tests": [
+        ".com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheckTest.java"
+      ],
+      "success_tests": [
+        ".com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheckTest.java"
+      ]
+    }
+  }
+}

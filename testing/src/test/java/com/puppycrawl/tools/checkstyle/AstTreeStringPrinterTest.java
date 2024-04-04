@@ -1,0 +1,184 @@
+////////////////////////////////////////////////////////////////////////////////
+// checkstyle: Checks Java source code for adherence to a set of rules.
+// Copyright (C) 2001-2021 the original author or authors.
+//
+// This library is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public
+// License as published by the Free Software Foundation; either
+// version 2.1 of the License, or (at your option) any later version.
+//
+// This library is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+// Lesser General Public License for more details.
+//
+// You should have received a copy of the GNU Lesser General Public
+// License along with this library; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+////////////////////////////////////////////////////////////////////////////////
+
+package com.puppycrawl.tools.checkstyle;
+
+import static com.puppycrawl.tools.checkstyle.internal.utils.TestUtil.isUtilsClassHasPrivateConstructor;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
+
+import java.io.File;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
+import org.junit.jupiter.api.Test;
+
+import com.puppycrawl.tools.checkstyle.api.CheckstyleException;
+import com.puppycrawl.tools.checkstyle.api.DetailAST;
+import com.puppycrawl.tools.checkstyle.api.FileText;
+import com.puppycrawl.tools.checkstyle.api.TokenTypes;
+
+public class AstTreeStringPrinterTest extends AbstractTreeTestSupport {
+
+    @Override
+    protected String getPackageLocation() {
+        return "com/puppycrawl/tools/checkstyle/asttreestringprinter";
+    }
+
+    @Test
+    public void testIsProperUtilsClass() throws ReflectiveOperationException {
+        assertTrue(isUtilsClassHasPrivateConstructor(AstTreeStringPrinter.class, true),
+                "Constructor is not private");
+    }
+
+    @Test
+    public void testParseFileThrowable() throws Exception {
+        final File input = new File(getNonCompilablePath("InputAstTreeStringPrinter.java"));
+        try {
+            AstTreeStringPrinter.printFileAst(input, JavaParser.Options.WITHOUT_COMMENTS);
+            fail("exception expected");
+        }
+        catch (CheckstyleException ex) {
+            assertSame(IllegalStateException.class, ex.getCause().getClass(), "Invalid class");
+            assertEquals("2:0: no viable alternative at input 'classD'",
+                    ex.getCause().getMessage(), "Invalid exception message");
+        }
+    }
+
+    @Test
+    public void testParseFile() throws Exception {
+        verifyAst(getPath("ExpectedAstTreeStringPrinter.txt"),
+                getPath("InputAstTreeStringPrinterComments.java"),
+                JavaParser.Options.WITHOUT_COMMENTS);
+    }
+
+    @Test
+    public void testPrintBranch() throws Exception {
+        final DetailAST ast = JavaParser.parseFile(
+            new File(getPath("InputAstTreeStringPrinterPrintBranch.java")),
+            JavaParser.Options.WITH_COMMENTS);
+        final String expected = addEndOfLine(
+            "COMPILATION_UNIT -> COMPILATION_UNIT [1:0]",
+            "`--CLASS_DEF -> CLASS_DEF [3:0]",
+            "    |--MODIFIERS -> MODIFIERS [3:0]",
+            "    |   `--LITERAL_PUBLIC -> public [3:0]");
+        final DetailAST nodeToPrint = ast.getFirstChild().getNextSibling()
+                .getFirstChild().getFirstChild();
+        final String result = AstTreeStringPrinter.printBranch(nodeToPrint);
+        assertThat("Branches do not match", result, is(expected));
+    }
+
+    @Test
+    public void testPrintAst() throws Exception {
+        final FileText text = new FileText(
+                new File(getPath("InputAstTreeStringPrinterComments.java")).getAbsoluteFile(),
+                System.getProperty("file.encoding", StandardCharsets.UTF_8.name()));
+        final String actual = toLfLineEnding(AstTreeStringPrinter.printAst(text,
+                JavaParser.Options.WITHOUT_COMMENTS));
+        final String expected = toLfLineEnding(new String(Files.readAllBytes(Paths.get(
+                getPath("ExpectedAstTreeStringPrinter.txt"))), StandardCharsets.UTF_8));
+
+        assertEquals(expected, actual, "Print AST output is invalid");
+    }
+
+    @Test
+    public void testParseFileWithComments() throws Exception {
+        verifyAst(getPath("ExpectedAstTreeStringPrinterComments.txt"),
+                getPath("InputAstTreeStringPrinterComments.java"),
+                JavaParser.Options.WITH_COMMENTS);
+    }
+
+    @Test
+    public void testParseFileWithJavadoc1() throws Exception {
+        verifyJavaAndJavadocAst(getPath("ExpectedAstTreeStringPrinterJavadoc.txt"),
+                getPath("InputAstTreeStringPrinterJavadoc.java"));
+    }
+
+    @Test
+    public void testParseFileWithJavadoc2() throws Exception {
+        verifyJavaAndJavadocAst(getPath("ExpectedAstTreeStringPrinterJavaAndJavadoc.txt"),
+                getPath("InputAstTreeStringPrinterJavaAndJavadoc.java"));
+    }
+
+    @Test
+    public void testParseFileWithJavadoc3() throws Exception {
+        verifyJavaAndJavadocAst(
+                getPath("ExpectedAstTreeStringPrinterAttributesAndMethodsJavadoc.txt"),
+                getPath("InputAstTreeStringPrinterAttributesAndMethodsJavadoc.java")
+        );
+    }
+
+    @Test
+    public void testJavadocPosition() throws Exception {
+        verifyJavaAndJavadocAst(getPath("ExpectedAstTreeStringPrinterJavadocPosition.txt"),
+                getPath("InputAstTreeStringPrinterJavadocPosition.java"));
+    }
+
+    @Test
+    public void testAstTreeBlockComments() throws Exception {
+        verifyAst(getPath("ExpectedAstTreeStringPrinterFullOfBlockComments.txt"),
+                getPath("InputAstTreeStringPrinterFullOfBlockComments.java"),
+                JavaParser.Options.WITH_COMMENTS);
+    }
+
+    @Test
+    public void testAstTreeBlockCommentsCarriageReturn() throws Exception {
+        verifyAst(getPath("ExpectedAstTreeStringPrinterFullOfBlockCommentsCR.txt"),
+                getPath("InputAstTreeStringPrinterFullOfBlockCommentsCR.java"),
+                JavaParser.Options.WITH_COMMENTS);
+    }
+
+    @Test
+    public void testAstTreeSingleLineComments() throws Exception {
+        verifyAst(getPath("ExpectedAstTreeStringPrinterFullOfSinglelineComments.txt"),
+                getPath("InputAstTreeStringPrinterFullOfSinglelineComments.java"),
+                JavaParser.Options.WITH_COMMENTS);
+    }
+
+    @Test
+    public void testTextBlocksEscapesAreOneChar() throws Exception {
+        final String inputFilename = "InputAstTreeStringPrinterTextBlocksEscapesAreOneChar.java";
+        final DetailAST ast = JavaParser.parseFile(
+                new File(getNonCompilablePath(inputFilename)), JavaParser.Options.WITHOUT_COMMENTS)
+                .getFirstChild();
+
+        final DetailAST objectBlockNode = ast.findFirstToken(TokenTypes.OBJBLOCK);
+        final DetailAST variableDefNode = objectBlockNode.findFirstToken(TokenTypes.VARIABLE_DEF);
+        final DetailAST textBlockContentNode =
+                variableDefNode.findFirstToken(TokenTypes.ASSIGN)
+                        .findFirstToken(TokenTypes.EXPR)
+                        .getFirstChild()
+                        .findFirstToken(TokenTypes.TEXT_BLOCK_CONTENT);
+
+        final String textBlockContent = textBlockContentNode.getText();
+
+        assertThat("Text block content contains \"\\n\" as substring",
+                textBlockContent.contains("\\n"), is(false));
+        assertThat("Text block content line terminator is counted as one character",
+                textBlockContent.length(), is(1));
+        assertThat("Text block content contains only a line terminator",
+                textBlockContent.matches("\n"), is(true));
+    }
+
+}
