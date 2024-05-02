@@ -153,5 +153,36 @@
         ".com.fasterxml.jackson.databind.deser.NullsSkip4309Test.java"
       ]
     }
+  },
+  "FasterXML_jackson-databind-4467": {
+    "bug_id": "FasterXML_jackson-databind-4467",
+    "PR_number": 4467,
+    "PR_createdAt": "2024-04-04T14:18:18Z",
+    "merge_commit": "d6f0a9e1f3798643baa3fada27e6da02b970ec9c",
+    "buggy_commits": [
+      {
+        "oid": "e6145c3658b3f4ba7a01aff4c1cd211ad5701dc9",
+        "message": "Merge branch '2.17' into 2.18"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/FasterXML/jackson-databind/issues/4464",
+      "createdAt": "2024-04-01T19:19:10Z",
+      "content": "bug_report_all/FasterXML_jackson-databind-4467.json"
+    },
+    "changed_tests": [
+      "src/test/java/com/fasterxml/jackson/databind/ser/filter/JsonInclude4464Test.java"
+    ],
+    "PR_url": "https://github.com/FasterXML/jackson-databind/pull/4467",
+    "merge_commit_url": "https://github.com/FasterXML/jackson-databind/commit/d6f0a9e1f3798643baa3fada27e6da02b970ec9c",
+    "buggy_commit": "e6145c3658b3f4ba7a01aff4c1cd211ad5701dc9",
+    "execution_result": {
+      "valid_tests": [
+        ".com.fasterxml.jackson.databind.ser.filter.JsonInclude4464Test.java"
+      ],
+      "success_tests": [
+        ".com.fasterxml.jackson.databind.ser.filter.JsonInclude4464Test.java"
+      ]
+    }
   }
 }

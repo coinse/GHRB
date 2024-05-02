@@ -187,5 +187,102 @@
         ".org.openapitools.codegen.java.spring.SpringCodegenTest.java"
       ]
     }
+  },
+  "OpenAPITools_openapi-generator-18338": {
+    "bug_id": "OpenAPITools_openapi-generator-18338",
+    "PR_number": 18338,
+    "PR_createdAt": "2024-04-09T03:25:14Z",
+    "merge_commit": "b2a7f435c824ad5a36ad46420c7cd92ccf5d4240",
+    "buggy_commits": [
+      {
+        "oid": "45a657f59d73e5da1d33715272f6e98fe6f7174f",
+        "message": "Deal with boolean field (#18294)"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/OpenAPITools/openapi-generator/issues/17276",
+      "createdAt": "2023-12-01T14:43:42Z",
+      "content": "bug_report_all/OpenAPITools_openapi-generator-18338.json"
+    },
+    "changed_tests": [
+      "modules/openapi-generator/src/test/java/org/openapitools/codegen/java/AbstractJavaCodegenTest.java"
+    ],
+    "PR_url": "https://github.com/OpenAPITools/openapi-generator/pull/18338",
+    "merge_commit_url": "https://github.com/OpenAPITools/openapi-generator/commit/b2a7f435c824ad5a36ad46420c7cd92ccf5d4240",
+    "buggy_commit": "45a657f59d73e5da1d33715272f6e98fe6f7174f",
+    "execution_result": {
+      "valid_tests": [
+        ".org.openapitools.codegen.java.AbstractJavaCodegenTest.java"
+      ],
+      "success_tests": [
+        ".org.openapitools.codegen.java.AbstractJavaCodegenTest.java"
+      ]
+    }
+  },
+  "OpenAPITools_openapi-generator-18379": {
+    "bug_id": "OpenAPITools_openapi-generator-18379",
+    "PR_number": 18379,
+    "PR_createdAt": "2024-04-13T12:56:25Z",
+    "merge_commit": "c7b33c47624230f88276399c83850b39d4eaed0a",
+    "buggy_commits": [
+      {
+        "oid": "1471e7a0d065e3da419b391758f6b022b625a290",
+        "message": "Go generate all of with multiple ref and discriminator (#18390)\n\n* feat(go): Generate compiling stubs for allOf with multiple refs and discriminator\r\n\r\n* feat(go): Generate compiling stubs for allOf with multiple refs and discriminator\r\n\r\n* feat(go): Generate compiling stubs for allOf with multiple refs and discriminator"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/OpenAPITools/openapi-generator/issues/18082",
+      "createdAt": "2024-03-12T09:52:40Z",
+      "content": "bug_report_all/OpenAPITools_openapi-generator-18379.json"
+    },
+    "changed_tests": [
+      "modules/openapi-generator/src/test/java/org/openapitools/codegen/java/AbstractJavaCodegenTest.java"
+    ],
+    "PR_url": "https://github.com/OpenAPITools/openapi-generator/pull/18379",
+    "merge_commit_url": "https://github.com/OpenAPITools/openapi-generator/commit/c7b33c47624230f88276399c83850b39d4eaed0a",
+    "buggy_commit": "1471e7a0d065e3da419b391758f6b022b625a290",
+    "execution_result": {
+      "valid_tests": [
+        ".org.openapitools.codegen.java.AbstractJavaCodegenTest.java"
+      ],
+      "success_tests": [
+        ".org.openapitools.codegen.java.AbstractJavaCodegenTest.java"
+      ]
+    }
+  },
+  "OpenAPITools_openapi-generator-18478": {
+    "bug_id": "OpenAPITools_openapi-generator-18478",
+    "PR_number": 18478,
+    "PR_createdAt": "2024-04-24T10:31:02Z",
+    "merge_commit": "e939d6d9f60c701601ad0accfa7c69b655c267d8",
+    "buggy_commits": [
+      {
+        "oid": "0768ddcd7c7bd8b03871486fd5f07ac0bb04d65a",
+        "message": "[swift] support content type application json variants (#18539)\n\n* [swift] support content type application json variants\r\n\r\n* [swift] support content type application json variants"
+      },
+      {
+        "oid": "e8eee2fd84081935bedd1fcabf73fc53fb79d111",
+        "message": "Apply for all types of enums"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/OpenAPITools/openapi-generator/issues/18477",
+      "createdAt": "2024-04-24T09:21:02Z",
+      "content": "bug_report_all/OpenAPITools_openapi-generator-18478.json"
+    },
+    "changed_tests": [
+      "modules/openapi-generator/src/test/java/org/openapitools/codegen/java/AbstractJavaCodegenTest.java"
+    ],
+    "PR_url": "https://github.com/OpenAPITools/openapi-generator/pull/18478",
+    "merge_commit_url": "https://github.com/OpenAPITools/openapi-generator/commit/e939d6d9f60c701601ad0accfa7c69b655c267d8",
+    "buggy_commit": "0768ddcd7c7bd8b03871486fd5f07ac0bb04d65a",
+    "execution_result": {
+      "valid_tests": [
+        ".org.openapitools.codegen.java.AbstractJavaCodegenTest.java"
+      ],
+      "success_tests": [
+        ".org.openapitools.codegen.java.AbstractJavaCodegenTest.java"
+      ]
+    }
   }
 }

@@ -722,5 +722,75 @@
         ".org.apache.rocketmq.broker.processor.ConsumerManageProcessorTest.java"
       ]
     }
+  },
+  "apache_rocketmq-8027": {
+    "bug_id": "apache_rocketmq-8027",
+    "PR_number": 8027,
+    "PR_createdAt": "2024-04-16T15:49:37Z",
+    "merge_commit": "035de8a82549c85968692b41e5a43a1666da6a09",
+    "buggy_commits": [
+      {
+        "oid": "af43a3e71f2bdb4765294f7d6314b1428737849d",
+        "message": "Fix exception when pop messages with multiple LMQ indexes (#7863)"
+      },
+      {
+        "oid": "c8e1ef8a6dd993efff4d56813f649df381330c47",
+        "message": "[ISSUE #8025] fix: fix topic route when topic deleted"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/apache/rocketmq/issues/8025",
+      "createdAt": "2024-04-16T07:48:57Z",
+      "content": "bug_report_all/apache_rocketmq-8027.json"
+    },
+    "changed_tests": [
+      "client/src/test/java/org/apache/rocketmq/client/impl/MQClientAPIImplTest.java"
+    ],
+    "PR_url": "https://github.com/apache/rocketmq/pull/8027",
+    "merge_commit_url": "https://github.com/apache/rocketmq/commit/035de8a82549c85968692b41e5a43a1666da6a09",
+    "buggy_commit": "af43a3e71f2bdb4765294f7d6314b1428737849d",
+    "execution_result": {
+      "valid_tests": [
+        ".org.apache.rocketmq.client.impl.MQClientAPIImplTest.java"
+      ],
+      "success_tests": [
+        ".org.apache.rocketmq.client.impl.MQClientAPIImplTest.java"
+      ]
+    }
+  },
+  "apache_rocketmq-8054": {
+    "bug_id": "apache_rocketmq-8054",
+    "PR_number": 8054,
+    "PR_createdAt": "2024-04-23T14:57:27Z",
+    "merge_commit": "1d6f170c77535341c93c1353a2a56913740e4867",
+    "buggy_commits": [
+      {
+        "oid": "af43a3e71f2bdb4765294f7d6314b1428737849d",
+        "message": "Fix exception when pop messages with multiple LMQ indexes (#7863)"
+      },
+      {
+        "oid": "91c4f433c74d8d8b6922dfbf018dd0cf0f1f5f7d",
+        "message": "Return SYSTEM_BUSY if PutMessageStatus is OS_PAGE_CACHE_BUSY"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/apache/rocketmq/issues/8053",
+      "createdAt": "2024-04-23T14:51:56Z",
+      "content": "bug_report_all/apache_rocketmq-8054.json"
+    },
+    "changed_tests": [
+      "broker/src/test/java/org/apache/rocketmq/broker/processor/SendMessageProcessorTest.java"
+    ],
+    "PR_url": "https://github.com/apache/rocketmq/pull/8054",
+    "merge_commit_url": "https://github.com/apache/rocketmq/commit/1d6f170c77535341c93c1353a2a56913740e4867",
+    "buggy_commit": "af43a3e71f2bdb4765294f7d6314b1428737849d",
+    "execution_result": {
+      "valid_tests": [
+        ".org.apache.rocketmq.broker.processor.SendMessageProcessorTest.java"
+      ],
+      "success_tests": [
+        ".org.apache.rocketmq.broker.processor.SendMessageProcessorTest.java"
+      ]
+    }
   }
 }

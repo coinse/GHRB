@@ -1,0 +1,37 @@
+diff --git a/modules/openapi-generator/src/main/java/org/openapitools/codegen/languages/AbstractJavaCodegen.java b/modules/openapi-generator/src/main/java/org/openapitools/codegen/languages/AbstractJavaCodegen.java
+index 76f7bd48b15..9d102824c73 100644
+--- a/modules/openapi-generator/src/main/java/org/openapitools/codegen/languages/AbstractJavaCodegen.java
++++ b/modules/openapi-generator/src/main/java/org/openapitools/codegen/languages/AbstractJavaCodegen.java
+@@ -999,6 +999,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
+             return getNumberBeanValidation(items);
+         }
+ 
++        if (ModelUtils.isLongSchema(items)) {
++            return getLongBeanValidation(items);
++        }
++
+         if (ModelUtils.isIntegerSchema(items)) {
+             return getIntegerBeanValidation(items);
+         }
+@@ -1021,6 +1025,21 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
+         return "";
+     }
+ 
++    private String getLongBeanValidation(Schema<?> items) {
++        if (items.getMinimum() != null && items.getMaximum() != null) {
++            return String.format(Locale.ROOT, "@Min(%sL) @Max(%sL)", items.getMinimum(), items.getMaximum());
++        }
++
++        if (items.getMinimum() != null) {
++            return String.format(Locale.ROOT, "@Min(%sL)", items.getMinimum());
++        }
++
++        if (items.getMaximum() != null) {
++            return String.format(Locale.ROOT, "@Max(%sL)", items.getMaximum());
++        }
++        return "";
++    }
++
+     private String getNumberBeanValidation(Schema<?> items) {
+         if (items.getMinimum() != null && items.getMaximum() != null) {
+             return String.format(Locale.ROOT, "@DecimalMin(value = \"%s\", inclusive = %s) @DecimalMax(value = \"%s\", inclusive = %s)",

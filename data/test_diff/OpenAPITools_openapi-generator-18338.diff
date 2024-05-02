@@ -1,0 +1,12 @@
+diff --git a/modules/openapi-generator/src/test/java/org/openapitools/codegen/java/AbstractJavaCodegenTest.java b/modules/openapi-generator/src/test/java/org/openapitools/codegen/java/AbstractJavaCodegenTest.java
+index 84767088622..95a9f9f6b69 100644
+--- a/modules/openapi-generator/src/test/java/org/openapitools/codegen/java/AbstractJavaCodegenTest.java
++++ b/modules/openapi-generator/src/test/java/org/openapitools/codegen/java/AbstractJavaCodegenTest.java
+@@ -56,6 +56,7 @@ public class AbstractJavaCodegenTest {
+     @Test
+     public void toEnumVarNameShouldNotResultInSingleUnderscore() throws Exception {
+         Assert.assertEquals(fakeJavaCodegen.toEnumVarName(" ", "String"), "SPACE");
++        Assert.assertEquals(fakeJavaCodegen.toEnumVarName("==", "String"), "u");
+     }
+ 
+     @Test
