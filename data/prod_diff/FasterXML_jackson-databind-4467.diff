@@ -1,0 +1,13 @@
+diff --git a/src/main/java/com/fasterxml/jackson/databind/ser/PropertyBuilder.java b/src/main/java/com/fasterxml/jackson/databind/ser/PropertyBuilder.java
+index 5be5923328..10010f1c6e 100644
+--- a/src/main/java/com/fasterxml/jackson/databind/ser/PropertyBuilder.java
++++ b/src/main/java/com/fasterxml/jackson/databind/ser/PropertyBuilder.java
+@@ -182,6 +182,8 @@ public class PropertyBuilder
+             }
+             if (valueToSuppress == null) {
+                 suppressNulls = true;
++                // [databind#4464] NON_DEFAULT does not work with NON_EMPTY for custom serializer
++                valueToSuppress = BeanPropertyWriter.MARKER_FOR_EMPTY;
+             } else {
+                 if (valueToSuppress.getClass().isArray()) {
+                     valueToSuppress = ArrayBuilders.getArrayComparator(valueToSuppress);
