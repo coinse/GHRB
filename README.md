@@ -15,20 +15,20 @@ As of May 1st, 2024:
 | fastjson | 1 | 0 |
 | nacos | 6 | 0 | 
 | dubbo | 1 | 0 |
-| rocketmq | 24 | 0 | 
+| rocketmq | 25 | 0 | 
 | assertj | 4 | 0 |
 | checkstyle | 15 | 1 |
 | jackson-core | 3 | 0 |
 | jackson-databind | 6 | 0 |
 | jackson-dataformat-xml | 1 | 0 |
 | gson | 12 | 0 | 
-| sslcontext-kickstart | 6 | 0 | 
+| sslcontext-kickstart | 7 | 0 | 
 | jsoup | 5 | 0 |
 | openapi-generator | 9 | 0 |
 | seata | 2 | 0 |
 | retrofit | 1 | 0 |
 | Apktool | 1 | 0 |
-| **Total** | **97** | **1** |
+| **Total** | **99** | **1** |
 
 ## Setting up GHRB
 

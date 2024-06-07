@@ -5,3 +5,4 @@ bug_id,revision.id.buggy,revision.id.fixed,report.id,report.url
 4,1e0d28ae54dd9c0158454ed8939e38b656041218,04d6c0331fae0c783eab3a4d59bc381b75cd9131,Hakky54_sslcontext-kickstart-203,https://github.com/Hakky54/sslcontext-kickstart/issues/194
 5,db2b7ca146d99f661da9cd0bcb7b837708895771,7b1807f98e7292189f39e383110212ba0f7f0b13,Hakky54_sslcontext-kickstart-217,https://github.com/Hakky54/sslcontext-kickstart/issues/196
 6,0e5032f52f687327018d8318ccb69c67816b2b1b,dc300a321670a761a73adb677d49c727dc049deb,Hakky54_sslcontext-kickstart-234,https://github.com/Hakky54/sslcontext-kickstart/issues/230
+7,28c6589b7ad1c507647e69660283781386ff69b2,d80048f97896661a2fc1f6b556fbe8dd050a1a8f,Hakky54_sslcontext-kickstart-505,https://github.com/Hakky54/sslcontext-kickstart/issues/501
