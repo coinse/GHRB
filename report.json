@@ -1,0 +1,52 @@
+{
+  "apache_rocketmq": {
+    "apache_rocketmq-8099": {
+      "bug_id": "apache_rocketmq-8099",
+      "PR_number": 8099,
+      "PR_createdAt": "2024-05-06T12:15:35Z",
+      "merge_commit": "d05ff5ef6871839fc202612136bb21a24e67998a",
+      "buggy_commits": [
+        {
+          "oid": "0f0324a7dd9b2e994aeb4a4f5c8631f8465daae5",
+          "message": "[ISSUE #8076] Fix correct min cq offset when delete tiered storage CommitLog (#8082)"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/apache/rocketmq/issues/8098",
+        "createdAt": "2024-05-06T11:39:30Z",
+        "content": "bug_report_all/apache_rocketmq-8099.json"
+      },
+      "changed_tests": [
+        "common/src/test/java/org/apache/rocketmq/common/attribute/TopicMessageTypeTest.java"
+      ],
+      "PR_url": "https://github.com/apache/rocketmq/pull/8099",
+      "merge_commit_url": "https://github.com/apache/rocketmq/commit/d05ff5ef6871839fc202612136bb21a24e67998a",
+      "buggy_commit": "0f0324a7dd9b2e994aeb4a4f5c8631f8465daae5"
+    }
+  },
+  "Hakky54_sslcontext-kickstart": {
+    "Hakky54_sslcontext-kickstart-505": {
+      "bug_id": "Hakky54_sslcontext-kickstart-505",
+      "PR_number": 505,
+      "PR_createdAt": "2024-05-29T11:23:19Z",
+      "merge_commit": "d80048f97896661a2fc1f6b556fbe8dd050a1a8f",
+      "buggy_commits": [
+        {
+          "oid": "28c6589b7ad1c507647e69660283781386ff69b2",
+          "message": "Merge pull request #504 from Hakky54/feature/add-system-property-derived-keystore-in-keystoreutils\n\nAdd System property derived keystore to KeyStoreUtils"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/Hakky54/sslcontext-kickstart/issues/501",
+        "createdAt": "2024-05-29T05:27:50Z",
+        "content": "bug_report_all/Hakky54_sslcontext-kickstart-505.json"
+      },
+      "changed_tests": [
+        "sslcontext-kickstart/src/test/java/nl/altindag/ssl/trustmanager/LoggingX509ExtendedTrustManagerShould.java"
+      ],
+      "PR_url": "https://github.com/Hakky54/sslcontext-kickstart/pull/505",
+      "merge_commit_url": "https://github.com/Hakky54/sslcontext-kickstart/commit/d80048f97896661a2fc1f6b556fbe8dd050a1a8f",
+      "buggy_commit": "28c6589b7ad1c507647e69660283781386ff69b2"
+    }
+  }
+}

@@ -170,7 +170,7 @@
   },
   "rocketmq": {
     "owner": "apache",
-    "number_of_bugs": 24,
+    "number_of_bugs": 25,
     "commit_db": "commit_db/rocketmq_bugs.csv",
     "repo_path": "/root/framework/repos/rocketmq",
     "requirements": {
@@ -199,7 +199,7 @@
   },
   "sslcontext-kickstart": {
     "owner": "Hakky54",
-    "number_of_bugs": 6,
+    "number_of_bugs": 7,
     "commit_db": "commit_db/sslcontext-kickstart_bugs.csv",
     "repo_path": "/root/framework/repos/sslcontext-kickstart",
     "requirements": {
