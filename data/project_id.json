@@ -14,7 +14,7 @@
   },
   "checkstyle": {
     "owner": "checkstyle",
-    "number_of_bugs": 16,
+    "number_of_bugs": 21,
     "commit_db": "commit_db/checkstyle_bugs.csv",
     "repo_path": "/root/framework/repos/checkstyle",
     "requirements": {
@@ -170,7 +170,7 @@
   },
   "rocketmq": {
     "owner": "apache",
-    "number_of_bugs": 22,
+    "number_of_bugs": 23,
     "commit_db": "commit_db/rocketmq_bugs.csv",
     "repo_path": "/root/framework/repos/rocketmq",
     "requirements": {

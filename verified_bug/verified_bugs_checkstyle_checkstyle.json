@@ -544,5 +544,180 @@
         ".com.google.checkstyle.test.chapter4formatting.rule462horizontalwhitespace.GenericWhitespaceTest.java"
       ]
     }
+  },
+  "checkstyle_checkstyle-14978": {
+    "bug_id": "checkstyle_checkstyle-14978",
+    "PR_number": 14978,
+    "PR_createdAt": "2024-06-11T23:10:55Z",
+    "merge_commit": "4bd481d69a470c57d4f60f05134a7bc9565b0349",
+    "buggy_commits": [
+      {
+        "oid": "610cff300ad71632ea21fea344c3e27d12987777",
+        "message": "Issue #14891: MissingSwitchDefault should not violate switch that contains record pattern case label"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/checkstyle/checkstyle/issues/14688",
+      "createdAt": "2024-03-19T13:59:01Z",
+      "content": "bug_report_all/checkstyle_checkstyle-14978.json"
+    },
+    "changed_tests": [
+      "src/test/java/com/puppycrawl/tools/checkstyle/checks/naming/LocalVariableNameCheckTest.java",
+      "src/test/resources-noncompilable/com/puppycrawl/tools/checkstyle/checks/naming/localvariablename/InputLocalVariableNameUnnamedVariables.java",
+      "src/xdocs-examples/java/com/puppycrawl/tools/checkstyle/checks/naming/LocalVariableNameCheckExamplesTest.java"
+    ],
+    "PR_url": "https://github.com/checkstyle/checkstyle/pull/14978",
+    "merge_commit_url": "https://github.com/checkstyle/checkstyle/commit/4bd481d69a470c57d4f60f05134a7bc9565b0349",
+    "buggy_commit": "610cff300ad71632ea21fea344c3e27d12987777",
+    "execution_result": {
+      "valid_tests": [
+        ".com.puppycrawl.tools.checkstyle.checks.naming.LocalVariableNameCheckTest.java"
+      ],
+      "success_tests": [
+        ".com.puppycrawl.tools.checkstyle.checks.naming.LocalVariableNameCheckTest.java"
+      ]
+    }
+  },
+  "checkstyle_checkstyle-15092": {
+    "bug_id": "checkstyle_checkstyle-15092",
+    "PR_number": 15092,
+    "PR_createdAt": "2024-06-21T23:46:02Z",
+    "merge_commit": "bb54c67903871e0f8cce3fdde8f11ca8ce1b18a1",
+    "buggy_commits": [
+      {
+        "oid": "a2c17a8f4ff9df426e632ee57afb8b119a46f996",
+        "message": "Issue #14137: Enable `IdentityConversion` check"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/checkstyle/checkstyle/issues/15012",
+      "createdAt": "2024-06-17T18:08:19Z",
+      "content": "bug_report_all/checkstyle_checkstyle-15092.json"
+    },
+    "changed_tests": [
+      "src/test/java/com/puppycrawl/tools/checkstyle/checks/naming/LocalFinalVariableNameCheckTest.java",
+      "src/test/resources-noncompilable/com/puppycrawl/tools/checkstyle/checks/naming/localfinalvariablename/InputLocalFinalVariableNameUnnamedVariables.java"
+    ],
+    "PR_url": "https://github.com/checkstyle/checkstyle/pull/15092",
+    "merge_commit_url": "https://github.com/checkstyle/checkstyle/commit/bb54c67903871e0f8cce3fdde8f11ca8ce1b18a1",
+    "buggy_commit": "a2c17a8f4ff9df426e632ee57afb8b119a46f996",
+    "execution_result": {
+      "valid_tests": [
+        ".com.puppycrawl.tools.checkstyle.checks.naming.LocalFinalVariableNameCheckTest.java"
+      ],
+      "success_tests": [
+        ".com.puppycrawl.tools.checkstyle.checks.naming.LocalFinalVariableNameCheckTest.java"
+      ]
+    }
+  },
+  "checkstyle_checkstyle-15153": {
+    "bug_id": "checkstyle_checkstyle-15153",
+    "PR_number": 15153,
+    "PR_createdAt": "2024-06-27T18:18:32Z",
+    "merge_commit": "ff0e428c82d22d428ea4f6c064b63047547bc1d1",
+    "buggy_commits": [
+      {
+        "oid": "b0961ea6a54e1d3b920857e708cfc1cac8c3734d",
+        "message": "Issue #13213: Removed //ok comments from src/it"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/checkstyle/checkstyle/issues/15014",
+      "createdAt": "2024-06-17T23:23:23Z",
+      "content": "bug_report_all/checkstyle_checkstyle-15153.json"
+    },
+    "changed_tests": [
+      "src/it/java/org/checkstyle/suppressionxpathfilter/XpathRegressionLambdaParameterNameTest.java",
+      "src/test/java/com/puppycrawl/tools/checkstyle/checks/naming/LambdaParameterNameCheckTest.java",
+      "src/test/resources-noncompilable/com/puppycrawl/tools/checkstyle/checks/naming/lambdaparametername/InputLambdaParameterNameSwitchExpression.java",
+      "src/test/resources-noncompilable/com/puppycrawl/tools/checkstyle/checks/naming/lambdaparametername/InputLambdaParameterNameUnnamed.java",
+      "src/xdocs-examples/java/com/puppycrawl/tools/checkstyle/checks/naming/LambdaParameterNameCheckExamplesTest.java"
+    ],
+    "PR_url": "https://github.com/checkstyle/checkstyle/pull/15153",
+    "merge_commit_url": "https://github.com/checkstyle/checkstyle/commit/ff0e428c82d22d428ea4f6c064b63047547bc1d1",
+    "buggy_commit": "b0961ea6a54e1d3b920857e708cfc1cac8c3734d",
+    "execution_result": {
+      "valid_tests": [
+        ".com.puppycrawl.tools.checkstyle.checks.naming.LambdaParameterNameCheckTest.java"
+      ],
+      "success_tests": [
+        ".com.puppycrawl.tools.checkstyle.checks.naming.LambdaParameterNameCheckTest.java"
+      ]
+    }
+  },
+  "checkstyle_checkstyle-15154": {
+    "bug_id": "checkstyle_checkstyle-15154",
+    "PR_number": 15154,
+    "PR_createdAt": "2024-06-27T18:49:12Z",
+    "merge_commit": "a8ddc2caafcb2ac00930f42c541fb82e1a2e0c33",
+    "buggy_commits": [
+      {
+        "oid": "ab017aeb1f5d8997de68d42bf226181a006e93b3",
+        "message": "Issue #15007: Add input file for instanceof operator in OperatorWrap"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/checkstyle/checkstyle/issues/15015",
+      "createdAt": "2024-06-17T23:27:41Z",
+      "content": "bug_report_all/checkstyle_checkstyle-15154.json"
+    },
+    "changed_tests": [
+      "src/it/java/org/checkstyle/suppressionxpathfilter/XpathRegressionCatchParameterNameTest.java",
+      "src/test/java/com/puppycrawl/tools/checkstyle/checks/naming/CatchParameterNameCheckTest.java",
+      "src/test/resources-noncompilable/com/puppycrawl/tools/checkstyle/checks/naming/catchparametername/InputCatchParameterNameUnnamed.java",
+      "src/test/resources/com/puppycrawl/tools/checkstyle/checks/naming/catchparametername/InputCatchParameterName.java",
+      "src/test/resources/com/puppycrawl/tools/checkstyle/checks/naming/catchparametername/InputCatchParameterNameSimple.java",
+      "src/xdocs-examples/java/com/puppycrawl/tools/checkstyle/checks/naming/CatchParameterNameCheckExamplesTest.java"
+    ],
+    "PR_url": "https://github.com/checkstyle/checkstyle/pull/15154",
+    "merge_commit_url": "https://github.com/checkstyle/checkstyle/commit/a8ddc2caafcb2ac00930f42c541fb82e1a2e0c33",
+    "buggy_commit": "ab017aeb1f5d8997de68d42bf226181a006e93b3",
+    "execution_result": {
+      "valid_tests": [
+        ".com.puppycrawl.tools.checkstyle.checks.naming.CatchParameterNameCheckTest.java"
+      ],
+      "success_tests": [
+        ".com.puppycrawl.tools.checkstyle.checks.naming.CatchParameterNameCheckTest.java"
+      ]
+    }
+  },
+  "checkstyle_checkstyle-15175": {
+    "bug_id": "checkstyle_checkstyle-15175",
+    "PR_number": 15175,
+    "PR_createdAt": "2024-06-30T16:58:27Z",
+    "merge_commit": "085905561ce9c0c2c611c112e7373ab8a6763bc1",
+    "buggy_commits": [
+      {
+        "oid": "77ffdbf82734407f37313ae94df80caced47336b",
+        "message": "Issue #14937: Migrated section 4.4 Column Limit: 100 to chapter wise testing"
+      },
+      {
+        "oid": "b04cac8ba45e162b39cc43482a34d5fdfe4b02b2",
+        "message": "Issue #14970: PatternVariableName should allow unnamed variables by default"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/checkstyle/checkstyle/issues/14970",
+      "createdAt": "2024-06-11T09:02:52Z",
+      "content": "bug_report_all/checkstyle_checkstyle-15175.json"
+    },
+    "changed_tests": [
+      "src/it/java/org/checkstyle/suppressionxpathfilter/XpathRegressionPatternVariableNameTest.java",
+      "src/test/java/com/puppycrawl/tools/checkstyle/checks/naming/PatternVariableNameCheckTest.java",
+      "src/test/resources-noncompilable/com/puppycrawl/tools/checkstyle/checks/naming/patternvariablename/InputPatternVariableNameEnhancedInstanceofTestDefault.java",
+      "src/test/resources-noncompilable/com/puppycrawl/tools/checkstyle/checks/naming/patternvariablename/InputPatternVariableNameUnnamed.java",
+      "src/xdocs-examples/java/com/puppycrawl/tools/checkstyle/checks/naming/PatternVariableNameCheckExamplesTest.java"
+    ],
+    "PR_url": "https://github.com/checkstyle/checkstyle/pull/15175",
+    "merge_commit_url": "https://github.com/checkstyle/checkstyle/commit/085905561ce9c0c2c611c112e7373ab8a6763bc1",
+    "buggy_commit": "77ffdbf82734407f37313ae94df80caced47336b",
+    "execution_result": {
+      "valid_tests": [
+        ".com.puppycrawl.tools.checkstyle.checks.naming.PatternVariableNameCheckTest.java"
+      ],
+      "success_tests": [
+        ".com.puppycrawl.tools.checkstyle.checks.naming.PatternVariableNameCheckTest.java"
+      ]
+    }
   }
 }

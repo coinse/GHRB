@@ -15,3 +15,8 @@ bug_id,revision.id.buggy,revision.id.fixed,report.id,report.url
 14,f1275666a544f4d3c30f1e7b7c3ac72565278da9,7855254a0f847e53ef87ca8d9fdfcfc9fcaa8052,checkstyle_checkstyle-12444,https://github.com/checkstyle/checkstyle/issues/12443
 15,fdcc63fac125d4b8caa657512b4894727b1c1a4b,5ceb64bc7b14e74d07c6a77477f690aae89d3fc8,checkstyle_checkstyle-12831,https://github.com/checkstyle/checkstyle/issues/11569
 16,3b290185c1657a5d96daa0146ba9cc843fc5bb04,b6eb4a6d2a945a26552ef31e9904b360fc324bdd,checkstyle_checkstyle-14497,https://github.com/checkstyle/checkstyle/issues/14344
+17,610cff300ad71632ea21fea344c3e27d12987777,4bd481d69a470c57d4f60f05134a7bc9565b0349,checkstyle_checkstyle-14978,https://github.com/checkstyle/checkstyle/issues/14688
+18,a2c17a8f4ff9df426e632ee57afb8b119a46f996,bb54c67903871e0f8cce3fdde8f11ca8ce1b18a1,checkstyle_checkstyle-15092,https://github.com/checkstyle/checkstyle/issues/15012
+19,b0961ea6a54e1d3b920857e708cfc1cac8c3734d,ff0e428c82d22d428ea4f6c064b63047547bc1d1,checkstyle_checkstyle-15153,https://github.com/checkstyle/checkstyle/issues/15014
+20,ab017aeb1f5d8997de68d42bf226181a006e93b3,a8ddc2caafcb2ac00930f42c541fb82e1a2e0c33,checkstyle_checkstyle-15154,https://github.com/checkstyle/checkstyle/issues/15015
+21,77ffdbf82734407f37313ae94df80caced47336b,085905561ce9c0c2c611c112e7373ab8a6763bc1,checkstyle_checkstyle-15175,https://github.com/checkstyle/checkstyle/issues/14970

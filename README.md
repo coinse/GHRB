@@ -8,16 +8,16 @@ of training data contamination.
 
 ## Available Bugs
 
-As of March 1st, 2024:
+As of July 1st, 2024:
 
 | Project | Bugs |
 | ------- | ---- |
 | fastjson | 1 |
 | nacos | 6 |
 | dubbo | 1 |
-| rocketmq | 22 |
+| rocketmq | 23 |
 | assertj | 4 |
-| checkstyle | 16 |
+| checkstyle | 21 |
 | jackson-core | 3 |
 | jackson-databind | 5 |
 | jackson-dataformat-xml | 1 |
@@ -28,7 +28,7 @@ As of March 1st, 2024:
 | seata | 2 |
 | retrofit | 1 |
 | Apktool | 1 |
-| **Total** | **92** |
+| **Total** | **98** |
 
 
 ## Setting up GHRB
