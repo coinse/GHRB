@@ -1,0 +1,92 @@
+diff --git a/store/src/main/java/org/apache/rocketmq/store/CommitLog.java b/store/src/main/java/org/apache/rocketmq/store/CommitLog.java
+index 1174eca1b..c2150d7a3 100644
+--- a/store/src/main/java/org/apache/rocketmq/store/CommitLog.java
++++ b/store/src/main/java/org/apache/rocketmq/store/CommitLog.java
+@@ -651,7 +651,7 @@ public class CommitLog implements Swappable {
+         } else if (this.defaultMessageStore.getMessageStoreConfig().isDuplicationEnable()) {
+             return this.confirmOffset;
+         } else {
+-            return getMaxOffset();
++            return this.defaultMessageStore.isSyncDiskFlush()  ? getFlushedWhere() : getMaxOffset();
+         }
+     }
+ 
+diff --git a/store/src/main/java/org/apache/rocketmq/store/DefaultMessageStore.java b/store/src/main/java/org/apache/rocketmq/store/DefaultMessageStore.java
+index 97833351d..a901e850e 100644
+--- a/store/src/main/java/org/apache/rocketmq/store/DefaultMessageStore.java
++++ b/store/src/main/java/org/apache/rocketmq/store/DefaultMessageStore.java
+@@ -2814,7 +2814,11 @@ public class DefaultMessageStore implements MessageStore {
+         }
+ 
+         public boolean isCommitLogAvailable() {
+-            return this.reputFromOffset < DefaultMessageStore.this.getConfirmOffset();
++            return this.reputFromOffset < getReputEndOffset();
++        }
++
++        protected long getReputEndOffset() {
++            return DefaultMessageStore.this.getMessageStoreConfig().isReadUnCommitted() ? DefaultMessageStore.this.commitLog.getMaxOffset() : DefaultMessageStore.this.commitLog.getConfirmOffset();
+         }
+ 
+         public void doReput() {
+@@ -2834,12 +2838,12 @@ public class DefaultMessageStore implements MessageStore {
+                 try {
+                     this.reputFromOffset = result.getStartOffset();
+ 
+-                    for (int readSize = 0; readSize < result.getSize() && reputFromOffset < DefaultMessageStore.this.getConfirmOffset() && doNext; ) {
++                    for (int readSize = 0; readSize < result.getSize() && reputFromOffset < getReputEndOffset() && doNext; ) {
+                         DispatchRequest dispatchRequest =
+                             DefaultMessageStore.this.commitLog.checkMessageAndReturnSize(result.getByteBuffer(), false, false, false);
+                         int size = dispatchRequest.getBufferSize() == -1 ? dispatchRequest.getMsgSize() : dispatchRequest.getBufferSize();
+ 
+-                        if (reputFromOffset + size > DefaultMessageStore.this.getConfirmOffset()) {
++                        if (reputFromOffset + size > getReputEndOffset()) {
+                             doNext = false;
+                             break;
+                         }
+@@ -3127,7 +3131,7 @@ public class DefaultMessageStore implements MessageStore {
+                 try {
+                     this.reputFromOffset = result.getStartOffset();
+ 
+-                    for (int readSize = 0; readSize < result.getSize() && reputFromOffset < DefaultMessageStore.this.getConfirmOffset() && doNext; ) {
++                    for (int readSize = 0; readSize < result.getSize() && reputFromOffset < getReputEndOffset() && doNext; ) {
+                         ByteBuffer byteBuffer = result.getByteBuffer();
+ 
+                         int totalSize = preCheckMessageAndReturnSize(byteBuffer);
+diff --git a/store/src/main/java/org/apache/rocketmq/store/config/MessageStoreConfig.java b/store/src/main/java/org/apache/rocketmq/store/config/MessageStoreConfig.java
+index 9afc02a0c..0060b144c 100644
+--- a/store/src/main/java/org/apache/rocketmq/store/config/MessageStoreConfig.java
++++ b/store/src/main/java/org/apache/rocketmq/store/config/MessageStoreConfig.java
+@@ -413,6 +413,12 @@ public class MessageStoreConfig {
+ 
+     private int topicQueueLockNum = 32;
+ 
++    /**
++     * If readUnCommitted is true, the dispatch of the consume queue will exceed the confirmOffset, which may cause the client to read uncommitted messages.
++     * For example, reput offset exceeding the flush offset during synchronous disk flushing.
++     */
++    private boolean readUnCommitted = false;
++
+     public boolean isEnabledAppendPropCRC() {
+         return enabledAppendPropCRC;
+     }
+@@ -672,7 +678,6 @@ public class MessageStoreConfig {
+         this.forceVerifyPropCRC = forceVerifyPropCRC;
+     }
+ 
+-
+     public String getStorePathCommitLog() {
+         if (storePathCommitLog == null) {
+             return storePathRootDir + File.separator + "commitlog";
+@@ -1819,4 +1824,12 @@ public class MessageStoreConfig {
+     public void setTopicQueueLockNum(int topicQueueLockNum) {
+         this.topicQueueLockNum = topicQueueLockNum;
+     }
++
++    public boolean isReadUnCommitted() {
++        return readUnCommitted;
++    }
++
++    public void setReadUnCommitted(boolean readUnCommitted) {
++        this.readUnCommitted = readUnCommitted;
++    }
+ }

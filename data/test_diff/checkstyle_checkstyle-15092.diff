@@ -1,0 +1,35 @@
+diff --git a/src/test/java/com/puppycrawl/tools/checkstyle/checks/naming/LocalFinalVariableNameCheckTest.java b/src/test/java/com/puppycrawl/tools/checkstyle/checks/naming/LocalFinalVariableNameCheckTest.java
+index 9568e3a2dc..ae8d05dc8f 100644
+--- a/src/test/java/com/puppycrawl/tools/checkstyle/checks/naming/LocalFinalVariableNameCheckTest.java
++++ b/src/test/java/com/puppycrawl/tools/checkstyle/checks/naming/LocalFinalVariableNameCheckTest.java
+@@ -50,7 +50,7 @@ public class LocalFinalVariableNameCheckTest
+     public void testDefault()
+             throws Exception {
+ 
+-        final String pattern = "^[a-z][a-zA-Z0-9]*$";
++        final String pattern = "^([a-z][a-zA-Z0-9]*|_)$";
+ 
+         final String[] expected = {
+             "126:19: " + getCheckMessage(MSG_INVALID_PATTERN, "CDE", pattern),
+@@ -119,4 +119,21 @@ public class LocalFinalVariableNameCheckTest
+                 getPath("InputLocalFinalVariableNameTryResourcesJava9.java"), expected);
+     }
+ 
++    @Test
++    public void testUnnamedVariables() throws Exception {
++        final String pattern = "^([a-z][a-zA-Z0-9]*|_)$";
++
++        final String[] expected = {
++            "18:18: " + getCheckMessage(MSG_INVALID_PATTERN, "__", pattern),
++            "21:32: " + getCheckMessage(MSG_INVALID_PATTERN, "__", pattern),
++            "29:24: " + getCheckMessage(MSG_INVALID_PATTERN, "__", pattern),
++            "31:24: " + getCheckMessage(MSG_INVALID_PATTERN, "_BAD", pattern),
++            "37:19: " + getCheckMessage(MSG_INVALID_PATTERN, "__", pattern),
++            "38:19: " + getCheckMessage(MSG_INVALID_PATTERN, "_BAD", pattern),
++        };
++        verifyWithInlineConfigParser(
++                getNonCompilablePath("InputLocalFinalVariableNameUnnamedVariables.java"),
++                expected);
++    }
++
+ }
