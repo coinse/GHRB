@@ -1,0 +1,48 @@
+diff --git a/src/it/java/org/checkstyle/suppressionxpathfilter/XpathRegressionLambdaParameterNameTest.java b/src/it/java/org/checkstyle/suppressionxpathfilter/XpathRegressionLambdaParameterNameTest.java
+index 405c8e37fe..145dcbdb59 100644
+--- a/src/it/java/org/checkstyle/suppressionxpathfilter/XpathRegressionLambdaParameterNameTest.java
++++ b/src/it/java/org/checkstyle/suppressionxpathfilter/XpathRegressionLambdaParameterNameTest.java
+@@ -46,7 +46,7 @@ public class XpathRegressionLambdaParameterNameTest extends AbstractXpathTestSup
+ 
+         final DefaultConfiguration moduleConfig =
+                 createModuleConfig(LambdaParameterNameCheck.class);
+-        final String defaultPattern = "^[a-z][a-zA-Z0-9]*$";
++        final String defaultPattern = "^([a-z][a-zA-Z0-9]*|_)$";
+ 
+         final String[] expectedViolation = {
+             "7:44: " + getCheckMessage(LambdaParameterNameCheck.class,
+diff --git a/src/main/java/com/puppycrawl/tools/checkstyle/checks/naming/LambdaParameterNameCheck.java b/src/main/java/com/puppycrawl/tools/checkstyle/checks/naming/LambdaParameterNameCheck.java
+index 3fdaf15f17..cba01409d4 100644
+--- a/src/main/java/com/puppycrawl/tools/checkstyle/checks/naming/LambdaParameterNameCheck.java
++++ b/src/main/java/com/puppycrawl/tools/checkstyle/checks/naming/LambdaParameterNameCheck.java
+@@ -33,7 +33,7 @@ import com.puppycrawl.tools.checkstyle.utils.TokenUtil;
+  * <li>
+  * Property {@code format} - Sets the pattern to match valid identifiers.
+  * Type is {@code java.util.regex.Pattern}.
+- * Default value is {@code "^[a-z][a-zA-Z0-9]*$"}.
++ * Default value is {@code "^([a-z][a-zA-Z0-9]*|_)$"}.
+  * </li>
+  * </ul>
+  * <p>
+@@ -54,7 +54,7 @@ public class LambdaParameterNameCheck extends AbstractNameCheck {
+ 
+     /** Creates new instance of {@code LambdaParameterNameCheck}. */
+     public LambdaParameterNameCheck() {
+-        super("^[a-z][a-zA-Z0-9]*$");
++        super("^([a-z][a-zA-Z0-9]*|_)$");
+     }
+ 
+     @Override
+diff --git a/src/xdocs-examples/java/com/puppycrawl/tools/checkstyle/checks/naming/LambdaParameterNameCheckExamplesTest.java b/src/xdocs-examples/java/com/puppycrawl/tools/checkstyle/checks/naming/LambdaParameterNameCheckExamplesTest.java
+index 3854023f26..3f9e02a6ca 100644
+--- a/src/xdocs-examples/java/com/puppycrawl/tools/checkstyle/checks/naming/LambdaParameterNameCheckExamplesTest.java
++++ b/src/xdocs-examples/java/com/puppycrawl/tools/checkstyle/checks/naming/LambdaParameterNameCheckExamplesTest.java
+@@ -34,7 +34,7 @@ public class LambdaParameterNameCheckExamplesTest extends AbstractExamplesModule
+     @Test
+     public void testExample1() throws Exception {
+         final String[] expected = {
+-            "17:11: " + getCheckMessage(MSG_INVALID_PATTERN, "S", "^[a-z][a-zA-Z0-9]*$"),
++            "17:11: " + getCheckMessage(MSG_INVALID_PATTERN, "S", "^([a-z][a-zA-Z0-9]*|_)$"),
+         };
+ 
+         verifyWithInlineConfigParser(getPath("Example1.java"), expected);

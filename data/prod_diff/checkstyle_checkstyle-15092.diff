@@ -1,0 +1,22 @@
+diff --git a/src/main/java/com/puppycrawl/tools/checkstyle/checks/naming/LocalFinalVariableNameCheck.java b/src/main/java/com/puppycrawl/tools/checkstyle/checks/naming/LocalFinalVariableNameCheck.java
+index 63778c0554..2510916522 100644
+--- a/src/main/java/com/puppycrawl/tools/checkstyle/checks/naming/LocalFinalVariableNameCheck.java
++++ b/src/main/java/com/puppycrawl/tools/checkstyle/checks/naming/LocalFinalVariableNameCheck.java
+@@ -34,7 +34,7 @@ import com.puppycrawl.tools.checkstyle.utils.ScopeUtil;
+  * <li>
+  * Property {@code format} - Sets the pattern to match valid identifiers.
+  * Type is {@code java.util.regex.Pattern}.
+- * Default value is {@code "^[a-z][a-zA-Z0-9]*$"}.
++ * Default value is {@code "^([a-z][a-zA-Z0-9]*|_)$"}.
+  * </li>
+  * <li>
+  * Property {@code tokens} - tokens to check
+@@ -68,7 +68,7 @@ public class LocalFinalVariableNameCheck
+ 
+     /** Creates a new {@code LocalFinalVariableNameCheck} instance. */
+     public LocalFinalVariableNameCheck() {
+-        super("^[a-z][a-zA-Z0-9]*$");
++        super("^([a-z][a-zA-Z0-9]*|_)$");
+     }
+ 
+     @Override

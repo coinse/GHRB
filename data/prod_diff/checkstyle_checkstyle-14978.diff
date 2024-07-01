@@ -1,0 +1,35 @@
+diff --git a/src/main/java/com/puppycrawl/tools/checkstyle/checks/naming/LocalVariableNameCheck.java b/src/main/java/com/puppycrawl/tools/checkstyle/checks/naming/LocalVariableNameCheck.java
+index 71ca0d96e4..f844d7a546 100644
+--- a/src/main/java/com/puppycrawl/tools/checkstyle/checks/naming/LocalVariableNameCheck.java
++++ b/src/main/java/com/puppycrawl/tools/checkstyle/checks/naming/LocalVariableNameCheck.java
+@@ -41,7 +41,7 @@ import com.puppycrawl.tools.checkstyle.utils.ScopeUtil;
+  * <li>
+  * Property {@code format} - Sets the pattern to match valid identifiers.
+  * Type is {@code java.util.regex.Pattern}.
+- * Default value is {@code "^[a-z][a-zA-Z0-9]*$"}.
++ * Default value is {@code "^([a-z][a-zA-Z0-9]*|_)$"}.
+  * </li>
+  * </ul>
+  * <p>
+@@ -71,7 +71,7 @@ public class LocalVariableNameCheck
+ 
+     /** Creates a new {@code LocalVariableNameCheck} instance. */
+     public LocalVariableNameCheck() {
+-        super("^[a-z][a-zA-Z0-9]*$");
++        super("^([a-z][a-zA-Z0-9]*|_)$");
+     }
+ 
+     /**
+diff --git a/src/xdocs-examples/java/com/puppycrawl/tools/checkstyle/checks/naming/LocalVariableNameCheckExamplesTest.java b/src/xdocs-examples/java/com/puppycrawl/tools/checkstyle/checks/naming/LocalVariableNameCheckExamplesTest.java
+index d9d40d921c..2d36bf6194 100644
+--- a/src/xdocs-examples/java/com/puppycrawl/tools/checkstyle/checks/naming/LocalVariableNameCheckExamplesTest.java
++++ b/src/xdocs-examples/java/com/puppycrawl/tools/checkstyle/checks/naming/LocalVariableNameCheckExamplesTest.java
+@@ -33,7 +33,7 @@ public class LocalVariableNameCheckExamplesTest extends AbstractExamplesModuleTe
+ 
+     @Test
+     public void testExample1() throws Exception {
+-        final String pattern = "^[a-z][a-zA-Z0-9]*$";
++        final String pattern = "^([a-z][a-zA-Z0-9]*|_)$";
+         final String[] expected = {
+             "15:14: " + getCheckMessage(MSG_INVALID_PATTERN, "VAR", pattern),
+             "17:14: " + getCheckMessage(MSG_INVALID_PATTERN, "var_1", pattern),

@@ -823,5 +823,36 @@
         ".org.apache.rocketmq.common.attribute.TopicMessageTypeTest.java"
       ]
     }
+  },
+  "apache_rocketmq-8240": {
+    "bug_id": "apache_rocketmq-8240",
+    "PR_number": 8240,
+    "PR_createdAt": "2024-06-01T16:54:22Z",
+    "merge_commit": "d60198f621baac54bffb981d7a797a04dfa0bb5a",
+    "buggy_commits": [
+      {
+        "oid": "4be8fd43720c8635fe135404a7fd000c00bb2a15",
+        "message": "[ISSUE #8265] Implement Batch Creation of Topics in RocketMQ Admin (#8267)\n\n* add UPDATE_AND_CREATE_TOPIC_LIST\r\n\r\n* support creating or updating topic config in batch\r\n\r\n\r\n---------\r\n\r\nCo-authored-by: guyinyou <guyinyou.gyy@alibaba-inc.com>\r\nCo-authored-by: gaoyang.cgy <gaoyang.cgy@alibaba-inc.com>"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/apache/rocketmq/issues/8239",
+      "createdAt": "2024-06-01T16:46:11Z",
+      "content": "bug_report_all/apache_rocketmq-8240.json"
+    },
+    "changed_tests": [
+      "store/src/test/java/org/apache/rocketmq/store/ReputMessageServiceTest.java"
+    ],
+    "PR_url": "https://github.com/apache/rocketmq/pull/8240",
+    "merge_commit_url": "https://github.com/apache/rocketmq/commit/d60198f621baac54bffb981d7a797a04dfa0bb5a",
+    "buggy_commit": "4be8fd43720c8635fe135404a7fd000c00bb2a15",
+    "execution_result": {
+      "valid_tests": [
+        ".org.apache.rocketmq.store.ReputMessageServiceTest.java"
+      ],
+      "success_tests": [
+        ".org.apache.rocketmq.store.ReputMessageServiceTest.java"
+      ]
+    }
   }
 }

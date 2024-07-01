@@ -1,0 +1,48 @@
+diff --git a/src/it/java/org/checkstyle/suppressionxpathfilter/XpathRegressionPatternVariableNameTest.java b/src/it/java/org/checkstyle/suppressionxpathfilter/XpathRegressionPatternVariableNameTest.java
+index 4b71fc653a..c8b6e2cd78 100644
+--- a/src/it/java/org/checkstyle/suppressionxpathfilter/XpathRegressionPatternVariableNameTest.java
++++ b/src/it/java/org/checkstyle/suppressionxpathfilter/XpathRegressionPatternVariableNameTest.java
+@@ -46,7 +46,7 @@ public class XpathRegressionPatternVariableNameTest extends AbstractXpathTestSup
+ 
+         final DefaultConfiguration moduleConfig =
+                 createModuleConfig(PatternVariableNameCheck.class);
+-        final String defaultPattern = "^[a-z][a-zA-Z0-9]*$";
++        final String defaultPattern = "^([a-z][a-zA-Z0-9]*|_)$";
+ 
+         final String[] expectedViolation = {
+             "6:33: " + getCheckMessage(PatternVariableNameCheck.class,
+diff --git a/src/main/java/com/puppycrawl/tools/checkstyle/checks/naming/PatternVariableNameCheck.java b/src/main/java/com/puppycrawl/tools/checkstyle/checks/naming/PatternVariableNameCheck.java
+index 9268cef083..b29fbc91ac 100644
+--- a/src/main/java/com/puppycrawl/tools/checkstyle/checks/naming/PatternVariableNameCheck.java
++++ b/src/main/java/com/puppycrawl/tools/checkstyle/checks/naming/PatternVariableNameCheck.java
+@@ -30,7 +30,7 @@ import com.puppycrawl.tools.checkstyle.api.TokenTypes;
+  * <li>
+  * Property {@code format} - Sets the pattern to match valid identifiers.
+  * Type is {@code java.util.regex.Pattern}.
+- * Default value is {@code "^[a-z][a-zA-Z0-9]*$"}.
++ * Default value is {@code "^([a-z][a-zA-Z0-9]*|_)$"}.
+  * </li>
+  * </ul>
+  * <p>
+@@ -51,7 +51,7 @@ public class PatternVariableNameCheck extends AbstractNameCheck {
+ 
+     /** Creates a new {@code PatternVariableNameCheck} instance. */
+     public PatternVariableNameCheck() {
+-        super("^[a-z][a-zA-Z0-9]*$");
++        super("^([a-z][a-zA-Z0-9]*|_)$");
+     }
+ 
+     @Override
+diff --git a/src/xdocs-examples/java/com/puppycrawl/tools/checkstyle/checks/naming/PatternVariableNameCheckExamplesTest.java b/src/xdocs-examples/java/com/puppycrawl/tools/checkstyle/checks/naming/PatternVariableNameCheckExamplesTest.java
+index 18db1abd00..d1976e448c 100644
+--- a/src/xdocs-examples/java/com/puppycrawl/tools/checkstyle/checks/naming/PatternVariableNameCheckExamplesTest.java
++++ b/src/xdocs-examples/java/com/puppycrawl/tools/checkstyle/checks/naming/PatternVariableNameCheckExamplesTest.java
+@@ -34,7 +34,7 @@ public class PatternVariableNameCheckExamplesTest extends AbstractExamplesModule
+     @Test
+     public void testExample1() throws Exception {
+ 
+-        final String pattern = "^[a-z][a-zA-Z0-9]*$";
++        final String pattern = "^([a-z][a-zA-Z0-9]*|_)$";
+ 
+         final String[] expected = {
+             "15:30: " + getCheckMessage(MSG_INVALID_PATTERN, "STRING", pattern),
