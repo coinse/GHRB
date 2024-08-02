@@ -184,5 +184,36 @@
         ".com.fasterxml.jackson.databind.ser.filter.JsonInclude4464Test.java"
       ]
     }
+  },
+  "FasterXML_jackson-databind-4641": {
+    "bug_id": "FasterXML_jackson-databind-4641",
+    "PR_number": 4641,
+    "PR_createdAt": "2024-07-24T14:03:19Z",
+    "merge_commit": "7ae72a5195446350307c9f38ae0dc4e38eb4eaaa",
+    "buggy_commits": [
+      {
+        "oid": "3ed7f4572534383e54f9fd0d2521131f64283410",
+        "message": "Minor test addition"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/FasterXML/jackson-databind/issues/4634",
+      "createdAt": "2024-07-22T12:29:19Z",
+      "content": "bug_report_all/FasterXML_jackson-databind-4641.json"
+    },
+    "changed_tests": [
+      "src/test/java/com/fasterxml/jackson/databind/deser/creators/AnySetterForCreator562Test.java"
+    ],
+    "PR_url": "https://github.com/FasterXML/jackson-databind/pull/4641",
+    "merge_commit_url": "https://github.com/FasterXML/jackson-databind/commit/7ae72a5195446350307c9f38ae0dc4e38eb4eaaa",
+    "buggy_commit": "3ed7f4572534383e54f9fd0d2521131f64283410",
+    "execution_result": {
+      "valid_tests": [
+        ".com.fasterxml.jackson.databind.deser.creators.AnySetterForCreator562Test.java"
+      ],
+      "success_tests": [
+        ".com.fasterxml.jackson.databind.deser.creators.AnySetterForCreator562Test.java"
+      ]
+    }
   }
 }

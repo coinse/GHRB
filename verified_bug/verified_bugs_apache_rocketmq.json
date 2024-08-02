@@ -854,5 +854,36 @@
         ".org.apache.rocketmq.store.ReputMessageServiceTest.java"
       ]
     }
+  },
+  "apache_rocketmq-8404": {
+    "bug_id": "apache_rocketmq-8404",
+    "PR_number": 8404,
+    "PR_createdAt": "2024-07-19T02:42:42Z",
+    "merge_commit": "8341c13d064c96e9ef70da4fcf17e49d3e1847f9",
+    "buggy_commits": [
+      {
+        "oid": "86d59d2485b5fed162db3743e11c0902de3e34ad",
+        "message": "Add the ability to write ConsumeQueue using fileChannel to prevent JVM crashes in some situations (#8403)"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/apache/rocketmq/issues/8402",
+      "createdAt": "2024-07-19T02:03:14Z",
+      "content": "bug_report_all/apache_rocketmq-8404.json"
+    },
+    "changed_tests": [
+      "broker/src/test/java/org/apache/rocketmq/broker/processor/PopMessageProcessorTest.java"
+    ],
+    "PR_url": "https://github.com/apache/rocketmq/pull/8404",
+    "merge_commit_url": "https://github.com/apache/rocketmq/commit/8341c13d064c96e9ef70da4fcf17e49d3e1847f9",
+    "buggy_commit": "86d59d2485b5fed162db3743e11c0902de3e34ad",
+    "execution_result": {
+      "valid_tests": [
+        ".org.apache.rocketmq.broker.processor.PopMessageProcessorTest.java"
+      ],
+      "success_tests": [
+        ".org.apache.rocketmq.broker.processor.PopMessageProcessorTest.java"
+      ]
+    }
   }
 }

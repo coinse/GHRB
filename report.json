@@ -1,0 +1,1312 @@
+{
+  "jhy_jsoup": {
+    "jhy_jsoup-2164": {
+      "bug_id": "jhy_jsoup-2164",
+      "PR_number": 2164,
+      "PR_createdAt": "2024-07-05T02:53:08Z",
+      "merge_commit": "8c8f3f96e29c3dd7d7ad571f570d11abc21bf30e",
+      "buggy_commits": [
+        {
+          "oid": "97e6211c5e06a93bbc050a29b38743ec14ee652c",
+          "message": "Use a simpler regex to avoid potential Stack Overflow\n\nFixes #2165"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/jhy/jsoup/issues/656",
+        "createdAt": "2015-11-16T05:21:34Z",
+        "content": "bug_report_all/jhy_jsoup-2164.json"
+      },
+      "changed_tests": [
+        "src/test/java/org/jsoup/integration/ConnectTest.java",
+        "src/test/java/org/jsoup/integration/SessionIT.java",
+        "src/test/java/org/jsoup/integration/servlets/FileServlet.java"
+      ],
+      "PR_url": "https://github.com/jhy/jsoup/pull/2164",
+      "merge_commit_url": "https://github.com/jhy/jsoup/commit/8c8f3f96e29c3dd7d7ad571f570d11abc21bf30e",
+      "buggy_commit": "97e6211c5e06a93bbc050a29b38743ec14ee652c"
+    }
+  },
+  "assertj_assertj": {
+    "assertj_assertj-3538": {
+      "bug_id": "assertj_assertj-3538",
+      "PR_number": 3538,
+      "PR_createdAt": "2024-07-15T12:50:33Z",
+      "merge_commit": "d331082fc3fdc9d12740a7aa8b18c1afe899126c",
+      "buggy_commits": [
+        {
+          "oid": "047c5c4c7da4e61b9bf649d26c055241bd0cae68",
+          "message": "Update SECURITY.md"
+        },
+        {
+          "oid": "ac73802e87abac3d55a1ff2daec417b1854ec65e",
+          "message": "Merge branch 'assertj:3.x' into 3.x"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/assertj/assertj/issues/3532",
+        "createdAt": "2024-07-08T21:41:14Z",
+        "content": "bug_report_all/assertj_assertj-3538.json"
+      },
+      "changed_tests": [
+        "assertj-core/src/test/java/org/assertj/core/api/BigDecimalAssert_isInFloatingPointFormat_Test.java",
+        "assertj-core/src/test/java/org/assertj/core/api/BigDecimalAssert_isInIntegerFormat_Test.java",
+        "assertj-core/src/test/java/org/assertj/core/error/ShouldBeFloatingPointFormat_create_Test.java",
+        "assertj-core/src/test/java/org/assertj/core/error/ShouldBeIntegerFormat_create_Test.java"
+      ],
+      "PR_url": "https://github.com/assertj/assertj/pull/3538",
+      "merge_commit_url": "https://github.com/assertj/assertj/commit/d331082fc3fdc9d12740a7aa8b18c1afe899126c",
+      "buggy_commit": "047c5c4c7da4e61b9bf649d26c055241bd0cae68"
+    }
+  },
+  "FasterXML_jackson-databind": {
+    "FasterXML_jackson-databind-4641": {
+      "bug_id": "FasterXML_jackson-databind-4641",
+      "PR_number": 4641,
+      "PR_createdAt": "2024-07-24T14:03:19Z",
+      "merge_commit": "7ae72a5195446350307c9f38ae0dc4e38eb4eaaa",
+      "buggy_commits": [
+        {
+          "oid": "3ed7f4572534383e54f9fd0d2521131f64283410",
+          "message": "Minor test addition"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/FasterXML/jackson-databind/issues/4634",
+        "createdAt": "2024-07-22T12:29:19Z",
+        "content": "bug_report_all/FasterXML_jackson-databind-4641.json"
+      },
+      "changed_tests": [
+        "src/test/java/com/fasterxml/jackson/databind/deser/creators/AnySetterForCreator562Test.java"
+      ],
+      "PR_url": "https://github.com/FasterXML/jackson-databind/pull/4641",
+      "merge_commit_url": "https://github.com/FasterXML/jackson-databind/commit/7ae72a5195446350307c9f38ae0dc4e38eb4eaaa",
+      "buggy_commit": "3ed7f4572534383e54f9fd0d2521131f64283410"
+    }
+  },
+  "apache_dubbo": {
+    "apache_dubbo-14427": {
+      "bug_id": "apache_dubbo-14427",
+      "PR_number": 14427,
+      "PR_createdAt": "2024-07-12T13:44:09Z",
+      "merge_commit": "c0fec561fda2d052c57d4482911b0059855e3294",
+      "buggy_commits": [
+        {
+          "oid": "eca57d31ae29b6bc909f798df496fb5f086211b5",
+          "message": "Bump io.micrometer:micrometer-core from 1.13.1 to 1.13.2 (#14438)\n\nBumps [io.micrometer:micrometer-core](https://github.com/micrometer-metrics/micrometer) from 1.13.1 to 1.13.2.\n- [Release notes](https://github.com/micrometer-metrics/micrometer/releases)\n- [Commits](https://github.com/micrometer-metrics/micrometer/compare/v1.13.1...v1.13.2)\n\n---\nupdated-dependencies:\n- dependency-name: io.micrometer:micrometer-core\n  dependency-type: direct:production\n  update-type: version-update:semver-patch\n...\n\nSigned-off-by: dependabot[bot] <support@github.com>\nCo-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/apache/dubbo/issues/14126",
+        "createdAt": "2024-04-23T12:41:37Z",
+        "content": "bug_report_all/apache_dubbo-14427.json"
+      },
+      "changed_tests": [
+        "dubbo-registry/dubbo-registry-api/src/test/java/org/apache/dubbo/registry/client/ServiceDiscoveryCacheTest.java"
+      ],
+      "PR_url": "https://github.com/apache/dubbo/pull/14427",
+      "merge_commit_url": "https://github.com/apache/dubbo/commit/c0fec561fda2d052c57d4482911b0059855e3294",
+      "buggy_commit": "eca57d31ae29b6bc909f798df496fb5f086211b5"
+    }
+  },
+  "apache_rocketmq": {
+    "apache_rocketmq-8347": {
+      "bug_id": "apache_rocketmq-8347",
+      "PR_number": 8347,
+      "PR_createdAt": "2024-07-01T03:34:56Z",
+      "merge_commit": "9173def4040f00ea5a4f1e913382b8ccd2b08d17",
+      "buggy_commits": [
+        {
+          "oid": "92c922378aa7c92e4239f0b46be8ea97ed257c2e",
+          "message": "[ISSUE #8358] Client does not send heartbeats to all Nameserve in clustered mode, resulting in frequent disconnections (#8359)\n\n* Adding null does not update\r\n\r\n* rolling back\r\n\r\n* remove client scanAvailableNameSrv"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/apache/rocketmq/issues/8348",
+        "createdAt": "2024-07-01T03:36:04Z",
+        "content": "bug_report_all/apache_rocketmq-8347.json"
+      },
+      "changed_tests": [
+        "broker/src/test/java/org/apache/rocketmq/broker/latency/BrokerFastFailureTest.java"
+      ],
+      "PR_url": "https://github.com/apache/rocketmq/pull/8347",
+      "merge_commit_url": "https://github.com/apache/rocketmq/commit/9173def4040f00ea5a4f1e913382b8ccd2b08d17",
+      "buggy_commit": "92c922378aa7c92e4239f0b46be8ea97ed257c2e"
+    },
+    "apache_rocketmq-8349": {
+      "bug_id": "apache_rocketmq-8349",
+      "PR_number": 8349,
+      "PR_createdAt": "2024-07-01T17:24:10Z",
+      "merge_commit": "d9d53d58cf7f32143485f12d4851d5c119d0855a",
+      "buggy_commits": [
+        {
+          "oid": "73d0c33f4f1ab5e2b57afa4afc6203000aebeabd",
+          "message": "add tests for ConsumerManageProcessor (#8401)"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/apache/rocketmq/issues/8345",
+        "createdAt": "2024-06-30T14:19:46Z",
+        "content": "bug_report_all/apache_rocketmq-8349.json"
+      },
+      "changed_tests": [
+        "namesrv/src/test/java/org/apache/rocketmq/namesrv/processor/RequestProcessorTest.java",
+        "namesrv/src/test/java/org/apache/rocketmq/namesrv/route/ZoneRouteRPCHookTest.java",
+        "namesrv/src/test/java/org/apache/rocketmq/namesrv/routeinfo/RouteInfoManagerNewTest.java"
+      ],
+      "PR_url": "https://github.com/apache/rocketmq/pull/8349",
+      "merge_commit_url": "https://github.com/apache/rocketmq/commit/d9d53d58cf7f32143485f12d4851d5c119d0855a",
+      "buggy_commit": "73d0c33f4f1ab5e2b57afa4afc6203000aebeabd"
+    },
+    "apache_rocketmq-8361": {
+      "bug_id": "apache_rocketmq-8361",
+      "PR_number": 8361,
+      "PR_createdAt": "2024-07-04T12:14:38Z",
+      "merge_commit": "77f6415eae1371c35b55bc52c1c24205f9c4a677",
+      "buggy_commits": [
+        {
+          "oid": "77d6633e622200ed52feef6fb2adeb12fba8e2c8",
+          "message": "[ISSUE #8298] Optimize some code format or style (#8299)\n\nCo-authored-by: supervate <vate@MacBook-Air-4.local>"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/apache/rocketmq/issues/8360",
+        "createdAt": "2024-07-04T12:02:15Z",
+        "content": "bug_report_all/apache_rocketmq-8361.json"
+      },
+      "changed_tests": [
+        "client/src/test/java/org/apache/rocketmq/client/impl/MQAdminImplTest.java"
+      ],
+      "PR_url": "https://github.com/apache/rocketmq/pull/8361",
+      "merge_commit_url": "https://github.com/apache/rocketmq/commit/77f6415eae1371c35b55bc52c1c24205f9c4a677",
+      "buggy_commit": "77d6633e622200ed52feef6fb2adeb12fba8e2c8"
+    },
+    "apache_rocketmq-8373": {
+      "bug_id": "apache_rocketmq-8373",
+      "PR_number": 8373,
+      "PR_createdAt": "2024-07-05T17:37:55Z",
+      "merge_commit": "2d1e3143c7dc60aca805e6689c5364825e3020d4",
+      "buggy_commits": [
+        {
+          "oid": "1588d6576295963787a99ab8d8754adf458bf329",
+          "message": "[ISSUE #8365] add remoting client non-oneway updateConsumerOffset function (#8391)\n\n* add non-oneway updateConsumerOffset"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/apache/rocketmq/issues/8372",
+        "createdAt": "2024-07-05T17:34:42Z",
+        "content": "bug_report_all/apache_rocketmq-8373.json"
+      },
+      "changed_tests": [
+        "broker/src/test/java/org/apache/rocketmq/broker/processor/AdminBrokerProcessorTest.java"
+      ],
+      "PR_url": "https://github.com/apache/rocketmq/pull/8373",
+      "merge_commit_url": "https://github.com/apache/rocketmq/commit/2d1e3143c7dc60aca805e6689c5364825e3020d4",
+      "buggy_commit": "1588d6576295963787a99ab8d8754adf458bf329"
+    },
+    "apache_rocketmq-8376": {
+      "bug_id": "apache_rocketmq-8376",
+      "PR_number": 8376,
+      "PR_createdAt": "2024-07-08T11:19:05Z",
+      "merge_commit": "67ddc1dae0548a5a2e413a2c7ef155b39a64f2b6",
+      "buggy_commits": [
+        {
+          "oid": "5dc0c6a8b57e6287aec88f5eca3b361d10b44969",
+          "message": "[maven-release-plugin] prepare for next development iteration (#8382)"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/apache/rocketmq/issues/8375",
+        "createdAt": "2024-07-08T11:13:15Z",
+        "content": "bug_report_all/apache_rocketmq-8376.json"
+      },
+      "changed_tests": [
+        "client/src/test/java/org/apache/rocketmq/client/impl/admin/MqClientAdminImplTest.java"
+      ],
+      "PR_url": "https://github.com/apache/rocketmq/pull/8376",
+      "merge_commit_url": "https://github.com/apache/rocketmq/commit/67ddc1dae0548a5a2e413a2c7ef155b39a64f2b6",
+      "buggy_commit": "5dc0c6a8b57e6287aec88f5eca3b361d10b44969"
+    },
+    "apache_rocketmq-8385": {
+      "bug_id": "apache_rocketmq-8385",
+      "PR_number": 8385,
+      "PR_createdAt": "2024-07-11T11:52:23Z",
+      "merge_commit": "6f77f052b8574ce776b2d2ca1dc6eee0dbb19f55",
+      "buggy_commits": [
+        {
+          "oid": "6c3781f17e22ec35ddb2113bab5cdc4967cb8260",
+          "message": "[ISSUE #8365] add non-oneway updateConsumerOffset (#8368)"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/apache/rocketmq/issues/8384",
+        "createdAt": "2024-07-11T11:49:35Z",
+        "content": "bug_report_all/apache_rocketmq-8385.json"
+      },
+      "changed_tests": [
+        "client/src/test/java/org/apache/rocketmq/client/ClientConfigTest.java"
+      ],
+      "PR_url": "https://github.com/apache/rocketmq/pull/8385",
+      "merge_commit_url": "https://github.com/apache/rocketmq/commit/6f77f052b8574ce776b2d2ca1dc6eee0dbb19f55",
+      "buggy_commit": "6c3781f17e22ec35ddb2113bab5cdc4967cb8260"
+    },
+    "apache_rocketmq-8393": {
+      "bug_id": "apache_rocketmq-8393",
+      "PR_number": 8393,
+      "PR_createdAt": "2024-07-16T18:05:04Z",
+      "merge_commit": "cf4234b288ff3ee64446e1d776052fcb0c87510a",
+      "buggy_commits": [
+        {
+          "oid": "852b635e515de223fcfce13c3c87b0bc2061ac49",
+          "message": "[ISSUE #8396] Fix typo in TraceConstants (#8398)\n\n* [ISSUE #8396] Fix typo in TraceConstants\r\n\r\n* Update\r\n\r\n* Update\r\n\r\n* Update\r\n\r\n* Update\r\n\r\n* Update\r\n\r\n* Update"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/apache/rocketmq/issues/8392",
+        "createdAt": "2024-07-16T18:02:23Z",
+        "content": "bug_report_all/apache_rocketmq-8393.json"
+      },
+      "changed_tests": [
+        "broker/src/test/java/org/apache/rocketmq/broker/processor/QueryMessageProcessorTest.java"
+      ],
+      "PR_url": "https://github.com/apache/rocketmq/pull/8393",
+      "merge_commit_url": "https://github.com/apache/rocketmq/commit/cf4234b288ff3ee64446e1d776052fcb0c87510a",
+      "buggy_commit": "852b635e515de223fcfce13c3c87b0bc2061ac49"
+    },
+    "apache_rocketmq-8401": {
+      "bug_id": "apache_rocketmq-8401",
+      "PR_number": 8401,
+      "PR_createdAt": "2024-07-18T04:52:41Z",
+      "merge_commit": "73d0c33f4f1ab5e2b57afa4afc6203000aebeabd",
+      "buggy_commits": [
+        {
+          "oid": "9115d662d0495d3d6269e7825ec829bd6d38dfcf",
+          "message": "[ISSUE #8366] Eliminate deadlocks during the client shutdown process. (#8367)\n\n* [ISSUE #8366] When determining if `ChannelWrapper` is the wrapper for a channel, no longer acquire a read lock.\r\n\r\n* [ISSUE #8366] Compare channels for equality using `isWrapperOf`."
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/apache/rocketmq/issues/8400",
+        "createdAt": "2024-07-18T04:50:00Z",
+        "content": "bug_report_all/apache_rocketmq-8401.json"
+      },
+      "changed_tests": [
+        "broker/src/test/java/org/apache/rocketmq/broker/processor/ConsumerManageProcessorTest.java"
+      ],
+      "PR_url": "https://github.com/apache/rocketmq/pull/8401",
+      "merge_commit_url": "https://github.com/apache/rocketmq/commit/73d0c33f4f1ab5e2b57afa4afc6203000aebeabd",
+      "buggy_commit": "9115d662d0495d3d6269e7825ec829bd6d38dfcf"
+    },
+    "apache_rocketmq-8404": {
+      "bug_id": "apache_rocketmq-8404",
+      "PR_number": 8404,
+      "PR_createdAt": "2024-07-19T02:42:42Z",
+      "merge_commit": "8341c13d064c96e9ef70da4fcf17e49d3e1847f9",
+      "buggy_commits": [
+        {
+          "oid": "86d59d2485b5fed162db3743e11c0902de3e34ad",
+          "message": "Add the ability to write ConsumeQueue using fileChannel to prevent JVM crashes in some situations (#8403)"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/apache/rocketmq/issues/8402",
+        "createdAt": "2024-07-19T02:03:14Z",
+        "content": "bug_report_all/apache_rocketmq-8404.json"
+      },
+      "changed_tests": [
+        "broker/src/test/java/org/apache/rocketmq/broker/processor/PopMessageProcessorTest.java"
+      ],
+      "PR_url": "https://github.com/apache/rocketmq/pull/8404",
+      "merge_commit_url": "https://github.com/apache/rocketmq/commit/8341c13d064c96e9ef70da4fcf17e49d3e1847f9",
+      "buggy_commit": "86d59d2485b5fed162db3743e11c0902de3e34ad"
+    },
+    "apache_rocketmq-8412": {
+      "bug_id": "apache_rocketmq-8412",
+      "PR_number": 8412,
+      "PR_createdAt": "2024-07-19T13:41:54Z",
+      "merge_commit": "bd61774b1fc19f92c8c3a466420d50899ed61d9b",
+      "buggy_commits": [
+        {
+          "oid": "d9d53d58cf7f32143485f12d4851d5c119d0855a",
+          "message": "add some tests for nameserver (#8349)"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/apache/rocketmq/issues/8411",
+        "createdAt": "2024-07-19T13:40:00Z",
+        "content": "bug_report_all/apache_rocketmq-8412.json"
+      },
+      "changed_tests": [
+        "client/src/test/java/org/apache/rocketmq/client/impl/consumer/DefaultMQPushConsumerImplTest.java"
+      ],
+      "PR_url": "https://github.com/apache/rocketmq/pull/8412",
+      "merge_commit_url": "https://github.com/apache/rocketmq/commit/bd61774b1fc19f92c8c3a466420d50899ed61d9b",
+      "buggy_commit": "d9d53d58cf7f32143485f12d4851d5c119d0855a"
+    },
+    "apache_rocketmq-8414": {
+      "bug_id": "apache_rocketmq-8414",
+      "PR_number": 8414,
+      "PR_createdAt": "2024-07-19T15:01:37Z",
+      "merge_commit": "6ecdc482232918a3b2a8b0fd36cb1d9a03a60415",
+      "buggy_commits": [
+        {
+          "oid": "bd61774b1fc19f92c8c3a466420d50899ed61d9b",
+          "message": "[ISSUE #8411] Add more test coverage for DefaultMQPushConsumerImpl (#8412)\n\n* [ISSUE #8411] Add more test coverage for DefaultMQPushConsumerImpl\r\n\r\n* Update\r\n\r\n* Update"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/apache/rocketmq/issues/8413",
+        "createdAt": "2024-07-19T14:57:00Z",
+        "content": "bug_report_all/apache_rocketmq-8414.json"
+      },
+      "changed_tests": [
+        "common/src/test/java/org/apache/rocketmq/common/BrokerConfigSingletonTest.java"
+      ],
+      "PR_url": "https://github.com/apache/rocketmq/pull/8414",
+      "merge_commit_url": "https://github.com/apache/rocketmq/commit/6ecdc482232918a3b2a8b0fd36cb1d9a03a60415",
+      "buggy_commit": "bd61774b1fc19f92c8c3a466420d50899ed61d9b"
+    },
+    "apache_rocketmq-8418": {
+      "bug_id": "apache_rocketmq-8418",
+      "PR_number": 8418,
+      "PR_createdAt": "2024-07-21T08:10:59Z",
+      "merge_commit": "0e56d8761cefbb3fcb47151ea969e7af375cbb71",
+      "buggy_commits": [
+        {
+          "oid": "19ef75417751ee81f690c318895ad3c1c5143ce4",
+          "message": "[ISSUE #8421] Add more test coverage for SlaveSynchronize (#8422)"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/apache/rocketmq/issues/8417",
+        "createdAt": "2024-07-21T07:46:44Z",
+        "content": "bug_report_all/apache_rocketmq-8418.json"
+      },
+      "changed_tests": [
+        "common/src/test/java/org/apache/rocketmq/common/AclConfigTest.java"
+      ],
+      "PR_url": "https://github.com/apache/rocketmq/pull/8418",
+      "merge_commit_url": "https://github.com/apache/rocketmq/commit/0e56d8761cefbb3fcb47151ea969e7af375cbb71",
+      "buggy_commit": "19ef75417751ee81f690c318895ad3c1c5143ce4"
+    },
+    "apache_rocketmq-8422": {
+      "bug_id": "apache_rocketmq-8422",
+      "PR_number": 8422,
+      "PR_createdAt": "2024-07-22T04:19:17Z",
+      "merge_commit": "19ef75417751ee81f690c318895ad3c1c5143ce4",
+      "buggy_commits": [
+        {
+          "oid": "8341c13d064c96e9ef70da4fcf17e49d3e1847f9",
+          "message": "[ISSUE #8402] Fix init retry topic offset incorrect when EscapeBridge enabled (#8404)"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/apache/rocketmq/issues/8421",
+        "createdAt": "2024-07-22T04:14:25Z",
+        "content": "bug_report_all/apache_rocketmq-8422.json"
+      },
+      "changed_tests": [
+        "broker/src/test/java/org/apache/rocketmq/broker/slave/SlaveSynchronizeTest.java"
+      ],
+      "PR_url": "https://github.com/apache/rocketmq/pull/8422",
+      "merge_commit_url": "https://github.com/apache/rocketmq/commit/19ef75417751ee81f690c318895ad3c1c5143ce4",
+      "buggy_commit": "8341c13d064c96e9ef70da4fcf17e49d3e1847f9"
+    },
+    "apache_rocketmq-8433": {
+      "bug_id": "apache_rocketmq-8433",
+      "PR_number": 8433,
+      "PR_createdAt": "2024-07-23T12:12:23Z",
+      "merge_commit": "6e6319f11a7deb80dc0128ee707f7f9595c9126f",
+      "buggy_commits": [
+        {
+          "oid": "6fb455a1d4dc7416c81ad447fbfe4f9429765609",
+          "message": "[ISSUE #8409] Fix tiered storage roll file logic if committing the last part of a file failed (#8410)\n\nCo-authored-by: zhaoyuhan <zhaoyuhan@xiaomi.com>"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/apache/rocketmq/issues/8437",
+        "createdAt": "2024-07-24T04:14:32Z",
+        "content": "bug_report_all/apache_rocketmq-8433.json"
+      },
+      "changed_tests": [
+        "client/src/test/java/org/apache/rocketmq/client/impl/ClientRemotingProcessorTest.java"
+      ],
+      "PR_url": "https://github.com/apache/rocketmq/pull/8433",
+      "merge_commit_url": "https://github.com/apache/rocketmq/commit/6e6319f11a7deb80dc0128ee707f7f9595c9126f",
+      "buggy_commit": "6fb455a1d4dc7416c81ad447fbfe4f9429765609"
+    },
+    "apache_rocketmq-8435": {
+      "bug_id": "apache_rocketmq-8435",
+      "PR_number": 8435,
+      "PR_createdAt": "2024-07-24T00:01:11Z",
+      "merge_commit": "59c8609f4338db1e20a802c99f21a3a6dca55895",
+      "buggy_commits": [
+        {
+          "oid": "c080e6bbf208bc91f06ba97beb37241d7d0c20a0",
+          "message": "[ISSUE #8438] Fix broker return two messages when query message and index service bug (#8439)"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/apache/rocketmq/issues/8434",
+        "createdAt": "2024-07-23T23:49:09Z",
+        "content": "bug_report_all/apache_rocketmq-8435.json"
+      },
+      "changed_tests": [
+        "common/src/test/java/org/apache/rocketmq/common/action/ActionTest.java",
+        "common/src/test/java/org/apache/rocketmq/common/action/RocketMQActionTest.java"
+      ],
+      "PR_url": "https://github.com/apache/rocketmq/pull/8435",
+      "merge_commit_url": "https://github.com/apache/rocketmq/commit/59c8609f4338db1e20a802c99f21a3a6dca55895",
+      "buggy_commit": "c080e6bbf208bc91f06ba97beb37241d7d0c20a0"
+    },
+    "apache_rocketmq-8447": {
+      "bug_id": "apache_rocketmq-8447",
+      "PR_number": 8447,
+      "PR_createdAt": "2024-07-25T11:58:06Z",
+      "merge_commit": "304987d341f17f00e88a4ef2396f04950b4e1720",
+      "buggy_commits": [
+        {
+          "oid": "59c8609f4338db1e20a802c99f21a3a6dca55895",
+          "message": "[ISSUE #8434] Add test cases for org.apache.rocketmq.common.action (#8435)\n\n* Which Issue(s) This PR Fixes\r\nadd test case for AclConfig in commom module\r\nFixes #8417\r\n\r\nBrief Description\r\nadd test case for AclConfig in commom module by using tongyi tools.\r\n\r\nHow Did You Test This Change?\r\nrun test case successfull.\r\n\r\n* [ISSUE apache#8434] Add more test coverage for Add test cases for org.apache.rocketmq.common.action"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/apache/rocketmq/issues/8446",
+        "createdAt": "2024-07-25T11:54:33Z",
+        "content": "bug_report_all/apache_rocketmq-8447.json"
+      },
+      "changed_tests": [
+        "client/src/test/java/org/apache/rocketmq/client/impl/factory/MQClientInstanceTest.java"
+      ],
+      "PR_url": "https://github.com/apache/rocketmq/pull/8447",
+      "merge_commit_url": "https://github.com/apache/rocketmq/commit/304987d341f17f00e88a4ef2396f04950b4e1720",
+      "buggy_commit": "59c8609f4338db1e20a802c99f21a3a6dca55895"
+    },
+    "apache_rocketmq-8459": {
+      "bug_id": "apache_rocketmq-8459",
+      "PR_number": 8459,
+      "PR_createdAt": "2024-07-27T13:50:12Z",
+      "merge_commit": "3722431c2593a5fc568d415d860001c690c5a5ad",
+      "buggy_commits": [
+        {
+          "oid": "304987d341f17f00e88a4ef2396f04950b4e1720",
+          "message": "[ISSUE #8446] Add more test coverage for MQClientInstance (#8447)\n\n* [ISSUE #8446] Add more test coverage for MQClientInstance\r\n\r\n* Update\r\n\r\n* Update"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/apache/rocketmq/issues/8458",
+        "createdAt": "2024-07-27T13:44:09Z",
+        "content": "bug_report_all/apache_rocketmq-8459.json"
+      },
+      "changed_tests": [
+        "client/src/test/java/org/apache/rocketmq/client/impl/consumer/ProcessQueueTest.java"
+      ],
+      "PR_url": "https://github.com/apache/rocketmq/pull/8459",
+      "merge_commit_url": "https://github.com/apache/rocketmq/commit/3722431c2593a5fc568d415d860001c690c5a5ad",
+      "buggy_commit": "304987d341f17f00e88a4ef2396f04950b4e1720"
+    },
+    "apache_rocketmq-8464": {
+      "bug_id": "apache_rocketmq-8464",
+      "PR_number": 8464,
+      "PR_createdAt": "2024-07-29T08:46:28Z",
+      "merge_commit": "05b5aa0db70b4d00c2eb2249777f5f8af9c0c1a1",
+      "buggy_commits": [
+        {
+          "oid": "8fe3451311ac499602406bf383cd4d7397732ff1",
+          "message": "[ISSUE #8465] Add more test coverage for ConsumeMessagePopConcurrentlyService (#8466)"
+        },
+        {
+          "oid": "a1388e9c3903724cfb4d6ce47aec21505ebb0d97",
+          "message": "Add UTs"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/apache/rocketmq/issues/8463",
+        "createdAt": "2024-07-29T08:46:07Z",
+        "content": "bug_report_all/apache_rocketmq-8464.json"
+      },
+      "changed_tests": [
+        "store/src/test/java/org/apache/rocketmq/store/stats/BrokerStatsManagerTest.java"
+      ],
+      "PR_url": "https://github.com/apache/rocketmq/pull/8464",
+      "merge_commit_url": "https://github.com/apache/rocketmq/commit/05b5aa0db70b4d00c2eb2249777f5f8af9c0c1a1",
+      "buggy_commit": "8fe3451311ac499602406bf383cd4d7397732ff1"
+    },
+    "apache_rocketmq-8466": {
+      "bug_id": "apache_rocketmq-8466",
+      "PR_number": 8466,
+      "PR_createdAt": "2024-07-30T13:14:54Z",
+      "merge_commit": "8fe3451311ac499602406bf383cd4d7397732ff1",
+      "buggy_commits": [
+        {
+          "oid": "f1fe4bf754f277c6617269946eb0c5a6a0b09ed7",
+          "message": "[ISSUE #7731] Fix windows runBroker.cmd cannot start (#7731) (#8338)\n\nCo-authored-by: fz <fengzhen123@haier.com>"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/apache/rocketmq/issues/8465",
+        "createdAt": "2024-07-30T13:12:48Z",
+        "content": "bug_report_all/apache_rocketmq-8466.json"
+      },
+      "changed_tests": [
+        "client/src/test/java/org/apache/rocketmq/client/impl/consumer/ConsumeMessagePopConcurrentlyServiceTest.java"
+      ],
+      "PR_url": "https://github.com/apache/rocketmq/pull/8466",
+      "merge_commit_url": "https://github.com/apache/rocketmq/commit/8fe3451311ac499602406bf383cd4d7397732ff1",
+      "buggy_commit": "f1fe4bf754f277c6617269946eb0c5a6a0b09ed7"
+    },
+    "apache_rocketmq-8477": {
+      "bug_id": "apache_rocketmq-8477",
+      "PR_number": 8477,
+      "PR_createdAt": "2024-07-31T16:29:29Z",
+      "merge_commit": "d28a5a01e8ef1c35ac03cf32167660aa1a112252",
+      "buggy_commits": [
+        {
+          "oid": "8fe3451311ac499602406bf383cd4d7397732ff1",
+          "message": "[ISSUE #8465] Add more test coverage for ConsumeMessagePopConcurrentlyService (#8466)"
+        },
+        {
+          "oid": "7ac3993b05510af0be15a86009d3dc864ab665d1",
+          "message": "Which Issue(s) This PR Fixes\nadd test case for AclConfig in commom module\nFixes #8476\n\nBrief Description\nadd test case for org.apache.rocketmq.common.attribute in commom module by using tongyi tools.\n\nHow Did You Test This Change?\nrun test case successfull."
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/apache/rocketmq/issues/8476",
+        "createdAt": "2024-07-31T16:19:26Z",
+        "content": "bug_report_all/apache_rocketmq-8477.json"
+      },
+      "changed_tests": [
+        "common/src/test/java/org/apache/rocketmq/common/attribute/AttributeParserTest.java",
+        "common/src/test/java/org/apache/rocketmq/common/attribute/AttributeTest.java",
+        "common/src/test/java/org/apache/rocketmq/common/attribute/AttributeUtilTest.java",
+        "common/src/test/java/org/apache/rocketmq/common/attribute/BooleanAttributeTest.java",
+        "common/src/test/java/org/apache/rocketmq/common/attribute/CQTypeTest.java",
+        "common/src/test/java/org/apache/rocketmq/common/attribute/CleanupPolicyTest.java",
+        "common/src/test/java/org/apache/rocketmq/common/attribute/EnumAttributeTest.java",
+        "common/src/test/java/org/apache/rocketmq/common/attribute/LongRangeAttributeTest.java",
+        "common/src/test/java/org/apache/rocketmq/common/attribute/TopicMessageTypeTest.java"
+      ],
+      "PR_url": "https://github.com/apache/rocketmq/pull/8477",
+      "merge_commit_url": "https://github.com/apache/rocketmq/commit/d28a5a01e8ef1c35ac03cf32167660aa1a112252",
+      "buggy_commit": "8fe3451311ac499602406bf383cd4d7397732ff1"
+    }
+  },
+  "checkstyle_checkstyle": {
+    "checkstyle_checkstyle-15176": {
+      "bug_id": "checkstyle_checkstyle-15176",
+      "PR_number": 15176,
+      "PR_createdAt": "2024-07-01T00:42:01Z",
+      "merge_commit": "6271b96c71d8ae24fb76f0882ff3da9ae0bbffe1",
+      "buggy_commits": [
+        {
+          "oid": "7338eda2ac9b906fdd6bd55c6d30c1279af8c310",
+          "message": "Issue #14937: Migrated section 5.2.6 parameter names to chapter wise testing"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/checkstyle/checkstyle/issues/15055",
+        "createdAt": "2024-06-20T13:48:36Z",
+        "content": "bug_report_all/checkstyle_checkstyle-15176.json"
+      },
+      "changed_tests": [
+        "src/test/java/com/puppycrawl/tools/checkstyle/checks/indentation/IndentationCheckTest.java",
+        "src/test/resources-noncompilable/com/puppycrawl/tools/checkstyle/checks/indentation/indentation/InputIndentationRecordPattern.java"
+      ],
+      "PR_url": "https://github.com/checkstyle/checkstyle/pull/15176",
+      "merge_commit_url": "https://github.com/checkstyle/checkstyle/commit/6271b96c71d8ae24fb76f0882ff3da9ae0bbffe1",
+      "buggy_commit": "7338eda2ac9b906fdd6bd55c6d30c1279af8c310"
+    },
+    "checkstyle_checkstyle-15187": {
+      "bug_id": "checkstyle_checkstyle-15187",
+      "PR_number": 15187,
+      "PR_createdAt": "2024-07-02T17:58:15Z",
+      "merge_commit": "15b5b73406f9ec8311625bb26baf8530ef8eca4d",
+      "buggy_commits": [
+        {
+          "oid": "947002a3d66557d7e62a5aee81c7de449ce5f168",
+          "message": "minor: updated until comment for verifyWithConfigParser method"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/checkstyle/checkstyle/issues/14950",
+        "createdAt": "2024-06-07T00:07:13Z",
+        "content": "bug_report_all/checkstyle_checkstyle-15187.json"
+      },
+      "changed_tests": [
+        "src/test/resources/com/puppycrawl/tools/checkstyle/checks/coding/unusedlocalvariable/InputUnusedLocalVariableNestedClasses7.java",
+        "src/test/resources/com/puppycrawl/tools/checkstyle/checks/coding/unusedlocalvariable/InputUnusedLocalVariableSwitchStatement.java",
+        "src/test/resources/com/puppycrawl/tools/checkstyle/checks/coding/unusedlocalvariable/InputUnusedLocalVariableSwitchStatement2.java",
+        "src/test/resources/com/puppycrawl/tools/checkstyle/checks/coding/unusedlocalvariable/InputUnusedLocalVariableTernaryAndExpressions.java",
+        "src/test/resources/com/puppycrawl/tools/checkstyle/checks/coding/unusedlocalvariable/InputUnusedLocalVariableTestWarningSeverity.java",
+        "src/xdocs-examples/java/com/puppycrawl/tools/checkstyle/checks/coding/UnusedLocalVariableCheckExamplesTest.java"
+      ],
+      "PR_url": "https://github.com/checkstyle/checkstyle/pull/15187",
+      "merge_commit_url": "https://github.com/checkstyle/checkstyle/commit/15b5b73406f9ec8311625bb26baf8530ef8eca4d",
+      "buggy_commit": "947002a3d66557d7e62a5aee81c7de449ce5f168"
+    },
+    "checkstyle_checkstyle-15199": {
+      "bug_id": "checkstyle_checkstyle-15199",
+      "PR_number": 15199,
+      "PR_createdAt": "2024-07-04T23:09:44Z",
+      "merge_commit": "74fbe9ab33fc53bfaea5029d7aede04f85fb4c6d",
+      "buggy_commits": [
+        {
+          "oid": "6315c4b1a26d345c6f2742ff931b4cfa19bf0860",
+          "message": "Issue #14979: New Check MissingNullCaseInSwitch"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/checkstyle/checkstyle/issues/14985",
+        "createdAt": "2024-06-13T22:50:17Z",
+        "content": "bug_report_all/checkstyle_checkstyle-15199.json"
+      },
+      "changed_tests": [
+        "src/test/resources-noncompilable/com/puppycrawl/tools/checkstyle/checks/coding/whenshouldbeused/InputWhenShouldBeUsedNonPatternsSwitch.java",
+        "src/test/resources-noncompilable/com/puppycrawl/tools/checkstyle/checks/coding/whenshouldbeused/InputWhenShouldBeUsedSwitchExpression.java",
+        "src/test/resources-noncompilable/com/puppycrawl/tools/checkstyle/checks/coding/whenshouldbeused/InputWhenShouldBeUsedSwitchRule.java",
+        "src/test/resources-noncompilable/com/puppycrawl/tools/checkstyle/checks/coding/whenshouldbeused/InputWhenShouldBeUsedSwitchStatements.java",
+        "src/xdocs-examples/java/com/puppycrawl/tools/checkstyle/checks/coding/WhenShouldBeUsedCheckExamplesTest.java"
+      ],
+      "PR_url": "https://github.com/checkstyle/checkstyle/pull/15199",
+      "merge_commit_url": "https://github.com/checkstyle/checkstyle/commit/74fbe9ab33fc53bfaea5029d7aede04f85fb4c6d",
+      "buggy_commit": "6315c4b1a26d345c6f2742ff931b4cfa19bf0860"
+    },
+    "checkstyle_checkstyle-15204": {
+      "bug_id": "checkstyle_checkstyle-15204",
+      "PR_number": 15204,
+      "PR_createdAt": "2024-07-06T00:08:55Z",
+      "merge_commit": "c323fe09bb1e20351538d58fc751deb5716145a8",
+      "buggy_commits": [
+        {
+          "oid": "5e14d63f0f33284c1d95d8254f0676bb4381a6da",
+          "message": "Issue #15214: Migrated section 4.8.4.2 Fall through commented to whole config testing"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/checkstyle/checkstyle/issues/12542",
+        "createdAt": "2022-12-18T20:45:27Z",
+        "content": "bug_report_all/checkstyle_checkstyle-15204.json"
+      },
+      "changed_tests": [
+        "src/test/java/com/puppycrawl/tools/checkstyle/TreeWalkerTest.java",
+        "src/test/resources-noncompilable/com/puppycrawl/tools/checkstyle/treewalker/InputTreeWalkerSkipParsingException.java",
+        "src/test/resources-noncompilable/com/puppycrawl/tools/checkstyle/treewalker/InputTreeWalkerSkipParsingException2.java",
+        "src/test/resources-noncompilable/com/puppycrawl/tools/checkstyle/treewalker/InputTreeWalkerSkipParsingExceptionConfigSeverityDefault.java",
+        "src/test/resources-noncompilable/com/puppycrawl/tools/checkstyle/treewalker/InputTreeWalkerSkipParsingExceptionConfigSeverityIgnore.java"
+      ],
+      "PR_url": "https://github.com/checkstyle/checkstyle/pull/15204",
+      "merge_commit_url": "https://github.com/checkstyle/checkstyle/commit/c323fe09bb1e20351538d58fc751deb5716145a8",
+      "buggy_commit": "5e14d63f0f33284c1d95d8254f0676bb4381a6da"
+    },
+    "checkstyle_checkstyle-15212": {
+      "bug_id": "checkstyle_checkstyle-15212",
+      "PR_number": 15212,
+      "PR_createdAt": "2024-07-08T15:50:53Z",
+      "merge_commit": "15de92ae48ddea70c478d948bf2258906eb34b74",
+      "buggy_commits": [
+        {
+          "oid": "c323fe09bb1e20351538d58fc751deb5716145a8",
+          "message": "Issue #12542: new TreeWlaker property to skip java parsing exceptions"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/checkstyle/checkstyle/issues/14805",
+        "createdAt": "2024-04-17T11:30:29Z",
+        "content": "bug_report_all/checkstyle_checkstyle-15212.json"
+      },
+      "changed_tests": [
+        "src/test/java/com/puppycrawl/tools/checkstyle/grammar/java21/Java21AstRegressionTest.java",
+        "src/test/java/com/puppycrawl/tools/checkstyle/utils/TokenUtilTest.java",
+        "src/test/resources-noncompilable/com/puppycrawl/tools/checkstyle/grammar/java21/InputStringTemplateBasic.java",
+        "src/test/resources-noncompilable/com/puppycrawl/tools/checkstyle/grammar/java21/InputStringTemplateBasicWithTabs.java",
+        "src/test/resources-noncompilable/com/puppycrawl/tools/checkstyle/grammar/java21/InputStringTemplateMultiLineWithComments.java",
+        "src/test/resources-noncompilable/com/puppycrawl/tools/checkstyle/grammar/java21/InputStringTemplateNested.java"
+      ],
+      "PR_url": "https://github.com/checkstyle/checkstyle/pull/15212",
+      "merge_commit_url": "https://github.com/checkstyle/checkstyle/commit/15de92ae48ddea70c478d948bf2258906eb34b74",
+      "buggy_commit": "c323fe09bb1e20351538d58fc751deb5716145a8"
+    },
+    "checkstyle_checkstyle-15213": {
+      "bug_id": "checkstyle_checkstyle-15213",
+      "PR_number": 15213,
+      "PR_createdAt": "2024-07-08T16:06:46Z",
+      "merge_commit": "a8de3e2428e9dbd80ff8bd9f9013765c31f4b4be",
+      "buggy_commits": [
+        {
+          "oid": "ecd14998d3a0f08f3962a1e5e11b29ae073b38ac",
+          "message": "dependency: bump com.github.spotbugs:spotbugs-maven-plugin\n\nBumps [com.github.spotbugs:spotbugs-maven-plugin](https://github.com/spotbugs/spotbugs-maven-plugin) from 4.8.6.1 to 4.8.6.2.\n- [Release notes](https://github.com/spotbugs/spotbugs-maven-plugin/releases)\n- [Commits](https://github.com/spotbugs/spotbugs-maven-plugin/compare/spotbugs-maven-plugin-4.8.6.1...spotbugs-maven-plugin-4.8.6.2)\n\n---\nupdated-dependencies:\n- dependency-name: com.github.spotbugs:spotbugs-maven-plugin\n  dependency-type: direct:production\n  update-type: version-update:semver-patch\n...\n\nSigned-off-by: dependabot[bot] <support@github.com>"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/checkstyle/checkstyle/issues/14937",
+        "createdAt": "2024-06-04T13:33:10Z",
+        "content": "bug_report_all/checkstyle_checkstyle-15213.json"
+      },
+      "changed_tests": [
+        "src/test/java/com/puppycrawl/tools/checkstyle/internal/XdocsPagesTest.java"
+      ],
+      "PR_url": "https://github.com/checkstyle/checkstyle/pull/15213",
+      "merge_commit_url": "https://github.com/checkstyle/checkstyle/commit/a8de3e2428e9dbd80ff8bd9f9013765c31f4b4be",
+      "buggy_commit": "ecd14998d3a0f08f3962a1e5e11b29ae073b38ac"
+    },
+    "checkstyle_checkstyle-15238": {
+      "bug_id": "checkstyle_checkstyle-15238",
+      "PR_number": 15238,
+      "PR_createdAt": "2024-07-12T16:22:22Z",
+      "merge_commit": "37a91b84ba455477f48adc04a87d7456e20188b7",
+      "buggy_commits": [
+        {
+          "oid": "ac90c9139ca0b13aa10b463d7fd8ff9d626f0ecc",
+          "message": "Issue #15218: Formatted the input file for section 4.8.2.1 One variable per line to follow google style guide rules"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/checkstyle/checkstyle/issues/15005",
+        "createdAt": "2024-06-16T22:59:13Z",
+        "content": "bug_report_all/checkstyle_checkstyle-15238.json"
+      },
+      "changed_tests": [
+        "src/test/java/com/puppycrawl/tools/checkstyle/checks/naming/PatternVariableNameCheckTest.java",
+        "src/test/resources-noncompilable/com/puppycrawl/tools/checkstyle/checks/naming/patternvariablename/InputPatternVariableNameRecordPattern.java"
+      ],
+      "PR_url": "https://github.com/checkstyle/checkstyle/pull/15238",
+      "merge_commit_url": "https://github.com/checkstyle/checkstyle/commit/37a91b84ba455477f48adc04a87d7456e20188b7",
+      "buggy_commit": "ac90c9139ca0b13aa10b463d7fd8ff9d626f0ecc"
+    },
+    "checkstyle_checkstyle-15244": {
+      "bug_id": "checkstyle_checkstyle-15244",
+      "PR_number": 15244,
+      "PR_createdAt": "2024-07-13T01:42:44Z",
+      "merge_commit": "7b9d1daf86fcfc7adf3036cc47da15a322c67e61",
+      "buggy_commits": [
+        {
+          "oid": "f56b01566d0341998d0cdaec65e43533b6f4760a",
+          "message": "Issue #15218: formatted input files for section 7.1.3 Block tags to follow google style guide rules"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/checkstyle/checkstyle/issues/14948",
+        "createdAt": "2024-06-06T09:29:41Z",
+        "content": "bug_report_all/checkstyle_checkstyle-15244.json"
+      },
+      "changed_tests": [
+        "src/test/java/com/puppycrawl/tools/checkstyle/checks/whitespace/ParenPadCheckTest.java",
+        "src/test/resources-noncompilable/com/puppycrawl/tools/checkstyle/checks/whitespace/parenpad/InputParenPadForRecordPattern.java",
+        "src/test/resources-noncompilable/com/puppycrawl/tools/checkstyle/checks/whitespace/parenpad/InputParenPadForRecordPatternWithSpaceOption.java"
+      ],
+      "PR_url": "https://github.com/checkstyle/checkstyle/pull/15244",
+      "merge_commit_url": "https://github.com/checkstyle/checkstyle/commit/7b9d1daf86fcfc7adf3036cc47da15a322c67e61",
+      "buggy_commit": "f56b01566d0341998d0cdaec65e43533b6f4760a"
+    },
+    "checkstyle_checkstyle-15250": {
+      "bug_id": "checkstyle_checkstyle-15250",
+      "PR_number": 15250,
+      "PR_createdAt": "2024-07-13T14:46:01Z",
+      "merge_commit": "d335962fa743408b6823236cd5c352eb7ea7965a",
+      "buggy_commits": [
+        {
+          "oid": "6fff4fa9b16a3bb03a92de004663096815227b29",
+          "message": "Issue #15218: formatted input file for section 4.8.8 numeric literals to follow google style guide rules"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/checkstyle/checkstyle/issues/15003",
+        "createdAt": "2024-06-16T22:49:08Z",
+        "content": "bug_report_all/checkstyle_checkstyle-15250.json"
+      },
+      "changed_tests": [
+        "src/test/java/com/puppycrawl/tools/checkstyle/checks/coding/UnnecessaryParenthesesCheckTest.java",
+        "src/test/resources-noncompilable/com/puppycrawl/tools/checkstyle/checks/coding/unnecessaryparentheses/InputUnnecessaryParenthesesCheckPatterns.java"
+      ],
+      "PR_url": "https://github.com/checkstyle/checkstyle/pull/15250",
+      "merge_commit_url": "https://github.com/checkstyle/checkstyle/commit/d335962fa743408b6823236cd5c352eb7ea7965a",
+      "buggy_commit": "6fff4fa9b16a3bb03a92de004663096815227b29"
+    },
+    "checkstyle_checkstyle-15251": {
+      "bug_id": "checkstyle_checkstyle-15251",
+      "PR_number": 15251,
+      "PR_createdAt": "2024-07-13T15:46:44Z",
+      "merge_commit": "67ac5448f65428fe335ea81933ab6b3f98a9be3c",
+      "buggy_commits": [
+        {
+          "oid": "37a91b84ba455477f48adc04a87d7456e20188b7",
+          "message": "Issue #15005: Add new input file for record pattern syntax in PatternVariableName"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/checkstyle/checkstyle/issues/14980",
+        "createdAt": "2024-06-12T17:08:14Z",
+        "content": "bug_report_all/checkstyle_checkstyle-15251.json"
+      },
+      "changed_tests": [
+        "src/test/java/com/puppycrawl/tools/checkstyle/checks/whitespace/ParenPadCheckTest.java",
+        "src/test/resources-noncompilable/com/puppycrawl/tools/checkstyle/checks/whitespace/parenpad/InputParenPadCheckWhenExpression.java"
+      ],
+      "PR_url": "https://github.com/checkstyle/checkstyle/pull/15251",
+      "merge_commit_url": "https://github.com/checkstyle/checkstyle/commit/67ac5448f65428fe335ea81933ab6b3f98a9be3c",
+      "buggy_commit": "37a91b84ba455477f48adc04a87d7456e20188b7"
+    },
+    "checkstyle_checkstyle-15271": {
+      "bug_id": "checkstyle_checkstyle-15271",
+      "PR_number": 15271,
+      "PR_createdAt": "2024-07-15T01:31:26Z",
+      "merge_commit": "1f939bc290344df1d3c9f5ebc5731f04fc750942",
+      "buggy_commits": [
+        {
+          "oid": "70b407066be6ea88c4ceb4b4bd01fe43bd768b3c",
+          "message": "Issue #15029: Update EmptyBlockCheck to Violate Empty Case Blocks with Arrow Syntax"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/checkstyle/checkstyle/issues/10971",
+        "createdAt": "2021-11-21T18:11:07Z",
+        "content": "bug_report_all/checkstyle_checkstyle-15271.json"
+      },
+      "changed_tests": [
+        "src/test/java/com/puppycrawl/tools/checkstyle/bdd/InlineConfigParser.java",
+        "src/xdocs-examples/java/com/puppycrawl/tools/checkstyle/checks/naming/PatternVariableNameCheckExamplesTest.java"
+      ],
+      "PR_url": "https://github.com/checkstyle/checkstyle/pull/15271",
+      "merge_commit_url": "https://github.com/checkstyle/checkstyle/commit/1f939bc290344df1d3c9f5ebc5731f04fc750942",
+      "buggy_commit": "70b407066be6ea88c4ceb4b4bd01fe43bd768b3c"
+    },
+    "checkstyle_checkstyle-15272": {
+      "bug_id": "checkstyle_checkstyle-15272",
+      "PR_number": 15272,
+      "PR_createdAt": "2024-07-15T13:17:38Z",
+      "merge_commit": "0f82f6820baffcd78ccd37c291c2692cb5d38c4d",
+      "buggy_commits": [
+        {
+          "oid": "eb6f9e5379c66d268b5cf4e77f758b9ec2fed656",
+          "message": "dependency: bump com.google.errorprone:error_prone_core\n\nBumps [com.google.errorprone:error_prone_core](https://github.com/google/error-prone) from 2.28.0 to 2.29.0.\n- [Release notes](https://github.com/google/error-prone/releases)\n- [Commits](https://github.com/google/error-prone/compare/v2.28.0...v2.29.0)\n\n---\nupdated-dependencies:\n- dependency-name: com.google.errorprone:error_prone_core\n  dependency-type: direct:production\n  update-type: version-update:semver-minor\n...\n\nSigned-off-by: dependabot[bot] <support@github.com>"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/checkstyle/checkstyle/issues/15039",
+        "createdAt": "2024-06-19T16:22:58Z",
+        "content": "bug_report_all/checkstyle_checkstyle-15272.json"
+      },
+      "changed_tests": [
+        "src/test/java/com/puppycrawl/tools/checkstyle/checks/coding/SimplifyBooleanExpressionCheckTest.java",
+        "src/test/resources-noncompilable/com/puppycrawl/tools/checkstyle/checks/coding/simplifybooleanexpression/InputSimplifyBooleanExpressionWithWhen.java"
+      ],
+      "PR_url": "https://github.com/checkstyle/checkstyle/pull/15272",
+      "merge_commit_url": "https://github.com/checkstyle/checkstyle/commit/0f82f6820baffcd78ccd37c291c2692cb5d38c4d",
+      "buggy_commit": "eb6f9e5379c66d268b5cf4e77f758b9ec2fed656"
+    },
+    "checkstyle_checkstyle-15273": {
+      "bug_id": "checkstyle_checkstyle-15273",
+      "PR_number": 15273,
+      "PR_createdAt": "2024-07-15T15:23:55Z",
+      "merge_commit": "70b407066be6ea88c4ceb4b4bd01fe43bd768b3c",
+      "buggy_commits": [
+        {
+          "oid": "4833ed569e8b6e31c485ab7b1e716f7365549b2e",
+          "message": "Issue #15214: migrated section 5.2.7 local variable names to whole config testing"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/checkstyle/checkstyle/issues/15029",
+        "createdAt": "2024-06-18T16:00:34Z",
+        "content": "bug_report_all/checkstyle_checkstyle-15273.json"
+      },
+      "changed_tests": [
+        "src/test/java/com/puppycrawl/tools/checkstyle/checks/blocks/EmptyBlockCheckTest.java",
+        "src/test/resources-noncompilable/com/puppycrawl/tools/checkstyle/checks/blocks/emptyblock/InputEmptyBlockCaseAndDefaultWithTextOption.java",
+        "src/test/resources-noncompilable/com/puppycrawl/tools/checkstyle/checks/blocks/emptyblock/InputEmptyBlockSwitchExpressions.java",
+        "src/xdocs-examples/java/com/puppycrawl/tools/checkstyle/checks/blocks/EmptyBlockCheckExamplesTest.java"
+      ],
+      "PR_url": "https://github.com/checkstyle/checkstyle/pull/15273",
+      "merge_commit_url": "https://github.com/checkstyle/checkstyle/commit/70b407066be6ea88c4ceb4b4bd01fe43bd768b3c",
+      "buggy_commit": "4833ed569e8b6e31c485ab7b1e716f7365549b2e"
+    },
+    "checkstyle_checkstyle-15298": {
+      "bug_id": "checkstyle_checkstyle-15298",
+      "PR_number": 15298,
+      "PR_createdAt": "2024-07-17T15:42:16Z",
+      "merge_commit": "e79351354e27fd3ba441624a993fd5a502c4a813",
+      "buggy_commits": [
+        {
+          "oid": "3294f65cc996275b9180e0ce31099b501fd79397",
+          "message": "Issue #15214: Migrated section 4.8.5.3 Methods and constructors annotations to whole config testing"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/checkstyle/checkstyle/issues/14972",
+        "createdAt": "2024-06-11T09:34:49Z",
+        "content": "bug_report_all/checkstyle_checkstyle-15298.json"
+      },
+      "changed_tests": [
+        "src/test/java/com/puppycrawl/tools/checkstyle/checks/coding/UnnecessaryParenthesesCheckTest.java",
+        "src/test/resources-noncompilable/com/puppycrawl/tools/checkstyle/checks/coding/unnecessaryparentheses/InputUnnecessaryParenthesesWhenExpressions.java"
+      ],
+      "PR_url": "https://github.com/checkstyle/checkstyle/pull/15298",
+      "merge_commit_url": "https://github.com/checkstyle/checkstyle/commit/e79351354e27fd3ba441624a993fd5a502c4a813",
+      "buggy_commit": "3294f65cc996275b9180e0ce31099b501fd79397"
+    },
+    "checkstyle_checkstyle-15304": {
+      "bug_id": "checkstyle_checkstyle-15304",
+      "PR_number": 15304,
+      "PR_createdAt": "2024-07-17T23:25:46Z",
+      "merge_commit": "869e86070b711f366ded908b3d98376103cfefd3",
+      "buggy_commits": [
+        {
+          "oid": "f1a36722c5038aa104f7be12486cf2d7edff37ee",
+          "message": "Issue #15214: migrated section 4.8.6.1 block comment style to whole config testing"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/checkstyle/checkstyle/issues/15025",
+        "createdAt": "2024-06-18T14:40:50Z",
+        "content": "bug_report_all/checkstyle_checkstyle-15304.json"
+      },
+      "changed_tests": [
+        "src/test/java/com/puppycrawl/tools/checkstyle/checks/whitespace/WhitespaceAfterCheckTest.java",
+        "src/test/resources-noncompilable/com/puppycrawl/tools/checkstyle/checks/whitespace/whitespaceafter/InputWhitespaceAfterLiteralWhen.java"
+      ],
+      "PR_url": "https://github.com/checkstyle/checkstyle/pull/15304",
+      "merge_commit_url": "https://github.com/checkstyle/checkstyle/commit/869e86070b711f366ded908b3d98376103cfefd3",
+      "buggy_commit": "f1a36722c5038aa104f7be12486cf2d7edff37ee"
+    },
+    "checkstyle_checkstyle-15311": {
+      "bug_id": "checkstyle_checkstyle-15311",
+      "PR_number": 15311,
+      "PR_createdAt": "2024-07-18T15:06:46Z",
+      "merge_commit": "b10a1bf0d165a506a684aa8e1f84f485769c4986",
+      "buggy_commits": [
+        {
+          "oid": "869e86070b711f366ded908b3d98376103cfefd3",
+          "message": "Issue #15025: Add support for LITERAL_WHEN in WhiteSpaceAfterCheck"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/checkstyle/checkstyle/issues/15027",
+        "createdAt": "2024-06-18T14:48:51Z",
+        "content": "bug_report_all/checkstyle_checkstyle-15311.json"
+      },
+      "changed_tests": [
+        "src/test/java/com/puppycrawl/tools/checkstyle/checks/whitespace/WhitespaceAroundCheckTest.java",
+        "src/test/resources-noncompilable/com/puppycrawl/tools/checkstyle/checks/whitespace/whitespacearound/InputWhitespaceAroundLiteralWhen.java"
+      ],
+      "PR_url": "https://github.com/checkstyle/checkstyle/pull/15311",
+      "merge_commit_url": "https://github.com/checkstyle/checkstyle/commit/b10a1bf0d165a506a684aa8e1f84f485769c4986",
+      "buggy_commit": "869e86070b711f366ded908b3d98376103cfefd3"
+    },
+    "checkstyle_checkstyle-15312": {
+      "bug_id": "checkstyle_checkstyle-15312",
+      "PR_number": 15312,
+      "PR_createdAt": "2024-07-18T16:08:49Z",
+      "merge_commit": "2a3f82a89fca0834f76a53318c5b691e12a4b58a",
+      "buggy_commits": [
+        {
+          "oid": "e79351354e27fd3ba441624a993fd5a502c4a813",
+          "message": "Issue #14972: Add new input file for when expressions in UnnecessaryParentheses"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/checkstyle/checkstyle/issues/15079",
+        "createdAt": "2024-06-21T01:50:55Z",
+        "content": "bug_report_all/checkstyle_checkstyle-15312.json"
+      },
+      "changed_tests": [
+        "src/test/java/com/puppycrawl/tools/checkstyle/checks/modifier/InterfaceMemberImpliedModifierCheckTest.java",
+        "src/test/resources-noncompilable/com/puppycrawl/tools/checkstyle/checks/modifier/interfacememberimpliedmodifier/InputInterfaceMemberImpliedModifierSealedClasses.java"
+      ],
+      "PR_url": "https://github.com/checkstyle/checkstyle/pull/15312",
+      "merge_commit_url": "https://github.com/checkstyle/checkstyle/commit/2a3f82a89fca0834f76a53318c5b691e12a4b58a",
+      "buggy_commit": "e79351354e27fd3ba441624a993fd5a502c4a813"
+    },
+    "checkstyle_checkstyle-15321": {
+      "bug_id": "checkstyle_checkstyle-15321",
+      "PR_number": 15321,
+      "PR_createdAt": "2024-07-19T11:18:30Z",
+      "merge_commit": "6f87a86f39b35e8c09d528e664b775943345560d",
+      "buggy_commits": [
+        {
+          "oid": "922834cc56736c3bcdcf59827d7d4e90a4b23bae",
+          "message": "supplemental: added if (k != null) k = ss; example to InputUseOfOptionalBraces.java"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/checkstyle/checkstyle/issues/15034",
+        "createdAt": "2024-06-19T13:23:32Z",
+        "content": "bug_report_all/checkstyle_checkstyle-15321.json"
+      },
+      "changed_tests": [
+        "src/test/java/com/puppycrawl/tools/checkstyle/checks/blocks/NeedBracesCheckTest.java",
+        "src/test/resources-noncompilable/com/puppycrawl/tools/checkstyle/checks/blocks/needbraces/InputNeedBracesPatternMatchingForSwitch.java",
+        "src/test/resources-noncompilable/com/puppycrawl/tools/checkstyle/checks/blocks/needbraces/InputNeedBracesPatternMatchingForSwitchAllowSingleLine.java"
+      ],
+      "PR_url": "https://github.com/checkstyle/checkstyle/pull/15321",
+      "merge_commit_url": "https://github.com/checkstyle/checkstyle/commit/6f87a86f39b35e8c09d528e664b775943345560d",
+      "buggy_commit": "922834cc56736c3bcdcf59827d7d4e90a4b23bae"
+    },
+    "checkstyle_checkstyle-15325": {
+      "bug_id": "checkstyle_checkstyle-15325",
+      "PR_number": 15325,
+      "PR_createdAt": "2024-07-20T01:02:57Z",
+      "merge_commit": "8a38d63af2ff442d908f594eb57b895abab327f0",
+      "buggy_commits": [
+        {
+          "oid": "0b0e6cd32577be7128a9441e92f047cf317ce120",
+          "message": "Issue #15218: formatted input file for section 7.1.1 General form to follow google style guide rules"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/checkstyle/checkstyle/issues/15060",
+        "createdAt": "2024-06-20T16:28:42Z",
+        "content": "bug_report_all/checkstyle_checkstyle-15325.json"
+      },
+      "changed_tests": [
+        "src/test/java/com/puppycrawl/tools/checkstyle/checks/annotation/AnnotationLocationCheckTest.java",
+        "src/test/resources-noncompilable/com/puppycrawl/tools/checkstyle/checks/annotation/annotationlocation/InputAnnotationLocationLocalAndPatternVariables.java"
+      ],
+      "PR_url": "https://github.com/checkstyle/checkstyle/pull/15325",
+      "merge_commit_url": "https://github.com/checkstyle/checkstyle/commit/8a38d63af2ff442d908f594eb57b895abab327f0",
+      "buggy_commit": "0b0e6cd32577be7128a9441e92f047cf317ce120"
+    },
+    "checkstyle_checkstyle-15326": {
+      "bug_id": "checkstyle_checkstyle-15326",
+      "PR_number": 15326,
+      "PR_createdAt": "2024-07-20T01:25:51Z",
+      "merge_commit": "f2e1f281c1a1af7a65720e610807dcfb06022618",
+      "buggy_commits": [
+        {
+          "oid": "8a38d63af2ff442d908f594eb57b895abab327f0",
+          "message": "Issue #15060: Add new input file for pattern variables in AnnotationLocationCheck"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/checkstyle/checkstyle/issues/15087",
+        "createdAt": "2024-06-21T15:02:51Z",
+        "content": "bug_report_all/checkstyle_checkstyle-15326.json"
+      },
+      "changed_tests": [
+        "src/test/java/com/puppycrawl/tools/checkstyle/checks/modifier/RedundantModifierCheckTest.java",
+        "src/test/resources-noncompilable/com/puppycrawl/tools/checkstyle/checks/modifier/redundantmodifier/InputRedundantModifierSealedClasses.java"
+      ],
+      "PR_url": "https://github.com/checkstyle/checkstyle/pull/15326",
+      "merge_commit_url": "https://github.com/checkstyle/checkstyle/commit/f2e1f281c1a1af7a65720e610807dcfb06022618",
+      "buggy_commit": "8a38d63af2ff442d908f594eb57b895abab327f0"
+    },
+    "checkstyle_checkstyle-15334": {
+      "bug_id": "checkstyle_checkstyle-15334",
+      "PR_number": 15334,
+      "PR_createdAt": "2024-07-21T00:35:38Z",
+      "merge_commit": "e6b282e33bea7a4be7a4577701875adff740febc",
+      "buggy_commits": [
+        {
+          "oid": "db72522f27cf29c67eb85ac62e872812e15d879e",
+          "message": "Issue #15297: Add new input for sealed class syntax in WhitespaceAroundCheck"
+        },
+        {
+          "oid": "ba84819e2ca5b75fa8dac855211f75fc1eee8db9",
+          "message": "Issue #15322: NeedBraces check should allow switch expressions with arrow syntax that directly yields a value"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/checkstyle/checkstyle/issues/15322",
+        "createdAt": "2024-07-19T12:58:58Z",
+        "content": "bug_report_all/checkstyle_checkstyle-15334.json"
+      },
+      "changed_tests": [
+        "src/test/java/com/puppycrawl/tools/checkstyle/checks/blocks/NeedBracesCheckTest.java",
+        "src/test/resources-noncompilable/com/puppycrawl/tools/checkstyle/checks/blocks/needbraces/InputNeedBracesPatternMatchingForSwitch.java",
+        "src/test/resources-noncompilable/com/puppycrawl/tools/checkstyle/checks/blocks/needbraces/InputNeedBracesPatternMatchingForSwitchAllowSingleLine.java",
+        "src/test/resources-noncompilable/com/puppycrawl/tools/checkstyle/checks/blocks/needbraces/InputNeedBracesSwitchLabeledExpression.java"
+      ],
+      "PR_url": "https://github.com/checkstyle/checkstyle/pull/15334",
+      "merge_commit_url": "https://github.com/checkstyle/checkstyle/commit/e6b282e33bea7a4be7a4577701875adff740febc",
+      "buggy_commit": "db72522f27cf29c67eb85ac62e872812e15d879e"
+    },
+    "checkstyle_checkstyle-15337": {
+      "bug_id": "checkstyle_checkstyle-15337",
+      "PR_number": 15337,
+      "PR_createdAt": "2024-07-21T18:50:57Z",
+      "merge_commit": "a3c1783c90371f582d853d2e1d490f1ff847e30e",
+      "buggy_commits": [
+        {
+          "oid": "b10a1bf0d165a506a684aa8e1f84f485769c4986",
+          "message": "Issue #15027: Add support for LITERAL_WHEN in whitespaceAroundCheck"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/checkstyle/checkstyle/issues/14975",
+        "createdAt": "2024-06-11T17:13:51Z",
+        "content": "bug_report_all/checkstyle_checkstyle-15337.json"
+      },
+      "changed_tests": [
+        "src/test/resources-noncompilable/com/puppycrawl/tools/checkstyle/checks/design/sealedshouldhavepermitslist/InputSealedShouldHavePermitsListInnerInterface.java",
+        "src/test/resources-noncompilable/com/puppycrawl/tools/checkstyle/checks/design/sealedshouldhavepermitslist/InputSealedShouldHavePermitsListJepExample.java",
+        "src/test/resources-noncompilable/com/puppycrawl/tools/checkstyle/checks/design/sealedshouldhavepermitslist/InputSealedShouldHavePermitsListTopLevelSealedClass.java",
+        "src/test/resources-noncompilable/com/puppycrawl/tools/checkstyle/checks/design/sealedshouldhavepermitslist/InputSealedShouldHavePermitsListTopLevelSealedInterface.java",
+        "src/xdocs-examples/java/com/puppycrawl/tools/checkstyle/checks/design/SealedShouldHavePermitsListCheckExamplesTest.java"
+      ],
+      "PR_url": "https://github.com/checkstyle/checkstyle/pull/15337",
+      "merge_commit_url": "https://github.com/checkstyle/checkstyle/commit/a3c1783c90371f582d853d2e1d490f1ff847e30e",
+      "buggy_commit": "b10a1bf0d165a506a684aa8e1f84f485769c4986"
+    },
+    "checkstyle_checkstyle-15341": {
+      "bug_id": "checkstyle_checkstyle-15341",
+      "PR_number": 15341,
+      "PR_createdAt": "2024-07-22T12:38:09Z",
+      "merge_commit": "cb31729fa5f203721de6721194437da031aaaa5a",
+      "buggy_commits": [
+        {
+          "oid": "db72522f27cf29c67eb85ac62e872812e15d879e",
+          "message": "Issue #15297: Add new input for sealed class syntax in WhitespaceAroundCheck"
+        },
+        {
+          "oid": "ecaace082b4842b6f7e77cc783a48680161bcab6",
+          "message": "Issue #15045: Add LITERAL_WHEN as decision point in CyclomaticComplexityCheck"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/checkstyle/checkstyle/issues/15045",
+        "createdAt": "2024-06-20T00:17:43Z",
+        "content": "bug_report_all/checkstyle_checkstyle-15341.json"
+      },
+      "changed_tests": [
+        "src/test/java/com/puppycrawl/tools/checkstyle/checks/metrics/CyclomaticComplexityCheckTest.java",
+        "src/test/resources-noncompilable/com/puppycrawl/tools/checkstyle/checks/metrics/cyclomaticcomplexity/InputCyclomaticComplexityWhenExpression.java",
+        "src/test/resources-noncompilable/com/puppycrawl/tools/checkstyle/checks/metrics/cyclomaticcomplexity/InputCyclomaticComplexityWhenSwitchAsSinglePoint.java"
+      ],
+      "PR_url": "https://github.com/checkstyle/checkstyle/pull/15341",
+      "merge_commit_url": "https://github.com/checkstyle/checkstyle/commit/cb31729fa5f203721de6721194437da031aaaa5a",
+      "buggy_commit": "db72522f27cf29c67eb85ac62e872812e15d879e"
+    },
+    "checkstyle_checkstyle-15342": {
+      "bug_id": "checkstyle_checkstyle-15342",
+      "PR_number": 15342,
+      "PR_createdAt": "2024-07-22T12:59:38Z",
+      "merge_commit": "7e69fe03a0786b2b7e3030c1c798456b7642b0cd",
+      "buggy_commits": [
+        {
+          "oid": "4c955190163b6716d775f159b77d811d3adf380c",
+          "message": "Issue #15214: Migrated section 4.8.7 Modifiers to whole config testing"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/checkstyle/checkstyle/issues/15044",
+        "createdAt": "2024-06-19T23:51:37Z",
+        "content": "bug_report_all/checkstyle_checkstyle-15342.json"
+      },
+      "changed_tests": [
+        "src/test/java/com/puppycrawl/tools/checkstyle/checks/metrics/BooleanExpressionComplexityCheckTest.java",
+        "src/test/resources-noncompilable/com/puppycrawl/tools/checkstyle/checks/metrics/booleanexpressioncomplexity/InputBooleanExpressionComplexityWhenExpression.java"
+      ],
+      "PR_url": "https://github.com/checkstyle/checkstyle/pull/15342",
+      "merge_commit_url": "https://github.com/checkstyle/checkstyle/commit/7e69fe03a0786b2b7e3030c1c798456b7642b0cd",
+      "buggy_commit": "4c955190163b6716d775f159b77d811d3adf380c"
+    },
+    "checkstyle_checkstyle-15345": {
+      "bug_id": "checkstyle_checkstyle-15345",
+      "PR_number": 15345,
+      "PR_createdAt": "2024-07-23T16:43:07Z",
+      "merge_commit": "dadffe78dd7f303bd889cbd7ec65b5b32bd881ae",
+      "buggy_commits": [
+        {
+          "oid": "7e69fe03a0786b2b7e3030c1c798456b7642b0cd",
+          "message": "Issue #15044: Add new input file for when expressions in BooleanExpressionComplexityCheck"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/checkstyle/checkstyle/issues/15038",
+        "createdAt": "2024-06-19T16:11:49Z",
+        "content": "bug_report_all/checkstyle_checkstyle-15345.json"
+      },
+      "changed_tests": [
+        "src/test/java/com/puppycrawl/tools/checkstyle/checks/coding/FallThroughCheckTest.java",
+        "src/test/resources-noncompilable/com/puppycrawl/tools/checkstyle/checks/coding/fallthrough/InputFallThroughWithPatternMatching.java",
+        "src/test/resources-noncompilable/com/puppycrawl/tools/checkstyle/checks/coding/fallthrough/InputFallThroughWithPatternMatchingCheckLastCase.java"
+      ],
+      "PR_url": "https://github.com/checkstyle/checkstyle/pull/15345",
+      "merge_commit_url": "https://github.com/checkstyle/checkstyle/commit/dadffe78dd7f303bd889cbd7ec65b5b32bd881ae",
+      "buggy_commit": "7e69fe03a0786b2b7e3030c1c798456b7642b0cd"
+    },
+    "checkstyle_checkstyle-15358": {
+      "bug_id": "checkstyle_checkstyle-15358",
+      "PR_number": 15358,
+      "PR_createdAt": "2024-07-24T14:35:20Z",
+      "merge_commit": "5bb80b9bc5b3b826044cb57c775ef27c82db583b",
+      "buggy_commits": [
+        {
+          "oid": "db72522f27cf29c67eb85ac62e872812e15d879e",
+          "message": "Issue #15297: Add new input for sealed class syntax in WhitespaceAroundCheck"
+        },
+        {
+          "oid": "f7569ef9ad641ec2fb167e8e5f27d938b77c7ca4",
+          "message": "Issue #15058: New Check UnusedCatchParameterShouldBeUnnamed"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/checkstyle/checkstyle/issues/15058",
+        "createdAt": "2024-06-20T14:58:32Z",
+        "content": "bug_report_all/checkstyle_checkstyle-15358.json"
+      },
+      "changed_tests": [
+        "src/test/java/com/puppycrawl/tools/checkstyle/meta/XmlMetaReaderTest.java",
+        "src/test/resources-noncompilable/com/puppycrawl/tools/checkstyle/checks/coding/unusedcatchparametershouldbeunnamed/InputUnusedCatchParameterShouldBeUnnamed.java",
+        "src/test/resources-noncompilable/com/puppycrawl/tools/checkstyle/checks/coding/unusedcatchparametershouldbeunnamed/InputUnusedCatchParameterShouldBeUnnamedNested.java",
+        "src/test/resources-noncompilable/com/puppycrawl/tools/checkstyle/checks/coding/unusedcatchparametershouldbeunnamed/InputUnusedCatchParameterShouldBeUnnamedWithResourceAndFinally.java",
+        "src/xdocs-examples/java/com/puppycrawl/tools/checkstyle/checks/coding/UnusedCatchParameterShouldBeUnnamedCheckExamplesTest.java"
+      ],
+      "PR_url": "https://github.com/checkstyle/checkstyle/pull/15358",
+      "merge_commit_url": "https://github.com/checkstyle/checkstyle/commit/5bb80b9bc5b3b826044cb57c775ef27c82db583b",
+      "buggy_commit": "db72522f27cf29c67eb85ac62e872812e15d879e"
+    },
+    "checkstyle_checkstyle-15376": {
+      "bug_id": "checkstyle_checkstyle-15376",
+      "PR_number": 15376,
+      "PR_createdAt": "2024-07-26T13:15:35Z",
+      "merge_commit": "83681cda09e0841723354ed72ecd3f6580c2fab8",
+      "buggy_commits": [
+        {
+          "oid": "db72522f27cf29c67eb85ac62e872812e15d879e",
+          "message": "Issue #15297: Add new input for sealed class syntax in WhitespaceAroundCheck"
+        },
+        {
+          "oid": "526a794a2a30569e82d0aeb5721841f59594eb8b",
+          "message": "Issue #10798: New property to violate strictfp as redundant modifier on java 17 or later"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/checkstyle/checkstyle/issues/10798",
+        "createdAt": "2021-09-14T20:40:53Z",
+        "content": "bug_report_all/checkstyle_checkstyle-15376.json"
+      },
+      "changed_tests": [
+        "src/test/resources-noncompilable/com/puppycrawl/tools/checkstyle/checks/modifier/redundantmodifier/InputRedundantModifierStrictfpWithJava17.java",
+        "src/test/resources-noncompilable/com/puppycrawl/tools/checkstyle/checks/modifier/redundantmodifier/InputRedundantModifierStrictfpWithOldVersion.java",
+        "src/test/resources/com/puppycrawl/tools/checkstyle/checks/modifier/redundantmodifier/InputRedundantModifierIt.java",
+        "src/test/resources/com/puppycrawl/tools/checkstyle/checks/modifier/redundantmodifier/InputRedundantModifierNestedDef.java",
+        "src/xdocs-examples/java/com/puppycrawl/tools/checkstyle/checks/modifier/RedundantModifierCheckExamplesTest.java"
+      ],
+      "PR_url": "https://github.com/checkstyle/checkstyle/pull/15376",
+      "merge_commit_url": "https://github.com/checkstyle/checkstyle/commit/83681cda09e0841723354ed72ecd3f6580c2fab8",
+      "buggy_commit": "db72522f27cf29c67eb85ac62e872812e15d879e"
+    },
+    "checkstyle_checkstyle-15396": {
+      "bug_id": "checkstyle_checkstyle-15396",
+      "PR_number": 15396,
+      "PR_createdAt": "2024-07-27T16:33:00Z",
+      "merge_commit": "db72522f27cf29c67eb85ac62e872812e15d879e",
+      "buggy_commits": [
+        {
+          "oid": "7084c2ea3166b2dd50fcaa5a8fb5d23abae21853",
+          "message": "Issue #15214: migrated section 4.8.4.1 Indentation to follow whole config testing"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/checkstyle/checkstyle/issues/15297",
+        "createdAt": "2024-07-17T14:32:54Z",
+        "content": "bug_report_all/checkstyle_checkstyle-15396.json"
+      },
+      "changed_tests": [
+        "src/test/java/com/puppycrawl/tools/checkstyle/checks/whitespace/WhitespaceAroundCheckTest.java",
+        "src/test/resources-noncompilable/com/puppycrawl/tools/checkstyle/checks/whitespace/whitespacearound/InputWhitespaceAroundAfterPermitsList.java"
+      ],
+      "PR_url": "https://github.com/checkstyle/checkstyle/pull/15396",
+      "merge_commit_url": "https://github.com/checkstyle/checkstyle/commit/db72522f27cf29c67eb85ac62e872812e15d879e",
+      "buggy_commit": "7084c2ea3166b2dd50fcaa5a8fb5d23abae21853"
+    }
+  }
+}
