@@ -15,9 +15,9 @@ As of July 1st, 2024:
 | fastjson | 1 | 0 |
 | nacos | 6 | 0 | 
 | dubbo | 1 | 0 |
-| rocketmq | 27 | 0 | 
+| rocketmq | 28 | 0 | 
 | assertj | 4 | 0 |
-| checkstyle | 20 | 1 |
+| checkstyle | 21 | 1 |
 | jackson-core | 3 | 0 |
 | jackson-databind | 7 | 0 |
 | jackson-dataformat-xml | 1 | 0 |

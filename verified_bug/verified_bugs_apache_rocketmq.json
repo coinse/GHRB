@@ -885,5 +885,36 @@
         ".org.apache.rocketmq.broker.processor.PopMessageProcessorTest.java"
       ]
     }
+  },
+  "apache_rocketmq-8585": {
+    "bug_id": "apache_rocketmq-8585",
+    "PR_number": 8585,
+    "PR_createdAt": "2024-08-27T09:46:11Z",
+    "merge_commit": "720c87e85dd95be8e56166a7f00c652ce0f1d458",
+    "buggy_commits": [
+      {
+        "oid": "71ec1eda49277a47815159cd3d118854c8dcb3c4",
+        "message": "[ISSUE #8483] Optimize unnecessary broker reverse notification (notifyConsumerIdsChanged) in broadcast mode (#8484)\n\n* [ISSUE #8483] Optimize unnecessary broker reverse notification (notifyConsumerIdsChanged) in broadcast mode\r\n\r\n* Update\r\n\r\n* Update test\r\n\r\n* Update test"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/apache/rocketmq/issues/8584",
+      "createdAt": "2024-08-27T09:45:27Z",
+      "content": "bug_report_all/apache_rocketmq-8585.json"
+    },
+    "changed_tests": [
+      "client/src/test/java/org/apache/rocketmq/client/impl/consumer/DefaultMQPushConsumerImplTest.java"
+    ],
+    "PR_url": "https://github.com/apache/rocketmq/pull/8585",
+    "merge_commit_url": "https://github.com/apache/rocketmq/commit/720c87e85dd95be8e56166a7f00c652ce0f1d458",
+    "buggy_commit": "71ec1eda49277a47815159cd3d118854c8dcb3c4",
+    "execution_result": {
+      "valid_tests": [
+        ".org.apache.rocketmq.client.impl.consumer.DefaultMQPushConsumerImplTest.java"
+      ],
+      "success_tests": [
+        ".org.apache.rocketmq.client.impl.consumer.DefaultMQPushConsumerImplTest.java"
+      ]
+    }
   }
 }

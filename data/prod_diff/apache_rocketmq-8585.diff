@@ -1,0 +1,39 @@
+diff --git a/client/src/main/java/org/apache/rocketmq/client/consumer/DefaultMQPullConsumer.java b/client/src/main/java/org/apache/rocketmq/client/consumer/DefaultMQPullConsumer.java
+index 089fd39b3..7c9a65ecd 100644
+--- a/client/src/main/java/org/apache/rocketmq/client/consumer/DefaultMQPullConsumer.java
++++ b/client/src/main/java/org/apache/rocketmq/client/consumer/DefaultMQPullConsumer.java
+@@ -262,7 +262,7 @@ public class DefaultMQPullConsumer extends ClientConfig implements MQPullConsume
+     public void sendMessageBack(MessageExt msg, int delayLevel)
+         throws RemotingException, MQBrokerException, InterruptedException, MQClientException {
+         msg.setTopic(withNamespace(msg.getTopic()));
+-        this.defaultMQPullConsumerImpl.sendMessageBack(msg, delayLevel, null);
++        this.defaultMQPullConsumerImpl.sendMessageBack(msg, delayLevel, msg.getBrokerName());
+     }
+ 
+     /**
+diff --git a/client/src/main/java/org/apache/rocketmq/client/consumer/DefaultMQPushConsumer.java b/client/src/main/java/org/apache/rocketmq/client/consumer/DefaultMQPushConsumer.java
+index 94785c697..5df5cc8fa 100644
+--- a/client/src/main/java/org/apache/rocketmq/client/consumer/DefaultMQPushConsumer.java
++++ b/client/src/main/java/org/apache/rocketmq/client/consumer/DefaultMQPushConsumer.java
+@@ -688,7 +688,7 @@ public class DefaultMQPushConsumer extends ClientConfig implements MQPushConsume
+     public void sendMessageBack(MessageExt msg, int delayLevel)
+         throws RemotingException, MQBrokerException, InterruptedException, MQClientException {
+         msg.setTopic(withNamespace(msg.getTopic()));
+-        this.defaultMQPushConsumerImpl.sendMessageBack(msg, delayLevel, (String) null);
++        this.defaultMQPushConsumerImpl.sendMessageBack(msg, delayLevel, msg.getBrokerName());
+     }
+ 
+     /**
+diff --git a/client/src/main/java/org/apache/rocketmq/client/impl/consumer/DefaultMQPushConsumerImpl.java b/client/src/main/java/org/apache/rocketmq/client/impl/consumer/DefaultMQPushConsumerImpl.java
+index 0fef8666c..c92cadf50 100644
+--- a/client/src/main/java/org/apache/rocketmq/client/impl/consumer/DefaultMQPushConsumerImpl.java
++++ b/client/src/main/java/org/apache/rocketmq/client/impl/consumer/DefaultMQPushConsumerImpl.java
+@@ -752,7 +752,7 @@ public class DefaultMQPushConsumerImpl implements MQConsumerInner {
+ 
+     public void sendMessageBack(MessageExt msg, int delayLevel, final MessageQueue mq)
+             throws RemotingException, MQBrokerException, InterruptedException, MQClientException {
+-        sendMessageBack(msg, delayLevel, null, mq);
++        sendMessageBack(msg, delayLevel, msg.getBrokerName(), mq);
+     }
+ 
+ 
