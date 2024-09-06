@@ -712,7 +712,6 @@ if __name__ == '__main__':
     #print(report_test_mappings)
     fetch_test_diff(report_test_mappings)
     fetch_prod_diff(report_test_mappings)
-    # exit(0)
 
     projects = report_test_mappings.keys()
 

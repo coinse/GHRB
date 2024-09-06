@@ -1,0 +1,17 @@
+diff --git a/client/src/test/java/org/apache/rocketmq/client/impl/consumer/DefaultMQPushConsumerImplTest.java b/client/src/test/java/org/apache/rocketmq/client/impl/consumer/DefaultMQPushConsumerImplTest.java
+index 68563c025..2bc9c5a18 100644
+--- a/client/src/test/java/org/apache/rocketmq/client/impl/consumer/DefaultMQPushConsumerImplTest.java
++++ b/client/src/test/java/org/apache/rocketmq/client/impl/consumer/DefaultMQPushConsumerImplTest.java
+@@ -651,10 +651,11 @@ public class DefaultMQPushConsumerImplTest {
+ 
+     @Test
+     public void testSendMessageBack() throws InterruptedException, MQClientException, MQBrokerException, RemotingException {
++        when(mQClientFactory.findBrokerAddressInPublish(anyString())).thenReturn(defaultBrokerAddr);
+         defaultMQPushConsumerImpl.sendMessageBack(createMessageExt(), 1, createMessageQueue());
+         verify(mqClientAPIImpl).consumerSendMessageBack(
+                 eq(defaultBrokerAddr),
+-                any(),
++                eq(defaultBroker),
+                 any(MessageExt.class),
+                 any(),
+                 eq(1),

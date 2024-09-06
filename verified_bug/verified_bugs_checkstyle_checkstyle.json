@@ -687,5 +687,38 @@
         ".com.puppycrawl.tools.checkstyle.checks.naming.PatternVariableNameCheckTest.java"
       ]
     }
+  },
+  "checkstyle_checkstyle-15492": {
+    "bug_id": "checkstyle_checkstyle-15492",
+    "PR_number": 15492,
+    "PR_createdAt": "2024-08-12T19:49:02Z",
+    "merge_commit": "d010bda6ac30f93fa73ec6e4495442fdaaf98c16",
+    "buggy_commits": [
+      {
+        "oid": "d32c27b87650da899104201a82b5220ed6c4234a",
+        "message": "dependency: bump nl.jqno.equalsverifier:equalsverifier\n\nBumps [nl.jqno.equalsverifier:equalsverifier](https://github.com/jqno/equalsverifier) from 3.16.1 to 3.16.2.\n- [Release notes](https://github.com/jqno/equalsverifier/releases)\n- [Changelog](https://github.com/jqno/equalsverifier/blob/main/CHANGELOG.md)\n- [Commits](https://github.com/jqno/equalsverifier/compare/equalsverifier-3.16.1...equalsverifier-3.16.2)\n\n---\nupdated-dependencies:\n- dependency-name: nl.jqno.equalsverifier:equalsverifier\n  dependency-type: direct:development\n  update-type: version-update:semver-patch\n...\n\nSigned-off-by: dependabot[bot] <support@github.com>"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/checkstyle/checkstyle/issues/15159",
+      "createdAt": "2024-06-28T14:04:59Z",
+      "content": "bug_report_all/checkstyle_checkstyle-15492.json"
+    },
+    "changed_tests": [
+      "src/test/java/com/puppycrawl/tools/checkstyle/checks/modifier/RedundantModifierCheckTest.java",
+      "src/test/resources-noncompilable/com/puppycrawl/tools/checkstyle/checks/modifier/redundantmodifier/InputRedundantModifierFinalUnnamedVariables.java",
+      "src/test/resources-noncompilable/com/puppycrawl/tools/checkstyle/checks/modifier/redundantmodifier/InputRedundantModifierFinalUnnamedVariablesWithOldVersion.java"
+    ],
+    "PR_url": "https://github.com/checkstyle/checkstyle/pull/15492",
+    "merge_commit_url": "https://github.com/checkstyle/checkstyle/commit/d010bda6ac30f93fa73ec6e4495442fdaaf98c16",
+    "buggy_commit": "d32c27b87650da899104201a82b5220ed6c4234a",
+    "execution_result": {
+      "valid_tests": [
+        ".com.puppycrawl.tools.checkstyle.checks.modifier.RedundantModifierCheckTest.java"
+      ],
+      "success_tests": [
+        ".com.puppycrawl.tools.checkstyle.checks.modifier.RedundantModifierCheckTest.java"
+      ]
+    }
   }
 }

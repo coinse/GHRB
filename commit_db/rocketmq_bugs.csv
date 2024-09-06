@@ -26,3 +26,4 @@ bug_id,revision.id.buggy,revision.id.fixed,report.id,report.url
 25,0f0324a7dd9b2e994aeb4a4f5c8631f8465daae5,d05ff5ef6871839fc202612136bb21a24e67998a,apache_rocketmq-8099,https://github.com/apache/rocketmq/issues/8098
 26,4be8fd43720c8635fe135404a7fd000c00bb2a15,d60198f621baac54bffb981d7a797a04dfa0bb5a,apache_rocketmq-8240,https://github.com/apache/rocketmq/issues/8239
 27,86d59d2485b5fed162db3743e11c0902de3e34ad,8341c13d064c96e9ef70da4fcf17e49d3e1847f9,apache_rocketmq-8404,https://github.com/apache/rocketmq/issues/8402
+28,71ec1eda49277a47815159cd3d118854c8dcb3c4,720c87e85dd95be8e56166a7f00c652ce0f1d458,apache_rocketmq-8585,https://github.com/apache/rocketmq/issues/8584
