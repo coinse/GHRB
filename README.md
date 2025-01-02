@@ -155,7 +155,7 @@ The current script is specifically designed for the automated pipeline for maint
 
 ## Maintenance
 
-The current workflow is implemented to collect new reproducible bugs from the existing repositories at first day of each month.
+~~The current workflow is implemented to collect new reproducible bugs from the existing repositories at first day of each month.~~
 
 ## Publication
 

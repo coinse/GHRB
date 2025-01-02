@@ -25,7 +25,7 @@ jobs:
       id: script
       run: |
         current_date=$(date -u "+%Y-%m-%d")
-        previous_date=$(date -u -d "$current_date" -d "last month" "+%Y-%m-%d")
+        previous_date=$(date -u -d "$current_date" -d "6 months ago" "+%Y-%m-%d")
         o_list=$(python collect_raw_data.py -t ${{ secrets.GITHUB_TOKEN }} -f data/existing_repos.json -d $previous_date -e)
         echo $o_list >> body_1.txt
 
