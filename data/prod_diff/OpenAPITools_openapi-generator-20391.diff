@@ -1,0 +1,27 @@
+diff --git a/modules/openapi-generator/src/main/java/org/openapitools/codegen/DefaultCodegen.java b/modules/openapi-generator/src/main/java/org/openapitools/codegen/DefaultCodegen.java
+index a015dee2a21b..f1308e2b7e7d 100644
+--- a/modules/openapi-generator/src/main/java/org/openapitools/codegen/DefaultCodegen.java
++++ b/modules/openapi-generator/src/main/java/org/openapitools/codegen/DefaultCodegen.java
+@@ -6524,6 +6524,9 @@ public class DefaultCodegen implements CodegenConfig {
+             // input.name => input_name
+             modifiable = this.sanitizeValue(modifiable, "\\.", "_", exceptions);
+ 
++            // input:name => input_name
++            modifiable = this.sanitizeValue(modifiable, ":", "_", exceptions);
++
+             // input-name => input_name
+             modifiable = this.sanitizeValue(modifiable, "-", "_", exceptions);
+ 
+diff --git a/modules/openapi-generator/src/main/java/org/openapitools/codegen/languages/CrystalClientCodegen.java b/modules/openapi-generator/src/main/java/org/openapitools/codegen/languages/CrystalClientCodegen.java
+index 684df587ffb5..422866c16b23 100644
+--- a/modules/openapi-generator/src/main/java/org/openapitools/codegen/languages/CrystalClientCodegen.java
++++ b/modules/openapi-generator/src/main/java/org/openapitools/codegen/languages/CrystalClientCodegen.java
+@@ -405,7 +405,7 @@ public class CrystalClientCodegen extends DefaultCodegen {
+         String[] parts = modelName.split("::");
+         ArrayList<String> new_parts = new ArrayList<String>();
+         for (String part : parts) {
+-            new_parts.add(sanitizeName(part));
++            new_parts.add(sanitizeName(part, "\\W", new ArrayList<>(List.of(":"))));
+         }
+         return String.join("::", new_parts);
+     }

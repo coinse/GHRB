@@ -1,0 +1,13 @@
+diff --git a/modules/openapi-generator/src/main/java/org/openapitools/codegen/languages/TypeScriptFetchClientCodegen.java b/modules/openapi-generator/src/main/java/org/openapitools/codegen/languages/TypeScriptFetchClientCodegen.java
+index 875c881a3970..69a0f3e80317 100644
+--- a/modules/openapi-generator/src/main/java/org/openapitools/codegen/languages/TypeScriptFetchClientCodegen.java
++++ b/modules/openapi-generator/src/main/java/org/openapitools/codegen/languages/TypeScriptFetchClientCodegen.java
+@@ -477,7 +477,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
+                 HashMap<String, String> tsImport = new HashMap<>();
+                 // TVG: This is used as class name in the import statements of the model file
+                 tsImport.put("classname", im);
+-                tsImport.put("filename", toModelFilename(im));
++                tsImport.put("filename", convertUsingFileNamingConvention(im));
+                 tsImports.add(tsImport);
+             }
+         }

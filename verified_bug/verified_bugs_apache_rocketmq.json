@@ -916,5 +916,225 @@
         ".org.apache.rocketmq.client.impl.consumer.DefaultMQPushConsumerImplTest.java"
       ]
     }
+  },
+  "apache_rocketmq-8484": {
+    "bug_id": "apache_rocketmq-8484",
+    "PR_number": 8484,
+    "PR_createdAt": "2024-08-03T02:37:46Z",
+    "merge_commit": "71ec1eda49277a47815159cd3d118854c8dcb3c4",
+    "buggy_commits": [
+      {
+        "oid": "e5e38396ba32293b3bd40a5a40ff402d42dce928",
+        "message": "[ISSUE #8591] Preliminary support for key commands of LMQ (#8590)\n\n* Preliminary support for key commands of LMQ\r\n\r\n* Preliminary support for key commands of LMQ\r\n\r\n* Optimize some code\r\n\r\n* Fix some bugs and UTs for lmq support\r\n\r\n* Fix UTs can not pass\r\n\r\n* Fix UTs can not pass\r\n\r\n* Add some check to prevent NPE"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/apache/rocketmq/issues/8483",
+      "createdAt": "2024-08-03T02:25:47Z",
+      "content": "bug_report_all/apache_rocketmq-8484.json"
+    },
+    "changed_tests": [
+      "broker/src/test/java/org/apache/rocketmq/broker/client/ConsumerManagerTest.java"
+    ],
+    "PR_url": "https://github.com/apache/rocketmq/pull/8484",
+    "merge_commit_url": "https://github.com/apache/rocketmq/commit/71ec1eda49277a47815159cd3d118854c8dcb3c4",
+    "buggy_commit": "e5e38396ba32293b3bd40a5a40ff402d42dce928",
+    "execution_result": {
+      "valid_tests": [
+        ".org.apache.rocketmq.broker.client.ConsumerManagerTest.java"
+      ],
+      "success_tests": [
+        ".org.apache.rocketmq.broker.client.ConsumerManagerTest.java"
+      ]
+    }
+  },
+  "apache_rocketmq-8654": {
+    "bug_id": "apache_rocketmq-8654",
+    "PR_number": 8654,
+    "PR_createdAt": "2024-09-06T03:45:08Z",
+    "merge_commit": "587e9767e93ed7734dac4cf2b2d64d61529128f1",
+    "buggy_commits": [
+      {
+        "oid": "e7eda2c95763a79921f39627e6a0fcbf3b8442c6",
+        "message": "[ISSUE #8668] Improve CI pipeline reliability with better log viewing and test fixes (#8667)\n\n* Add sleep 3s after consumer shutdown to ensure queue rebanlance\r\n\r\n* Add a step to upload test report\r\n\r\n* Unified code style\r\n\r\n* Unified mockito runner configuration to suppress UnnecessaryStubbingException"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/apache/rocketmq/issues/8653",
+      "createdAt": "2024-09-06T02:46:02Z",
+      "content": "bug_report_all/apache_rocketmq-8654.json"
+    },
+    "changed_tests": [
+      "tieredstore/src/test/java/org/apache/rocketmq/tieredstore/index/IndexStoreServiceTest.java"
+    ],
+    "PR_url": "https://github.com/apache/rocketmq/pull/8654",
+    "merge_commit_url": "https://github.com/apache/rocketmq/commit/587e9767e93ed7734dac4cf2b2d64d61529128f1",
+    "buggy_commit": "e7eda2c95763a79921f39627e6a0fcbf3b8442c6",
+    "execution_result": {
+      "valid_tests": [
+        ".org.apache.rocketmq.tieredstore.index.IndexStoreServiceTest.java"
+      ],
+      "success_tests": [
+        ".org.apache.rocketmq.tieredstore.index.IndexStoreServiceTest.java"
+      ]
+    }
+  },
+  "apache_rocketmq-8766": {
+    "bug_id": "apache_rocketmq-8766",
+    "PR_number": 8766,
+    "PR_createdAt": "2024-09-27T09:09:33Z",
+    "merge_commit": "ae7179d75e11f469d68be05fbf556fde42c8a795",
+    "buggy_commits": [
+      {
+        "oid": "78575af0b8ddd409ea71facceb87c144951269ae",
+        "message": "[ISSUE #8935] Fix behind metrics unit error in timer message store (#8936)"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/apache/rocketmq/issues/8765",
+      "createdAt": "2024-09-27T08:59:30Z",
+      "content": "bug_report_all/apache_rocketmq-8766.json"
+    },
+    "changed_tests": [
+      "store/src/test/java/org/apache/rocketmq/store/queue/RocksDBConsumeQueueTest.java"
+    ],
+    "PR_url": "https://github.com/apache/rocketmq/pull/8766",
+    "merge_commit_url": "https://github.com/apache/rocketmq/commit/ae7179d75e11f469d68be05fbf556fde42c8a795",
+    "buggy_commit": "78575af0b8ddd409ea71facceb87c144951269ae",
+    "execution_result": {
+      "valid_tests": [
+        ".org.apache.rocketmq.store.queue.RocksDBConsumeQueueTest.java"
+      ],
+      "success_tests": [
+        ".org.apache.rocketmq.store.queue.RocksDBConsumeQueueTest.java"
+      ]
+    }
+  },
+  "apache_rocketmq-8807": {
+    "bug_id": "apache_rocketmq-8807",
+    "PR_number": 8807,
+    "PR_createdAt": "2024-10-10T12:33:20Z",
+    "merge_commit": "11f0002a3c85ae449d72f911b03b7b74e275b265",
+    "buggy_commits": [
+      {
+        "oid": "e75554d5a8b7708d5a8a5ae9bd723b614f8adf7c",
+        "message": "[ISSUE #8804] clean offset when remove group offset"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/apache/rocketmq/issues/8806",
+      "createdAt": "2024-10-10T09:00:40Z",
+      "content": "bug_report_all/apache_rocketmq-8807.json"
+    },
+    "changed_tests": [
+      "client/src/test/java/org/apache/rocketmq/client/producer/DefaultMQProducerTest.java"
+    ],
+    "PR_url": "https://github.com/apache/rocketmq/pull/8807",
+    "merge_commit_url": "https://github.com/apache/rocketmq/commit/11f0002a3c85ae449d72f911b03b7b74e275b265",
+    "buggy_commit": "e75554d5a8b7708d5a8a5ae9bd723b614f8adf7c",
+    "execution_result": {
+      "valid_tests": [
+        ".org.apache.rocketmq.client.producer.DefaultMQProducerTest.java"
+      ],
+      "success_tests": [
+        ".org.apache.rocketmq.client.producer.DefaultMQProducerTest.java"
+      ]
+    }
+  },
+  "apache_rocketmq-8986": {
+    "bug_id": "apache_rocketmq-8986",
+    "PR_number": 8986,
+    "PR_createdAt": "2024-11-26T03:22:37Z",
+    "merge_commit": "fb3b87da1bb3337039cc80d7a3fcf2dff4bd6ce3",
+    "buggy_commits": [
+      {
+        "oid": "804847e87765f835afa147887f9507b8a41ae08c",
+        "message": "test (#9010)"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/apache/rocketmq/issues/8984",
+      "createdAt": "2024-11-25T12:38:50Z",
+      "content": "bug_report_all/apache_rocketmq-8986.json"
+    },
+    "changed_tests": [
+      "broker/src/test/java/org/apache/rocketmq/broker/processor/AdminBrokerProcessorTest.java"
+    ],
+    "PR_url": "https://github.com/apache/rocketmq/pull/8986",
+    "merge_commit_url": "https://github.com/apache/rocketmq/commit/fb3b87da1bb3337039cc80d7a3fcf2dff4bd6ce3",
+    "buggy_commit": "804847e87765f835afa147887f9507b8a41ae08c",
+    "execution_result": {
+      "valid_tests": [
+        ".org.apache.rocketmq.broker.processor.AdminBrokerProcessorTest.java"
+      ],
+      "success_tests": [
+        ".org.apache.rocketmq.broker.processor.AdminBrokerProcessorTest.java"
+      ]
+    }
+  },
+  "apache_rocketmq-9101": {
+    "bug_id": "apache_rocketmq-9101",
+    "PR_number": 9101,
+    "PR_createdAt": "2025-01-03T09:36:15Z",
+    "merge_commit": "9ce83452a62f3fb910454bab92c092c83d561bdb",
+    "buggy_commits": [
+      {
+        "oid": "0548593b30466e527f0591e757e6efa204ab793d",
+        "message": "[ISSUE #8998] No retry is required when the remaining time reaches zero (#8999)"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/apache/rocketmq/issues/9105",
+      "createdAt": "2025-01-04T11:29:49Z",
+      "content": "bug_report_all/apache_rocketmq-9101.json"
+    },
+    "changed_tests": [
+      "broker/src/test/java/org/apache/rocketmq/broker/longpolling/PopLongPollingServiceTest.java",
+      "broker/src/test/java/org/apache/rocketmq/broker/offset/ConsumerOrderInfoManagerTest.java"
+    ],
+    "PR_url": "https://github.com/apache/rocketmq/pull/9101",
+    "merge_commit_url": "https://github.com/apache/rocketmq/commit/9ce83452a62f3fb910454bab92c092c83d561bdb",
+    "buggy_commit": "0548593b30466e527f0591e757e6efa204ab793d",
+    "execution_result": {
+      "valid_tests": [
+        ".org.apache.rocketmq.broker.longpolling.PopLongPollingServiceTest.java",
+        ".org.apache.rocketmq.broker.offset.ConsumerOrderInfoManagerTest.java"
+      ],
+      "success_tests": [
+        ".org.apache.rocketmq.broker.longpolling.PopLongPollingServiceTest.java",
+        ".org.apache.rocketmq.broker.offset.ConsumerOrderInfoManagerTest.java"
+      ]
+    }
+  },
+  "apache_rocketmq-9107": {
+    "bug_id": "apache_rocketmq-9107",
+    "PR_number": 9107,
+    "PR_createdAt": "2025-01-05T13:07:42Z",
+    "merge_commit": "2538c3414d17604b930bcd52dba15edf210c4ab8",
+    "buggy_commits": [
+      {
+        "oid": "a3afb05cb32f6c63fe8af5aef7a86ad1a4d5797f",
+        "message": "[ISSUE #9025] [RIP-73] Modify Pop Consumption rocksdb init config (#9100)"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/apache/rocketmq/issues/9106",
+      "createdAt": "2025-01-05T12:35:07Z",
+      "content": "bug_report_all/apache_rocketmq-9107.json"
+    },
+    "changed_tests": [
+      "broker/src/test/java/org/apache/rocketmq/broker/pop/PopConsumerServiceTest.java"
+    ],
+    "PR_url": "https://github.com/apache/rocketmq/pull/9107",
+    "merge_commit_url": "https://github.com/apache/rocketmq/commit/2538c3414d17604b930bcd52dba15edf210c4ab8",
+    "buggy_commit": "a3afb05cb32f6c63fe8af5aef7a86ad1a4d5797f",
+    "execution_result": {
+      "valid_tests": [
+        ".org.apache.rocketmq.broker.pop.PopConsumerServiceTest.java"
+      ],
+      "success_tests": [
+        ".org.apache.rocketmq.broker.pop.PopConsumerServiceTest.java"
+      ]
+    }
   }
 }

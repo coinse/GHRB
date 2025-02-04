@@ -1,0 +1,123 @@
+diff --git a/broker/src/main/java/org/apache/rocketmq/broker/longpolling/PopLongPollingService.java b/broker/src/main/java/org/apache/rocketmq/broker/longpolling/PopLongPollingService.java
+index 91185fbe94..e87a8e803f 100644
+--- a/broker/src/main/java/org/apache/rocketmq/broker/longpolling/PopLongPollingService.java
++++ b/broker/src/main/java/org/apache/rocketmq/broker/longpolling/PopLongPollingService.java
+@@ -52,7 +52,7 @@ public class PopLongPollingService extends ServiceThread {
+         LoggerFactory.getLogger(LoggerName.ROCKETMQ_POP_LOGGER_NAME);
+     private final BrokerController brokerController;
+     private final NettyRequestProcessor processor;
+-    private final ConcurrentHashMap<String, ConcurrentHashMap<String, Byte>> topicCidMap;
++    private final ConcurrentLinkedHashMap<String, ConcurrentHashMap<String, Byte>> topicCidMap;
+     private final ConcurrentLinkedHashMap<String, ConcurrentSkipListSet<PopRequest>> pollingMap;
+     private long lastCleanTime = 0;
+ 
+@@ -63,7 +63,8 @@ public class PopLongPollingService extends ServiceThread {
+         this.brokerController = brokerController;
+         this.processor = processor;
+         // 100000 topic default,  100000 lru topic + cid + qid
+-        this.topicCidMap = new ConcurrentHashMap<>(brokerController.getBrokerConfig().getPopPollingMapSize());
++        this.topicCidMap = new ConcurrentLinkedHashMap.Builder<String, ConcurrentHashMap<String, Byte>>()
++            .maximumWeightedCapacity(this.brokerController.getBrokerConfig().getPopPollingMapSize() * 2L).build();
+         this.pollingMap = new ConcurrentLinkedHashMap.Builder<String, ConcurrentSkipListSet<PopRequest>>()
+             .maximumWeightedCapacity(this.brokerController.getBrokerConfig().getPopPollingMapSize()).build();
+         this.notifyLast = notifyLast;
+@@ -350,7 +351,7 @@ public class PopLongPollingService extends ServiceThread {
+                     Map.Entry<String, ConcurrentHashMap<String, Byte>> entry = topicCidMapIter.next();
+                     String topic = entry.getKey();
+                     if (brokerController.getTopicConfigManager().selectTopicConfig(topic) == null) {
+-                        POP_LOGGER.info("remove not exit topic {} in topicCidMap!", topic);
++                        POP_LOGGER.info("remove nonexistent topic {} in topicCidMap!", topic);
+                         topicCidMapIter.remove();
+                         continue;
+                     }
+@@ -358,8 +359,8 @@ public class PopLongPollingService extends ServiceThread {
+                     while (cidMapIter.hasNext()) {
+                         Map.Entry<String, Byte> cidEntry = cidMapIter.next();
+                         String cid = cidEntry.getKey();
+-                        if (!brokerController.getSubscriptionGroupManager().getSubscriptionGroupTable().containsKey(cid)) {
+-                            POP_LOGGER.info("remove not exit sub {} of topic {} in topicCidMap!", cid, topic);
++                        if (!brokerController.getSubscriptionGroupManager().containsSubscriptionGroup(cid)) {
++                            POP_LOGGER.info("remove nonexistent subscription group {} of topic {} in topicCidMap!", cid, topic);
+                             cidMapIter.remove();
+                         }
+                     }
+@@ -380,12 +381,12 @@ public class PopLongPollingService extends ServiceThread {
+                     String topic = keyArray[0];
+                     String cid = keyArray[1];
+                     if (brokerController.getTopicConfigManager().selectTopicConfig(topic) == null) {
+-                        POP_LOGGER.info("remove not exit topic {} in pollingMap!", topic);
++                        POP_LOGGER.info("remove nonexistent topic {} in pollingMap!", topic);
+                         pollingMapIter.remove();
+                         continue;
+                     }
+-                    if (!brokerController.getSubscriptionGroupManager().getSubscriptionGroupTable().containsKey(cid)) {
+-                        POP_LOGGER.info("remove not exit sub {} of topic {} in pollingMap!", cid, topic);
++                    if (!brokerController.getSubscriptionGroupManager().containsSubscriptionGroup(cid)) {
++                        POP_LOGGER.info("remove nonexistent subscription group {} of topic {} in pollingMap!", cid, topic);
+                         pollingMapIter.remove();
+                     }
+                 }
+diff --git a/broker/src/main/java/org/apache/rocketmq/broker/offset/ConsumerOrderInfoManager.java b/broker/src/main/java/org/apache/rocketmq/broker/offset/ConsumerOrderInfoManager.java
+index 4eccc6c037..120f5b104c 100644
+--- a/broker/src/main/java/org/apache/rocketmq/broker/offset/ConsumerOrderInfoManager.java
++++ b/broker/src/main/java/org/apache/rocketmq/broker/offset/ConsumerOrderInfoManager.java
+@@ -281,7 +281,7 @@ public class ConsumerOrderInfoManager extends ConfigManager {
+                 continue;
+             }
+ 
+-            if (this.brokerController.getSubscriptionGroupManager().getSubscriptionGroupTable().get(group) == null) {
++            if (!this.brokerController.getSubscriptionGroupManager().containsSubscriptionGroup(group)) {
+                 iterator.remove();
+                 log.info("Group not exist, Clean order info, {}:{}", topicAtGroup, qs);
+                 continue;
+diff --git a/broker/src/main/java/org/apache/rocketmq/broker/processor/AdminBrokerProcessor.java b/broker/src/main/java/org/apache/rocketmq/broker/processor/AdminBrokerProcessor.java
+index 6bcf9aaa0f..6fb7584aa9 100644
+--- a/broker/src/main/java/org/apache/rocketmq/broker/processor/AdminBrokerProcessor.java
++++ b/broker/src/main/java/org/apache/rocketmq/broker/processor/AdminBrokerProcessor.java
+@@ -424,7 +424,7 @@ public class AdminBrokerProcessor implements NettyRequestProcessor {
+         GetSubscriptionGroupConfigRequestHeader requestHeader = (GetSubscriptionGroupConfigRequestHeader) request.decodeCommandCustomHeader(GetSubscriptionGroupConfigRequestHeader.class);
+         final RemotingCommand response = RemotingCommand.createResponseCommand(null);
+ 
+-        SubscriptionGroupConfig groupConfig = this.brokerController.getSubscriptionGroupManager().getSubscriptionGroupTable().get(requestHeader.getGroup());
++        SubscriptionGroupConfig groupConfig = this.brokerController.getSubscriptionGroupManager().findSubscriptionGroupConfig(requestHeader.getGroup());
+         if (groupConfig == null) {
+             LOGGER.error("No group in this broker, client: {} group: {}", ctx.channel().remoteAddress(), requestHeader.getGroup());
+             response.setCode(ResponseCode.SUBSCRIPTION_GROUP_NOT_EXIST);
+@@ -2444,7 +2444,7 @@ public class AdminBrokerProcessor implements NettyRequestProcessor {
+         }
+         // groupSysFlag
+         if (StringUtils.isNotEmpty(requestHeader.getConsumerGroup())) {
+-            SubscriptionGroupConfig groupConfig = brokerController.getSubscriptionGroupManager().getSubscriptionGroupTable().get(requestHeader.getConsumerGroup());
++            SubscriptionGroupConfig groupConfig = brokerController.getSubscriptionGroupManager().findSubscriptionGroupConfig(requestHeader.getConsumerGroup());
+             if (groupConfig != null) {
+                 request.addExtField("groupSysFlag", String.valueOf(groupConfig.getGroupSysFlag()));
+             }
+@@ -2933,7 +2933,7 @@ public class AdminBrokerProcessor implements NettyRequestProcessor {
+         GetTopicConfigRequestHeader requestHeader = (GetTopicConfigRequestHeader) request.decodeCommandCustomHeader(GetTopicConfigRequestHeader.class);
+         final RemotingCommand response = RemotingCommand.createResponseCommand(null);
+ 
+-        TopicConfig topicConfig = this.brokerController.getTopicConfigManager().getTopicConfigTable().get(requestHeader.getTopic());
++        TopicConfig topicConfig = this.brokerController.getTopicConfigManager().selectTopicConfig(requestHeader.getTopic());
+         if (topicConfig == null) {
+             LOGGER.error("No topic in this broker, client: {} topic: {}", ctx.channel().remoteAddress(), requestHeader.getTopic());
+             //be care of the response code, should set "not-exist" explicitly
+diff --git a/broker/src/main/java/org/apache/rocketmq/broker/processor/PopBufferMergeService.java b/broker/src/main/java/org/apache/rocketmq/broker/processor/PopBufferMergeService.java
+index 05a92c54b1..820388b18d 100644
+--- a/broker/src/main/java/org/apache/rocketmq/broker/processor/PopBufferMergeService.java
++++ b/broker/src/main/java/org/apache/rocketmq/broker/processor/PopBufferMergeService.java
+@@ -197,12 +197,12 @@ public class PopBufferMergeService extends ServiceThread {
+             String topic = keyArray[0];
+             String cid = keyArray[1];
+             if (brokerController.getTopicConfigManager().selectTopicConfig(topic) == null) {
+-                POP_LOGGER.info("[PopBuffer]remove not exit topic {} in buffer!", topic);
++                POP_LOGGER.info("[PopBuffer]remove nonexistent topic {} in buffer!", topic);
+                 iterator.remove();
+                 continue;
+             }
+-            if (!brokerController.getSubscriptionGroupManager().getSubscriptionGroupTable().containsKey(cid)) {
+-                POP_LOGGER.info("[PopBuffer]remove not exit sub {} of topic {} in buffer!", cid, topic);
++            if (!brokerController.getSubscriptionGroupManager().containsSubscriptionGroup(cid)) {
++                POP_LOGGER.info("[PopBuffer]remove nonexistent subscription group {} of topic {} in buffer!", cid, topic);
+                 iterator.remove();
+                 continue;
+             }

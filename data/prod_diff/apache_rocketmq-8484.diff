@@ -1,0 +1,52 @@
+diff --git a/broker/src/main/java/org/apache/rocketmq/broker/client/ConsumerManager.java b/broker/src/main/java/org/apache/rocketmq/broker/client/ConsumerManager.java
+index 9f838b5154..b1057e2a8d 100644
+--- a/broker/src/main/java/org/apache/rocketmq/broker/client/ConsumerManager.java
++++ b/broker/src/main/java/org/apache/rocketmq/broker/client/ConsumerManager.java
+@@ -145,8 +145,9 @@ public class ConsumerManager {
+                         callConsumerIdsChangeListener(ConsumerGroupEvent.UNREGISTER, next.getKey());
+                     }
+                 }
+-
+-                callConsumerIdsChangeListener(ConsumerGroupEvent.CHANGE, next.getKey(), info.getAllChannel());
++                if (!isBroadcastMode(info.getMessageModel())) {
++                    callConsumerIdsChangeListener(ConsumerGroupEvent.CHANGE, next.getKey(), info.getAllChannel());
++                }
+             }
+         }
+         return removed;
+@@ -196,7 +197,7 @@ public class ConsumerManager {
+         }
+ 
+         if (r1 || r2) {
+-            if (isNotifyConsumerIdsChangedEnable) {
++            if (isNotifyConsumerIdsChangedEnable && !isBroadcastMode(consumerGroupInfo.getMessageModel())) {
+                 callConsumerIdsChangeListener(ConsumerGroupEvent.CHANGE, group, consumerGroupInfo.getAllChannel());
+             }
+         }
+@@ -219,7 +220,7 @@ public class ConsumerManager {
+             consumerGroupInfo = prev != null ? prev : tmp;
+         }
+         boolean updateChannelRst = consumerGroupInfo.updateChannel(clientChannelInfo, consumeType, messageModel, consumeFromWhere);
+-        if (updateChannelRst && isNotifyConsumerIdsChangedEnable) {
++        if (updateChannelRst && isNotifyConsumerIdsChangedEnable && !isBroadcastMode(consumerGroupInfo.getMessageModel())) {
+             callConsumerIdsChangeListener(ConsumerGroupEvent.CHANGE, group, consumerGroupInfo.getAllChannel());
+         }
+         if (null != this.brokerStatsManager) {
+@@ -244,7 +245,7 @@ public class ConsumerManager {
+                     callConsumerIdsChangeListener(ConsumerGroupEvent.UNREGISTER, group);
+                 }
+             }
+-            if (isNotifyConsumerIdsChangedEnable) {
++            if (isNotifyConsumerIdsChangedEnable && !isBroadcastMode(consumerGroupInfo.getMessageModel())) {
+                 callConsumerIdsChangeListener(ConsumerGroupEvent.CHANGE, group, consumerGroupInfo.getAllChannel());
+             }
+         }
+@@ -334,4 +335,8 @@ public class ConsumerManager {
+             }
+         }
+     }
++
++    private boolean isBroadcastMode(final MessageModel messageModel) {
++        return MessageModel.BROADCASTING.equals(messageModel);
++    }
+ }

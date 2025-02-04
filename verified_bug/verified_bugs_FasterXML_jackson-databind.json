@@ -215,5 +215,36 @@
         ".com.fasterxml.jackson.databind.deser.creators.AnySetterForCreator562Test.java"
       ]
     }
+  },
+  "FasterXML_jackson-databind-4684": {
+    "bug_id": "FasterXML_jackson-databind-4684",
+    "PR_number": 4684,
+    "PR_createdAt": "2024-09-02T15:11:48Z",
+    "merge_commit": "f59cb9a89fe8d3d4656c018ce764ac3f7fc5934b",
+    "buggy_commits": [
+      {
+        "oid": "85f4b5507a6110404955aec117849bcbbd18231f",
+        "message": "Merge branch '2.18' into 2.19"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/FasterXML/jackson-databind/issues/4680",
+      "createdAt": "2024-08-27T14:36:03Z",
+      "content": "bug_report_all/FasterXML_jackson-databind-4684.json"
+    },
+    "changed_tests": [
+      "src/test/java/com/fasterxml/jackson/databind/deser/CustomObjectKeyDeserializer4680Test.java"
+    ],
+    "PR_url": "https://github.com/FasterXML/jackson-databind/pull/4684",
+    "merge_commit_url": "https://github.com/FasterXML/jackson-databind/commit/f59cb9a89fe8d3d4656c018ce764ac3f7fc5934b",
+    "buggy_commit": "85f4b5507a6110404955aec117849bcbbd18231f",
+    "execution_result": {
+      "valid_tests": [
+        ".com.fasterxml.jackson.databind.deser.CustomObjectKeyDeserializer4680Test.java"
+      ],
+      "success_tests": [
+        ".com.fasterxml.jackson.databind.deser.CustomObjectKeyDeserializer4680Test.java"
+      ]
+    }
   }
 }

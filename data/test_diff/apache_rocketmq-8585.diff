@@ -1,5 +1,5 @@
 diff --git a/client/src/test/java/org/apache/rocketmq/client/impl/consumer/DefaultMQPushConsumerImplTest.java b/client/src/test/java/org/apache/rocketmq/client/impl/consumer/DefaultMQPushConsumerImplTest.java
-index 68563c025..2bc9c5a18 100644
+index 68563c0256..2bc9c5a18d 100644
 --- a/client/src/test/java/org/apache/rocketmq/client/impl/consumer/DefaultMQPushConsumerImplTest.java
 +++ b/client/src/test/java/org/apache/rocketmq/client/impl/consumer/DefaultMQPushConsumerImplTest.java
 @@ -651,10 +651,11 @@ public class DefaultMQPushConsumerImplTest {

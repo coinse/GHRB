@@ -284,5 +284,70 @@
         ".org.openapitools.codegen.java.AbstractJavaCodegenTest.java"
       ]
     }
+  },
+  "OpenAPITools_openapi-generator-20109": {
+    "bug_id": "OpenAPITools_openapi-generator-20109",
+    "PR_number": 20109,
+    "PR_createdAt": "2024-11-15T11:33:22Z",
+    "merge_commit": "d29196a1f0ad41fc17f5d4875650f87480d66a40",
+    "buggy_commits": [
+      {
+        "oid": "474307675b9f1505fc7bd94eff6de63d9172cd02",
+        "message": "[php] Follow PHP8.4 update: declared nullable parameters explicitly (#20243)\n\n* explictly declared nullable to parameters with \"null\" default value\r\n\r\n* generated php sample\r\n\r\n* fixed unnecessary \"?\"\r\n\r\n* re-generated sample"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/OpenAPITools/openapi-generator/issues/19039",
+      "createdAt": "2024-06-30T10:22:00Z",
+      "content": "bug_report_all/OpenAPITools_openapi-generator-20109.json"
+    },
+    "changed_tests": [
+      "modules/openapi-generator/src/test/java/org/openapitools/codegen/typescript/fetch/TypeScriptFetchClientCodegenTest.java"
+    ],
+    "PR_url": "https://github.com/OpenAPITools/openapi-generator/pull/20109",
+    "merge_commit_url": "https://github.com/OpenAPITools/openapi-generator/commit/d29196a1f0ad41fc17f5d4875650f87480d66a40",
+    "buggy_commit": "474307675b9f1505fc7bd94eff6de63d9172cd02",
+    "execution_result": {
+      "valid_tests": [
+        ".org.openapitools.codegen.typescript.fetch.TypeScriptFetchClientCodegenTest.java"
+      ],
+      "success_tests": [
+        ".org.openapitools.codegen.typescript.fetch.TypeScriptFetchClientCodegenTest.java"
+      ]
+    }
+  },
+  "OpenAPITools_openapi-generator-20391": {
+    "bug_id": "OpenAPITools_openapi-generator-20391",
+    "PR_number": 20391,
+    "PR_createdAt": "2024-12-31T15:31:53Z",
+    "merge_commit": "4b5dfc430e1ebf6fbe2f96c31fba177c122d0569",
+    "buggy_commits": [
+      {
+        "oid": "e1549037438b698f5cf654b92f52c3b25065a63c",
+        "message": "Fix a few issues with the C generator (part 8) (#20378)\n\n* [C] Deprecate *_create() to avoid *_free() confusion\r\n\r\nThe behaviour of *_free() doesn't match *_create(), so the user should\r\navoid using them together. But they still need *_free() to clean up\r\nlibrary-allocated objects, so add a _library_owned flag to each struct\r\nas an attempt to tell them apart. This isn't perfect though, because the\r\nuser may neglect to zero the field, but they would still see a warning\r\nonce in a while so it serves its purpose.\r\n\r\nTo prevent the new deprecation warnings (intended for the user) from\r\nshowing up during the library build itself, define a new family of\r\n*_create_internal() functions, and turn *_create() into simple wrappers.\r\n\r\n* Update samples\r\n\r\n* add eafer to c technical committee\r\n\r\n---------\r\n\r\nCo-authored-by: William Cheng <wing328hk@gmail.com>"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/OpenAPITools/openapi-generator/issues/20390",
+      "createdAt": "2024-12-31T15:16:32Z",
+      "content": "bug_report_all/OpenAPITools_openapi-generator-20391.json"
+    },
+    "changed_tests": [
+      "modules/openapi-generator/src/test/java/org/openapitools/codegen/java/JavaModelTest.java",
+      "modules/openapi-generator/src/test/java/org/openapitools/codegen/typescript/fetch/TypeScriptFetchClientCodegenTest.java"
+    ],
+    "PR_url": "https://github.com/OpenAPITools/openapi-generator/pull/20391",
+    "merge_commit_url": "https://github.com/OpenAPITools/openapi-generator/commit/4b5dfc430e1ebf6fbe2f96c31fba177c122d0569",
+    "buggy_commit": "e1549037438b698f5cf654b92f52c3b25065a63c",
+    "execution_result": {
+      "valid_tests": [
+        ".org.openapitools.codegen.java.JavaModelTest.java",
+        ".org.openapitools.codegen.typescript.fetch.TypeScriptFetchClientCodegenTest.java"
+      ],
+      "success_tests": [
+        ".org.openapitools.codegen.java.JavaModelTest.java",
+        ".org.openapitools.codegen.typescript.fetch.TypeScriptFetchClientCodegenTest.java"
+      ]
+    }
   }
 }
