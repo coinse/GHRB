@@ -8,27 +8,27 @@ of training data contamination.
 
 ## Available Bugs
 
-As of July 1st, 2024:
+As of February 1st, 2025:
 
 | Project | Bugs | Deprecated |
 | ------- | ---- | ---------- |
 | fastjson | 1 | 0 |
 | nacos | 6 | 0 | 
 | dubbo | 1 | 0 |
-| rocketmq | 28 | 0 | 
+| rocketmq | 35 | 0 | 
 | assertj | 4 | 0 |
 | checkstyle | 21 | 1 |
 | jackson-core | 3 | 0 |
-| jackson-databind | 7 | 0 |
+| jackson-databind | 8 | 0 |
 | jackson-dataformat-xml | 1 | 0 |
 | gson | 12 | 0 | 
 | sslcontext-kickstart | 7 | 0 | 
 | jsoup | 5 | 0 |
-| openapi-generator | 9 | 0 |
+| openapi-generator | 11 | 0 |
 | seata | 2 | 0 |
 | retrofit | 1 | 0 |
 | Apktool | 1 | 0 |
-| **Total** | **107** | **1** |
+| **Total** | **119** | **1** |
 
 ## Setting up GHRB
 
@@ -155,7 +155,7 @@ The current script is specifically designed for the automated pipeline for maint
 
 ## Maintenance
 
-~~The current workflow is implemented to collect new reproducible bugs from the existing repositories at first day of each month.~~
+The current workflow is implemented to collect new reproducible bugs from the existing repositories at first day of every three months.
 
 ## Publication
 

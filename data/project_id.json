@@ -53,7 +53,7 @@
   },
   "jackson-databind": {
     "owner": "FasterXML",
-    "number_of_bugs": 7,
+    "number_of_bugs": 8,
     "commit_db": "commit_db/jackson-databind_bugs.csv",
     "repo_path": "/root/framework/repos/jackson-databind",
     "requirements": {
@@ -91,7 +91,7 @@
   },
   "openapi-generator": {
     "owner": "OpenAPITools",
-    "number_of_bugs": 9,
+    "number_of_bugs": 11,
     "commit_db": "commit_db/openapi-generator_bugs.csv",
     "repo_path": "/root/framework/repos/openapi-generator",
     "requirements": {
@@ -170,7 +170,7 @@
   },
   "rocketmq": {
     "owner": "apache",
-    "number_of_bugs": 28,
+    "number_of_bugs": 35,
     "commit_db": "commit_db/rocketmq_bugs.csv",
     "repo_path": "/root/framework/repos/rocketmq",
     "requirements": {

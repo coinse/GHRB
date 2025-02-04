@@ -1,0 +1,47 @@
+diff --git a/modules/openapi-generator/src/test/java/org/openapitools/codegen/java/JavaModelTest.java b/modules/openapi-generator/src/test/java/org/openapitools/codegen/java/JavaModelTest.java
+index 91c36f642936..d9d3157d8be2 100644
+--- a/modules/openapi-generator/src/test/java/org/openapitools/codegen/java/JavaModelTest.java
++++ b/modules/openapi-generator/src/test/java/org/openapitools/codegen/java/JavaModelTest.java
+@@ -274,10 +274,10 @@ public class JavaModelTest {
+ 
+         final CodegenProperty property = cm.vars.get(0);
+         Assert.assertEquals(property.baseName, "@Some:restricted%characters#to!handle+");
+-        Assert.assertEquals(property.getter, "getAtSomeColonRestrictedPercentCharactersHashToExclamationHandlePlus");
+-        Assert.assertEquals(property.setter, "setAtSomeColonRestrictedPercentCharactersHashToExclamationHandlePlus");
++        Assert.assertEquals(property.getter, "getAtSomeRestrictedPercentCharactersHashToExclamationHandlePlus");
++        Assert.assertEquals(property.setter, "setAtSomeRestrictedPercentCharactersHashToExclamationHandlePlus");
+         Assert.assertEquals(property.dataType, "Boolean");
+-        Assert.assertEquals(property.name, "atSomeColonRestrictedPercentCharactersHashToExclamationHandlePlus");
++        Assert.assertEquals(property.name, "atSomeRestrictedPercentCharactersHashToExclamationHandlePlus");
+         Assert.assertNull(property.defaultValue);
+         Assert.assertEquals(property.baseType, "Boolean");
+         Assert.assertFalse(property.required);
+diff --git a/modules/openapi-generator/src/test/java/org/openapitools/codegen/typescript/fetch/TypeScriptFetchClientCodegenTest.java b/modules/openapi-generator/src/test/java/org/openapitools/codegen/typescript/fetch/TypeScriptFetchClientCodegenTest.java
+index ac0560194f60..739d7277c818 100644
+--- a/modules/openapi-generator/src/test/java/org/openapitools/codegen/typescript/fetch/TypeScriptFetchClientCodegenTest.java
++++ b/modules/openapi-generator/src/test/java/org/openapitools/codegen/typescript/fetch/TypeScriptFetchClientCodegenTest.java
+@@ -133,6 +133,7 @@ public class TypeScriptFetchClientCodegenTest {
+         Assert.assertEquals(codegen.toEnumVarName("valid_var", "string"), "ValidVar");
+         Assert.assertEquals(codegen.toEnumVarName("-valid_var+", "string"), "ValidVar");
+         Assert.assertEquals(codegen.toEnumVarName("30valid_+var", "string"), "_30validVar");
++        Assert.assertEquals(codegen.toEnumVarName("VALID:var", "string"), "ValidVar");
+ 
+         codegen = new TypeScriptFetchClientCodegen();
+         codegen.additionalProperties().put(CodegenConstants.ENUM_PROPERTY_NAMING, "original");
+@@ -142,6 +143,7 @@ public class TypeScriptFetchClientCodegenTest {
+         Assert.assertEquals(codegen.toEnumVarName("valid_var", "string"), "valid_var");
+         Assert.assertEquals(codegen.toEnumVarName("-valid_var+", "string"), "valid_var");
+         Assert.assertEquals(codegen.toEnumVarName("30valid_+var", "string"), "_30valid_var");
++        Assert.assertEquals(codegen.toEnumVarName("VALID:var", "string"), "VALID_var");
+ 
+         codegen = new TypeScriptFetchClientCodegen();
+         codegen.additionalProperties().put(CodegenConstants.ENUM_PROPERTY_NAMING, "UPPERCASE");
+@@ -153,7 +155,7 @@ public class TypeScriptFetchClientCodegenTest {
+         Assert.assertEquals(codegen.toEnumVarName("-valid_+var", "string"), "MINUS_VALID_PLUS_VAR");
+         Assert.assertEquals(codegen.toEnumVarName("-valid_var+", "string"), "MINUS_VALID_VAR_PLUS");
+         Assert.assertEquals(codegen.toEnumVarName("30valid_+var", "string"), "_30VALID_PLUS_VAR");
+-
++        Assert.assertEquals(codegen.toEnumVarName("VALID:var", "string"), "VALID_VAR");
+     }
+ 
+     @Test
