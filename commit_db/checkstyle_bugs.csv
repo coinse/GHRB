@@ -20,3 +20,6 @@ bug_id,revision.id.buggy,revision.id.fixed,report.id,report.url
 19,ab017aeb1f5d8997de68d42bf226181a006e93b3,a8ddc2caafcb2ac00930f42c541fb82e1a2e0c33,checkstyle_checkstyle-15154,https://github.com/checkstyle/checkstyle/issues/15015
 20,77ffdbf82734407f37313ae94df80caced47336b,085905561ce9c0c2c611c112e7373ab8a6763bc1,checkstyle_checkstyle-15175,https://github.com/checkstyle/checkstyle/issues/14970
 21,d32c27b87650da899104201a82b5220ed6c4234a,d010bda6ac30f93fa73ec6e4495442fdaaf98c16,checkstyle_checkstyle-15492,https://github.com/checkstyle/checkstyle/issues/15159
+22,6e0a0bf7b57e725f98dd79ffedf523fb7679f267,2ab96383717c19d2a84218041f068ff9c42029eb,checkstyle_checkstyle-16252,https://github.com/checkstyle/checkstyle/issues/16165
+23,f502c821ffd4bfbc5140bdd7848eded09f6cf41d,2a50408bfe5c10b10ce98a39f198728fb0670e33,checkstyle_checkstyle-16458,https://github.com/checkstyle/checkstyle/issues/13043
+24,9fb55040e23d26b304d7c212d5a59b68ad62aef9,23c3c593ccced9762eefe4a3dc1438edd4dde663,checkstyle_checkstyle-16646,https://github.com/checkstyle/checkstyle/issues/16641

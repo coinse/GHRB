@@ -1,0 +1,34 @@
+diff --git a/src/main/java/com/puppycrawl/tools/checkstyle/checks/metrics/CyclomaticComplexityCheck.java b/src/main/java/com/puppycrawl/tools/checkstyle/checks/metrics/CyclomaticComplexityCheck.java
+index 599485dde96..f2a4f5be1a8 100644
+--- a/src/main/java/com/puppycrawl/tools/checkstyle/checks/metrics/CyclomaticComplexityCheck.java
++++ b/src/main/java/com/puppycrawl/tools/checkstyle/checks/metrics/CyclomaticComplexityCheck.java
+@@ -27,6 +27,7 @@ import com.puppycrawl.tools.checkstyle.FileStatefulCheck;
+ import com.puppycrawl.tools.checkstyle.api.AbstractCheck;
+ import com.puppycrawl.tools.checkstyle.api.DetailAST;
+ import com.puppycrawl.tools.checkstyle.api.TokenTypes;
++import com.puppycrawl.tools.checkstyle.utils.ScopeUtil;
+ 
+ /**
+  * <div>
+@@ -270,7 +271,7 @@ public class CyclomaticComplexityCheck
+      */
+     private void visitTokenHook(DetailAST ast) {
+         if (switchBlockAsSingleDecisionPoint) {
+-            if (ast.getType() != TokenTypes.LITERAL_CASE) {
++            if (!ScopeUtil.isInBlockOf(ast, TokenTypes.LITERAL_SWITCH)) {
+                 incrementCurrentValue(BigInteger.ONE);
+             }
+         }
+diff --git a/src/main/java/com/puppycrawl/tools/checkstyle/utils/ScopeUtil.java b/src/main/java/com/puppycrawl/tools/checkstyle/utils/ScopeUtil.java
+index 63517b95bf5..530e216dbdc 100644
+--- a/src/main/java/com/puppycrawl/tools/checkstyle/utils/ScopeUtil.java
++++ b/src/main/java/com/puppycrawl/tools/checkstyle/utils/ScopeUtil.java
+@@ -199,7 +199,7 @@ public final class ScopeUtil {
+      * @param tokenType type of token.
+      * @return a {@code boolean} value
+      */
+-    private static boolean isInBlockOf(DetailAST node, int tokenType) {
++    public static boolean isInBlockOf(DetailAST node, int tokenType) {
+         boolean returnValue = false;
+ 
+         // Loop up looking for a containing interface block
