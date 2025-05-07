@@ -91,5 +91,36 @@
         ".com.fasterxml.jackson.core.VersionTest"
       ]
     }
+  },
+  "FasterXML_jackson-core-1415": {
+    "bug_id": "FasterXML_jackson-core-1415",
+    "PR_number": 1415,
+    "PR_createdAt": "2025-03-30T01:42:21Z",
+    "merge_commit": "596fd82955080ba7207b4adc54100781b5024a61",
+    "buggy_commits": [
+      {
+        "oid": "99f749d958a55013724571d825625e1032af9d4b",
+        "message": "Add 1 passing, 2 failing tests for #1412 (#1413)"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/FasterXML/jackson-core/issues/1412",
+      "createdAt": "2025-03-19T00:21:02Z",
+      "content": "bug_report_all/FasterXML_jackson-core-1415.json"
+    },
+    "changed_tests": [
+      "src/test/java/com/fasterxml/jackson/core/json/async/AsyncLocation1412Test.java"
+    ],
+    "PR_url": "https://github.com/FasterXML/jackson-core/pull/1415",
+    "merge_commit_url": "https://github.com/FasterXML/jackson-core/commit/596fd82955080ba7207b4adc54100781b5024a61",
+    "buggy_commit": "99f749d958a55013724571d825625e1032af9d4b",
+    "execution_result": {
+      "valid_tests": [
+        ".com.fasterxml.jackson.core.tofix.async.AsyncLocation1412Test.java"
+      ],
+      "success_tests": [
+        ".com.fasterxml.jackson.core.tofix.async.AsyncLocation1412Test.java"
+      ]
+    }
   }
 }

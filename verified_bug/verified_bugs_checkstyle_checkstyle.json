@@ -720,5 +720,111 @@
         ".com.puppycrawl.tools.checkstyle.checks.modifier.RedundantModifierCheckTest.java"
       ]
     }
+  },
+  "checkstyle_checkstyle-16252": {
+    "bug_id": "checkstyle_checkstyle-16252",
+    "PR_number": 16252,
+    "PR_createdAt": "2025-01-28T05:52:05Z",
+    "merge_commit": "2ab96383717c19d2a84218041f068ff9c42029eb",
+    "buggy_commits": [
+      {
+        "oid": "6e0a0bf7b57e725f98dd79ffedf523fb7679f267",
+        "message": "Issue #13213: Remove '//ok' from Input Files(parenpad)"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/checkstyle/checkstyle/issues/16165",
+      "createdAt": "2025-01-14T06:48:27Z",
+      "content": "bug_report_all/checkstyle_checkstyle-16252.json"
+    },
+    "changed_tests": [
+      "src/test/java/com/puppycrawl/tools/checkstyle/checks/metrics/CyclomaticComplexityCheckTest.java",
+      "src/test/resources-noncompilable/com/puppycrawl/tools/checkstyle/checks/metrics/cyclomaticcomplexity/InputCyclomaticComplexitySwitchBlocks6.java",
+      "src/test/resources-noncompilable/com/puppycrawl/tools/checkstyle/checks/metrics/cyclomaticcomplexity/InputCyclomaticComplexityWhenSwitchAsSinglePoint.java"
+    ],
+    "PR_url": "https://github.com/checkstyle/checkstyle/pull/16252",
+    "merge_commit_url": "https://github.com/checkstyle/checkstyle/commit/2ab96383717c19d2a84218041f068ff9c42029eb",
+    "buggy_commit": "6e0a0bf7b57e725f98dd79ffedf523fb7679f267",
+    "execution_result": {
+      "valid_tests": [
+        ".com.puppycrawl.tools.checkstyle.checks.metrics.CyclomaticComplexityCheckTest.java"
+      ],
+      "success_tests": [
+        ".com.puppycrawl.tools.checkstyle.checks.metrics.CyclomaticComplexityCheckTest.java"
+      ]
+    }
+  },
+  "checkstyle_checkstyle-16458": {
+    "bug_id": "checkstyle_checkstyle-16458",
+    "PR_number": 16458,
+    "PR_createdAt": "2025-03-03T01:29:53Z",
+    "merge_commit": "2a50408bfe5c10b10ce98a39f198728fb0670e33",
+    "buggy_commits": [
+      {
+        "oid": "f502c821ffd4bfbc5140bdd7848eded09f6cf41d",
+        "message": "supplemental: Issue #16385 -resolved JavadocTag bug"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/checkstyle/checkstyle/issues/13043",
+      "createdAt": "2023-05-04T11:39:08Z",
+      "content": "bug_report_all/checkstyle_checkstyle-16458.json"
+    },
+    "changed_tests": [
+      "src/test/java/com/puppycrawl/tools/checkstyle/checks/javadoc/AbstractJavadocCheckTest.java",
+      "src/test/java/com/puppycrawl/tools/checkstyle/grammar/javadoc/JavadocParseTreeTest.java",
+      "src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/abstractjavadoc/InputAbstractJavadocJavadocTagsWithoutArgs.java"
+    ],
+    "PR_url": "https://github.com/checkstyle/checkstyle/pull/16458",
+    "merge_commit_url": "https://github.com/checkstyle/checkstyle/commit/2a50408bfe5c10b10ce98a39f198728fb0670e33",
+    "buggy_commit": "f502c821ffd4bfbc5140bdd7848eded09f6cf41d",
+    "execution_result": {
+      "valid_tests": [
+        ".com.puppycrawl.tools.checkstyle.checks.javadoc.AbstractJavadocCheckTest.java"
+      ],
+      "success_tests": [
+        ".com.puppycrawl.tools.checkstyle.checks.javadoc.AbstractJavadocCheckTest.java"
+      ]
+    }
+  },
+  "checkstyle_checkstyle-16646": {
+    "bug_id": "checkstyle_checkstyle-16646",
+    "PR_number": 16646,
+    "PR_createdAt": "2025-03-23T20:51:57Z",
+    "merge_commit": "23c3c593ccced9762eefe4a3dc1438edd4dde663",
+    "buggy_commits": [
+      {
+        "oid": "9fb55040e23d26b304d7c212d5a59b68ad62aef9",
+        "message": "Issue #14857: Github generate site fails to generate links with anchors"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/checkstyle/checkstyle/issues/16641",
+      "createdAt": "2025-03-23T14:48:56Z",
+      "content": "bug_report_all/checkstyle_checkstyle-16646.json"
+    },
+    "changed_tests": [
+      "src/test/java/com/puppycrawl/tools/checkstyle/checks/javadoc/JavadocTypeCheckTest.java",
+      "src/test/java/com/puppycrawl/tools/checkstyle/checks/javadoc/JavadocVariableCheckTest.java",
+      "src/test/java/com/puppycrawl/tools/checkstyle/checks/javadoc/MissingJavadocMethodCheckTest.java",
+      "src/test/java/com/puppycrawl/tools/checkstyle/checks/javadoc/MissingJavadocTypeCheckTest.java",
+      "src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocmethod/InputJavadocMethodAboveComments.java",
+      "src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocstyle/InputJavadocStyleAboveComments.java",
+      "src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadoctype/InputJavadocTypeAboveComments.java",
+      "src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocvariable/InputJavadocVariableAboveComment.java",
+      "src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/missingjavadocmethod/InputMissingJavadocMethodAboveComments.java",
+      "src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/missingjavadoctype/InputMissingJavadocTypeAboveComments.java"
+    ],
+    "PR_url": "https://github.com/checkstyle/checkstyle/pull/16646",
+    "merge_commit_url": "https://github.com/checkstyle/checkstyle/commit/23c3c593ccced9762eefe4a3dc1438edd4dde663",
+    "buggy_commit": "9fb55040e23d26b304d7c212d5a59b68ad62aef9",
+    "execution_result": {
+      "valid_tests": [
+        ".com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocStyleCheckTest.java"
+      ],
+      "success_tests": [
+        ".com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocStyleCheckTest.java"
+      ]
+    }
   }
 }

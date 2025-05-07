@@ -709,10 +709,10 @@ if __name__ == '__main__':
 
     with open(args.file, 'r') as f:
         report_test_mappings = json.load(f)
-    #print(report_test_mappings)
+
     fetch_test_diff(report_test_mappings)
     fetch_prod_diff(report_test_mappings)
-    exit(0)
+
     projects = report_test_mappings.keys()
 
     file_names = []

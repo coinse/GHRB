@@ -1,0 +1,13 @@
+diff --git a/tieredstore/src/test/java/org/apache/rocketmq/tieredstore/TieredMessageStoreTest.java b/tieredstore/src/test/java/org/apache/rocketmq/tieredstore/TieredMessageStoreTest.java
+index 2f39558482..bb259ae811 100644
+--- a/tieredstore/src/test/java/org/apache/rocketmq/tieredstore/TieredMessageStoreTest.java
++++ b/tieredstore/src/test/java/org/apache/rocketmq/tieredstore/TieredMessageStoreTest.java
+@@ -246,7 +246,7 @@ public class TieredMessageStoreTest {
+     @Test
+     public void testGetEarliestMessageTimeAsync() {
+         when(fetcher.getEarliestMessageTimeAsync(anyString(), anyInt())).thenReturn(CompletableFuture.completedFuture(1L));
+-        Assert.assertEquals(1, (long) currentStore.getEarliestMessageTimeAsync(mq.getTopic(), mq.getQueueId()).join());
++        Assert.assertEquals(0, (long) currentStore.getEarliestMessageTimeAsync(mq.getTopic(), mq.getQueueId()).join());
+ 
+         when(fetcher.getEarliestMessageTimeAsync(anyString(), anyInt())).thenReturn(CompletableFuture.completedFuture(-1L));
+         when(defaultStore.getEarliestMessageTime(anyString(), anyInt())).thenReturn(2L);

@@ -1,0 +1,23 @@
+diff --git a/src/test/java/com/fasterxml/jackson/core/tofix/async/AsyncLocation1412Test.java b/src/test/java/com/fasterxml/jackson/core/json/async/AsyncLocation1412Test.java
+similarity index 98%
+rename from src/test/java/com/fasterxml/jackson/core/tofix/async/AsyncLocation1412Test.java
+rename to src/test/java/com/fasterxml/jackson/core/json/async/AsyncLocation1412Test.java
+index 82dbf301c..5e409d3e4 100644
+--- a/src/test/java/com/fasterxml/jackson/core/tofix/async/AsyncLocation1412Test.java
++++ b/src/test/java/com/fasterxml/jackson/core/json/async/AsyncLocation1412Test.java
+@@ -76,7 +76,6 @@ class AsyncLocation1412Test extends AsyncTestBase
+       }
+     }
+ 
+-    @JacksonTestFailureExpected
+     @Test
+     @DisplayName("Feed one byte at a time from non-zero array offset")
+     void feedByteByByteFromNonZeroOffset() throws Exception {
+@@ -94,7 +93,6 @@ class AsyncLocation1412Test extends AsyncTestBase
+       }
+     }
+ 
+-    @JacksonTestFailureExpected
+     @Test
+     @DisplayName("Feed whole document at once from non-zero array offset")
+     void feedWholeDocumentFromNonZeroOffset() throws Exception {

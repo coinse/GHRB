@@ -1,0 +1,71 @@
+diff --git a/src/test/java/com/puppycrawl/tools/checkstyle/checks/javadoc/JavadocStyleCheckTest.java b/src/test/java/com/puppycrawl/tools/checkstyle/checks/javadoc/JavadocStyleCheckTest.java
+index 09504f83f11..d27d07b2c31 100644
+--- a/src/test/java/com/puppycrawl/tools/checkstyle/checks/javadoc/JavadocStyleCheckTest.java
++++ b/src/test/java/com/puppycrawl/tools/checkstyle/checks/javadoc/JavadocStyleCheckTest.java
+@@ -827,6 +827,7 @@ public class JavadocStyleCheckTest
+     public void testJavadocStyleAboveComments() throws Exception {
+         final String[] expected = {
+             "13: " + getCheckMessage(MSG_NO_PERIOD),
++            "20: " + getCheckMessage(MSG_NO_PERIOD),
+         };
+ 
+         verifyWithInlineConfigParser(
+diff --git a/src/test/java/com/puppycrawl/tools/checkstyle/checks/javadoc/JavadocTypeCheckTest.java b/src/test/java/com/puppycrawl/tools/checkstyle/checks/javadoc/JavadocTypeCheckTest.java
+index 0ca4d52c4f7..2ee1b31c8c1 100644
+--- a/src/test/java/com/puppycrawl/tools/checkstyle/checks/javadoc/JavadocTypeCheckTest.java
++++ b/src/test/java/com/puppycrawl/tools/checkstyle/checks/javadoc/JavadocTypeCheckTest.java
+@@ -475,6 +475,7 @@ public class JavadocTypeCheckTest extends AbstractModuleTestSupport {
+     public void testJavadocTypeAboveComments() throws Exception {
+         final String[] expected = {
+             "15:1: " + getCheckMessage(MSG_MISSING_TAG, "@author"),
++            "41:15: " + getCheckMessage(MSG_MISSING_TAG, "@author"),
+         };
+         verifyWithInlineConfigParser(
+                 getPath("InputJavadocTypeAboveComments.java"), expected);
+diff --git a/src/test/java/com/puppycrawl/tools/checkstyle/checks/javadoc/JavadocVariableCheckTest.java b/src/test/java/com/puppycrawl/tools/checkstyle/checks/javadoc/JavadocVariableCheckTest.java
+index 99798a1f82c..a97f65bf593 100644
+--- a/src/test/java/com/puppycrawl/tools/checkstyle/checks/javadoc/JavadocVariableCheckTest.java
++++ b/src/test/java/com/puppycrawl/tools/checkstyle/checks/javadoc/JavadocVariableCheckTest.java
+@@ -26,7 +26,6 @@ import org.junit.jupiter.api.Test;
+ 
+ import com.puppycrawl.tools.checkstyle.AbstractModuleTestSupport;
+ import com.puppycrawl.tools.checkstyle.api.TokenTypes;
+-import com.puppycrawl.tools.checkstyle.utils.CommonUtil;
+ 
+ public class JavadocVariableCheckTest
+     extends AbstractModuleTestSupport {
+@@ -376,7 +375,9 @@ public class JavadocVariableCheckTest
+ 
+     @Test
+     public void testJavadocVariableAboveComment() throws Exception {
+-        final String[] expected = CommonUtil.EMPTY_STRING_ARRAY;
++        final String[] expected = {
++            "23:5: " + getCheckMessage(MSG_JAVADOC_MISSING),
++        };
+         verifyWithInlineConfigParser(
+             getPath("InputJavadocVariableAboveComment.java"),
+             expected);
+diff --git a/src/test/java/com/puppycrawl/tools/checkstyle/checks/javadoc/MissingJavadocMethodCheckTest.java b/src/test/java/com/puppycrawl/tools/checkstyle/checks/javadoc/MissingJavadocMethodCheckTest.java
+index ca36ab82f45..f4c673590fc 100644
+--- a/src/test/java/com/puppycrawl/tools/checkstyle/checks/javadoc/MissingJavadocMethodCheckTest.java
++++ b/src/test/java/com/puppycrawl/tools/checkstyle/checks/javadoc/MissingJavadocMethodCheckTest.java
+@@ -533,6 +533,7 @@ public class MissingJavadocMethodCheckTest extends AbstractModuleTestSupport {
+     public void testMissingJavadocMethodAboveComments() throws Exception {
+         final String[] expected = {
+             "18:5: " + getCheckMessage(MSG_JAVADOC_MISSING),
++            "36:5: " + getCheckMessage(MSG_JAVADOC_MISSING),
+         };
+         verifyWithInlineConfigParser(
+                 getPath("InputMissingJavadocMethodAboveComments.java"),
+diff --git a/src/test/java/com/puppycrawl/tools/checkstyle/checks/javadoc/MissingJavadocTypeCheckTest.java b/src/test/java/com/puppycrawl/tools/checkstyle/checks/javadoc/MissingJavadocTypeCheckTest.java
+index 4725edbc74b..7c3aca00a10 100644
+--- a/src/test/java/com/puppycrawl/tools/checkstyle/checks/javadoc/MissingJavadocTypeCheckTest.java
++++ b/src/test/java/com/puppycrawl/tools/checkstyle/checks/javadoc/MissingJavadocTypeCheckTest.java
+@@ -440,6 +440,7 @@ public class MissingJavadocTypeCheckTest extends AbstractModuleTestSupport {
+     public void testMissingJavadocTypeAboveComments() throws Exception {
+         final String[] expected = {
+             "13:1: " + getCheckMessage(MSG_JAVADOC_MISSING),
++            "27:5: " + getCheckMessage(MSG_JAVADOC_MISSING),
+         };
+         verifyWithInlineConfigParser(
+             getPath("InputMissingJavadocTypeAboveComments.java"),

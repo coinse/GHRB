@@ -1136,5 +1136,36 @@
         ".org.apache.rocketmq.broker.pop.PopConsumerServiceTest.java"
       ]
     }
+  },
+  "apache_rocketmq-9214": {
+    "bug_id": "apache_rocketmq-9214",
+    "PR_number": 9214,
+    "PR_createdAt": "2025-02-28T03:41:14Z",
+    "merge_commit": "53fdc4ad3d23a1574aed8112fc2d3f34b7e66ad9",
+    "buggy_commits": [
+      {
+        "oid": "66d4a26eaaf648af78e5238899fab069f2546978",
+        "message": "Optimize RocksDB CQ shutdown when using DoubleWriteCQ #9212"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/apache/rocketmq/issues/9213",
+      "createdAt": "2025-02-28T03:29:35Z",
+      "content": "bug_report_all/apache_rocketmq-9214.json"
+    },
+    "changed_tests": [
+      "tieredstore/src/test/java/org/apache/rocketmq/tieredstore/TieredMessageStoreTest.java"
+    ],
+    "PR_url": "https://github.com/apache/rocketmq/pull/9214",
+    "merge_commit_url": "https://github.com/apache/rocketmq/commit/53fdc4ad3d23a1574aed8112fc2d3f34b7e66ad9",
+    "buggy_commit": "66d4a26eaaf648af78e5238899fab069f2546978",
+    "execution_result": {
+      "valid_tests": [
+        ".org.apache.rocketmq.tieredstore.TieredMessageStoreTest.java"
+      ],
+      "success_tests": [
+        ".org.apache.rocketmq.tieredstore.TieredMessageStoreTest.java"
+      ]
+    }
   }
 }

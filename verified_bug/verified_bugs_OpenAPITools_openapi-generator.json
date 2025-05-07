@@ -349,5 +349,43 @@
         ".org.openapitools.codegen.typescript.fetch.TypeScriptFetchClientCodegenTest.java"
       ]
     }
+  },
+  "OpenAPITools_openapi-generator-20887": {
+    "bug_id": "OpenAPITools_openapi-generator-20887",
+    "PR_number": 20887,
+    "PR_createdAt": "2025-03-14T13:21:50Z",
+    "merge_commit": "666934636d301d75981443fa530fab4ce47dc74b",
+    "buggy_commits": [
+      {
+        "oid": "3b0bb0a73ddbd1d93afc1d618b4c6c923d0a70e0",
+        "message": "[Protobuf Schema] Add Support for Multiple Response (#20989)\n\n* Protobuf Schema Support Multiple Response\n\n* change the supportMultiple response to true\n\n* address build failure\n\n* address build failure"
+      },
+      {
+        "oid": "b17a76e536e4a8f9651d9d4ae55bbd6a372b7cd9",
+        "message": "fix: #20878 Provide \" as member\" where needed\n\n- Generate new samples\n- Add tests for all effected python versions\n- Ran tests with success\n\nCommands used to verify:\n./bin/generate-samples.sh ./bin/configs/python*\nmvn verify -Psamples\nmvn integration-test -f modules/openapi-generator/pom.xml -Dtest=org.openapitools.codegen.python.PythonPydanticV1ClientCodegenTest -e\nmvn integration-test -f modules/openapi-generator/pom.xml -Dtest=org.openapitools.codegen.python.PythonClientCodegenTest -e"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/OpenAPITools/openapi-generator/issues/20878",
+      "createdAt": "2025-03-13T20:59:54Z",
+      "content": "bug_report_all/OpenAPITools_openapi-generator-20887.json"
+    },
+    "changed_tests": [
+      "modules/openapi-generator/src/test/java/org/openapitools/codegen/python/PythonClientCodegenTest.java",
+      "modules/openapi-generator/src/test/java/org/openapitools/codegen/python/PythonPydanticV1ClientCodegenTest.java"
+    ],
+    "PR_url": "https://github.com/OpenAPITools/openapi-generator/pull/20887",
+    "merge_commit_url": "https://github.com/OpenAPITools/openapi-generator/commit/666934636d301d75981443fa530fab4ce47dc74b",
+    "buggy_commit": "3b0bb0a73ddbd1d93afc1d618b4c6c923d0a70e0",
+    "execution_result": {
+      "valid_tests": [
+        ".org.openapitools.codegen.python.PythonClientCodegenTest.java",
+        ".org.openapitools.codegen.python.PythonPydanticV1ClientCodegenTest.java"
+      ],
+      "success_tests": [
+        ".org.openapitools.codegen.python.PythonClientCodegenTest.java",
+        ".org.openapitools.codegen.python.PythonPydanticV1ClientCodegenTest.java"
+      ]
+    }
   }
 }
