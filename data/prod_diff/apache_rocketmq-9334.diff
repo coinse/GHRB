@@ -1,0 +1,605 @@
+diff --git a/broker/src/main/java/org/apache/rocketmq/broker/RocksDBConfigManager.java b/broker/src/main/java/org/apache/rocketmq/broker/RocksDBConfigManager.java
+index ee2d4e54a6..c59c00c040 100644
+--- a/broker/src/main/java/org/apache/rocketmq/broker/RocksDBConfigManager.java
++++ b/broker/src/main/java/org/apache/rocketmq/broker/RocksDBConfigManager.java
+@@ -16,9 +16,7 @@
+  */
+ package org.apache.rocketmq.broker;
+ 
+-import com.alibaba.fastjson.JSON;
+-import java.nio.charset.StandardCharsets;
+-import java.util.function.BiConsumer;
++import com.alibaba.fastjson2.JSON;
+ import org.apache.commons.lang3.StringUtils;
+ import org.apache.rocketmq.common.config.ConfigRocksDBStorage;
+ import org.apache.rocketmq.common.constant.LoggerName;
+@@ -31,6 +29,9 @@ import org.rocksdb.RocksIterator;
+ import org.rocksdb.Statistics;
+ import org.rocksdb.WriteBatch;
+ 
++import java.nio.charset.StandardCharsets;
++import java.util.function.BiConsumer;
++
+ public class RocksDBConfigManager {
+     protected static final Logger BROKER_LOG = LoggerFactory.getLogger(LoggerName.BROKER_LOGGER_NAME);
+     public volatile boolean isStop = false;
+diff --git a/broker/src/main/java/org/apache/rocketmq/broker/offset/ConsumerOrderInfoManager.java b/broker/src/main/java/org/apache/rocketmq/broker/offset/ConsumerOrderInfoManager.java
+index 120f5b104c..9f173daf46 100644
+--- a/broker/src/main/java/org/apache/rocketmq/broker/offset/ConsumerOrderInfoManager.java
++++ b/broker/src/main/java/org/apache/rocketmq/broker/offset/ConsumerOrderInfoManager.java
+@@ -16,17 +16,9 @@
+  */
+ package org.apache.rocketmq.broker.offset;
+ 
+-import com.alibaba.fastjson.annotation.JSONField;
++import com.alibaba.fastjson2.annotation.JSONField;
+ import com.google.common.annotations.VisibleForTesting;
+ import com.google.common.base.MoreObjects;
+-import java.util.ArrayList;
+-import java.util.HashMap;
+-import java.util.HashSet;
+-import java.util.Iterator;
+-import java.util.List;
+-import java.util.Map;
+-import java.util.Set;
+-import java.util.concurrent.ConcurrentHashMap;
+ import org.apache.rocketmq.broker.BrokerController;
+ import org.apache.rocketmq.broker.BrokerPathConfigHelper;
+ import org.apache.rocketmq.common.ConfigManager;
+@@ -37,6 +29,15 @@ import org.apache.rocketmq.logging.org.slf4j.LoggerFactory;
+ import org.apache.rocketmq.remoting.protocol.RemotingSerializable;
+ import org.apache.rocketmq.remoting.protocol.header.ExtraInfoUtil;
+ 
++import java.util.ArrayList;
++import java.util.HashMap;
++import java.util.HashSet;
++import java.util.Iterator;
++import java.util.List;
++import java.util.Map;
++import java.util.Set;
++import java.util.concurrent.ConcurrentHashMap;
++
+ public class ConsumerOrderInfoManager extends ConfigManager {
+ 
+     private static final Logger log = LoggerFactory.getLogger(LoggerName.BROKER_LOGGER_NAME);
+diff --git a/broker/src/main/java/org/apache/rocketmq/broker/pop/PopConsumerRecord.java b/broker/src/main/java/org/apache/rocketmq/broker/pop/PopConsumerRecord.java
+index 1ee01fea1c..661ace9bcb 100644
+--- a/broker/src/main/java/org/apache/rocketmq/broker/pop/PopConsumerRecord.java
++++ b/broker/src/main/java/org/apache/rocketmq/broker/pop/PopConsumerRecord.java
+@@ -16,9 +16,9 @@
+  */
+ package org.apache.rocketmq.broker.pop;
+ 
+-import com.alibaba.fastjson.JSON;
+-import com.alibaba.fastjson.JSONObject;
+-import com.alibaba.fastjson.annotation.JSONField;
++import com.alibaba.fastjson2.JSON;
++import com.alibaba.fastjson2.annotation.JSONField;
++
+ import java.nio.ByteBuffer;
+ import java.nio.charset.StandardCharsets;
+ 
+@@ -119,7 +119,7 @@ public class PopConsumerRecord {
+     }
+ 
+     public static PopConsumerRecord decode(byte[] body) {
+-        return JSONObject.parseObject(body, PopConsumerRecord.class);
++        return JSON.parseObject(body, PopConsumerRecord.class);
+     }
+ 
+     public long getPopTime() {
+diff --git a/broker/src/main/java/org/apache/rocketmq/broker/pop/PopConsumerService.java b/broker/src/main/java/org/apache/rocketmq/broker/pop/PopConsumerService.java
+index 1138ff4afe..a2198f2560 100644
+--- a/broker/src/main/java/org/apache/rocketmq/broker/pop/PopConsumerService.java
++++ b/broker/src/main/java/org/apache/rocketmq/broker/pop/PopConsumerService.java
+@@ -16,25 +16,9 @@
+  */
+ package org.apache.rocketmq.broker.pop;
+ 
+-import com.alibaba.fastjson.JSON;
++import com.alibaba.fastjson2.JSON;
+ import com.google.common.annotations.VisibleForTesting;
+ import com.google.common.base.Stopwatch;
+-import java.nio.ByteBuffer;
+-import java.nio.file.Paths;
+-import java.util.ArrayList;
+-import java.util.Collections;
+-import java.util.HashMap;
+-import java.util.List;
+-import java.util.Objects;
+-import java.util.Queue;
+-import java.util.concurrent.CompletableFuture;
+-import java.util.concurrent.CompletionException;
+-import java.util.concurrent.ConcurrentHashMap;
+-import java.util.concurrent.ConcurrentMap;
+-import java.util.concurrent.LinkedBlockingQueue;
+-import java.util.concurrent.TimeUnit;
+-import java.util.concurrent.atomic.AtomicBoolean;
+-import java.util.concurrent.atomic.AtomicLong;
+ import org.apache.commons.lang3.StringUtils;
+ import org.apache.commons.lang3.tuple.Triple;
+ import org.apache.rocketmq.broker.BrokerController;
+@@ -65,6 +49,23 @@ import org.apache.rocketmq.store.pop.PopCheckPoint;
+ import org.slf4j.Logger;
+ import org.slf4j.LoggerFactory;
+ 
++import java.nio.ByteBuffer;
++import java.nio.file.Paths;
++import java.util.ArrayList;
++import java.util.Collections;
++import java.util.HashMap;
++import java.util.List;
++import java.util.Objects;
++import java.util.Queue;
++import java.util.concurrent.CompletableFuture;
++import java.util.concurrent.CompletionException;
++import java.util.concurrent.ConcurrentHashMap;
++import java.util.concurrent.ConcurrentMap;
++import java.util.concurrent.LinkedBlockingQueue;
++import java.util.concurrent.TimeUnit;
++import java.util.concurrent.atomic.AtomicBoolean;
++import java.util.concurrent.atomic.AtomicLong;
++
+ public class PopConsumerService extends ServiceThread {
+ 
+     private static final Logger log = LoggerFactory.getLogger(LoggerName.ROCKETMQ_POP_LOGGER_NAME);
+diff --git a/broker/src/main/java/org/apache/rocketmq/broker/processor/AckMessageProcessor.java b/broker/src/main/java/org/apache/rocketmq/broker/processor/AckMessageProcessor.java
+index 23a4f6167c..06a531552a 100644
+--- a/broker/src/main/java/org/apache/rocketmq/broker/processor/AckMessageProcessor.java
++++ b/broker/src/main/java/org/apache/rocketmq/broker/processor/AckMessageProcessor.java
+@@ -16,11 +16,9 @@
+  */
+ package org.apache.rocketmq.broker.processor;
+ 
+-import com.alibaba.fastjson.JSON;
++import com.alibaba.fastjson2.JSON;
+ import io.netty.channel.Channel;
+ import io.netty.channel.ChannelHandlerContext;
+-import java.util.BitSet;
+-import java.nio.charset.StandardCharsets;
+ import org.apache.rocketmq.broker.BrokerController;
+ import org.apache.rocketmq.broker.metrics.PopMetricsManager;
+ import org.apache.rocketmq.broker.offset.ConsumerOffsetManager;
+@@ -52,6 +50,9 @@ import org.apache.rocketmq.store.exception.ConsumeQueueException;
+ import org.apache.rocketmq.store.pop.AckMsg;
+ import org.apache.rocketmq.store.pop.BatchAckMsg;
+ 
++import java.nio.charset.StandardCharsets;
++import java.util.BitSet;
++
+ public class AckMessageProcessor implements NettyRequestProcessor {
+ 
+     private static final Logger POP_LOGGER = LoggerFactory.getLogger(LoggerName.ROCKETMQ_POP_LOGGER_NAME);
+diff --git a/broker/src/main/java/org/apache/rocketmq/broker/processor/AdminBrokerProcessor.java b/broker/src/main/java/org/apache/rocketmq/broker/processor/AdminBrokerProcessor.java
+index 4200f34bde..c747fa15af 100644
+--- a/broker/src/main/java/org/apache/rocketmq/broker/processor/AdminBrokerProcessor.java
++++ b/broker/src/main/java/org/apache/rocketmq/broker/processor/AdminBrokerProcessor.java
+@@ -16,33 +16,12 @@
+  */
+ package org.apache.rocketmq.broker.processor;
+ 
+-import com.alibaba.fastjson.JSON;
+-import com.alibaba.fastjson.JSONObject;
++import com.alibaba.fastjson2.JSON;
++import com.alibaba.fastjson2.JSONObject;
+ import com.google.common.collect.Sets;
+ import io.netty.channel.Channel;
+ import io.netty.channel.ChannelHandlerContext;
+ import io.opentelemetry.api.common.Attributes;
+-import java.io.UnsupportedEncodingException;
+-import java.net.UnknownHostException;
+-import java.nio.charset.StandardCharsets;
+-import java.util.ArrayList;
+-import java.util.Arrays;
+-import java.util.HashMap;
+-import java.util.HashSet;
+-import java.util.Iterator;
+-import java.util.List;
+-import java.util.Map;
+-import java.util.Properties;
+-import java.util.Set;
+-import java.util.concurrent.CompletableFuture;
+-import java.util.concurrent.CompletionException;
+-import java.util.concurrent.ConcurrentHashMap;
+-import java.util.concurrent.ConcurrentMap;
+-import java.util.concurrent.CountDownLatch;
+-import java.util.concurrent.ExecutorService;
+-import java.util.concurrent.SynchronousQueue;
+-import java.util.concurrent.ThreadPoolExecutor;
+-import java.util.concurrent.TimeUnit;
+ import org.apache.commons.collections.CollectionUtils;
+ import org.apache.commons.lang3.StringUtils;
+ import org.apache.rocketmq.acl.AccessValidator;
+@@ -236,6 +215,28 @@ import org.apache.rocketmq.store.timer.TimerCheckpoint;
+ import org.apache.rocketmq.store.timer.TimerMessageStore;
+ import org.apache.rocketmq.store.util.LibC;
+ 
++import java.io.UnsupportedEncodingException;
++import java.net.UnknownHostException;
++import java.nio.charset.StandardCharsets;
++import java.util.ArrayList;
++import java.util.Arrays;
++import java.util.HashMap;
++import java.util.HashSet;
++import java.util.Iterator;
++import java.util.List;
++import java.util.Map;
++import java.util.Properties;
++import java.util.Set;
++import java.util.concurrent.CompletableFuture;
++import java.util.concurrent.CompletionException;
++import java.util.concurrent.ConcurrentHashMap;
++import java.util.concurrent.ConcurrentMap;
++import java.util.concurrent.CountDownLatch;
++import java.util.concurrent.ExecutorService;
++import java.util.concurrent.SynchronousQueue;
++import java.util.concurrent.ThreadPoolExecutor;
++import java.util.concurrent.TimeUnit;
++
+ import static org.apache.rocketmq.broker.metrics.BrokerMetricsConstant.LABEL_INVOCATION_STATUS;
+ import static org.apache.rocketmq.broker.metrics.BrokerMetricsConstant.LABEL_IS_SYSTEM;
+ import static org.apache.rocketmq.remoting.protocol.RemotingCommand.buildErrorResponse;
+@@ -2891,7 +2892,7 @@ public class AdminBrokerProcessor implements NettyRequestProcessor {
+             } else {
+                 ConsumerFilterData filterData = this.brokerController.getConsumerFilterManager()
+                     .get(requestHeader.getTopic(), requestHeader.getConsumerGroup());
+-                body.setFilterData(JSON.toJSONString(filterData, true));
++                body.setFilterData(JSON.toJSONString(filterData));
+ 
+                 messageFilter = new ExpressionMessageFilter(subscriptionData, filterData,
+                     this.brokerController.getConsumerFilterManager());
+diff --git a/broker/src/main/java/org/apache/rocketmq/broker/processor/ChangeInvisibleTimeProcessor.java b/broker/src/main/java/org/apache/rocketmq/broker/processor/ChangeInvisibleTimeProcessor.java
+index de72ee7baf..f288c001b8 100644
+--- a/broker/src/main/java/org/apache/rocketmq/broker/processor/ChangeInvisibleTimeProcessor.java
++++ b/broker/src/main/java/org/apache/rocketmq/broker/processor/ChangeInvisibleTimeProcessor.java
+@@ -16,12 +16,9 @@
+  */
+ package org.apache.rocketmq.broker.processor;
+ 
+-import com.alibaba.fastjson.JSON;
++import com.alibaba.fastjson2.JSON;
+ import io.netty.channel.Channel;
+ import io.netty.channel.ChannelHandlerContext;
+-import java.util.concurrent.CompletableFuture;
+-import java.util.concurrent.TimeUnit;
+-import java.nio.charset.StandardCharsets;
+ import org.apache.rocketmq.broker.BrokerController;
+ import org.apache.rocketmq.broker.metrics.PopMetricsManager;
+ import org.apache.rocketmq.broker.offset.ConsumerOffsetManager;
+@@ -50,6 +47,10 @@ import org.apache.rocketmq.store.exception.ConsumeQueueException;
+ import org.apache.rocketmq.store.pop.AckMsg;
+ import org.apache.rocketmq.store.pop.PopCheckPoint;
+ 
++import java.nio.charset.StandardCharsets;
++import java.util.concurrent.CompletableFuture;
++import java.util.concurrent.TimeUnit;
++
+ public class ChangeInvisibleTimeProcessor implements NettyRequestProcessor {
+     private static final Logger POP_LOGGER = LoggerFactory.getLogger(LoggerName.ROCKETMQ_POP_LOGGER_NAME);
+     private final BrokerController brokerController;
+diff --git a/broker/src/main/java/org/apache/rocketmq/broker/processor/PopBufferMergeService.java b/broker/src/main/java/org/apache/rocketmq/broker/processor/PopBufferMergeService.java
+index 820388b18d..7c309ec5c4 100644
+--- a/broker/src/main/java/org/apache/rocketmq/broker/processor/PopBufferMergeService.java
++++ b/broker/src/main/java/org/apache/rocketmq/broker/processor/PopBufferMergeService.java
+@@ -16,15 +16,7 @@
+  */
+ package org.apache.rocketmq.broker.processor;
+ 
+-import com.alibaba.fastjson.JSON;
+-import java.nio.charset.StandardCharsets;
+-import java.util.ArrayList;
+-import java.util.Iterator;
+-import java.util.List;
+-import java.util.Map;
+-import java.util.concurrent.ConcurrentHashMap;
+-import java.util.concurrent.LinkedBlockingDeque;
+-import java.util.concurrent.atomic.AtomicInteger;
++import com.alibaba.fastjson2.JSON;
+ import org.apache.rocketmq.broker.BrokerController;
+ import org.apache.rocketmq.broker.metrics.PopMetricsManager;
+ import org.apache.rocketmq.common.KeyBuilder;
+@@ -44,6 +36,15 @@ import org.apache.rocketmq.store.pop.AckMsg;
+ import org.apache.rocketmq.store.pop.BatchAckMsg;
+ import org.apache.rocketmq.store.pop.PopCheckPoint;
+ 
++import java.nio.charset.StandardCharsets;
++import java.util.ArrayList;
++import java.util.Iterator;
++import java.util.List;
++import java.util.Map;
++import java.util.concurrent.ConcurrentHashMap;
++import java.util.concurrent.LinkedBlockingDeque;
++import java.util.concurrent.atomic.AtomicInteger;
++
+ public class PopBufferMergeService extends ServiceThread {
+     private static final Logger POP_LOGGER = LoggerFactory.getLogger(LoggerName.ROCKETMQ_POP_LOGGER_NAME);
+     ConcurrentHashMap<String/*mergeKey*/, PopCheckPointWrapper>
+diff --git a/broker/src/main/java/org/apache/rocketmq/broker/processor/PopMessageProcessor.java b/broker/src/main/java/org/apache/rocketmq/broker/processor/PopMessageProcessor.java
+index d73acc84df..9f55269f39 100644
+--- a/broker/src/main/java/org/apache/rocketmq/broker/processor/PopMessageProcessor.java
++++ b/broker/src/main/java/org/apache/rocketmq/broker/processor/PopMessageProcessor.java
+@@ -16,27 +16,13 @@
+  */
+ package org.apache.rocketmq.broker.processor;
+ 
+-import com.alibaba.fastjson.JSON;
++import com.alibaba.fastjson2.JSON;
+ import com.googlecode.concurrentlinkedhashmap.ConcurrentLinkedHashMap;
+ import io.netty.channel.Channel;
+ import io.netty.channel.ChannelFutureListener;
+ import io.netty.channel.ChannelHandlerContext;
+ import io.netty.channel.FileRegion;
+ import io.opentelemetry.api.common.Attributes;
+-import java.nio.ByteBuffer;
+-import java.nio.charset.StandardCharsets;
+-import java.util.Iterator;
+-import java.util.List;
+-import java.util.Map;
+-import java.util.Map.Entry;
+-import java.util.Objects;
+-import java.util.Random;
+-import java.util.concurrent.CompletableFuture;
+-import java.util.concurrent.ConcurrentHashMap;
+-import java.util.concurrent.ConcurrentSkipListSet;
+-import java.util.concurrent.TimeUnit;
+-import java.util.concurrent.atomic.AtomicBoolean;
+-import java.util.concurrent.atomic.AtomicLong;
+ import org.apache.rocketmq.broker.BrokerController;
+ import org.apache.rocketmq.broker.filter.ConsumerFilterData;
+ import org.apache.rocketmq.broker.filter.ConsumerFilterManager;
+@@ -91,6 +77,21 @@ import org.apache.rocketmq.store.pop.AckMsg;
+ import org.apache.rocketmq.store.pop.BatchAckMsg;
+ import org.apache.rocketmq.store.pop.PopCheckPoint;
+ 
++import java.nio.ByteBuffer;
++import java.nio.charset.StandardCharsets;
++import java.util.Iterator;
++import java.util.List;
++import java.util.Map;
++import java.util.Map.Entry;
++import java.util.Objects;
++import java.util.Random;
++import java.util.concurrent.CompletableFuture;
++import java.util.concurrent.ConcurrentHashMap;
++import java.util.concurrent.ConcurrentSkipListSet;
++import java.util.concurrent.TimeUnit;
++import java.util.concurrent.atomic.AtomicBoolean;
++import java.util.concurrent.atomic.AtomicLong;
++
+ import static org.apache.rocketmq.broker.metrics.BrokerMetricsConstant.LABEL_CONSUMER_GROUP;
+ import static org.apache.rocketmq.broker.metrics.BrokerMetricsConstant.LABEL_IS_RETRY;
+ import static org.apache.rocketmq.broker.metrics.BrokerMetricsConstant.LABEL_IS_SYSTEM;
+diff --git a/broker/src/main/java/org/apache/rocketmq/broker/processor/PopReviveService.java b/broker/src/main/java/org/apache/rocketmq/broker/processor/PopReviveService.java
+index e1ead86169..dcffaf50cc 100644
+--- a/broker/src/main/java/org/apache/rocketmq/broker/processor/PopReviveService.java
++++ b/broker/src/main/java/org/apache/rocketmq/broker/processor/PopReviveService.java
+@@ -16,18 +16,8 @@
+  */
+ package org.apache.rocketmq.broker.processor;
+ 
+-import com.alibaba.fastjson.JSON;
++import com.alibaba.fastjson2.JSON;
+ import io.opentelemetry.api.common.Attributes;
+-import java.nio.ByteBuffer;
+-import java.nio.charset.StandardCharsets;
+-import java.util.ArrayList;
+-import java.util.Collections;
+-import java.util.HashMap;
+-import java.util.List;
+-import java.util.Map;
+-import java.util.NavigableMap;
+-import java.util.TreeMap;
+-import java.util.concurrent.CompletableFuture;
+ import org.apache.commons.lang3.StringUtils;
+ import org.apache.commons.lang3.tuple.Triple;
+ import org.apache.rocketmq.broker.BrokerController;
+@@ -37,12 +27,12 @@ import org.apache.rocketmq.client.consumer.PullResult;
+ import org.apache.rocketmq.client.consumer.PullStatus;
+ import org.apache.rocketmq.common.KeyBuilder;
+ import org.apache.rocketmq.common.MixAll;
+-import org.apache.rocketmq.common.UtilAll;
+ import org.apache.rocketmq.common.Pair;
+ import org.apache.rocketmq.common.PopAckConstants;
+ import org.apache.rocketmq.common.ServiceThread;
+ import org.apache.rocketmq.common.TopicConfig;
+ import org.apache.rocketmq.common.TopicFilterType;
++import org.apache.rocketmq.common.UtilAll;
+ import org.apache.rocketmq.common.constant.LoggerName;
+ import org.apache.rocketmq.common.message.MessageAccessor;
+ import org.apache.rocketmq.common.message.MessageConst;
+@@ -61,6 +51,17 @@ import org.apache.rocketmq.store.pop.AckMsg;
+ import org.apache.rocketmq.store.pop.BatchAckMsg;
+ import org.apache.rocketmq.store.pop.PopCheckPoint;
+ 
++import java.nio.ByteBuffer;
++import java.nio.charset.StandardCharsets;
++import java.util.ArrayList;
++import java.util.Collections;
++import java.util.HashMap;
++import java.util.List;
++import java.util.Map;
++import java.util.NavigableMap;
++import java.util.TreeMap;
++import java.util.concurrent.CompletableFuture;
++
+ import static org.apache.rocketmq.broker.metrics.BrokerMetricsConstant.LABEL_CONSUMER_GROUP;
+ import static org.apache.rocketmq.broker.metrics.BrokerMetricsConstant.LABEL_IS_SYSTEM;
+ import static org.apache.rocketmq.broker.metrics.BrokerMetricsConstant.LABEL_TOPIC;
+diff --git a/broker/src/main/java/org/apache/rocketmq/broker/topic/TopicQueueMappingManager.java b/broker/src/main/java/org/apache/rocketmq/broker/topic/TopicQueueMappingManager.java
+index 6b9cf15938..dfbe5d347a 100644
+--- a/broker/src/main/java/org/apache/rocketmq/broker/topic/TopicQueueMappingManager.java
++++ b/broker/src/main/java/org/apache/rocketmq/broker/topic/TopicQueueMappingManager.java
+@@ -16,13 +16,8 @@
+  */
+ package org.apache.rocketmq.broker.topic;
+ 
+-import com.alibaba.fastjson.JSON;
+-import java.util.List;
+-import java.util.concurrent.ConcurrentHashMap;
+-import java.util.concurrent.ConcurrentMap;
+-import java.util.concurrent.TimeUnit;
+-import java.util.concurrent.locks.Lock;
+-import java.util.concurrent.locks.ReentrantLock;
++import com.alibaba.fastjson2.JSON;
++import com.alibaba.fastjson2.JSONWriter;
+ import org.apache.rocketmq.broker.BrokerController;
+ import org.apache.rocketmq.broker.BrokerPathConfigHelper;
+ import org.apache.rocketmq.common.ConfigManager;
+@@ -40,6 +35,13 @@ import org.apache.rocketmq.remoting.protocol.statictopic.TopicQueueMappingUtils;
+ import org.apache.rocketmq.remoting.rpc.TopicQueueRequestHeader;
+ import org.apache.rocketmq.remoting.rpc.TopicRequestHeader;
+ 
++import java.util.List;
++import java.util.concurrent.ConcurrentHashMap;
++import java.util.concurrent.ConcurrentMap;
++import java.util.concurrent.TimeUnit;
++import java.util.concurrent.locks.Lock;
++import java.util.concurrent.locks.ReentrantLock;
++
+ import static org.apache.rocketmq.remoting.protocol.RemotingCommand.buildErrorResponse;
+ 
+ public class TopicQueueMappingManager extends ConfigManager {
+@@ -149,7 +151,10 @@ public class TopicQueueMappingManager extends ConfigManager {
+         TopicQueueMappingSerializeWrapper wrapper = new TopicQueueMappingSerializeWrapper();
+         wrapper.setTopicQueueMappingInfoMap(topicQueueMappingTable);
+         wrapper.setDataVersion(this.dataVersion);
+-        return JSON.toJSONString(wrapper, pretty);
++        if (pretty) {
++            return JSON.toJSONString(wrapper, JSONWriter.Feature.PrettyFormat);
++        }
++        return JSON.toJSONString(wrapper);
+     }
+ 
+     @Override
+diff --git a/broker/src/main/java/org/apache/rocketmq/broker/transaction/TransactionMetrics.java b/broker/src/main/java/org/apache/rocketmq/broker/transaction/TransactionMetrics.java
+index ad30c73c60..d8dd811db2 100644
+--- a/broker/src/main/java/org/apache/rocketmq/broker/transaction/TransactionMetrics.java
++++ b/broker/src/main/java/org/apache/rocketmq/broker/transaction/TransactionMetrics.java
+@@ -16,16 +16,21 @@
+  */
+ package org.apache.rocketmq.broker.transaction;
+ 
+-import com.alibaba.fastjson.JSON;
+-import com.alibaba.fastjson.serializer.SerializerFeature;
++import com.alibaba.fastjson2.JSON;
++import com.alibaba.fastjson2.JSONWriter;
+ import com.google.common.io.Files;
+-import java.io.BufferedWriter;
++import org.apache.rocketmq.common.ConfigManager;
++import org.apache.rocketmq.common.constant.LoggerName;
++import org.apache.rocketmq.common.topic.TopicValidator;
++import org.apache.rocketmq.logging.org.slf4j.Logger;
++import org.apache.rocketmq.logging.org.slf4j.LoggerFactory;
++import org.apache.rocketmq.remoting.protocol.DataVersion;
++import org.apache.rocketmq.remoting.protocol.RemotingSerializable;
++
+ import java.io.File;
+ import java.io.FileOutputStream;
+ import java.io.IOException;
+-import java.io.OutputStreamWriter;
+-import java.io.Writer;
+-import java.nio.charset.StandardCharsets;
++import java.io.OutputStream;
+ import java.util.Iterator;
+ import java.util.Map;
+ import java.util.Set;
+@@ -33,14 +38,6 @@ import java.util.concurrent.ConcurrentHashMap;
+ import java.util.concurrent.ConcurrentMap;
+ import java.util.concurrent.atomic.AtomicLong;
+ 
+-import org.apache.rocketmq.common.ConfigManager;
+-import org.apache.rocketmq.common.constant.LoggerName;
+-import org.apache.rocketmq.common.topic.TopicValidator;
+-import org.apache.rocketmq.logging.org.slf4j.Logger;
+-import org.apache.rocketmq.logging.org.slf4j.LoggerFactory;
+-import org.apache.rocketmq.remoting.protocol.DataVersion;
+-import org.apache.rocketmq.remoting.protocol.RemotingSerializable;
+-
+ public class TransactionMetrics extends ConfigManager {
+     private static final Logger log = LoggerFactory.getLogger(LoggerName.BROKER_LOGGER_NAME);
+ 
+@@ -90,11 +87,11 @@ public class TransactionMetrics extends ConfigManager {
+         this.transactionCounts = transactionCounts;
+     }
+ 
+-    protected void write0(Writer writer) {
++    protected void write0(OutputStream out) {
+         TransactionMetricsSerializeWrapper wrapper = new TransactionMetricsSerializeWrapper();
+         wrapper.setTransactionCount(transactionCounts);
+         wrapper.setDataVersion(dataVersion);
+-        JSON.writeJSONString(writer, wrapper, SerializerFeature.BrowserCompatible);
++        JSON.writeTo(out, wrapper, JSONWriter.Feature.BrowserCompatible);
+     }
+ 
+     @Override
+@@ -182,7 +179,7 @@ public class TransactionMetrics extends ConfigManager {
+         String config = configFilePath();
+         String temp = config + ".tmp";
+         String backup = config + ".bak";
+-        BufferedWriter bufferedWriter = null;
++        FileOutputStream outputStream = null;
+         try {
+             File tmpFile = new File(temp);
+             File parentDirectory = tmpFile.getParentFile();
+@@ -199,11 +196,10 @@ public class TransactionMetrics extends ConfigManager {
+                     return;
+                 }
+             }
+-            bufferedWriter = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(tmpFile, false),
+-                    StandardCharsets.UTF_8));
+-            write0(bufferedWriter);
+-            bufferedWriter.flush();
+-            bufferedWriter.close();
++            outputStream = new FileOutputStream(tmpFile, false);
++            write0(outputStream);
++            outputStream.flush();
++            outputStream.close();
+             log.debug("Finished writing tmp file: {}", temp);
+ 
+             File configFile = new File(config);
+@@ -216,9 +212,9 @@ public class TransactionMetrics extends ConfigManager {
+         } catch (IOException e) {
+             log.error("Failed to persist {}", temp, e);
+         } finally {
+-            if (null != bufferedWriter) {
++            if (null != outputStream) {
+                 try {
+-                    bufferedWriter.close();
++                    outputStream.close();
+                 } catch (IOException ignore) {
+                 }
+             }
+diff --git a/store/src/main/java/org/apache/rocketmq/store/pop/PopCheckPoint.java b/store/src/main/java/org/apache/rocketmq/store/pop/PopCheckPoint.java
+index 38e0a20752..67cf045cfb 100644
+--- a/store/src/main/java/org/apache/rocketmq/store/pop/PopCheckPoint.java
++++ b/store/src/main/java/org/apache/rocketmq/store/pop/PopCheckPoint.java
+@@ -16,7 +16,7 @@
+  */
+ package org.apache.rocketmq.store.pop;
+ 
+-import com.alibaba.fastjson.annotation.JSONField;
++import com.alibaba.fastjson2.annotation.JSONField;
+ import java.util.ArrayList;
+ import java.util.List;
+ 
+@@ -35,7 +35,6 @@ public class PopCheckPoint implements Comparable<PopCheckPoint> {
+     private int queueId;
+     @JSONField(name = "t")
+     private String topic;
+-    @JSONField(name = "c")
+     private String cid;
+     @JSONField(name = "ro")
+     private long reviveOffset;
+@@ -114,10 +113,12 @@ public class PopCheckPoint implements Comparable<PopCheckPoint> {
+         this.topic = topic;
+     }
+ 
++    @JSONField(name = "c")
+     public String getCId() {
+         return cid;
+     }
+ 
++    @JSONField(name = "c")
+     public void setCId(String cid) {
+         this.cid = cid;
+     }

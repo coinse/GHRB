@@ -91,7 +91,7 @@
   },
   "openapi-generator": {
     "owner": "OpenAPITools",
-    "number_of_bugs": 12,
+    "number_of_bugs": 14,
     "commit_db": "commit_db/openapi-generator_bugs.csv",
     "repo_path": "/root/framework/repos/openapi-generator",
     "requirements": {
@@ -170,7 +170,7 @@
   },
   "rocketmq": {
     "owner": "apache",
-    "number_of_bugs": 36,
+    "number_of_bugs": 40,
     "commit_db": "commit_db/rocketmq_bugs.csv",
     "repo_path": "/root/framework/repos/rocketmq",
     "requirements": {

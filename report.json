@@ -1,0 +1,1279 @@
+{
+  "OpenAPITools_openapi-generator": {
+    "OpenAPITools_openapi-generator-21269": {
+      "bug_id": "OpenAPITools_openapi-generator-21269",
+      "PR_number": 21269,
+      "PR_createdAt": "2025-05-13T07:39:41Z",
+      "merge_commit": "2c67841e5c49bdabb6ae95146f676eea1c478683",
+      "buggy_commits": [
+        {
+          "oid": "dcd89bf3c5e0a15b7d518bfa7433719524f95462",
+          "message": "feat(typescript-angular): add util \"provideApi\" and update docs to standalone applications (#21173)\n\n* feat(angular): add util \"provideApi\" for standalone applications (Angular 17 and above)\n\n* feat(angular): update README with new provideApi usage examples for Angular applications\n\n* feat(angular): update README to reflect new provideApi import path and usage examples\n\n* feat(angular): add support for README_beforeV17 and update provideApi return type\n\n* feat(angular): add support for README_beforeV17 and update provideApi return type\n\n* feat(angular): add support for README_beforeV17 and update provideApi return type\n\n* fix: correct casing in DuplicateTest and FooDuplicateTest headers\n\n* feat(angular): add provideApi function and update README with usage examples"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/OpenAPITools/openapi-generator/issues/18735",
+        "createdAt": "2024-05-22T13:49:47Z",
+        "content": "bug_report_all/OpenAPITools_openapi-generator-21269.json"
+      },
+      "changed_tests": [
+        "modules/openapi-generator/src/test/java/org/openapitools/codegen/java/spring/SpringCodegenTest.java"
+      ],
+      "PR_url": "https://github.com/OpenAPITools/openapi-generator/pull/21269",
+      "merge_commit_url": "https://github.com/OpenAPITools/openapi-generator/commit/2c67841e5c49bdabb6ae95146f676eea1c478683",
+      "buggy_commit": "dcd89bf3c5e0a15b7d518bfa7433719524f95462"
+    },
+    "OpenAPITools_openapi-generator-21396": {
+      "bug_id": "OpenAPITools_openapi-generator-21396",
+      "PR_number": 21396,
+      "PR_createdAt": "2025-06-08T19:33:48Z",
+      "merge_commit": "db38f0f55609e570b1ab224fc167409accae3223",
+      "buggy_commits": [
+        {
+          "oid": "d5ab8f225eaefca00f6b8989f41ea86d99825834",
+          "message": "Bump brace-expansion from 1.1.11 to 1.1.12 in /website (#21418)\n\nBumps [brace-expansion](https://github.com/juliangruber/brace-expansion) from 1.1.11 to 1.1.12.\n- [Release notes](https://github.com/juliangruber/brace-expansion/releases)\n- [Commits](https://github.com/juliangruber/brace-expansion/compare/1.1.11...v1.1.12)\n\n---\nupdated-dependencies:\n- dependency-name: brace-expansion\n  dependency-version: 1.1.12\n  dependency-type: indirect\n...\n\nSigned-off-by: dependabot[bot] <support@github.com>\nCo-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/OpenAPITools/openapi-generator/issues/21144",
+        "createdAt": "2025-04-25T08:08:14Z",
+        "content": "bug_report_all/OpenAPITools_openapi-generator-21396.json"
+      },
+      "changed_tests": [
+        "modules/openapi-generator/src/test/java/org/openapitools/codegen/rust/RustAxumServerCodegenTest.java"
+      ],
+      "PR_url": "https://github.com/OpenAPITools/openapi-generator/pull/21396",
+      "merge_commit_url": "https://github.com/OpenAPITools/openapi-generator/commit/db38f0f55609e570b1ab224fc167409accae3223",
+      "buggy_commit": "d5ab8f225eaefca00f6b8989f41ea86d99825834"
+    },
+    "OpenAPITools_openapi-generator-21410": {
+      "bug_id": "OpenAPITools_openapi-generator-21410",
+      "PR_number": 21410,
+      "PR_createdAt": "2025-06-13T10:59:21Z",
+      "merge_commit": "9c29bb975c85af16573f5846b838760bcd3165c2",
+      "buggy_commits": [
+        {
+          "oid": "a5f638fefd45b124c890af742c5c91db21015811",
+          "message": "Revert \"[kotlin-client] Add support for integer enums in serialization for kotlin-client (#21248)\" (#21491)\n\nThis reverts commit 0aaeb45dbebaff4b03c2548d0f0ffe48457c54d2."
+        },
+        {
+          "oid": "f371a91d15bb555590ecf4a2c704030322663feb",
+          "message": "FIX #21407 - use referenced string enum schema in requestBody if available"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/OpenAPITools/openapi-generator/issues/21407",
+        "createdAt": "2025-06-10T15:25:11Z",
+        "content": "bug_report_all/OpenAPITools_openapi-generator-21410.json"
+      },
+      "changed_tests": [
+        "modules/openapi-generator/src/test/java/org/openapitools/codegen/DefaultCodegenTest.java"
+      ],
+      "PR_url": "https://github.com/OpenAPITools/openapi-generator/pull/21410",
+      "merge_commit_url": "https://github.com/OpenAPITools/openapi-generator/commit/9c29bb975c85af16573f5846b838760bcd3165c2",
+      "buggy_commit": "a5f638fefd45b124c890af742c5c91db21015811"
+    },
+    "OpenAPITools_openapi-generator-21428": {
+      "bug_id": "OpenAPITools_openapi-generator-21428",
+      "PR_number": 21428,
+      "PR_createdAt": "2025-06-18T08:28:16Z",
+      "merge_commit": "623463a6edae039aa00bd6b80e5fb296707efa4c",
+      "buggy_commits": [
+        {
+          "oid": "43e878b4216ede0794e4cd105949c209c8096ac7",
+          "message": "[python] Validate pyproject.toml and fix the pyproject.toml version constraint format (#21402)\n\n* Validate pyproject.toml of echo client python sample\n\n* Use PEP-508 compatible version constraint for `requires-python` key\n\n* Update samples\n\n* Move job to petstore workflow\n\n* Update generated sample\n\n* Use equals or greater than operator instead of greater than\n\n* Update samples"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/OpenAPITools/openapi-generator/issues/19973",
+        "createdAt": "2024-10-25T14:03:46Z",
+        "content": "bug_report_all/OpenAPITools_openapi-generator-21428.json"
+      },
+      "changed_tests": [
+        "samples/client/others/java/restclient-enum-in-multipart/src/test/java/org/openapitools/client/model/DataChannelTest.java",
+        "samples/client/others/java/restclient-enum-in-multipart/src/test/java/org/openapitools/client/model/DataDirectionTest.java",
+        "samples/client/others/java/restclient-enum-in-multipart/src/test/java/org/openapitools/client/model/InlineObjectTest.java"
+      ],
+      "PR_url": "https://github.com/OpenAPITools/openapi-generator/pull/21428",
+      "merge_commit_url": "https://github.com/OpenAPITools/openapi-generator/commit/623463a6edae039aa00bd6b80e5fb296707efa4c",
+      "buggy_commit": "43e878b4216ede0794e4cd105949c209c8096ac7"
+    },
+    "OpenAPITools_openapi-generator-21459": {
+      "bug_id": "OpenAPITools_openapi-generator-21459",
+      "PR_number": 21459,
+      "PR_createdAt": "2025-06-24T13:44:50Z",
+      "merge_commit": "d911a71be93ae2a256533ccd5808b245258f9fa8",
+      "buggy_commits": [
+        {
+          "oid": "046be5dba1aef8e3be88970966104cd60bd41f1d",
+          "message": "Prepare 7.15.0 (#21445)\n\n* Revert \"v7.14.0 release (#21443)\"\n\nThis reverts commit 5eb083e5ce1dd99659fadc03d7c6e809d3077af6.\n\n* prepare v7.15.0 snapshot\n\n* update samples\n\n* update readme\n\n* update doc"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/OpenAPITools/openapi-generator/issues/21181",
+        "createdAt": "2025-04-29T11:54:35Z",
+        "content": "bug_report_all/OpenAPITools_openapi-generator-21459.json"
+      },
+      "changed_tests": [
+        "modules/openapi-generator/src/test/java/org/openapitools/codegen/kotlin/AbstractKotlinCodegenTest.java"
+      ],
+      "PR_url": "https://github.com/OpenAPITools/openapi-generator/pull/21459",
+      "merge_commit_url": "https://github.com/OpenAPITools/openapi-generator/commit/d911a71be93ae2a256533ccd5808b245258f9fa8",
+      "buggy_commit": "046be5dba1aef8e3be88970966104cd60bd41f1d"
+    },
+    "OpenAPITools_openapi-generator-21480": {
+      "bug_id": "OpenAPITools_openapi-generator-21480",
+      "PR_number": 21480,
+      "PR_createdAt": "2025-06-28T10:44:47Z",
+      "merge_commit": "03effd7d0511325a1571971bea4b86cf38a1a17f",
+      "buggy_commits": [
+        {
+          "oid": "d11d008e71e2bd58d7c0d50ce169e80f7500d3fe",
+          "message": "Fix typescript-fetch missing imports for oneof field with discriminator (#21477)\n\n* fix: add support for discriminator in oneOf schemas and update model imports\n\n* chore: generate samples\n\n* fix: enhance model imports for oneOf arrays in mustache templates\n\n* fix: correct import formatting in mustache templates and TypeScript files"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/OpenAPITools/openapi-generator/issues/15254",
+        "createdAt": "2023-04-18T16:26:56Z",
+        "content": "bug_report_all/OpenAPITools_openapi-generator-21480.json"
+      },
+      "changed_tests": [
+        "modules/openapi-generator/src/test/java/org/openapitools/codegen/rust/AbstractRustCodegenTest.java"
+      ],
+      "PR_url": "https://github.com/OpenAPITools/openapi-generator/pull/21480",
+      "merge_commit_url": "https://github.com/OpenAPITools/openapi-generator/commit/03effd7d0511325a1571971bea4b86cf38a1a17f",
+      "buggy_commit": "d11d008e71e2bd58d7c0d50ce169e80f7500d3fe"
+    }
+  },
+  "assertj_assertj": {
+    "assertj_assertj-3853": {
+      "bug_id": "assertj_assertj-3853",
+      "PR_number": 3853,
+      "PR_createdAt": "2025-06-13T11:54:58Z",
+      "merge_commit": "7c8debfd95dbed4ff011226db811540c13535660",
+      "buggy_commits": [
+        {
+          "oid": "5632973dcf9e01d8549fc5200cff20a83b79dedb",
+          "message": "chore: simplify a bit recursive comparison array check"
+        },
+        {
+          "oid": "5c3f539e714b7d3553fc299485032dc5df3e0e7f",
+          "message": "feat: dont throw IOException when File does not exit for Path endsWith, startsWith assertions\n\nCo-authored-by: Benjamin K\u00f6nig <bekoenig@users.noreply.github.com>"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/assertj/assertj/issues/3840",
+        "createdAt": "2025-05-21T07:03:09Z",
+        "content": "bug_report_all/assertj_assertj-3853.json"
+      },
+      "changed_tests": [
+        "assertj-tests/assertj-integration-tests/assertj-core-tests/src/test/java/org/assertj/tests/core/internal/paths/Paths_assertEndsWith_Test.java",
+        "assertj-tests/assertj-integration-tests/assertj-core-tests/src/test/java/org/assertj/tests/core/internal/paths/Paths_assertStartsWith_Test.java"
+      ],
+      "PR_url": "https://github.com/assertj/assertj/pull/3853",
+      "merge_commit_url": "https://github.com/assertj/assertj/commit/7c8debfd95dbed4ff011226db811540c13535660",
+      "buggy_commit": "5632973dcf9e01d8549fc5200cff20a83b79dedb"
+    },
+    "assertj_assertj-3854": {
+      "bug_id": "assertj_assertj-3854",
+      "PR_number": 3854,
+      "PR_createdAt": "2025-06-14T14:29:55Z",
+      "merge_commit": "a153681725044bed175be5a03c5e3a51cf1ff6ae",
+      "buggy_commits": [
+        {
+          "oid": "5632973dcf9e01d8549fc5200cff20a83b79dedb",
+          "message": "chore: simplify a bit recursive comparison array check"
+        },
+        {
+          "oid": "fe69a89f57c85e0a33eb927b5daa7c063fe23561",
+          "message": "BREAKING CHANGE: Remove Function support when extracting from Iterable\n\nIn Kotlin the call to extracting with a lambda for an iterable assert is ambiguous. This is due to the extracting method existing for ThrowingExtractor and Function, which have the same effective signature, as checked exceptions do not exist in Kotlin. We opt to continue using the extracting method for ThrowingExtractor, since it is the more flexible functional interface, as it supports that the lambda provided can throw an exception."
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/assertj/assertj/issues/1499",
+        "createdAt": "2019-05-03T16:43:12Z",
+        "content": "bug_report_all/assertj_assertj-3854.json"
+      },
+      "changed_tests": [
+        "assertj-core/src/test/java/org/assertj/core/api/iterable/IterableAssert_flatExtracting_Test.java",
+        "assertj-core/src/test/java/org/assertj/core/api/iterable/IterableAssert_flatExtracting_with_SortedSet_Test.java",
+        "assertj-core/src/test/java/org/assertj/core/api/iterable/IterableAssert_flatExtracting_with_multiple_extractors_Test.java",
+        "assertj-core/src/test/java/org/assertj/core/api/iterable/IterableAssert_flatMap_Test.java",
+        "assertj-core/src/test/java/org/assertj/core/api/iterable/IterableAssert_map_with_throwing_extractor_Test.java",
+        "assertj-core/src/test/java/org/assertj/core/api/list/ListAssert_assertionState_propagation_with_extracting_Test.java",
+        "assertj-core/src/test/java/org/assertj/core/api/objectarray/ObjectArrayAssert_extracting_Test.java",
+        "assertj-core/src/test/java/org/assertj/core/api/objectarray/ObjectArrayAssert_flatExtracting_Test.java"
+      ],
+      "PR_url": "https://github.com/assertj/assertj/pull/3854",
+      "merge_commit_url": "https://github.com/assertj/assertj/commit/a153681725044bed175be5a03c5e3a51cf1ff6ae",
+      "buggy_commit": "5632973dcf9e01d8549fc5200cff20a83b79dedb"
+    },
+    "assertj_assertj-3863": {
+      "bug_id": "assertj_assertj-3863",
+      "PR_number": 3863,
+      "PR_createdAt": "2025-06-22T03:37:17Z",
+      "merge_commit": "565a638ab9c0c588d4c93a7878d637e381dc6707",
+      "buggy_commits": [
+        {
+          "oid": "5632973dcf9e01d8549fc5200cff20a83b79dedb",
+          "message": "chore: simplify a bit recursive comparison array check"
+        },
+        {
+          "oid": "3091d62ed24fae79af8ce4c22377bbf9055a369a",
+          "message": "Merge branch 'main' into add-hasValueMatching-method"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/assertj/assertj/issues/3848",
+        "createdAt": "2025-06-04T16:36:48Z",
+        "content": "bug_report_all/assertj_assertj-3863.json"
+      },
+      "changed_tests": [
+        "assertj-tests/assertj-integration-tests/assertj-core-tests/src/test/java/org/assertj/tests/core/api/optional/OptionalAssert_hasValueMatching_Test.java"
+      ],
+      "PR_url": "https://github.com/assertj/assertj/pull/3863",
+      "merge_commit_url": "https://github.com/assertj/assertj/commit/565a638ab9c0c588d4c93a7878d637e381dc6707",
+      "buggy_commit": "5632973dcf9e01d8549fc5200cff20a83b79dedb"
+    }
+  },
+  "google_gson": {
+    "google_gson-2838": {
+      "bug_id": "google_gson-2838",
+      "PR_number": 2838,
+      "PR_createdAt": "2025-04-05T18:36:05Z",
+      "merge_commit": "45e5e141b1a39926e6b43c6eacd3dc0280321f71",
+      "buggy_commits": [
+        {
+          "oid": "c6d44259b53a9b2756b5767b843d15e8acacaa31",
+          "message": "Remove obsolete comment in pom.xml (#2835)\n\nObsolete since the proguard-maven-plugin update to 2.7.0"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/google/gson/issues/1744",
+        "createdAt": "2020-07-30T13:59:35Z",
+        "content": "bug_report_all/google_gson-2838.json"
+      },
+      "changed_tests": [
+        "gson/src/test/java/com/google/gson/GenericArrayTypeTest.java",
+        "gson/src/test/java/com/google/gson/ParameterizedTypeFixtures.java",
+        "gson/src/test/java/com/google/gson/ParameterizedTypeTest.java",
+        "gson/src/test/java/com/google/gson/functional/MapTest.java",
+        "gson/src/test/java/com/google/gson/internal/GsonTypesTest.java",
+        "gson/src/test/java/com/google/gson/internal/bind/RecursiveTypesResolveTest.java",
+        "gson/src/test/java/com/google/gson/reflect/TypeTokenTest.java"
+      ],
+      "PR_url": "https://github.com/google/gson/pull/2838",
+      "merge_commit_url": "https://github.com/google/gson/commit/45e5e141b1a39926e6b43c6eacd3dc0280321f71",
+      "buggy_commit": "c6d44259b53a9b2756b5767b843d15e8acacaa31"
+    },
+    "google_gson-2864": {
+      "bug_id": "google_gson-2864",
+      "PR_number": 2864,
+      "PR_createdAt": "2025-06-23T06:14:46Z",
+      "merge_commit": "3f777c303900ab7acb319ed877ce1381719bb8f5",
+      "buggy_commits": [
+        {
+          "oid": "dd2fe59c0d3390b2ad3dd365ed6938a5c15844cb",
+          "message": "Bump the github-actions group with 2 updates (#2854)\n\nBumps the github-actions group with 2 updates: [actions/setup-java](https://github.com/actions/setup-java) and [github/codeql-action](https://github.com/github/codeql-action).\n\n\nUpdates `actions/setup-java` from 4.7.0 to 4.7.1\n- [Release notes](https://github.com/actions/setup-java/releases)\n- [Commits](https://github.com/actions/setup-java/compare/3a4f6e1af504cf6a31855fa899c6aa5355ba6c12...c5195efecf7bdfc987ee8bae7a71cb8b11521c00)\n\nUpdates `github/codeql-action` from 3.28.13 to 3.28.16\n- [Release notes](https://github.com/github/codeql-action/releases)\n- [Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)\n- [Commits](https://github.com/github/codeql-action/compare/1b549b9259bda1cb5ddde3b41741a82a2d15a841...28deaeda66b76a05916b6923827895f2b14ab387)\n\n---\nupdated-dependencies:\n- dependency-name: actions/setup-java\n  dependency-version: 4.7.1\n  dependency-type: direct:production\n  update-type: version-update:semver-patch\n  dependency-group: github-actions\n- dependency-name: github/codeql-action\n  dependency-version: 3.28.16\n  dependency-type: direct:production\n  update-type: version-update:semver-patch\n  dependency-group: github-actions\n...\n\nSigned-off-by: dependabot[bot] <support@github.com>\nCo-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>"
+        },
+        {
+          "oid": "6c2e3b2257e4d8196f9e1a1f6e88c95aa7a4a126",
+          "message": "javadoc"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/google/gson/issues/2863",
+        "createdAt": "2025-06-23T05:22:55Z",
+        "content": "bug_report_all/google_gson-2864.json"
+      },
+      "changed_tests": [
+        "test-graal-native-image/src/test/java/com/google/gson/native_test/Java17RecordReflectionTest.java",
+        "test-graal-native-image/src/test/java/com/google/gson/native_test/ReflectionTest.java",
+        "test-jpms/src/test/java/com/google/gson/jpms_test/ExportedPackagesTest.java",
+        "test-jpms/src/test/java/com/google/gson/jpms_test/ReflectionInaccessibleTest.java",
+        "test-jpms/src/test/java/com/google/gson/jpms_test/opened/ReflectionTest.java",
+        "test-shrinker/src/main/java/com/example/Main.java",
+        "test-shrinker/src/main/java/com/example/NoSerializedNameMain.java"
+      ],
+      "PR_url": "https://github.com/google/gson/pull/2864",
+      "merge_commit_url": "https://github.com/google/gson/commit/3f777c303900ab7acb319ed877ce1381719bb8f5",
+      "buggy_commit": "dd2fe59c0d3390b2ad3dd365ed6938a5c15844cb"
+    }
+  },
+  "apache_rocketmq": {
+    "apache_rocketmq-9314": {
+      "bug_id": "apache_rocketmq-9314",
+      "PR_number": 9314,
+      "PR_createdAt": "2025-04-07T05:51:09Z",
+      "merge_commit": "9f10d38a231099cf10cc445acf5ace22b2c7007b",
+      "buggy_commits": [
+        {
+          "oid": "7ef36102eae5c1248354942a509d39c7a4942006",
+          "message": "[ISSUE #9351] Add topic-group mapping in queryTopicConsumeByWho command (#9352)"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/apache/rocketmq/issues/9313",
+        "createdAt": "2025-04-07T05:49:48Z",
+        "content": "bug_report_all/apache_rocketmq-9314.json"
+      },
+      "changed_tests": [
+        "broker/src/test/java/org/apache/rocketmq/broker/processor/AdminBrokerProcessorTest.java"
+      ],
+      "PR_url": "https://github.com/apache/rocketmq/pull/9314",
+      "merge_commit_url": "https://github.com/apache/rocketmq/commit/9f10d38a231099cf10cc445acf5ace22b2c7007b",
+      "buggy_commit": "7ef36102eae5c1248354942a509d39c7a4942006"
+    },
+    "apache_rocketmq-9334": {
+      "bug_id": "apache_rocketmq-9334",
+      "PR_number": 9334,
+      "PR_createdAt": "2025-04-15T14:18:43Z",
+      "merge_commit": "b1daa3c0f0e8dd85f181331e4ec4ff276fb361c0",
+      "buggy_commits": [
+        {
+          "oid": "854369aa38ce574ccf931b99bdb799a6fb533183",
+          "message": "[ISSUE #9339] Fix pop update consumption offset when message are filtered (#9340)"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/apache/rocketmq/issues/9333",
+        "createdAt": "2025-04-15T14:11:54Z",
+        "content": "bug_report_all/apache_rocketmq-9334.json"
+      },
+      "changed_tests": [
+        "broker/src/test/java/org/apache/rocketmq/broker/RocksDBConfigManagerTest.java",
+        "broker/src/test/java/org/apache/rocketmq/broker/processor/AdminBrokerProcessorTest.java",
+        "broker/src/test/java/org/apache/rocketmq/broker/processor/ChangeInvisibleTimeProcessorTest.java",
+        "broker/src/test/java/org/apache/rocketmq/broker/processor/PopBufferMergeServiceTest.java",
+        "broker/src/test/java/org/apache/rocketmq/broker/processor/PopMessageProcessorTest.java",
+        "broker/src/test/java/org/apache/rocketmq/broker/processor/PopReviveServiceTest.java",
+        "broker/src/test/java/org/apache/rocketmq/broker/topic/TopicQueueMappingManagerTest.java",
+        "broker/src/test/java/org/apache/rocketmq/broker/transaction/queue/TransactionMetricsTest.java"
+      ],
+      "PR_url": "https://github.com/apache/rocketmq/pull/9334",
+      "merge_commit_url": "https://github.com/apache/rocketmq/commit/b1daa3c0f0e8dd85f181331e4ec4ff276fb361c0",
+      "buggy_commit": "854369aa38ce574ccf931b99bdb799a6fb533183"
+    },
+    "apache_rocketmq-9370": {
+      "bug_id": "apache_rocketmq-9370",
+      "PR_number": 9370,
+      "PR_createdAt": "2025-04-28T03:51:57Z",
+      "merge_commit": "3c2e81dcd4ce2c2bd11d428b11362a620a771afd",
+      "buggy_commits": [
+        {
+          "oid": "9f10d38a231099cf10cc445acf5ace22b2c7007b",
+          "message": "[ISSUE #9313] Add scheduled clean task. (#9314)\n\n* add scheduled clean task.\n\n* make code compatible to lmq.\n\n* make code compatible to lmq.\n\n* make code compatible to lmq.\n\n* make code compatible to lmq."
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/apache/rocketmq/issues/9369",
+        "createdAt": "2025-04-28T02:54:21Z",
+        "content": "bug_report_all/apache_rocketmq-9370.json"
+      },
+      "changed_tests": [
+        "broker/src/test/java/org/apache/rocketmq/broker/offset/ConsumerOffsetManagerTest.java"
+      ],
+      "PR_url": "https://github.com/apache/rocketmq/pull/9370",
+      "merge_commit_url": "https://github.com/apache/rocketmq/commit/3c2e81dcd4ce2c2bd11d428b11362a620a771afd",
+      "buggy_commit": "9f10d38a231099cf10cc445acf5ace22b2c7007b"
+    },
+    "apache_rocketmq-9376": {
+      "bug_id": "apache_rocketmq-9376",
+      "PR_number": 9376,
+      "PR_createdAt": "2025-04-29T08:48:57Z",
+      "merge_commit": "28370f3a8704f780bfbeabc912d906e68899b858",
+      "buggy_commits": [
+        {
+          "oid": "6819b4d684785e7192cd1e86397eda88950443c9",
+          "message": "[ISSUE #9233] Fix query time boundary calculation in tiered storage (#9374)"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/apache/rocketmq/issues/9375",
+        "createdAt": "2025-04-29T08:32:48Z",
+        "content": "bug_report_all/apache_rocketmq-9376.json"
+      },
+      "changed_tests": [
+        "client/src/test/java/org/apache/rocketmq/client/impl/consumer/ProcessQueueTest.java"
+      ],
+      "PR_url": "https://github.com/apache/rocketmq/pull/9376",
+      "merge_commit_url": "https://github.com/apache/rocketmq/commit/28370f3a8704f780bfbeabc912d906e68899b858",
+      "buggy_commit": "6819b4d684785e7192cd1e86397eda88950443c9"
+    },
+    "apache_rocketmq-9397": {
+      "bug_id": "apache_rocketmq-9397",
+      "PR_number": 9397,
+      "PR_createdAt": "2025-05-10T09:48:05Z",
+      "merge_commit": "321e71396b83fd8d0bd0741a2580b008b408a10c",
+      "buggy_commits": [
+        {
+          "oid": "be67d6122357fd10316820cdf3b7d5a35cf9c73f",
+          "message": "[ISSUE #9447] Avoiding possible resource leaks in InputStream (#9459)"
+        },
+        {
+          "oid": "42edab5fe5f92c09245865ce9bfc609fdc6ceaba",
+          "message": "Update RemotingSerializableCompatTest.java"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/apache/rocketmq/issues/9396",
+        "createdAt": "2025-05-10T09:47:06Z",
+        "content": "bug_report_all/apache_rocketmq-9397.json"
+      },
+      "changed_tests": [
+        "tools/src/test/java/org/apache/rocketmq/tools/admin/DefaultMQAdminExtImplTest.java",
+        "tools/src/test/java/org/apache/rocketmq/tools/command/connection/ConsumerConnectionSubCommandTest.java",
+        "tools/src/test/java/org/apache/rocketmq/tools/command/connection/ProducerConnectionSubCommandTest.java",
+        "tools/src/test/java/org/apache/rocketmq/tools/command/consumer/ConsumerStatusSubCommandTest.java",
+        "tools/src/test/java/org/apache/rocketmq/tools/command/consumer/GetConsumerConfigSubCommandTest.java",
+        "tools/src/test/java/org/apache/rocketmq/tools/command/producer/ProducerSubCommandTest.java"
+      ],
+      "PR_url": "https://github.com/apache/rocketmq/pull/9397",
+      "merge_commit_url": "https://github.com/apache/rocketmq/commit/321e71396b83fd8d0bd0741a2580b008b408a10c",
+      "buggy_commit": "be67d6122357fd10316820cdf3b7d5a35cf9c73f"
+    },
+    "apache_rocketmq-9417": {
+      "bug_id": "apache_rocketmq-9417",
+      "PR_number": 9417,
+      "PR_createdAt": "2025-05-20T02:51:20Z",
+      "merge_commit": "e1021ecc73790ce4d4d0acc6570d0b6381f84076",
+      "buggy_commits": [
+        {
+          "oid": "46b7a98de020db637cfc1112010fec1f9c999bb7",
+          "message": "[ISSUE #9403] Fix the issue of metadata synchronization failure between master and slave when the topic has attributes (#9404)"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/apache/rocketmq/issues/9416",
+        "createdAt": "2025-05-20T02:37:16Z",
+        "content": "bug_report_all/apache_rocketmq-9417.json"
+      },
+      "changed_tests": [
+        "store/src/test/java/org/apache/rocketmq/store/AppendCallbackTest.java",
+        "store/src/test/java/org/apache/rocketmq/store/BatchPutMessageTest.java"
+      ],
+      "PR_url": "https://github.com/apache/rocketmq/pull/9417",
+      "merge_commit_url": "https://github.com/apache/rocketmq/commit/e1021ecc73790ce4d4d0acc6570d0b6381f84076",
+      "buggy_commit": "46b7a98de020db637cfc1112010fec1f9c999bb7"
+    },
+    "apache_rocketmq-9432": {
+      "bug_id": "apache_rocketmq-9432",
+      "PR_number": 9432,
+      "PR_createdAt": "2025-05-24T10:03:42Z",
+      "merge_commit": "ea7416c60860c492fc9888921a56d853396c4790",
+      "buggy_commits": [
+        {
+          "oid": "be67d6122357fd10316820cdf3b7d5a35cf9c73f",
+          "message": "[ISSUE #9447] Avoiding possible resource leaks in InputStream (#9459)"
+        },
+        {
+          "oid": "3916c8bdd7af16535288e74257f64815fb4a6a35",
+          "message": "transcation use request header info  if proxy has nothing Enhancement#9431"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/apache/rocketmq/issues/9431",
+        "createdAt": "2025-05-24T08:49:47Z",
+        "content": "bug_report_all/apache_rocketmq-9432.json"
+      },
+      "changed_tests": [
+        "proxy/src/test/java/org/apache/rocketmq/proxy/grpc/v2/transaction/EndTransactionActivityTest.java",
+        "proxy/src/test/java/org/apache/rocketmq/proxy/processor/TransactionProcessorTest.java",
+        "proxy/src/test/java/org/apache/rocketmq/proxy/service/transaction/AbstractTransactionServiceTest.java"
+      ],
+      "PR_url": "https://github.com/apache/rocketmq/pull/9432",
+      "merge_commit_url": "https://github.com/apache/rocketmq/commit/ea7416c60860c492fc9888921a56d853396c4790",
+      "buggy_commit": "be67d6122357fd10316820cdf3b7d5a35cf9c73f"
+    },
+    "apache_rocketmq-9437": {
+      "bug_id": "apache_rocketmq-9437",
+      "PR_number": 9437,
+      "PR_createdAt": "2025-05-27T14:55:13Z",
+      "merge_commit": "6fa57409efe728f8de854ce9294f89a356d8ced2",
+      "buggy_commits": [
+        {
+          "oid": "be67d6122357fd10316820cdf3b7d5a35cf9c73f",
+          "message": "[ISSUE #9447] Avoiding possible resource leaks in InputStream (#9459)"
+        },
+        {
+          "oid": "c7de35a7c298543ef09868d0d82ceef833757fb7",
+          "message": "Update test"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/apache/rocketmq/issues/9436",
+        "createdAt": "2025-05-27T14:45:57Z",
+        "content": "bug_report_all/apache_rocketmq-9437.json"
+      },
+      "changed_tests": [
+        "namesrv/src/test/java/org/apache/rocketmq/namesrv/processor/RequestProcessorTest.java",
+        "namesrv/src/test/java/org/apache/rocketmq/namesrv/routeinfo/RouteInfoManagerNewTest.java",
+        "tools/src/test/java/org/apache/rocketmq/tools/admin/DefaultMQAdminExtTest.java",
+        "tools/src/test/java/org/apache/rocketmq/tools/monitor/MonitorServiceTest.java"
+      ],
+      "PR_url": "https://github.com/apache/rocketmq/pull/9437",
+      "merge_commit_url": "https://github.com/apache/rocketmq/commit/6fa57409efe728f8de854ce9294f89a356d8ced2",
+      "buggy_commit": "be67d6122357fd10316820cdf3b7d5a35cf9c73f"
+    },
+    "apache_rocketmq-9440": {
+      "bug_id": "apache_rocketmq-9440",
+      "PR_number": 9440,
+      "PR_createdAt": "2025-05-30T09:10:18Z",
+      "merge_commit": "4f9d292ee545cebd1d45dc998feef0b90eba7774",
+      "buggy_commits": [
+        {
+          "oid": "9d9431dc1ce63d6fe80b74085891a4dcd497f460",
+          "message": "[ISSUE #9254] Add CombineConsumeQueue to support CQ migration (#9256)\n\nAdd CombineConsumeQueue to support CQ migration"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/apache/rocketmq/issues/9439",
+        "createdAt": "2025-05-30T08:54:32Z",
+        "content": "bug_report_all/apache_rocketmq-9440.json"
+      },
+      "changed_tests": [
+        "common/src/test/java/org/apache/rocketmq/common/MixAllTest.java"
+      ],
+      "PR_url": "https://github.com/apache/rocketmq/pull/9440",
+      "merge_commit_url": "https://github.com/apache/rocketmq/commit/4f9d292ee545cebd1d45dc998feef0b90eba7774",
+      "buggy_commit": "9d9431dc1ce63d6fe80b74085891a4dcd497f460"
+    },
+    "apache_rocketmq-9444": {
+      "bug_id": "apache_rocketmq-9444",
+      "PR_number": 9444,
+      "PR_createdAt": "2025-06-01T14:42:35Z",
+      "merge_commit": "921664f40063b431c767725deaad3dc53aa628b7",
+      "buggy_commits": [
+        {
+          "oid": "cd6bec6291d94fefb3f59ca62c7c328305d363e0",
+          "message": "[ISSUE #9441] Add file length check in IndexService (#9442)"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/apache/rocketmq/issues/9443",
+        "createdAt": "2025-06-01T14:37:58Z",
+        "content": "bug_report_all/apache_rocketmq-9444.json"
+      },
+      "changed_tests": [
+        "broker/src/test/java/org/apache/rocketmq/broker/client/ConsumerManagerTest.java"
+      ],
+      "PR_url": "https://github.com/apache/rocketmq/pull/9444",
+      "merge_commit_url": "https://github.com/apache/rocketmq/commit/921664f40063b431c767725deaad3dc53aa628b7",
+      "buggy_commit": "cd6bec6291d94fefb3f59ca62c7c328305d363e0"
+    },
+    "apache_rocketmq-9456": {
+      "bug_id": "apache_rocketmq-9456",
+      "PR_number": 9456,
+      "PR_createdAt": "2025-06-06T06:57:10Z",
+      "merge_commit": "8048fb1c89158990f898737d1ea672bcef8f56a4",
+      "buggy_commits": [
+        {
+          "oid": "be67d6122357fd10316820cdf3b7d5a35cf9c73f",
+          "message": "[ISSUE #9447] Avoiding possible resource leaks in InputStream (#9459)"
+        },
+        {
+          "oid": "65dc162df36f23311f3d957aaac4cedf7452348e",
+          "message": "fix broker fail to start after time jump"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/apache/rocketmq/issues/9455",
+        "createdAt": "2025-06-06T06:56:52Z",
+        "content": "bug_report_all/apache_rocketmq-9456.json"
+      },
+      "changed_tests": [
+        "broker/src/test/java/org/apache/rocketmq/broker/processor/PopInflightMessageCounterTest.java"
+      ],
+      "PR_url": "https://github.com/apache/rocketmq/pull/9456",
+      "merge_commit_url": "https://github.com/apache/rocketmq/commit/8048fb1c89158990f898737d1ea672bcef8f56a4",
+      "buggy_commit": "be67d6122357fd10316820cdf3b7d5a35cf9c73f"
+    },
+    "apache_rocketmq-9458": {
+      "bug_id": "apache_rocketmq-9458",
+      "PR_number": 9458,
+      "PR_createdAt": "2025-06-09T11:59:18Z",
+      "merge_commit": "511607fb9a42902e2e682665a941b5ba102dd84e",
+      "buggy_commits": [
+        {
+          "oid": "be67d6122357fd10316820cdf3b7d5a35cf9c73f",
+          "message": "[ISSUE #9447] Avoiding possible resource leaks in InputStream (#9459)"
+        },
+        {
+          "oid": "aa6586cc04d655e4fc48d381c325002e27a02dcf",
+          "message": "delete chinese comment"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/apache/rocketmq/issues/9460",
+        "createdAt": "2025-06-10T08:37:09Z",
+        "content": "bug_report_all/apache_rocketmq-9458.json"
+      },
+      "changed_tests": [
+        "tools/src/test/java/org/apache/rocketmq/tools/command/message/SendMessageCommandTest.java"
+      ],
+      "PR_url": "https://github.com/apache/rocketmq/pull/9458",
+      "merge_commit_url": "https://github.com/apache/rocketmq/commit/511607fb9a42902e2e682665a941b5ba102dd84e",
+      "buggy_commit": "be67d6122357fd10316820cdf3b7d5a35cf9c73f"
+    },
+    "apache_rocketmq-9459": {
+      "bug_id": "apache_rocketmq-9459",
+      "PR_number": 9459,
+      "PR_createdAt": "2025-06-10T06:24:34Z",
+      "merge_commit": "be67d6122357fd10316820cdf3b7d5a35cf9c73f",
+      "buggy_commits": [
+        {
+          "oid": "d3d126e7d74bde327232b4cbec9d55419b15aea9",
+          "message": "[ISSUE #9476] Set queueId to 0 in DefaultTransactionalMessageCheckListener#toMessageExtBrokerInner to improve performance (#9477)"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/apache/rocketmq/issues/9447",
+        "createdAt": "2025-06-04T01:37:45Z",
+        "content": "bug_report_all/apache_rocketmq-9459.json"
+      },
+      "changed_tests": [
+        "test/src/main/java/org/apache/rocketmq/test/util/DuplicateMessageInfo.java"
+      ],
+      "PR_url": "https://github.com/apache/rocketmq/pull/9459",
+      "merge_commit_url": "https://github.com/apache/rocketmq/commit/be67d6122357fd10316820cdf3b7d5a35cf9c73f",
+      "buggy_commit": "d3d126e7d74bde327232b4cbec9d55419b15aea9"
+    },
+    "apache_rocketmq-9468": {
+      "bug_id": "apache_rocketmq-9468",
+      "PR_number": 9468,
+      "PR_createdAt": "2025-06-12T08:56:11Z",
+      "merge_commit": "fe8cff2a1d331426dfbb2a20faf68e1588cf3880",
+      "buggy_commits": [
+        {
+          "oid": "be67d6122357fd10316820cdf3b7d5a35cf9c73f",
+          "message": "[ISSUE #9447] Avoiding possible resource leaks in InputStream (#9459)"
+        },
+        {
+          "oid": "6694aec488a90722a433cf3cd5c97151b57a6edd",
+          "message": "add timeout & log"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/apache/rocketmq/issues/9467",
+        "createdAt": "2025-06-12T08:48:56Z",
+        "content": "bug_report_all/apache_rocketmq-9468.json"
+      },
+      "changed_tests": [
+        "tools/src/test/java/org/apache/rocketmq/tools/admin/DefaultMQAdminExtTest.java"
+      ],
+      "PR_url": "https://github.com/apache/rocketmq/pull/9468",
+      "merge_commit_url": "https://github.com/apache/rocketmq/commit/fe8cff2a1d331426dfbb2a20faf68e1588cf3880",
+      "buggy_commit": "be67d6122357fd10316820cdf3b7d5a35cf9c73f"
+    },
+    "apache_rocketmq-9480": {
+      "bug_id": "apache_rocketmq-9480",
+      "PR_number": 9480,
+      "PR_createdAt": "2025-06-16T08:56:41Z",
+      "merge_commit": "9fc78510662d510bde95eb97b6ba77a3098b3709",
+      "buggy_commits": [
+        {
+          "oid": "8956768406da0c9fc50dd36e030a5cf4de90a38b",
+          "message": "[ISSUE #9497] Fix IndexOutOfBoundsException in getEarliestMessageTime when running in IPv6 environment (#9498)\n\nCo-authored-by: shixiaoxiao <shixiaoxiao@bytedance.com>"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/apache/rocketmq/issues/9479",
+        "createdAt": "2025-06-16T08:50:51Z",
+        "content": "bug_report_all/apache_rocketmq-9480.json"
+      },
+      "changed_tests": [
+        "common/src/test/java/org/apache/rocketmq/common/topic/TopicValidatorTest.java"
+      ],
+      "PR_url": "https://github.com/apache/rocketmq/pull/9480",
+      "merge_commit_url": "https://github.com/apache/rocketmq/commit/9fc78510662d510bde95eb97b6ba77a3098b3709",
+      "buggy_commit": "8956768406da0c9fc50dd36e030a5cf4de90a38b"
+    },
+    "apache_rocketmq-9498": {
+      "bug_id": "apache_rocketmq-9498",
+      "PR_number": 9498,
+      "PR_createdAt": "2025-06-25T03:41:46Z",
+      "merge_commit": "8956768406da0c9fc50dd36e030a5cf4de90a38b",
+      "buggy_commits": [
+        {
+          "oid": "b6267b9ccb8f7aa0dd5aa493323c36f5df086748",
+          "message": "[ISSUE #9486] Fix missing of valueOfCurrentMinusBorn equals checkImmunityTime (#9487)"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/apache/rocketmq/issues/9497",
+        "createdAt": "2025-06-25T03:32:44Z",
+        "content": "bug_report_all/apache_rocketmq-9498.json"
+      },
+      "changed_tests": [
+        "common/src/test/java/org/apache/rocketmq/common/utils/IPAddressUtilsTest.java"
+      ],
+      "PR_url": "https://github.com/apache/rocketmq/pull/9498",
+      "merge_commit_url": "https://github.com/apache/rocketmq/commit/8956768406da0c9fc50dd36e030a5cf4de90a38b",
+      "buggy_commit": "b6267b9ccb8f7aa0dd5aa493323c36f5df086748"
+    }
+  },
+  "checkstyle_checkstyle": {
+    "checkstyle_checkstyle-16721": {
+      "bug_id": "checkstyle_checkstyle-16721",
+      "PR_number": 16721,
+      "PR_createdAt": "2025-04-01T19:07:14Z",
+      "merge_commit": "8408f57a625de7a15197a11a6fbe91f1b287d5bd",
+      "buggy_commits": [
+        {
+          "oid": "efa05942e340ff64d817d3a80af23d57fe35fc2a",
+          "message": "Issue #17017: Rename all 'ex' variable to 'exc' and forbid 'ex'"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/checkstyle/checkstyle/issues/15098",
+        "createdAt": "2024-06-22T10:44:14Z",
+        "content": "bug_report_all/checkstyle_checkstyle-16721.json"
+      },
+      "changed_tests": [
+        "src/it/resources-noncompilable/com/google/checkstyle/test/chapter4formatting/rule4841indentation/InputSingleSwitchStatementWithoutCurlyCorrect.java",
+        "src/it/resources-noncompilable/com/google/checkstyle/test/chapter4formatting/rule4841indentation/InputSwitchWrappingIndentation.java",
+        "src/it/resources-noncompilable/com/google/checkstyle/test/chapter4formatting/rule4841indentation/InputSwitchWrappingIndentationCorrect.java",
+        "src/test/java/com/puppycrawl/tools/checkstyle/checks/indentation/IndentationCheckTest.java",
+        "src/test/resources-noncompilable/com/puppycrawl/tools/checkstyle/checks/indentation/indentation/InputIndentationCheckSingleSwitchStatementsWithoutCurly.java",
+        "src/test/resources-noncompilable/com/puppycrawl/tools/checkstyle/checks/indentation/indentation/InputIndentationPatternMatchingForSwitch.java",
+        "src/test/resources-noncompilable/com/puppycrawl/tools/checkstyle/checks/indentation/indentation/InputIndentationSwitchExpressionWrappingIndentation.java"
+      ],
+      "PR_url": "https://github.com/checkstyle/checkstyle/pull/16721",
+      "merge_commit_url": "https://github.com/checkstyle/checkstyle/commit/8408f57a625de7a15197a11a6fbe91f1b287d5bd",
+      "buggy_commit": "efa05942e340ff64d817d3a80af23d57fe35fc2a"
+    },
+    "checkstyle_checkstyle-16722": {
+      "bug_id": "checkstyle_checkstyle-16722",
+      "PR_number": 16722,
+      "PR_createdAt": "2025-04-01T19:09:35Z",
+      "merge_commit": "a034e2fc8fecb02f12a18ac2f5b9aeb2c0796f90",
+      "buggy_commits": [
+        {
+          "oid": "88936a942d19869974ecb0eb1cfb7c1c70b8824e",
+          "message": "Issue #14879: Configuration website does not allow linking to Examples"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/checkstyle/checkstyle/issues/16630",
+        "createdAt": "2025-03-22T18:06:28Z",
+        "content": "bug_report_all/checkstyle_checkstyle-16722.json"
+      },
+      "changed_tests": [
+        "src/it/resources/com/google/checkstyle/test/chapter7javadoc/rule712paragraphs/InputFormattedIncorrectJavadocParagraph.java",
+        "src/it/resources/com/google/checkstyle/test/chapter7javadoc/rule712paragraphs/InputIncorrectJavadocParagraph.java",
+        "src/test/java/com/puppycrawl/tools/checkstyle/checks/javadoc/JavadocParagraphCheckTest.java",
+        "src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocparagraph/InputJavadocParagraphCheck1.java",
+        "src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocparagraph/InputJavadocParagraphIncorrect.java",
+        "src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocparagraph/InputJavadocParagraphIncorrect3.java",
+        "src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocparagraph/InputJavadocParagraphIncorrect4.java",
+        "src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocparagraph/InputJavadocParagraphIncorrect5.java",
+        "src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocparagraph/InputJavadocParagraphNested.java"
+      ],
+      "PR_url": "https://github.com/checkstyle/checkstyle/pull/16722",
+      "merge_commit_url": "https://github.com/checkstyle/checkstyle/commit/a034e2fc8fecb02f12a18ac2f5b9aeb2c0796f90",
+      "buggy_commit": "88936a942d19869974ecb0eb1cfb7c1c70b8824e"
+    },
+    "checkstyle_checkstyle-16760": {
+      "bug_id": "checkstyle_checkstyle-16760",
+      "PR_number": 16760,
+      "PR_createdAt": "2025-04-04T20:04:54Z",
+      "merge_commit": "140f1528cc00915791446ab73381e427d5e71128",
+      "buggy_commits": [
+        {
+          "oid": "0b8c4be44c72857e3fac5fb1ceac096210382a98",
+          "message": "Issue #14631: Add example and AST tree for EMPTY_TAG in JavadocTokenTypes.java"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/checkstyle/checkstyle/issues/16378",
+        "createdAt": "2025-02-20T13:47:24Z",
+        "content": "bug_report_all/checkstyle_checkstyle-16760.json"
+      },
+      "changed_tests": [
+        "src/test/java/com/puppycrawl/tools/checkstyle/bdd/InlineConfigParser.java",
+        "src/test/java/com/puppycrawl/tools/checkstyle/checks/FinalParametersCheckTest.java",
+        "src/test/resources/com/puppycrawl/tools/checkstyle/checks/finalparameters/InputFinalParameters.java",
+        "src/test/resources/com/puppycrawl/tools/checkstyle/checks/finalparameters/InputFinalParameters2.java",
+        "src/test/resources/com/puppycrawl/tools/checkstyle/checks/finalparameters/InputFinalParameters3.java",
+        "src/test/resources/com/puppycrawl/tools/checkstyle/checks/finalparameters/InputFinalParameters4.java",
+        "src/test/resources/com/puppycrawl/tools/checkstyle/checks/finalparameters/InputFinalParameters5.java",
+        "src/test/resources/com/puppycrawl/tools/checkstyle/checks/finalparameters/InputFinalParametersPrimitiveTypes.java",
+        "src/test/resources/com/puppycrawl/tools/checkstyle/checks/finalparameters/InputFinalParametersPrimitiveTypes2.java",
+        "src/test/resources/com/puppycrawl/tools/checkstyle/checks/finalparameters/InputFinalParametersReceiver.java"
+      ],
+      "PR_url": "https://github.com/checkstyle/checkstyle/pull/16760",
+      "merge_commit_url": "https://github.com/checkstyle/checkstyle/commit/140f1528cc00915791446ab73381e427d5e71128",
+      "buggy_commit": "0b8c4be44c72857e3fac5fb1ceac096210382a98"
+    },
+    "checkstyle_checkstyle-16879": {
+      "bug_id": "checkstyle_checkstyle-16879",
+      "PR_number": 16879,
+      "PR_createdAt": "2025-04-16T15:23:42Z",
+      "merge_commit": "578a2623b4da6d796638fefe0ef13fecd3dd6950",
+      "buggy_commits": [
+        {
+          "oid": "3e81a4a429e3b7d7746d0f63abb407fb42ed8d77",
+          "message": "Issue #16738: Update SuppressionCommentFilterExamplesTest methods to use verifyFilterWithInlineConfigParser"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/checkstyle/checkstyle/issues/16869",
+        "createdAt": "2025-04-15T13:17:37Z",
+        "content": "bug_report_all/checkstyle_checkstyle-16879.json"
+      },
+      "changed_tests": [
+        "src/test/java/com/puppycrawl/tools/checkstyle/checks/indentation/IndentationCheckTest.java",
+        "src/test/resources/com/puppycrawl/tools/checkstyle/checks/indentation/indentation/InputIndentationInvalidArrayInitIndent.java",
+        "src/test/resources/com/puppycrawl/tools/checkstyle/checks/indentation/indentation/InputIndentationInvalidArrayInitIndent1.java",
+        "src/test/resources/com/puppycrawl/tools/checkstyle/checks/indentation/indentation/InputIndentationInvalidArrayInitIndentWithoutTrailingComments.java"
+      ],
+      "PR_url": "https://github.com/checkstyle/checkstyle/pull/16879",
+      "merge_commit_url": "https://github.com/checkstyle/checkstyle/commit/578a2623b4da6d796638fefe0ef13fecd3dd6950",
+      "buggy_commit": "3e81a4a429e3b7d7746d0f63abb407fb42ed8d77"
+    },
+    "checkstyle_checkstyle-16972": {
+      "bug_id": "checkstyle_checkstyle-16972",
+      "PR_number": 16972,
+      "PR_createdAt": "2025-04-28T19:24:23Z",
+      "merge_commit": "a6c55f6cee7b80692ab19617749d49a07c8c6789",
+      "buggy_commits": [
+        {
+          "oid": "583c718491f0cc176dc827cb14d2a23ba3a7e35b",
+          "message": "infra: Enabling Spot-Bug in CircleCI"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/checkstyle/checkstyle/issues/16880",
+        "createdAt": "2025-04-16T22:38:23Z",
+        "content": "bug_report_all/checkstyle_checkstyle-16972.json"
+      },
+      "changed_tests": [
+        "src/test/java/com/puppycrawl/tools/checkstyle/checks/indentation/IndentationCheckTest.java"
+      ],
+      "PR_url": "https://github.com/checkstyle/checkstyle/pull/16972",
+      "merge_commit_url": "https://github.com/checkstyle/checkstyle/commit/a6c55f6cee7b80692ab19617749d49a07c8c6789",
+      "buggy_commit": "583c718491f0cc176dc827cb14d2a23ba3a7e35b"
+    },
+    "checkstyle_checkstyle-17019": {
+      "bug_id": "checkstyle_checkstyle-17019",
+      "PR_number": 17019,
+      "PR_createdAt": "2025-05-04T21:11:22Z",
+      "merge_commit": "efa05942e340ff64d817d3a80af23d57fe35fc2a",
+      "buggy_commits": [
+        {
+          "oid": "be4cf504b919257408487e3f6956f69b473137bd",
+          "message": "Issue #17001: migrate pgjdbc no-error execution to circleci"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/checkstyle/checkstyle/issues/17017",
+        "createdAt": "2025-05-04T14:49:18Z",
+        "content": "bug_report_all/checkstyle_checkstyle-17019.json"
+      },
+      "changed_tests": [
+        "src/test/java/com/puppycrawl/tools/checkstyle/internal/XpathRegressionTest.java",
+        "src/test/java/com/puppycrawl/tools/checkstyle/internal/utils/TestUtil.java",
+        "src/test/java/com/puppycrawl/tools/checkstyle/internal/utils/XmlUtil.java",
+        "src/test/java/com/puppycrawl/tools/checkstyle/utils/AnnotationUtilTest.java",
+        "src/test/java/com/puppycrawl/tools/checkstyle/utils/ChainedPropertyUtilTest.java",
+        "src/test/java/com/puppycrawl/tools/checkstyle/utils/JavadocUtilTest.java",
+        "src/test/java/com/puppycrawl/tools/checkstyle/utils/XpathUtilTest.java",
+        "src/test/java/com/puppycrawl/tools/checkstyle/xpath/AttributeNodeTest.java",
+        "src/test/java/com/puppycrawl/tools/checkstyle/xpath/RootNodeTest.java",
+        "src/test/java/com/puppycrawl/tools/checkstyle/xpath/XpathMapperTest.java"
+      ],
+      "PR_url": "https://github.com/checkstyle/checkstyle/pull/17019",
+      "merge_commit_url": "https://github.com/checkstyle/checkstyle/commit/efa05942e340ff64d817d3a80af23d57fe35fc2a",
+      "buggy_commit": "be4cf504b919257408487e3f6956f69b473137bd"
+    },
+    "checkstyle_checkstyle-17107": {
+      "bug_id": "checkstyle_checkstyle-17107",
+      "PR_number": 17107,
+      "PR_createdAt": "2025-05-18T15:54:08Z",
+      "merge_commit": "7dc0272d92ae2598dce37207350d45e613079d6a",
+      "buggy_commits": [
+        {
+          "oid": "10fd8f97c91db20012ea348c26e0468181606e7e",
+          "message": "Issue #16850: Use Maven Wrapper in documentation for consistency across commands"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/checkstyle/checkstyle/issues/17106",
+        "createdAt": "2025-05-18T13:26:41Z",
+        "content": "bug_report_all/checkstyle_checkstyle-17107.json"
+      },
+      "changed_tests": [
+        "src/test/java/com/puppycrawl/tools/checkstyle/MainTest.java",
+        "src/test/java/com/puppycrawl/tools/checkstyle/XpathFileGeneratorAuditListenerTest.java"
+      ],
+      "PR_url": "https://github.com/checkstyle/checkstyle/pull/17107",
+      "merge_commit_url": "https://github.com/checkstyle/checkstyle/commit/7dc0272d92ae2598dce37207350d45e613079d6a",
+      "buggy_commit": "10fd8f97c91db20012ea348c26e0468181606e7e"
+    },
+    "checkstyle_checkstyle-17112": {
+      "bug_id": "checkstyle_checkstyle-17112",
+      "PR_number": 17112,
+      "PR_createdAt": "2025-05-21T12:02:43Z",
+      "merge_commit": "1ebcc8f97f0f78aedf4a5cca5c22670a2f96f7e1",
+      "buggy_commits": [
+        {
+          "oid": "b1c41245cade4f0c40a9896c953b281f4467f4a7",
+          "message": "Issue #5983: add listner to generate suppression.xml for SupperssionFilter by CLI command"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/checkstyle/checkstyle/issues/16786",
+        "createdAt": "2025-04-07T15:48:37Z",
+        "content": "bug_report_all/checkstyle_checkstyle-17112.json"
+      },
+      "changed_tests": [
+        "src/test/java/com/puppycrawl/tools/checkstyle/checks/javadoc/JavadocVariableCheckTest.java",
+        "src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadocvariable/InputJavadocVariableNoJavadoc2.java",
+        "src/xdocs-examples/java/com/puppycrawl/tools/checkstyle/checks/javadoc/JavadocVariableCheckExamplesTest.java"
+      ],
+      "PR_url": "https://github.com/checkstyle/checkstyle/pull/17112",
+      "merge_commit_url": "https://github.com/checkstyle/checkstyle/commit/1ebcc8f97f0f78aedf4a5cca5c22670a2f96f7e1",
+      "buggy_commit": "b1c41245cade4f0c40a9896c953b281f4467f4a7"
+    },
+    "checkstyle_checkstyle-17138": {
+      "bug_id": "checkstyle_checkstyle-17138",
+      "PR_number": 17138,
+      "PR_createdAt": "2025-05-25T11:37:05Z",
+      "merge_commit": "36aeb472918738dea3d97b4c7eb89d4ec974d45c",
+      "buggy_commits": [
+        {
+          "oid": "6e395962ab6f6d24dec50be57913723b92c956d8",
+          "message": "dependency: bump org.codehaus.mojo:exec-maven-plugin from 3.5.0 to 3.5.1\n\nBumps [org.codehaus.mojo:exec-maven-plugin](https://github.com/mojohaus/exec-maven-plugin) from 3.5.0 to 3.5.1.\n- [Release notes](https://github.com/mojohaus/exec-maven-plugin/releases)\n- [Commits](https://github.com/mojohaus/exec-maven-plugin/compare/3.5.0...3.5.1)\n\n---\nupdated-dependencies:\n- dependency-name: org.codehaus.mojo:exec-maven-plugin\n  dependency-version: 3.5.1\n  dependency-type: direct:production\n  update-type: version-update:semver-patch\n...\n\nSigned-off-by: dependabot[bot] <support@github.com>"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/checkstyle/checkstyle/issues/17120",
+        "createdAt": "2025-05-22T05:09:56Z",
+        "content": "bug_report_all/checkstyle_checkstyle-17138.json"
+      },
+      "changed_tests": [
+        "src/it/java/com/google/checkstyle/test/chapter4formatting/rule4841indentation/IndentationTest.java",
+        "src/it/resources-noncompilable/com/google/checkstyle/test/chapter4formatting/rule4841indentation/InputLambdaChild.java",
+        "src/it/resources-noncompilable/com/google/checkstyle/test/chapter4formatting/rule4841indentation/InputLambdaChildCorrect.java",
+        "src/test/java/com/puppycrawl/tools/checkstyle/checks/indentation/IndentationCheckTest.java",
+        "src/test/resources-noncompilable/com/puppycrawl/tools/checkstyle/checks/indentation/indentation/InputIndentationLambdaChild.java"
+      ],
+      "PR_url": "https://github.com/checkstyle/checkstyle/pull/17138",
+      "merge_commit_url": "https://github.com/checkstyle/checkstyle/commit/36aeb472918738dea3d97b4c7eb89d4ec974d45c",
+      "buggy_commit": "6e395962ab6f6d24dec50be57913723b92c956d8"
+    },
+    "checkstyle_checkstyle-17181": {
+      "bug_id": "checkstyle_checkstyle-17181",
+      "PR_number": 17181,
+      "PR_createdAt": "2025-06-07T10:21:19Z",
+      "merge_commit": "846d71b9fec89c91fd0855e2ca4f022c336c1546",
+      "buggy_commits": [
+        {
+          "oid": "b48f7bfd4a50b4cd2d79398b5d3ac60f8560970e",
+          "message": "Issue #17225: Extend 'Since version' javadoc marking implementation"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/checkstyle/checkstyle/issues/8965",
+        "createdAt": "2020-11-05T07:08:41Z",
+        "content": "bug_report_all/checkstyle_checkstyle-17181.json"
+      },
+      "changed_tests": [
+        "src/it/resources/com/google/checkstyle/test/chapter4formatting/rule4841indentation/InputFormattedNewKeywordChildren.java",
+        "src/it/resources/com/google/checkstyle/test/chapter4formatting/rule4841indentation/InputNewKeywordChildren.java",
+        "src/it/resources/com/google/checkstyle/test/chapter4formatting/rule4841indentation/InputNewKeywordChildrenCorrect.java",
+        "src/test/java/com/puppycrawl/tools/checkstyle/bdd/InlineConfigParser.java",
+        "src/test/java/com/puppycrawl/tools/checkstyle/checks/indentation/IndentationCheckTest.java",
+        "src/test/resources/com/puppycrawl/tools/checkstyle/checks/indentation/indentation/InputIndentationCorrectIfAndParameter1.java",
+        "src/test/resources/com/puppycrawl/tools/checkstyle/checks/indentation/indentation/InputIndentationIfAndParameter.java",
+        "src/test/resources/com/puppycrawl/tools/checkstyle/checks/indentation/indentation/InputIndentationNewChildren.java",
+        "src/test/resources/com/puppycrawl/tools/checkstyle/checks/indentation/indentation/InputIndentationNewChildrenSevntuConfig.java"
+      ],
+      "PR_url": "https://github.com/checkstyle/checkstyle/pull/17181",
+      "merge_commit_url": "https://github.com/checkstyle/checkstyle/commit/846d71b9fec89c91fd0855e2ca4f022c336c1546",
+      "buggy_commit": "b48f7bfd4a50b4cd2d79398b5d3ac60f8560970e"
+    },
+    "checkstyle_checkstyle-17206": {
+      "bug_id": "checkstyle_checkstyle-17206",
+      "PR_number": 17206,
+      "PR_createdAt": "2025-06-11T07:00:27Z",
+      "merge_commit": "aaec1d02434c7dc41cd33b6adec3106818b0108d",
+      "buggy_commits": [
+        {
+          "oid": "eee400069f4549ac015fc130f3de5ea39c034845",
+          "message": "Issue #17168: Upgrade Azure CI to jdk17"
+        },
+        {
+          "oid": "b21a9fb367a10cd82ccffa96ea968fade6363701",
+          "message": "Issue #17193: Enforce whitespace after the double slashes of the comments"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/checkstyle/checkstyle/issues/17193",
+        "createdAt": "2025-06-10T03:56:40Z",
+        "content": "bug_report_all/checkstyle_checkstyle-17206.json"
+      },
+      "changed_tests": [
+        "src/it/resources/com/google/checkstyle/test/chapter4formatting/rule412nonemptyblocks/InputTryCatchIfElse.java",
+        "src/it/resources/com/google/checkstyle/test/chapter4formatting/rule43onestatement/InputOneStatementPerLine.java",
+        "src/it/resources/com/google/checkstyle/test/chapter4formatting/rule462horizontalwhitespace/InputFormattedWhitespaceAfterDoubleSlashes.java",
+        "src/it/resources/com/google/checkstyle/test/chapter4formatting/rule462horizontalwhitespace/InputWhitespaceAfterDoubleSlashes.java",
+        "src/it/resources/com/google/checkstyle/test/chapter4formatting/rule462horizontalwhitespace/InputWhitespaceAfterDoubleSlashesCorrect.java",
+        "src/test/java/com/puppycrawl/tools/checkstyle/internal/XdocsPagesTest.java"
+      ],
+      "PR_url": "https://github.com/checkstyle/checkstyle/pull/17206",
+      "merge_commit_url": "https://github.com/checkstyle/checkstyle/commit/aaec1d02434c7dc41cd33b6adec3106818b0108d",
+      "buggy_commit": "eee400069f4549ac015fc130f3de5ea39c034845"
+    },
+    "checkstyle_checkstyle-17229": {
+      "bug_id": "checkstyle_checkstyle-17229",
+      "PR_number": 17229,
+      "PR_createdAt": "2025-06-14T23:52:39Z",
+      "merge_commit": "d65a1128ceadba50bf69c3c8a98f81ad0a8c6af4",
+      "buggy_commits": [
+        {
+          "oid": "8f30ae0ea9e78d20b2fa33f3332e544b5bec4408",
+          "message": "Issue #17168: Migrating LinkcheckPlugin to Jdk17"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/checkstyle/checkstyle/issues/17167",
+        "createdAt": "2025-06-03T13:25:42Z",
+        "content": "bug_report_all/checkstyle_checkstyle-17229.json"
+      },
+      "changed_tests": [
+        "src/it/java/com/google/checkstyle/test/chapter4formatting/rule4841indentation/IndentationTest.java",
+        "src/it/resources-noncompilable/com/google/checkstyle/test/chapter4formatting/rule4841indentation/InputLambdaAndChildOnTheSameLine.java",
+        "src/test/java/com/puppycrawl/tools/checkstyle/checks/indentation/IndentationCheckTest.java",
+        "src/test/resources-noncompilable/com/puppycrawl/tools/checkstyle/checks/indentation/indentation/InputIndentationLambdaAndChildOnTheSameLine.java"
+      ],
+      "PR_url": "https://github.com/checkstyle/checkstyle/pull/17229",
+      "merge_commit_url": "https://github.com/checkstyle/checkstyle/commit/d65a1128ceadba50bf69c3c8a98f81ad0a8c6af4",
+      "buggy_commit": "8f30ae0ea9e78d20b2fa33f3332e544b5bec4408"
+    },
+    "checkstyle_checkstyle-17288": {
+      "bug_id": "checkstyle_checkstyle-17288",
+      "PR_number": 17288,
+      "PR_createdAt": "2025-06-28T07:55:34Z",
+      "merge_commit": "f11445e1b0437ab64ea5786a45a0d1b0155f893f",
+      "buggy_commits": [
+        {
+          "oid": "eee400069f4549ac015fc130f3de5ea39c034845",
+          "message": "Issue #17168: Upgrade Azure CI to jdk17"
+        },
+        {
+          "oid": "3585fef94247f719a19cbea0526a87f4cba006fc",
+          "message": "Issue #17285: Add non-compilable resources to google-java-format.sh"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/checkstyle/checkstyle/issues/17285",
+        "createdAt": "2025-06-27T06:25:12Z",
+        "content": "bug_report_all/checkstyle_checkstyle-17288.json"
+      },
+      "changed_tests": [
+        "src/it/resources-noncompilable/com/google/checkstyle/test/chapter4formatting/rule4841indentation/InputFormattedSingleSwitchStatementWithoutCurly.java",
+        "src/it/resources-noncompilable/com/google/checkstyle/test/chapter4formatting/rule4841indentation/InputFormattedSwitchOnStartOfTheLine.java",
+        "src/it/resources-noncompilable/com/google/checkstyle/test/chapter4formatting/rule4841indentation/InputFormattedSwitchWrappingIndentation.java",
+        "src/it/resources-noncompilable/com/google/checkstyle/test/chapter4formatting/rule4841indentation/InputLambdaChildCorrect.java",
+        "src/it/resources-noncompilable/com/google/checkstyle/test/chapter4formatting/rule4841indentation/InputMultilineStatementsCorrect.java",
+        "src/it/resources-noncompilable/com/google/checkstyle/test/chapter4formatting/rule4841indentation/InputSingleSwitchStatementWithoutCurlyCorrect.java",
+        "src/it/resources-noncompilable/com/google/checkstyle/test/chapter4formatting/rule4841indentation/InputSwitchOnStartOfTheLineCorrect.java",
+        "src/it/resources-noncompilable/com/google/checkstyle/test/chapter4formatting/rule4841indentation/InputSwitchWrappingIndentationCorrect.java",
+        "src/it/resources-noncompilable/com/google/checkstyle/test/chapter5naming/rule526parameternames/InputFormattedRecordComponentName.java",
+        "src/it/resources-noncompilable/com/google/checkstyle/test/chapter5naming/rule527localvariablenames/InputFormattedPatternVariableNameEnhancedInstanceofTestDefault.java"
+      ],
+      "PR_url": "https://github.com/checkstyle/checkstyle/pull/17288",
+      "merge_commit_url": "https://github.com/checkstyle/checkstyle/commit/f11445e1b0437ab64ea5786a45a0d1b0155f893f",
+      "buggy_commit": "eee400069f4549ac015fc130f3de5ea39c034845"
+    }
+  },
+  "apache_dubbo": {
+    "apache_dubbo-15448": {
+      "bug_id": "apache_dubbo-15448",
+      "PR_number": 15448,
+      "PR_createdAt": "2025-06-11T09:57:16Z",
+      "merge_commit": "71f760015e458cc4a572011360306a0d27cf2e2d",
+      "buggy_commits": [
+        {
+          "oid": "89a737594038a1b056bc0e2ca25cc175ee80ba84",
+          "message": "Add retries and timeout control to wget zookeeper file (#15452)"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/apache/dubbo/issues/15240",
+        "createdAt": "2025-03-14T08:53:38Z",
+        "content": "bug_report_all/apache_dubbo-15448.json"
+      },
+      "changed_tests": [
+        "dubbo-common/src/test/java/org/apache/dubbo/common/logger/LoggerTest.java"
+      ],
+      "PR_url": "https://github.com/apache/dubbo/pull/15448",
+      "merge_commit_url": "https://github.com/apache/dubbo/commit/71f760015e458cc4a572011360306a0d27cf2e2d",
+      "buggy_commit": "89a737594038a1b056bc0e2ca25cc175ee80ba84"
+    },
+    "apache_dubbo-15454": {
+      "bug_id": "apache_dubbo-15454",
+      "PR_number": 15454,
+      "PR_createdAt": "2025-06-12T09:35:17Z",
+      "merge_commit": "e140c061a2cba43dd41b750d66f70003f0281815",
+      "buggy_commits": [
+        {
+          "oid": "9fc81b58b681a9e21eb06ae1e89cfd7185ad6d63",
+          "message": "Destroy service repository after running DubboProtocolTest (#15474)"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/apache/dubbo/issues/15453",
+        "createdAt": "2025-06-12T09:31:24Z",
+        "content": "bug_report_all/apache_dubbo-15454.json"
+      },
+      "changed_tests": [
+        "dubbo-test/dubbo-test-check/src/main/java/org/apache/dubbo/test/check/registrycenter/initializer/ConfigZookeeperInitializer.java"
+      ],
+      "PR_url": "https://github.com/apache/dubbo/pull/15454",
+      "merge_commit_url": "https://github.com/apache/dubbo/commit/e140c061a2cba43dd41b750d66f70003f0281815",
+      "buggy_commit": "9fc81b58b681a9e21eb06ae1e89cfd7185ad6d63"
+    }
+  },
+  "square_retrofit": {
+    "square_retrofit-4334": {
+      "bug_id": "square_retrofit-4334",
+      "PR_number": 4334,
+      "PR_createdAt": "2025-04-01T16:48:11Z",
+      "merge_commit": "d37d22dae81cfc13b8c8f2a9e31cc788ccfebf47",
+      "buggy_commits": [
+        {
+          "oid": "3646596f965004fe6ddd843e463696cddd249728",
+          "message": "Update kotlinx.serialization to v1.8.1 (#4333)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>"
+        },
+        {
+          "oid": "4af306834d14006a6202a237f4b90904dd9ee26d",
+          "message": "Support primitive types for Tag"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/square/retrofit/issues/4332",
+        "createdAt": "2025-04-01T15:08:20Z",
+        "content": "bug_report_all/square_retrofit-4334.json"
+      },
+      "changed_tests": [
+        "retrofit/java-test/src/test/java/retrofit2/RequestFactoryTest.java"
+      ],
+      "PR_url": "https://github.com/square/retrofit/pull/4334",
+      "merge_commit_url": "https://github.com/square/retrofit/commit/d37d22dae81cfc13b8c8f2a9e31cc788ccfebf47",
+      "buggy_commit": "3646596f965004fe6ddd843e463696cddd249728"
+    }
+  },
+  "FasterXML_jackson-databind": {
+    "FasterXML_jackson-databind-5088": {
+      "bug_id": "FasterXML_jackson-databind-5088",
+      "PR_number": 5088,
+      "PR_createdAt": "2025-04-10T17:46:37Z",
+      "merge_commit": "dd34fb60f834749ffaeadd204891b04aeb79c178",
+      "buggy_commits": [
+        {
+          "oid": "ceab9731acdfdd68fca9c347a452674fdb1e36ba",
+          "message": "Move Enum related features from `SerializationFeature` to `EnumFeature` (#5087)"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/FasterXML/jackson-databind/issues/5079",
+        "createdAt": "2025-04-09T01:53:26Z",
+        "content": "bug_report_all/FasterXML_jackson-databind-5088.json"
+      },
+      "changed_tests": [
+        "src/test/java/tools/jackson/databind/deser/enums/EnumDeserFromIntJsonValueTest.java",
+        "src/test/java/tools/jackson/databind/deser/enums/EnumDeserMixin2787Test.java",
+        "src/test/java/tools/jackson/databind/deser/enums/EnumDeserializationTest.java",
+        "src/test/java/tools/jackson/databind/deser/enums/EnumDeserilizationFeatureOrderTest.java",
+        "src/test/java/tools/jackson/databind/deser/enums/EnumMapDeserializationTest.java",
+        "src/test/java/tools/jackson/databind/deser/enums/EnumNamingDeserializationTest.java",
+        "src/test/java/tools/jackson/databind/deser/filter/NullConversionsSkipTest.java",
+        "src/test/java/tools/jackson/databind/deser/filter/NullSkipForCollections4309Test.java",
+        "src/test/java/tools/jackson/databind/json/JsonMapperBuilderTest.java",
+        "src/test/java/tools/jackson/databind/jsontype/deftyping/TestDefaultForObject.java"
+      ],
+      "PR_url": "https://github.com/FasterXML/jackson-databind/pull/5088",
+      "merge_commit_url": "https://github.com/FasterXML/jackson-databind/commit/dd34fb60f834749ffaeadd204891b04aeb79c178",
+      "buggy_commit": "ceab9731acdfdd68fca9c347a452674fdb1e36ba"
+    },
+    "FasterXML_jackson-databind-5105": {
+      "bug_id": "FasterXML_jackson-databind-5105",
+      "PR_number": 5105,
+      "PR_createdAt": "2025-04-24T16:06:53Z",
+      "merge_commit": "707c3c19a3adb7eebfc6eeee4e7fce7b0c235518",
+      "buggy_commits": [
+        {
+          "oid": "21a11f4fe8b85a7c7fd69465c13f0c5805689201",
+          "message": "Fix regression in `ObjectNode.with()` (#5099)"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/FasterXML/jackson-databind/issues/4533",
+        "createdAt": "2024-05-17T14:49:28Z",
+        "content": "bug_report_all/FasterXML_jackson-databind-5105.json"
+      },
+      "changed_tests": [
+        "src/test/java/com/fasterxml/jackson/databind/interop/Java8Datetime4533Test.java"
+      ],
+      "PR_url": "https://github.com/FasterXML/jackson-databind/pull/5105",
+      "merge_commit_url": "https://github.com/FasterXML/jackson-databind/commit/707c3c19a3adb7eebfc6eeee4e7fce7b0c235518",
+      "buggy_commit": "21a11f4fe8b85a7c7fd69465c13f0c5805689201"
+    }
+  },
+  "jhy_jsoup": {
+    "jhy_jsoup-2338": {
+      "bug_id": "jhy_jsoup-2338",
+      "PR_number": 2338,
+      "PR_createdAt": "2025-06-15T16:47:48Z",
+      "merge_commit": "c347db4cf3f5a9523434f21113ca03b4dd1aaff6",
+      "buggy_commits": [
+        {
+          "oid": "2b3c4e17d9b42a54957463cebc763213da7ea00d",
+          "message": "Bump org.junit.jupiter:junit-jupiter from 5.13.0 to 5.13.1 (#2335)\n\nBumps [org.junit.jupiter:junit-jupiter](https://github.com/junit-team/junit5) from 5.13.0 to 5.13.1.\n- [Release notes](https://github.com/junit-team/junit5/releases)\n- [Commits](https://github.com/junit-team/junit5/compare/r5.13.0...r5.13.1)\n\n---\nupdated-dependencies:\n- dependency-name: org.junit.jupiter:junit-jupiter\n  dependency-version: 5.13.1\n  dependency-type: direct:development\n  update-type: version-update:semver-patch\n...\n\nSigned-off-by: dependabot[bot] <support@github.com>\nCo-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/jhy/jsoup/issues/2337",
+        "createdAt": "2025-06-15T15:51:14Z",
+        "content": "bug_report_all/jhy_jsoup-2338.json"
+      },
+      "changed_tests": [
+        "src/test/java/org/jsoup/nodes/AttributeTest.java",
+        "src/test/java/org/jsoup/nodes/DocumentTest.java",
+        "src/test/java/org/jsoup/nodes/EntitiesTest.java",
+        "src/test/java/org/jsoup/parser/XmlTreeBuilderTest.java"
+      ],
+      "PR_url": "https://github.com/jhy/jsoup/pull/2338",
+      "merge_commit_url": "https://github.com/jhy/jsoup/commit/c347db4cf3f5a9523434f21113ca03b4dd1aaff6",
+      "buggy_commit": "2b3c4e17d9b42a54957463cebc763213da7ea00d"
+    }
+  },
+  "FasterXML_jackson-core": {
+    "FasterXML_jackson-core-1417": {
+      "bug_id": "FasterXML_jackson-core-1417",
+      "PR_number": 1417,
+      "PR_createdAt": "2025-04-04T20:47:29Z",
+      "merge_commit": "feb53656a20b55a7b9d51bfe056af08001915f55",
+      "buggy_commits": [
+        {
+          "oid": "e4889fedc93c5999794a1a035a150141268cac51",
+          "message": "Merge branch '2.18' into 2.19"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/FasterXML/jackson-core/issues/1144",
+        "createdAt": "2023-11-24T11:41:39Z",
+        "content": "bug_report_all/FasterXML_jackson-core-1417.json"
+      },
+      "changed_tests": [
+        "src/test/java/com/fasterxml/jackson/core/json/async/AsyncTokenFilterTest.java",
+        "src/test/java/com/fasterxml/jackson/core/tofix/async/FilteringOnAsyncInfiniteLoop1144Test.java"
+      ],
+      "PR_url": "https://github.com/FasterXML/jackson-core/pull/1417",
+      "merge_commit_url": "https://github.com/FasterXML/jackson-core/commit/feb53656a20b55a7b9d51bfe056af08001915f55",
+      "buggy_commit": "e4889fedc93c5999794a1a035a150141268cac51"
+    }
+  }
+}

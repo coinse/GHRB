@@ -1,0 +1,73 @@
+diff --git a/common/src/test/java/org/apache/rocketmq/common/topic/TopicValidatorTest.java b/common/src/test/java/org/apache/rocketmq/common/topic/TopicValidatorTest.java
+index 65954fa932..1655eaab2b 100644
+--- a/common/src/test/java/org/apache/rocketmq/common/topic/TopicValidatorTest.java
++++ b/common/src/test/java/org/apache/rocketmq/common/topic/TopicValidatorTest.java
+@@ -35,6 +35,18 @@ public class TopicValidatorTest {
+         res = TopicValidator.validateTopic(generateString(128));
+         assertThat(res.isValid()).isFalse();
+         assertThat(res.getRemark()).contains("The specified topic is longer than topic max length.");
++
++        res = TopicValidator.validateTopic(generateString2(128));
++        assertThat(res.isValid()).isFalse();
++        assertThat(res.getRemark()).contains("The specified topic is longer than topic max length.");
++
++        res = TopicValidator.validateTopic(generateRetryTopic(256));
++        assertThat(res.isValid()).isFalse();
++        assertThat(res.getRemark()).contains("The specified topic is longer than topic max length.");
++
++        res = TopicValidator.validateTopic(generateDlqTopic(256));
++        assertThat(res.isValid()).isFalse();
++        assertThat(res.getRemark()).contains("The specified topic is longer than topic max length.");
+     }
+ 
+     @Test
+@@ -42,6 +54,18 @@ public class TopicValidatorTest {
+         TopicValidator.ValidateTopicResult res = TopicValidator.validateTopic("TestTopic");
+         assertThat(res.isValid()).isTrue();
+         assertThat(res.getRemark()).isEmpty();
++
++        res = TopicValidator.validateTopic(generateString2(127));
++        assertThat(res.isValid()).isTrue();
++        assertThat(res.getRemark()).isEmpty();
++
++        res = TopicValidator.validateTopic(generateRetryTopic(255));
++        assertThat(res.isValid()).isTrue();
++        assertThat(res.getRemark()).isEmpty();
++
++        res = TopicValidator.validateTopic(generateDlqTopic(255));
++        assertThat(res.isValid()).isTrue();
++        assertThat(res.getRemark()).isEmpty();
+     }
+ 
+     @Test
+@@ -115,4 +139,30 @@ public class TopicValidatorTest {
+         }
+         return stringBuffer.toString();
+     }
++
++    private static String generateString2(int length) {
++        StringBuilder stringBuilder = new StringBuilder();
++        for (int i = 0; i < length; i++) {
++            stringBuilder.append("a");
++        }
++        return stringBuilder.toString();
++    }
++
++    private static String generateRetryTopic(int length) {
++        StringBuilder stringBuilder = new StringBuilder();
++        stringBuilder.append("%RETRY%");
++        for (int i = 0; i < length - 7; i++) {
++            stringBuilder.append("a");
++        }
++        return stringBuilder.toString();
++    }
++
++    private static String generateDlqTopic(int length) {
++        StringBuilder stringBuilder = new StringBuilder();
++        stringBuilder.append("%DLQ%");
++        for (int i = 0; i < length - 5; i++) {
++            stringBuilder.append("a");
++        }
++        return stringBuilder.toString();
++    }
+ }
