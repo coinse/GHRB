@@ -1,0 +1,15 @@
+diff --git a/modules/openapi-generator/src/main/java/org/openapitools/codegen/languages/AbstractRustCodegen.java b/modules/openapi-generator/src/main/java/org/openapitools/codegen/languages/AbstractRustCodegen.java
+index 4d32067a79e4..39e888bae0f7 100644
+--- a/modules/openapi-generator/src/main/java/org/openapitools/codegen/languages/AbstractRustCodegen.java
++++ b/modules/openapi-generator/src/main/java/org/openapitools/codegen/languages/AbstractRustCodegen.java
+@@ -183,8 +183,8 @@ public abstract class AbstractRustCodegen extends DefaultCodegen implements Code
+                 throw new IllegalArgumentException("Unknown CasingType");
+         }
+ 
+-        // Replace hyphens with underscores
+-        name = name.replaceAll("-", "_");
++        // Replace hyphens and periods with underscores
++        name = name.replaceAll("[\\.\\-]", "_");
+ 
+         // Apply special character escapes, e.g. "@type" => "At_type"
+         // Remove the trailing underscore if necessary

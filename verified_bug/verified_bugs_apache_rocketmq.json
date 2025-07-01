@@ -1167,5 +1167,139 @@
         ".org.apache.rocketmq.tieredstore.TieredMessageStoreTest.java"
       ]
     }
+  },
+  "apache_rocketmq-9334": {
+    "bug_id": "apache_rocketmq-9334",
+    "PR_number": 9334,
+    "PR_createdAt": "2025-04-15T14:18:43Z",
+    "merge_commit": "b1daa3c0f0e8dd85f181331e4ec4ff276fb361c0",
+    "buggy_commits": [
+      {
+        "oid": "854369aa38ce574ccf931b99bdb799a6fb533183",
+        "message": "[ISSUE #9339] Fix pop update consumption offset when message are filtered (#9340)"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/apache/rocketmq/issues/9333",
+      "createdAt": "2025-04-15T14:11:54Z",
+      "content": "bug_report_all/apache_rocketmq-9334.json"
+    },
+    "changed_tests": [
+      "broker/src/test/java/org/apache/rocketmq/broker/RocksDBConfigManagerTest.java",
+      "broker/src/test/java/org/apache/rocketmq/broker/processor/AdminBrokerProcessorTest.java",
+      "broker/src/test/java/org/apache/rocketmq/broker/processor/ChangeInvisibleTimeProcessorTest.java",
+      "broker/src/test/java/org/apache/rocketmq/broker/processor/PopBufferMergeServiceTest.java",
+      "broker/src/test/java/org/apache/rocketmq/broker/processor/PopMessageProcessorTest.java",
+      "broker/src/test/java/org/apache/rocketmq/broker/processor/PopReviveServiceTest.java",
+      "broker/src/test/java/org/apache/rocketmq/broker/topic/TopicQueueMappingManagerTest.java",
+      "broker/src/test/java/org/apache/rocketmq/broker/transaction/queue/TransactionMetricsTest.java"
+    ],
+    "PR_url": "https://github.com/apache/rocketmq/pull/9334",
+    "merge_commit_url": "https://github.com/apache/rocketmq/commit/b1daa3c0f0e8dd85f181331e4ec4ff276fb361c0",
+    "buggy_commit": "854369aa38ce574ccf931b99bdb799a6fb533183",
+    "execution_result": {
+      "valid_tests": [
+        ".org.apache.rocketmq.broker.processor.PopReviveServiceTest.java",
+        ".org.apache.rocketmq.broker.topic.TopicQueueMappingManagerTest.java"
+      ],
+      "success_tests": [
+        ".org.apache.rocketmq.broker.processor.PopReviveServiceTest.java",
+        ".org.apache.rocketmq.broker.topic.TopicQueueMappingManagerTest.java"
+      ]
+    }
+  },
+  "apache_rocketmq-9417": {
+    "bug_id": "apache_rocketmq-9417",
+    "PR_number": 9417,
+    "PR_createdAt": "2025-05-20T02:51:20Z",
+    "merge_commit": "e1021ecc73790ce4d4d0acc6570d0b6381f84076",
+    "buggy_commits": [
+      {
+        "oid": "46b7a98de020db637cfc1112010fec1f9c999bb7",
+        "message": "[ISSUE #9403] Fix the issue of metadata synchronization failure between master and slave when the topic has attributes (#9404)"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/apache/rocketmq/issues/9416",
+      "createdAt": "2025-05-20T02:37:16Z",
+      "content": "bug_report_all/apache_rocketmq-9417.json"
+    },
+    "changed_tests": [
+      "store/src/test/java/org/apache/rocketmq/store/AppendCallbackTest.java",
+      "store/src/test/java/org/apache/rocketmq/store/BatchPutMessageTest.java"
+    ],
+    "PR_url": "https://github.com/apache/rocketmq/pull/9417",
+    "merge_commit_url": "https://github.com/apache/rocketmq/commit/e1021ecc73790ce4d4d0acc6570d0b6381f84076",
+    "buggy_commit": "46b7a98de020db637cfc1112010fec1f9c999bb7",
+    "execution_result": {
+      "valid_tests": [
+        ".org.apache.rocketmq.store.BatchPutMessageTest.java"
+      ],
+      "success_tests": [
+        ".org.apache.rocketmq.store.BatchPutMessageTest.java"
+      ]
+    }
+  },
+  "apache_rocketmq-9444": {
+    "bug_id": "apache_rocketmq-9444",
+    "PR_number": 9444,
+    "PR_createdAt": "2025-06-01T14:42:35Z",
+    "merge_commit": "921664f40063b431c767725deaad3dc53aa628b7",
+    "buggy_commits": [
+      {
+        "oid": "cd6bec6291d94fefb3f59ca62c7c328305d363e0",
+        "message": "[ISSUE #9441] Add file length check in IndexService (#9442)"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/apache/rocketmq/issues/9443",
+      "createdAt": "2025-06-01T14:37:58Z",
+      "content": "bug_report_all/apache_rocketmq-9444.json"
+    },
+    "changed_tests": [
+      "broker/src/test/java/org/apache/rocketmq/broker/client/ConsumerManagerTest.java"
+    ],
+    "PR_url": "https://github.com/apache/rocketmq/pull/9444",
+    "merge_commit_url": "https://github.com/apache/rocketmq/commit/921664f40063b431c767725deaad3dc53aa628b7",
+    "buggy_commit": "cd6bec6291d94fefb3f59ca62c7c328305d363e0",
+    "execution_result": {
+      "valid_tests": [
+        ".org.apache.rocketmq.broker.client.ConsumerManagerTest.java"
+      ],
+      "success_tests": [
+        ".org.apache.rocketmq.broker.client.ConsumerManagerTest.java"
+      ]
+    }
+  },
+  "apache_rocketmq-9480": {
+    "bug_id": "apache_rocketmq-9480",
+    "PR_number": 9480,
+    "PR_createdAt": "2025-06-16T08:56:41Z",
+    "merge_commit": "9fc78510662d510bde95eb97b6ba77a3098b3709",
+    "buggy_commits": [
+      {
+        "oid": "8956768406da0c9fc50dd36e030a5cf4de90a38b",
+        "message": "[ISSUE #9497] Fix IndexOutOfBoundsException in getEarliestMessageTime when running in IPv6 environment (#9498)\n\nCo-authored-by: shixiaoxiao <shixiaoxiao@bytedance.com>"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/apache/rocketmq/issues/9479",
+      "createdAt": "2025-06-16T08:50:51Z",
+      "content": "bug_report_all/apache_rocketmq-9480.json"
+    },
+    "changed_tests": [
+      "common/src/test/java/org/apache/rocketmq/common/topic/TopicValidatorTest.java"
+    ],
+    "PR_url": "https://github.com/apache/rocketmq/pull/9480",
+    "merge_commit_url": "https://github.com/apache/rocketmq/commit/9fc78510662d510bde95eb97b6ba77a3098b3709",
+    "buggy_commit": "8956768406da0c9fc50dd36e030a5cf4de90a38b",
+    "execution_result": {
+      "valid_tests": [
+        ".org.apache.rocketmq.common.topic.TopicValidatorTest.java"
+      ],
+      "success_tests": [
+        ".org.apache.rocketmq.common.topic.TopicValidatorTest.java"
+      ]
+    }
   }
 }

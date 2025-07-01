@@ -712,7 +712,7 @@ if __name__ == '__main__':
 
     fetch_test_diff(report_test_mappings)
     fetch_prod_diff(report_test_mappings)
-
+    exit(0)
     projects = report_test_mappings.keys()
 
     file_names = []
@@ -774,9 +774,9 @@ if __name__ == '__main__':
     data_prod_diff = cur_dir + "/data/prod_diff"
 
     for bug in bug_names:
-        shutil.move(f"{cur_dir}/collected/test_diff/{bug}.diff", f"{cur_dir}/data/test_diff/{bug}.diff")
+        shutil.copy(f"{cur_dir}/collected/test_diff/{bug}.diff", f"{cur_dir}/data/test_diff/{bug}.diff")
         if os.path.isfile(f"{cur_dir}/collected/prod_diff/{bug}.diff"):
-            shutil.move(f"{cur_dir}/collected/prod_diff/{bug}.diff", f"{cur_dir}/data/prod_diff/{bug}.diff")
+            shutil.copy(f"{cur_dir}/collected/prod_diff/{bug}.diff", f"{cur_dir}/data/prod_diff/{bug}.diff")
 
     #subprocess.run(["rm", "-rf", f"{cur_dir}/collected"])
 

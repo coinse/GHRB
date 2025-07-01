@@ -387,5 +387,67 @@
         ".org.openapitools.codegen.python.PythonPydanticV1ClientCodegenTest.java"
       ]
     }
+  },
+  "OpenAPITools_openapi-generator-21459": {
+    "bug_id": "OpenAPITools_openapi-generator-21459",
+    "PR_number": 21459,
+    "PR_createdAt": "2025-06-24T13:44:50Z",
+    "merge_commit": "d911a71be93ae2a256533ccd5808b245258f9fa8",
+    "buggy_commits": [
+      {
+        "oid": "046be5dba1aef8e3be88970966104cd60bd41f1d",
+        "message": "Prepare 7.15.0 (#21445)\n\n* Revert \"v7.14.0 release (#21443)\"\n\nThis reverts commit 5eb083e5ce1dd99659fadc03d7c6e809d3077af6.\n\n* prepare v7.15.0 snapshot\n\n* update samples\n\n* update readme\n\n* update doc"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/OpenAPITools/openapi-generator/issues/21181",
+      "createdAt": "2025-04-29T11:54:35Z",
+      "content": "bug_report_all/OpenAPITools_openapi-generator-21459.json"
+    },
+    "changed_tests": [
+      "modules/openapi-generator/src/test/java/org/openapitools/codegen/kotlin/AbstractKotlinCodegenTest.java"
+    ],
+    "PR_url": "https://github.com/OpenAPITools/openapi-generator/pull/21459",
+    "merge_commit_url": "https://github.com/OpenAPITools/openapi-generator/commit/d911a71be93ae2a256533ccd5808b245258f9fa8",
+    "buggy_commit": "046be5dba1aef8e3be88970966104cd60bd41f1d",
+    "execution_result": {
+      "valid_tests": [
+        ".org.openapitools.codegen.kotlin.AbstractKotlinCodegenTest.java"
+      ],
+      "success_tests": [
+        ".org.openapitools.codegen.kotlin.AbstractKotlinCodegenTest.java"
+      ]
+    }
+  },
+  "OpenAPITools_openapi-generator-21480": {
+    "bug_id": "OpenAPITools_openapi-generator-21480",
+    "PR_number": 21480,
+    "PR_createdAt": "2025-06-28T10:44:47Z",
+    "merge_commit": "03effd7d0511325a1571971bea4b86cf38a1a17f",
+    "buggy_commits": [
+      {
+        "oid": "d11d008e71e2bd58d7c0d50ce169e80f7500d3fe",
+        "message": "Fix typescript-fetch missing imports for oneof field with discriminator (#21477)\n\n* fix: add support for discriminator in oneOf schemas and update model imports\n\n* chore: generate samples\n\n* fix: enhance model imports for oneOf arrays in mustache templates\n\n* fix: correct import formatting in mustache templates and TypeScript files"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/OpenAPITools/openapi-generator/issues/15254",
+      "createdAt": "2023-04-18T16:26:56Z",
+      "content": "bug_report_all/OpenAPITools_openapi-generator-21480.json"
+    },
+    "changed_tests": [
+      "modules/openapi-generator/src/test/java/org/openapitools/codegen/rust/AbstractRustCodegenTest.java"
+    ],
+    "PR_url": "https://github.com/OpenAPITools/openapi-generator/pull/21480",
+    "merge_commit_url": "https://github.com/OpenAPITools/openapi-generator/commit/03effd7d0511325a1571971bea4b86cf38a1a17f",
+    "buggy_commit": "d11d008e71e2bd58d7c0d50ce169e80f7500d3fe",
+    "execution_result": {
+      "valid_tests": [
+        ".org.openapitools.codegen.rust.AbstractRustCodegenTest.java"
+      ],
+      "success_tests": [
+        ".org.openapitools.codegen.rust.AbstractRustCodegenTest.java"
+      ]
+    }
   }
 }

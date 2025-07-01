@@ -1,0 +1,13 @@
+diff --git a/modules/openapi-generator/src/main/java/org/openapitools/codegen/languages/AbstractKotlinCodegen.java b/modules/openapi-generator/src/main/java/org/openapitools/codegen/languages/AbstractKotlinCodegen.java
+index 35795188b6fc..3e0d42d16577 100644
+--- a/modules/openapi-generator/src/main/java/org/openapitools/codegen/languages/AbstractKotlinCodegen.java
++++ b/modules/openapi-generator/src/main/java/org/openapitools/codegen/languages/AbstractKotlinCodegen.java
+@@ -572,7 +572,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
+         if (value.isEmpty()) {
+             modified = "EMPTY";
+         } else {
+-            modified = value;
++            modified = value.replaceAll("-", "_");
+             modified = sanitizeKotlinSpecificNames(modified);
+         }
+ 

@@ -1,0 +1,13 @@
+diff --git a/broker/src/main/java/org/apache/rocketmq/broker/client/ConsumerManager.java b/broker/src/main/java/org/apache/rocketmq/broker/client/ConsumerManager.java
+index 5aec8e577f..341bbb5dad 100644
+--- a/broker/src/main/java/org/apache/rocketmq/broker/client/ConsumerManager.java
++++ b/broker/src/main/java/org/apache/rocketmq/broker/client/ConsumerManager.java
+@@ -292,7 +292,7 @@ public class ConsumerManager {
+                 Set<String> prev = this.topicGroupTable.putIfAbsent(subscriptionData.getTopic(), tmp);
+                 groups = prev != null ? prev : tmp;
+             }
+-            groups.add(subscriptionData.getTopic());
++            groups.add(group);
+         }
+ 
+         boolean updateChannelRst = consumerGroupInfo.updateChannel(clientChannelInfo, consumeType, messageModel, consumeFromWhere);
