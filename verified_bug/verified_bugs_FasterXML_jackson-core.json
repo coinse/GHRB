@@ -122,5 +122,36 @@
         ".com.fasterxml.jackson.core.tofix.async.AsyncLocation1412Test.java"
       ]
     }
+  },
+  "FasterXML_jackson-core-1474": {
+    "bug_id": "FasterXML_jackson-core-1474",
+    "PR_number": 1474,
+    "PR_createdAt": "2025-09-16T21:45:10Z",
+    "merge_commit": "b4acc47d4c019c5842b2353594da0f2e968997f3",
+    "buggy_commits": [
+      {
+        "oid": "4975a1e7a2057520e2a995848a6f91f5f7939588",
+        "message": "Trigger cascading re-build via CI"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/FasterXML/jackson-core/issues/1473",
+      "createdAt": "2025-09-16T20:22:35Z",
+      "content": "bug_report_all/FasterXML_jackson-core-1474.json"
+    },
+    "changed_tests": [
+      "src/test/java/com/fasterxml/jackson/core/write/SurrogateWrite223Test.java"
+    ],
+    "PR_url": "https://github.com/FasterXML/jackson-core/pull/1474",
+    "merge_commit_url": "https://github.com/FasterXML/jackson-core/commit/b4acc47d4c019c5842b2353594da0f2e968997f3",
+    "buggy_commit": "4975a1e7a2057520e2a995848a6f91f5f7939588",
+    "execution_result": {
+      "valid_tests": [
+        ".com.fasterxml.jackson.core.write.SurrogateWrite223Test.java"
+      ],
+      "success_tests": [
+        ".com.fasterxml.jackson.core.write.SurrogateWrite223Test.java"
+      ]
+    }
   }
 }

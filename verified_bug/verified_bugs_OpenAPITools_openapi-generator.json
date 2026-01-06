@@ -77,7 +77,9 @@
       "createdAt": "2023-01-26T14:50:49Z",
       "content": "bug_report_all/OpenAPITools_openapi-generator-14536.json"
     },
-    "changed_tests": [],
+    "changed_tests": [
+      "modules/openapi-generator/src/test/java/org/openapitools/codegen/DefaultCodegenTest.java"
+    ],
     "PR_url": "https://github.com/OpenAPITools/openapi-generator/pull/14536",
     "merge_commit_url": "https://github.com/OpenAPITools/openapi-generator/commit/68b944e6e62fa69669e97a8c2041a7eb7ed3314a",
     "buggy_commit": "1b60ee1799a6831a9cd59cb833db63d4ee4eb06b",
@@ -106,7 +108,9 @@
       "createdAt": "2021-12-25T17:51:55Z",
       "content": "bug_report_all/OpenAPITools_openapi-generator-14768.json"
     },
-    "changed_tests": [],
+    "changed_tests": [
+      "modules/openapi-generator/src/test/java/org/openapitools/codegen/swift5/Swift5ClientCodegenTest.java"
+    ],
     "PR_url": "https://github.com/OpenAPITools/openapi-generator/pull/14768",
     "merge_commit_url": "https://github.com/OpenAPITools/openapi-generator/commit/f45523dd1a6c4c02d1745c13104beadfa103fa26",
     "buggy_commit": "564939a4a8eb73f26a5878445c058875e2a1f2a9",
@@ -447,6 +451,37 @@
       ],
       "success_tests": [
         ".org.openapitools.codegen.rust.AbstractRustCodegenTest.java"
+      ]
+    }
+  },
+  "OpenAPITools_openapi-generator-21899": {
+    "bug_id": "OpenAPITools_openapi-generator-21899",
+    "PR_number": 21899,
+    "PR_createdAt": "2025-09-04T13:59:24Z",
+    "merge_commit": "08733aaf251cede20ac048fa7ff4cf0a64bb929c",
+    "buggy_commits": [
+      {
+        "oid": "3f24026b87d7cacb0b642cec1cc717a2f733412b",
+        "message": "update parser to 2.1.33"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/OpenAPITools/openapi-generator/issues/21898",
+      "createdAt": "2025-09-04T13:57:19Z",
+      "content": "bug_report_all/OpenAPITools_openapi-generator-21899.json"
+    },
+    "changed_tests": [
+      "modules/openapi-generator/src/test/java/org/openapitools/codegen/go/GoClientCodegenTest.java"
+    ],
+    "PR_url": "https://github.com/OpenAPITools/openapi-generator/pull/21899",
+    "merge_commit_url": "https://github.com/OpenAPITools/openapi-generator/commit/08733aaf251cede20ac048fa7ff4cf0a64bb929c",
+    "buggy_commit": "3f24026b87d7cacb0b642cec1cc717a2f733412b",
+    "execution_result": {
+      "valid_tests": [
+        ".org.openapitools.codegen.go.GoClientCodegenTest.java"
+      ],
+      "success_tests": [
+        ".org.openapitools.codegen.go.GoClientCodegenTest.java"
       ]
     }
   }

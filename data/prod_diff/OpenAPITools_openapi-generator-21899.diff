@@ -1,0 +1,14 @@
+diff --git a/modules/openapi-generator/src/main/java/org/openapitools/codegen/languages/AbstractGoCodegen.java b/modules/openapi-generator/src/main/java/org/openapitools/codegen/languages/AbstractGoCodegen.java
+index fc2a254585ba..415912c4ae79 100644
+--- a/modules/openapi-generator/src/main/java/org/openapitools/codegen/languages/AbstractGoCodegen.java
++++ b/modules/openapi-generator/src/main/java/org/openapitools/codegen/languages/AbstractGoCodegen.java
+@@ -800,6 +800,9 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
+ 
+                 if (withXml) {
+                     goDataTag += " xml:" + "\"" + cp.baseName;
++                    if (cp.isXmlWrapped) {
++                        goDataTag += ">" + ("".equals(cp.xmlName) ? cp.baseName : cp.xmlName);
++                    }
+                     if (cp.isXmlAttribute) {
+                         goDataTag += ",attr";
+                     }

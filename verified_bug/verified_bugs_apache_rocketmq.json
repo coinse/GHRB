@@ -1301,5 +1301,67 @@
         ".org.apache.rocketmq.common.topic.TopicValidatorTest.java"
       ]
     }
+  },
+  "apache_rocketmq-9579": {
+    "bug_id": "apache_rocketmq-9579",
+    "PR_number": 9579,
+    "PR_createdAt": "2025-07-29T08:01:13Z",
+    "merge_commit": "32d68e78567903c07139cfdb519a7cd2a6222e2a",
+    "buggy_commits": [
+      {
+        "oid": "2f89371f87ece782ac1ad90611ff5b2d12fc3cd0",
+        "message": "[ISSUE #9620] placeholder replacement string concatenation (#9621)"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/apache/rocketmq/issues/9581",
+      "createdAt": "2025-07-30T01:52:19Z",
+      "content": "bug_report_all/apache_rocketmq-9579.json"
+    },
+    "changed_tests": [
+      "broker/src/test/java/org/apache/rocketmq/broker/longpolling/PopLongPollingServiceTest.java"
+    ],
+    "PR_url": "https://github.com/apache/rocketmq/pull/9579",
+    "merge_commit_url": "https://github.com/apache/rocketmq/commit/32d68e78567903c07139cfdb519a7cd2a6222e2a",
+    "buggy_commit": "2f89371f87ece782ac1ad90611ff5b2d12fc3cd0",
+    "execution_result": {
+      "valid_tests": [
+        ".org.apache.rocketmq.broker.longpolling.PopLongPollingServiceTest.java"
+      ],
+      "success_tests": [
+        ".org.apache.rocketmq.broker.longpolling.PopLongPollingServiceTest.java"
+      ]
+    }
+  },
+  "apache_rocketmq-9718": {
+    "bug_id": "apache_rocketmq-9718",
+    "PR_number": 9718,
+    "PR_createdAt": "2025-09-19T07:53:02Z",
+    "merge_commit": "8fc57f1468d182eea11c01e089c0250d647dc5f3",
+    "buggy_commits": [
+      {
+        "oid": "47c07a97242bd979c4ce97c51efc350f3007882a",
+        "message": "[ISSUE #9716] refactor: replace RandomAccessFile with FileChannel (#9715)\n\n* refactor: replace RandomAccessFile with FileChannel for better I/O performance\n\n- Remove RandomAccessFile field and related logic completely\n- Use FileChannel for all write operations when writeWithoutMmap is enabled\n- Change SharedByteBuffer to use direct memory allocation (ByteBuffer.allocateDirect)\n- Add RunningFlags support for better error handling\n- Improve constructor design with better parameter handling\n- Fix SharedByteBuffer write operation to ensure correct byte count\n\nThis change improves I/O performance by:\n1. Eliminating the overhead of RandomAccessFile\n2. Using direct memory allocation for better memory management\n3. Providing more consistent I/O operations through FileChannel\n4. Better error handling with RunningFlags integration\n\n* writeWithoutMmap and transientStorePoolEnable cannot be used together. If both are enabled, only transientStorePoolEnable will take effect.\n\n* Fix config comment"
+      }
+    ],
+    "issue": {
+      "url": "https://github.com/apache/rocketmq/issues/9717",
+      "createdAt": "2025-09-19T07:39:11Z",
+      "content": "bug_report_all/apache_rocketmq-9718.json"
+    },
+    "changed_tests": [
+      "controller/src/test/java/org/apache/rocketmq/controller/impl/RaftBrokerHeartBeatManagerTest.java"
+    ],
+    "PR_url": "https://github.com/apache/rocketmq/pull/9718",
+    "merge_commit_url": "https://github.com/apache/rocketmq/commit/8fc57f1468d182eea11c01e089c0250d647dc5f3",
+    "buggy_commit": "47c07a97242bd979c4ce97c51efc350f3007882a",
+    "execution_result": {
+      "valid_tests": [
+        ".org.apache.rocketmq.controller.impl.RaftBrokerHeartBeatManagerTest.java"
+      ],
+      "success_tests": [
+        ".org.apache.rocketmq.controller.impl.RaftBrokerHeartBeatManagerTest.java"
+      ]
+    }
   }
 }

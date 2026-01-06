@@ -3,3 +3,4 @@ bug_id,revision.id.buggy,revision.id.fixed,report.id,report.url
 2,4619d7b7483a1ca495d8dbd7e132d11e6bee2380,df8e14e9e05902c5d0a24fe1d25cbef47c2d63aa,FasterXML_jackson-core-923,https://github.com/FasterXML/jackson-dataformats-text/issues/384
 3,bb778a0a4d6d492ca0a39d7d0e32b6e44e90e7aa,cd513f4bbabe384b860f21419df5dc33de0379df,FasterXML_jackson-core-1053,https://github.com/FasterXML/jackson-core/issues/1050
 4,99f749d958a55013724571d825625e1032af9d4b,596fd82955080ba7207b4adc54100781b5024a61,FasterXML_jackson-core-1415,https://github.com/FasterXML/jackson-core/issues/1412
+5,4975a1e7a2057520e2a995848a6f91f5f7939588,b4acc47d4c019c5842b2353594da0f2e968997f3,FasterXML_jackson-core-1474,https://github.com/FasterXML/jackson-core/issues/1473
