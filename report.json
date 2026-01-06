@@ -1,0 +1,1581 @@
+{
+  "apache_rocketmq": {
+    "apache_rocketmq-9528": {
+      "bug_id": "apache_rocketmq-9528",
+      "PR_number": 9528,
+      "PR_createdAt": "2025-07-09T08:48:17Z",
+      "merge_commit": "8639dcc4dad45d8b77485f3565023e47cc149398",
+      "buggy_commits": [
+        {
+          "oid": "2accb9797771b9395d427eef1d6a7982f27b8dfc",
+          "message": "[ISSUE #9520] Remove unnecessary topicConfig data version change when enable split registration (#9521)"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/apache/rocketmq/issues/9254",
+        "createdAt": "2025-03-17T11:54:57Z",
+        "content": "bug_report_all/apache_rocketmq-9528.json"
+      },
+      "changed_tests": [
+        "store/src/test/java/org/apache/rocketmq/store/DefaultMessageStoreTest.java",
+        "store/src/test/java/org/apache/rocketmq/store/MessageStoreStateMachineTest.java"
+      ],
+      "PR_url": "https://github.com/apache/rocketmq/pull/9528",
+      "merge_commit_url": "https://github.com/apache/rocketmq/commit/8639dcc4dad45d8b77485f3565023e47cc149398",
+      "buggy_commit": "2accb9797771b9395d427eef1d6a7982f27b8dfc"
+    },
+    "apache_rocketmq-9538": {
+      "bug_id": "apache_rocketmq-9538",
+      "PR_number": 9538,
+      "PR_createdAt": "2025-07-11T02:06:19Z",
+      "merge_commit": "76cee72cc5edae086cbe44ed2b00eb3753c120d5",
+      "buggy_commits": [
+        {
+          "oid": "8639dcc4dad45d8b77485f3565023e47cc149398",
+          "message": "[ISSUE #9254] Optimize the logs of the message store (#9528)"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/apache/rocketmq/issues/9537",
+        "createdAt": "2025-07-11T02:05:41Z",
+        "content": "bug_report_all/apache_rocketmq-9538.json"
+      },
+      "changed_tests": [
+        "client/src/test/java/org/apache/rocketmq/client/impl/mqclient/MQClientAPITest.java"
+      ],
+      "PR_url": "https://github.com/apache/rocketmq/pull/9538",
+      "merge_commit_url": "https://github.com/apache/rocketmq/commit/76cee72cc5edae086cbe44ed2b00eb3753c120d5",
+      "buggy_commit": "8639dcc4dad45d8b77485f3565023e47cc149398"
+    },
+    "apache_rocketmq-9579": {
+      "bug_id": "apache_rocketmq-9579",
+      "PR_number": 9579,
+      "PR_createdAt": "2025-07-29T08:01:13Z",
+      "merge_commit": "32d68e78567903c07139cfdb519a7cd2a6222e2a",
+      "buggy_commits": [
+        {
+          "oid": "2f89371f87ece782ac1ad90611ff5b2d12fc3cd0",
+          "message": "[ISSUE #9620] placeholder replacement string concatenation (#9621)"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/apache/rocketmq/issues/9581",
+        "createdAt": "2025-07-30T01:52:19Z",
+        "content": "bug_report_all/apache_rocketmq-9579.json"
+      },
+      "changed_tests": [
+        "broker/src/test/java/org/apache/rocketmq/broker/longpolling/PopLongPollingServiceTest.java"
+      ],
+      "PR_url": "https://github.com/apache/rocketmq/pull/9579",
+      "merge_commit_url": "https://github.com/apache/rocketmq/commit/32d68e78567903c07139cfdb519a7cd2a6222e2a",
+      "buggy_commit": "2f89371f87ece782ac1ad90611ff5b2d12fc3cd0"
+    },
+    "apache_rocketmq-9617": {
+      "bug_id": "apache_rocketmq-9617",
+      "PR_number": 9617,
+      "PR_createdAt": "2025-08-17T17:42:35Z",
+      "merge_commit": "0085b54c8956fef1d134210a21fa6885e5606e9e",
+      "buggy_commits": [
+        {
+          "oid": "1c83b117685e715bfec215bf0afdb492cc86718f",
+          "message": "[ISSUE #9658] Replace JUnit 5 imports with JUnit 4 (#9659)\n\n* [ISSUE #9658] Replace JUnit 5 imports with JUnit 4\n\n* Update test"
+        },
+        {
+          "oid": "9a0cac901b3b750f952e102073289548c82c42cc",
+          "message": "Merge branch 'develop' into rip-80"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/apache/rocketmq/issues/9616",
+        "createdAt": "2025-08-17T17:23:09Z",
+        "content": "bug_report_all/apache_rocketmq-9617.json"
+      },
+      "changed_tests": [
+        "store/src/test/java/org/apache/rocketmq/store/timer/TimerMessageStoreTest.java",
+        "store/src/test/java/org/apache/rocketmq/store/timer/TimerMetricsTest.java"
+      ],
+      "PR_url": "https://github.com/apache/rocketmq/pull/9617",
+      "merge_commit_url": "https://github.com/apache/rocketmq/commit/0085b54c8956fef1d134210a21fa6885e5606e9e",
+      "buggy_commit": "1c83b117685e715bfec215bf0afdb492cc86718f"
+    },
+    "apache_rocketmq-9624": {
+      "bug_id": "apache_rocketmq-9624",
+      "PR_number": 9624,
+      "PR_createdAt": "2025-08-20T13:23:01Z",
+      "merge_commit": "2eb4e74bc0b7da5a1405908b102507bd0c3e3e44",
+      "buggy_commits": [
+        {
+          "oid": "1c83b117685e715bfec215bf0afdb492cc86718f",
+          "message": "[ISSUE #9658] Replace JUnit 5 imports with JUnit 4 (#9659)\n\n* [ISSUE #9658] Replace JUnit 5 imports with JUnit 4\n\n* Update test"
+        },
+        {
+          "oid": "4e83ddb847f8e015b2eddd982ea1bcea0b57a22f",
+          "message": "Merge branch 'develop' of github.com:apache/rocketmq into fix9628"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/apache/rocketmq/issues/9623",
+        "createdAt": "2025-08-20T13:12:58Z",
+        "content": "bug_report_all/apache_rocketmq-9624.json"
+      },
+      "changed_tests": [
+        "broker/src/test/java/org/apache/rocketmq/broker/filter/MessageStoreWithFilterTest.java"
+      ],
+      "PR_url": "https://github.com/apache/rocketmq/pull/9624",
+      "merge_commit_url": "https://github.com/apache/rocketmq/commit/2eb4e74bc0b7da5a1405908b102507bd0c3e3e44",
+      "buggy_commit": "1c83b117685e715bfec215bf0afdb492cc86718f"
+    },
+    "apache_rocketmq-9627": {
+      "bug_id": "apache_rocketmq-9627",
+      "PR_number": 9627,
+      "PR_createdAt": "2025-08-21T06:38:14Z",
+      "merge_commit": "e6a587a82aee46908be9e2f45d6d7b6d96373d25",
+      "buggy_commits": [
+        {
+          "oid": "f40a69f9f14d5b2c4144e5288734fd0ac8dc5463",
+          "message": "fix: remove wrong logic in the callback for sending messages in rpc (#9608)\n\nCo-authored-by: hqbfzwang <hqbfzwang@tencent.com>"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/apache/rocketmq/issues/9626",
+        "createdAt": "2025-08-21T06:35:55Z",
+        "content": "bug_report_all/apache_rocketmq-9627.json"
+      },
+      "changed_tests": [
+        "broker/src/test/java/org/apache/rocketmq/broker/pop/PopConsumerCacheTest.java"
+      ],
+      "PR_url": "https://github.com/apache/rocketmq/pull/9627",
+      "merge_commit_url": "https://github.com/apache/rocketmq/commit/e6a587a82aee46908be9e2f45d6d7b6d96373d25",
+      "buggy_commit": "f40a69f9f14d5b2c4144e5288734fd0ac8dc5463"
+    },
+    "apache_rocketmq-9635": {
+      "bug_id": "apache_rocketmq-9635",
+      "PR_number": 9635,
+      "PR_createdAt": "2025-08-25T03:27:56Z",
+      "merge_commit": "bb45b8f5f70c07e0c4640e98c281058c1a6ad8cd",
+      "buggy_commits": [
+        {
+          "oid": "86e8ed630bd20c8ea2c9ab662af9b97389c41a20",
+          "message": "[ISSUE #9666] Add accelerated startup recovery feature for RocksDB store with SYNC_FLUSH (#9667)\n\n* feat: Add accelerated startup recovery feature\n\nAdd accelerated startup recovery functionality when using RocksDB store with SYNC_FLUSH configuration:\n\n- Add enableAcceleratedRecovery configuration option in MessageStoreConfig\n- Implement accelerated recovery logic in CommitLog for both normal and abnormal recovery\n- Add protective fallback mechanism to handle edge cases\n- Improve isMappedFileMatchedRecover method for better robustness\n- Add comprehensive unit tests for the accelerated recovery feature\n\nThis feature significantly reduces startup time when recovering from RocksDB-based storage\nwith synchronous flushing enabled, while maintaining data consistency and safety.\n\n* Fix the issue of accelerated startup failure\n\n* refactor: Remove problematic unit test\n\nRemove AcceleratedRecoveryTest.java as the test implementation was not appropriate for the accelerated startup recovery feature.\n\n* Delete useless code"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/apache/rocketmq/issues/9634",
+        "createdAt": "2025-08-25T03:26:44Z",
+        "content": "bug_report_all/apache_rocketmq-9635.json"
+      },
+      "changed_tests": [
+        "container/src/test/java/org/apache/rocketmq/container/BrokerContainerExtensibilityTest.java",
+        "container/src/test/java/org/apache/rocketmq/container/BrokerContainerStartupTest.java",
+        "container/src/test/java/org/apache/rocketmq/container/BrokerContainerTest.java",
+        "container/src/test/java/org/apache/rocketmq/container/BrokerPreOnlineServiceTest.java",
+        "test/src/test/java/org/apache/rocketmq/test/container/ContainerIntegrationTestBase.java",
+        "test/src/test/java/org/apache/rocketmq/test/container/GetMetadataReverseIT.java",
+        "test/src/test/java/org/apache/rocketmq/test/container/PopSlaveActingMasterIT.java",
+        "test/src/test/java/org/apache/rocketmq/test/container/ScheduleSlaveActingMasterIT.java",
+        "test/src/test/java/org/apache/rocketmq/test/container/TransactionMessageIT.java"
+      ],
+      "PR_url": "https://github.com/apache/rocketmq/pull/9635",
+      "merge_commit_url": "https://github.com/apache/rocketmq/commit/bb45b8f5f70c07e0c4640e98c281058c1a6ad8cd",
+      "buggy_commit": "86e8ed630bd20c8ea2c9ab662af9b97389c41a20"
+    },
+    "apache_rocketmq-9651": {
+      "bug_id": "apache_rocketmq-9651",
+      "PR_number": 9651,
+      "PR_createdAt": "2025-08-30T16:05:25Z",
+      "merge_commit": "632dc324ff0077e9fa0605305ecdf0a244c9dc79",
+      "buggy_commits": [
+        {
+          "oid": "1c23a8094aca3916c28b5df94c9e35ba41c74842",
+          "message": "[ISSUE #9663] Adopt Maven's revision mechanism (requires Maven >= 3.5.0) (#9665)\n\nCo-authored-by: cvictory <shengli.caosl@alibaba-inc.com>"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/apache/rocketmq/issues/9650",
+        "createdAt": "2025-08-30T15:21:17Z",
+        "content": "bug_report_all/apache_rocketmq-9651.json"
+      },
+      "changed_tests": [
+        "common/src/test/java/org/apache/rocketmq/common/help/FAQUrlTest.java"
+      ],
+      "PR_url": "https://github.com/apache/rocketmq/pull/9651",
+      "merge_commit_url": "https://github.com/apache/rocketmq/commit/632dc324ff0077e9fa0605305ecdf0a244c9dc79",
+      "buggy_commit": "1c23a8094aca3916c28b5df94c9e35ba41c74842"
+    },
+    "apache_rocketmq-9653": {
+      "bug_id": "apache_rocketmq-9653",
+      "PR_number": 9653,
+      "PR_createdAt": "2025-09-01T08:51:05Z",
+      "merge_commit": "29546558d2f946eff7c24a6b954337082ea468b9",
+      "buggy_commits": [
+        {
+          "oid": "7ab7ddd6d25a2dac37e8bac899c5a73c4de2dbcb",
+          "message": "[ISSUE #9609] Fix bazel CI and reduce dependencies (#9610)"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/apache/rocketmq/issues/9652",
+        "createdAt": "2025-09-01T08:42:40Z",
+        "content": "bug_report_all/apache_rocketmq-9653.json"
+      },
+      "changed_tests": [
+        "client/src/test/java/org/apache/rocketmq/client/impl/factory/MQClientInstanceTest.java"
+      ],
+      "PR_url": "https://github.com/apache/rocketmq/pull/9653",
+      "merge_commit_url": "https://github.com/apache/rocketmq/commit/29546558d2f946eff7c24a6b954337082ea468b9",
+      "buggy_commit": "7ab7ddd6d25a2dac37e8bac899c5a73c4de2dbcb"
+    },
+    "apache_rocketmq-9659": {
+      "bug_id": "apache_rocketmq-9659",
+      "PR_number": 9659,
+      "PR_createdAt": "2025-09-02T13:18:44Z",
+      "merge_commit": "1c83b117685e715bfec215bf0afdb492cc86718f",
+      "buggy_commits": [
+        {
+          "oid": "64999c12bb14bd0b3190630826920aebeaa23914",
+          "message": "[ISSUE #9732] Fix request may still be invoked when local process timeout (#9733)"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/apache/rocketmq/issues/9658",
+        "createdAt": "2025-09-02T13:16:11Z",
+        "content": "bug_report_all/apache_rocketmq-9659.json"
+      },
+      "changed_tests": [
+        "client/src/test/java/org/apache/rocketmq/client/impl/mqclient/MQClientAPITest.java",
+        "proxy/src/test/java/org/apache/rocketmq/proxy/service/cert/TlsCertificateManagerTest.java"
+      ],
+      "PR_url": "https://github.com/apache/rocketmq/pull/9659",
+      "merge_commit_url": "https://github.com/apache/rocketmq/commit/1c83b117685e715bfec215bf0afdb492cc86718f",
+      "buggy_commit": "64999c12bb14bd0b3190630826920aebeaa23914"
+    },
+    "apache_rocketmq-9678": {
+      "bug_id": "apache_rocketmq-9678",
+      "PR_number": 9678,
+      "PR_createdAt": "2025-09-09T07:04:53Z",
+      "merge_commit": "7967edfc5e28041a6019d3b3ce353fcef0eb7d3f",
+      "buggy_commits": [
+        {
+          "oid": "c3c6832f355cf589d9e1033db55490eda87b0951",
+          "message": "[ISSUE #9680] Improve RocksDB compaction filter factory resource management (#9681)\n\n* feat: improve rocksdb compaction filter factory resource management\n\n- Refactor ConsumeQueueCompactionFilterFactory to use LongSupplier instead of MessageStore\n- Add proper resource cleanup in ConsumeQueueRocksDBStorage.preShutdown()\n- Update RocksDBOptionsFactory to accept external compaction filter factory\n- Optimize write buffer size for CQ rocksdb performance\n\nThis change improves resource management and reduces memory leaks by:\n1. Decoupling compaction filter from MessageStore reference\n2. Ensuring proper cleanup of native resources\n3. Making compaction filter factory lifecycle manageable\n\n* Polish the code\n\n* Fix consumeQueueCompactionFilterFactory not use"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/apache/rocketmq/issues/9677",
+        "createdAt": "2025-09-09T06:57:39Z",
+        "content": "bug_report_all/apache_rocketmq-9678.json"
+      },
+      "changed_tests": [
+        "broker/src/test/java/org/apache/rocketmq/broker/processor/PeekMessageProcessorTest.java",
+        "broker/src/test/java/org/apache/rocketmq/broker/processor/PopMessageProcessorTest.java",
+        "broker/src/test/java/org/apache/rocketmq/broker/processor/PullMessageProcessorTest.java",
+        "broker/src/test/java/org/apache/rocketmq/broker/processor/ReplyMessageProcessorTest.java",
+        "broker/src/test/java/org/apache/rocketmq/broker/processor/SendMessageProcessorTest.java",
+        "broker/src/test/java/org/apache/rocketmq/broker/schedule/ScheduleMessageServiceTest.java"
+      ],
+      "PR_url": "https://github.com/apache/rocketmq/pull/9678",
+      "merge_commit_url": "https://github.com/apache/rocketmq/commit/7967edfc5e28041a6019d3b3ce353fcef0eb7d3f",
+      "buggy_commit": "c3c6832f355cf589d9e1033db55490eda87b0951"
+    },
+    "apache_rocketmq-9694": {
+      "bug_id": "apache_rocketmq-9694",
+      "PR_number": 9694,
+      "PR_createdAt": "2025-09-12T06:16:53Z",
+      "merge_commit": "4ae02942e58a519829a4b50c6a4d50e6c631cab2",
+      "buggy_commits": [
+        {
+          "oid": "edaffe69060bfd95f63e291308d28ce03738a1fb",
+          "message": "[ISSUE #9695] Not use pull offset when use pop orderly consume (#9696)"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/apache/rocketmq/issues/9693",
+        "createdAt": "2025-09-12T06:14:51Z",
+        "content": "bug_report_all/apache_rocketmq-9694.json"
+      },
+      "changed_tests": [
+        "store/src/test/java/org/apache/rocketmq/store/logfile/DefaultMappedFileConcurrencyTest.java",
+        "store/src/test/java/org/apache/rocketmq/store/logfile/DefaultMappedFileErrorHandlingTest.java",
+        "store/src/test/java/org/apache/rocketmq/store/logfile/DefaultMappedFilePerformanceTest.java",
+        "store/src/test/java/org/apache/rocketmq/store/logfile/DefaultMappedFileWriteWithoutMmapTest.java"
+      ],
+      "PR_url": "https://github.com/apache/rocketmq/pull/9694",
+      "merge_commit_url": "https://github.com/apache/rocketmq/commit/4ae02942e58a519829a4b50c6a4d50e6c631cab2",
+      "buggy_commit": "edaffe69060bfd95f63e291308d28ce03738a1fb"
+    },
+    "apache_rocketmq-9700": {
+      "bug_id": "apache_rocketmq-9700",
+      "PR_number": 9700,
+      "PR_createdAt": "2025-09-14T09:32:35Z",
+      "merge_commit": "73e8fdbdb8b04282305ff579cf0901835bb983b5",
+      "buggy_commits": [
+        {
+          "oid": "93f60db5f6e6350237b40e9173f2b4894c803135",
+          "message": "[ISSUE #9713] Improve data consistency in DefaultMappedFile flush method\n\n- Move FLUSHED_POSITION_UPDATER.set() inside try block\n- Prevent false positive flush success when actual flush operation fails\n- Ensure data consistency and prevent potential data loss on system crash\n\nPreviously, flushed position was updated even when flush operation failed,\nwhich could lead to data loss as the system would incorrectly assume\ndata was persisted to disk when it was still in memory.\n\nCo-authored-by: guyinyou <guyinyou.gyy@alibaba-inc.com>"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/apache/rocketmq/issues/9699",
+        "createdAt": "2025-09-14T09:24:45Z",
+        "content": "bug_report_all/apache_rocketmq-9700.json"
+      },
+      "changed_tests": [
+        "store/src/test/java/org/apache/rocketmq/store/DefaultMessageStoreCleanFilesTest.java",
+        "store/src/test/java/org/apache/rocketmq/store/queue/CombineConsumeQueueStoreTest.java",
+        "test/src/test/java/org/apache/rocketmq/test/grpc/v2/ClusterGrpcIT.java",
+        "test/src/test/java/org/apache/rocketmq/test/grpc/v2/GrpcBaseIT.java",
+        "test/src/test/java/org/apache/rocketmq/test/grpc/v2/LocalGrpcIT.java"
+      ],
+      "PR_url": "https://github.com/apache/rocketmq/pull/9700",
+      "merge_commit_url": "https://github.com/apache/rocketmq/commit/73e8fdbdb8b04282305ff579cf0901835bb983b5",
+      "buggy_commit": "93f60db5f6e6350237b40e9173f2b4894c803135"
+    },
+    "apache_rocketmq-9706": {
+      "bug_id": "apache_rocketmq-9706",
+      "PR_number": 9706,
+      "PR_createdAt": "2025-09-15T09:41:07Z",
+      "merge_commit": "0e72809335d82a73a46a31428b776a33af6cea4b",
+      "buggy_commits": [
+        {
+          "oid": "73e8fdbdb8b04282305ff579cf0901835bb983b5",
+          "message": "[ISSUE #9699] Optimize shutdown process and resource management (#9700)\n\n* Optimize shutdown process and resource management\n\n- Improve BrokerController shutdown flow for graceful shutdown\n- Optimize BrokerStartup startup and shutdown logic\n- Enhance ClientHousekeepingService resource cleanup\n- Improve shutdown handling for various processors\n- Optimize resource management in storage layer components\n- Enhance lifecycle management for statistics manager\n- Improve shutdown flow for timer components\n\n* Fix this.popMessageProcessor.getPopLongPollingService() not shutdown\n\n* Fix test shutdown state transition issue\n\n- Add proper null checks and exception handling in test cleanup\n- Prevent IllegalStateException during test teardown\n- Ensure graceful test cleanup without state conflicts\n\n* Fix DefaultMessageStoreCleanFilesTest can not pass\n\n* Fix CombineConsumeQueueStoreTest can not pass\n\n* Polish the code\n\n* Polish the code\n\n* Ignore flaky test first"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/apache/rocketmq/issues/9705",
+        "createdAt": "2025-09-15T09:39:22Z",
+        "content": "bug_report_all/apache_rocketmq-9706.json"
+      },
+      "changed_tests": [
+        "common/src/test/java/org/apache/rocketmq/common/attribute/CQTypeTest.java",
+        "remoting/src/test/java/org/apache/rocketmq/remoting/protocol/header/ExportRocksDBConfigToJsonRequestHeaderTest.java",
+        "store/src/test/java/org/apache/rocketmq/store/ha/HAServerTest.java",
+        "store/src/test/java/org/apache/rocketmq/store/queue/CombineConsumeQueueStoreTest.java",
+        "store/src/test/java/org/apache/rocketmq/store/queue/RocksDBConsumeQueueOffsetTableTest.java",
+        "store/src/test/java/org/apache/rocketmq/store/rocksdb/RocksDBOptionsFactoryTest.java",
+        "tools/src/test/java/org/apache/rocketmq/tools/command/metadata/ExportMetadataInRocksDBCommandTest.java"
+      ],
+      "PR_url": "https://github.com/apache/rocketmq/pull/9706",
+      "merge_commit_url": "https://github.com/apache/rocketmq/commit/0e72809335d82a73a46a31428b776a33af6cea4b",
+      "buggy_commit": "73e8fdbdb8b04282305ff579cf0901835bb983b5"
+    },
+    "apache_rocketmq-9718": {
+      "bug_id": "apache_rocketmq-9718",
+      "PR_number": 9718,
+      "PR_createdAt": "2025-09-19T07:53:02Z",
+      "merge_commit": "8fc57f1468d182eea11c01e089c0250d647dc5f3",
+      "buggy_commits": [
+        {
+          "oid": "47c07a97242bd979c4ce97c51efc350f3007882a",
+          "message": "[ISSUE #9716] refactor: replace RandomAccessFile with FileChannel (#9715)\n\n* refactor: replace RandomAccessFile with FileChannel for better I/O performance\n\n- Remove RandomAccessFile field and related logic completely\n- Use FileChannel for all write operations when writeWithoutMmap is enabled\n- Change SharedByteBuffer to use direct memory allocation (ByteBuffer.allocateDirect)\n- Add RunningFlags support for better error handling\n- Improve constructor design with better parameter handling\n- Fix SharedByteBuffer write operation to ensure correct byte count\n\nThis change improves I/O performance by:\n1. Eliminating the overhead of RandomAccessFile\n2. Using direct memory allocation for better memory management\n3. Providing more consistent I/O operations through FileChannel\n4. Better error handling with RunningFlags integration\n\n* writeWithoutMmap and transientStorePoolEnable cannot be used together. If both are enabled, only transientStorePoolEnable will take effect.\n\n* Fix config comment"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/apache/rocketmq/issues/9717",
+        "createdAt": "2025-09-19T07:39:11Z",
+        "content": "bug_report_all/apache_rocketmq-9718.json"
+      },
+      "changed_tests": [
+        "controller/src/test/java/org/apache/rocketmq/controller/impl/RaftBrokerHeartBeatManagerTest.java"
+      ],
+      "PR_url": "https://github.com/apache/rocketmq/pull/9718",
+      "merge_commit_url": "https://github.com/apache/rocketmq/commit/8fc57f1468d182eea11c01e089c0250d647dc5f3",
+      "buggy_commit": "47c07a97242bd979c4ce97c51efc350f3007882a"
+    },
+    "apache_rocketmq-9720": {
+      "bug_id": "apache_rocketmq-9720",
+      "PR_number": 9720,
+      "PR_createdAt": "2025-09-20T10:07:57Z",
+      "merge_commit": "7d7502126c118227d2c67181cf70d0fd58aeb00f",
+      "buggy_commits": [
+        {
+          "oid": "aa9ee1d059dc0ad9112a2e397feb7b7e9aa21c0f",
+          "message": "[ISSUE #9689] Fix the issue that master transfer epoch was not updated in time"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/apache/rocketmq/issues/9719",
+        "createdAt": "2025-09-20T10:00:29Z",
+        "content": "bug_report_all/apache_rocketmq-9720.json"
+      },
+      "changed_tests": [
+        "broker/src/test/java/org/apache/rocketmq/broker/processor/AckMessageProcessorTest.java",
+        "broker/src/test/java/org/apache/rocketmq/broker/processor/ChangeInvisibleTimeProcessorTest.java",
+        "broker/src/test/java/org/apache/rocketmq/broker/processor/PopReviveServiceTest.java"
+      ],
+      "PR_url": "https://github.com/apache/rocketmq/pull/9720",
+      "merge_commit_url": "https://github.com/apache/rocketmq/commit/7d7502126c118227d2c67181cf70d0fd58aeb00f",
+      "buggy_commit": "aa9ee1d059dc0ad9112a2e397feb7b7e9aa21c0f"
+    },
+    "apache_rocketmq-9739": {
+      "bug_id": "apache_rocketmq-9739",
+      "PR_number": 9739,
+      "PR_createdAt": "2025-09-26T02:37:24Z",
+      "merge_commit": "ae4099bd69ccc054b0af321142d27ffced4a9b4e",
+      "buggy_commits": [
+        {
+          "oid": "1c83b117685e715bfec215bf0afdb492cc86718f",
+          "message": "[ISSUE #9658] Replace JUnit 5 imports with JUnit 4 (#9659)\n\n* [ISSUE #9658] Replace JUnit 5 imports with JUnit 4\n\n* Update test"
+        },
+        {
+          "oid": "f192fce634fed1c8f52e336f1c096c0108fa30a0",
+          "message": "fix ut in windows\n\nChange-Id: Ib0769407fd88c055127afeca306f94f857785769"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/apache/rocketmq/issues/9738",
+        "createdAt": "2025-09-26T02:36:17Z",
+        "content": "bug_report_all/apache_rocketmq-9739.json"
+      },
+      "changed_tests": [
+        "remoting/src/test/java/org/apache/rocketmq/remoting/protocol/header/ExportRocksDBConfigToJsonRequestHeaderTest.java",
+        "store/src/test/java/org/apache/rocketmq/store/ha/HAServerTest.java",
+        "store/src/test/java/org/apache/rocketmq/store/queue/CombineConsumeQueueStoreTest.java",
+        "store/src/test/java/org/apache/rocketmq/store/queue/RocksDBConsumeQueueOffsetTableTest.java",
+        "store/src/test/java/org/apache/rocketmq/store/rocksdb/RocksDBOptionsFactoryTest.java",
+        "tools/src/test/java/org/apache/rocketmq/tools/command/metadata/ExportMetadataInRocksDBCommandTest.java"
+      ],
+      "PR_url": "https://github.com/apache/rocketmq/pull/9739",
+      "merge_commit_url": "https://github.com/apache/rocketmq/commit/ae4099bd69ccc054b0af321142d27ffced4a9b4e",
+      "buggy_commit": "1c83b117685e715bfec215bf0afdb492cc86718f"
+    },
+    "apache_rocketmq-9744": {
+      "bug_id": "apache_rocketmq-9744",
+      "PR_number": 9744,
+      "PR_createdAt": "2025-09-29T16:01:42Z",
+      "merge_commit": "d576318e09eca3a9a4015c69d62b09d690f3c8cd",
+      "buggy_commits": [
+        {
+          "oid": "1c83b117685e715bfec215bf0afdb492cc86718f",
+          "message": "[ISSUE #9658] Replace JUnit 5 imports with JUnit 4 (#9659)\n\n* [ISSUE #9658] Replace JUnit 5 imports with JUnit 4\n\n* Update test"
+        },
+        {
+          "oid": "411933bbdc5c3ef7ca761e34e52763d2fc013d0a",
+          "message": "[ISSUE #9743] Fix ReceiptHandleProcessorTest"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/apache/rocketmq/issues/9743",
+        "createdAt": "2025-09-29T15:47:09Z",
+        "content": "bug_report_all/apache_rocketmq-9744.json"
+      },
+      "changed_tests": [
+        "proxy/src/test/java/org/apache/rocketmq/proxy/processor/ReceiptHandleProcessorTest.java"
+      ],
+      "PR_url": "https://github.com/apache/rocketmq/pull/9744",
+      "merge_commit_url": "https://github.com/apache/rocketmq/commit/d576318e09eca3a9a4015c69d62b09d690f3c8cd",
+      "buggy_commit": "1c83b117685e715bfec215bf0afdb492cc86718f"
+    }
+  },
+  "square_retrofit": {
+    "square_retrofit-4427": {
+      "bug_id": "square_retrofit-4427",
+      "PR_number": 4427,
+      "PR_createdAt": "2025-07-11T09:20:27Z",
+      "merge_commit": "8eea37ea9e585e05423601c11596486df881a64c",
+      "buggy_commits": [
+        {
+          "oid": "034d9e62d1390ef7eca801e449f3a751335e198a",
+          "message": "Update dependency starlight-versions to v0.5.5 (#4517)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>"
+        },
+        {
+          "oid": "033f97fc7dec1b34b85d6fc214a1b34cffce39df",
+          "message": "Fix external cancels propagation in rxjava2 and rxjava3 adapters\n\nIf OkHttp call is cancelled (e.g. because of a timeout) then error is\nnot passed to downstream resulting in a stuck rxjava invocation. Fix it\nby using `disposed` instead of reusing OkHttp call cancelled state.\n\nSeparate state was added in 3f111b7b2c8c0e2ce0c4aa8f27bb94dbb6d7385f,\nfor the same reason but it was not used in `CallEnqueueObservable`\n`onFailure` while it should be (just like it was used in try-catch in\n`CallExecuteObservable`)."
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/square/retrofit/issues/3524",
+        "createdAt": "2021-02-23T06:55:10Z",
+        "content": "bug_report_all/square_retrofit-4427.json"
+      },
+      "changed_tests": [
+        "retrofit-adapters/rxjava2/src/test/java/retrofit2/adapter/rxjava2/CancelDisposeTest.java",
+        "retrofit-adapters/rxjava3/src/test/java/retrofit2/adapter/rxjava3/CancelDisposeTest.java"
+      ],
+      "PR_url": "https://github.com/square/retrofit/pull/4427",
+      "merge_commit_url": "https://github.com/square/retrofit/commit/8eea37ea9e585e05423601c11596486df881a64c",
+      "buggy_commit": "034d9e62d1390ef7eca801e449f3a751335e198a"
+    }
+  },
+  "alibaba_nacos": {
+    "alibaba_nacos-13635": {
+      "bug_id": "alibaba_nacos-13635",
+      "PR_number": 13635,
+      "PR_createdAt": "2025-07-23T13:31:55Z",
+      "merge_commit": "051212636921fbbc061572d7d56b6dab733909cf",
+      "buggy_commits": [
+        {
+          "oid": "eb8bb62278f40ccd60038301496672ae7b92a9d9",
+          "message": "fix: correct log (#13640)\n\n* [issue #13468] fix dataIdPattern default value\n\n* [issue #13468] fix unit test\n\n* [issue #13367] fix ConcurrentModificationException bug\n\n* [issue #13367] unit test\n\n* fix: correct log"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/alibaba/nacos/issues/13625",
+        "createdAt": "2025-07-22T04:38:46Z",
+        "content": "bug_report_all/alibaba_nacos-13635.json"
+      },
+      "changed_tests": [
+        "plugin-default-impl/nacos-default-auth-plugin/src/test/java/com/alibaba/nacos/plugin/auth/impl/users/NacosUserServiceDirectImplTest.java"
+      ],
+      "PR_url": "https://github.com/alibaba/nacos/pull/13635",
+      "merge_commit_url": "https://github.com/alibaba/nacos/commit/051212636921fbbc061572d7d56b6dab733909cf",
+      "buggy_commit": "eb8bb62278f40ccd60038301496672ae7b92a9d9"
+    },
+    "alibaba_nacos-13644": {
+      "bug_id": "alibaba_nacos-13644",
+      "PR_number": 13644,
+      "PR_createdAt": "2025-07-25T12:00:51Z",
+      "merge_commit": "09be6340f13d91f2355642e58479a39e6299bb78",
+      "buggy_commits": [
+        {
+          "oid": "051212636921fbbc061572d7d56b6dab733909cf",
+          "message": "[ISSUE #13625] create user check username and password not blank (#13635)\n\n* [issue #13468] fix dataIdPattern default value\n\n* [issue #13468] fix unit test\n\n* [issue #13367] fix ConcurrentModificationException bug\n\n* [issue #13367] unit test\n\n* [ISSUE #13625] create user check username and password not blank\n\n* [ISSUE #13625] create user check username and password not blank\n\n* [ISSUE #13625] remove repeat code\n\n* [ISSUE #13625] unit test\n\n* [ISSUE #13625] fix\n\n* [ISSUE #13625] fix\n\n* [ISSUE #13625] formatter\n\n* [ISSUE #13625] rename\n\n* [ISSUE #13625] formatter log\n\n* [ISSUE #13625] add ending period"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/alibaba/nacos/issues/13437",
+        "createdAt": "2025-05-27T05:37:14Z",
+        "content": "bug_report_all/alibaba_nacos-13644.json"
+      },
+      "changed_tests": [
+        "console/src/test/java/com/alibaba/nacos/console/controller/v3/ConsoleHealthControllerTest.java"
+      ],
+      "PR_url": "https://github.com/alibaba/nacos/pull/13644",
+      "merge_commit_url": "https://github.com/alibaba/nacos/commit/09be6340f13d91f2355642e58479a39e6299bb78",
+      "buggy_commit": "051212636921fbbc061572d7d56b6dab733909cf"
+    },
+    "alibaba_nacos-13674": {
+      "bug_id": "alibaba_nacos-13674",
+      "PR_number": 13674,
+      "PR_createdAt": "2025-08-05T06:57:24Z",
+      "merge_commit": "7f0e9310fb474bbc7024ae0449bc90a6729150ee",
+      "buggy_commits": [
+        {
+          "oid": "5536ceb683ac7cd8a0f36694989ee8a09b4c999d",
+          "message": "remove unnecessary comment (#13666)"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/alibaba/nacos/issues/13600",
+        "createdAt": "2025-07-10T14:35:33Z",
+        "content": "bug_report_all/alibaba_nacos-13674.json"
+      },
+      "changed_tests": [
+        "auth/src/test/java/com/alibaba/nacos/auth/parser/http/ConfigHttpResourceParserTest.java"
+      ],
+      "PR_url": "https://github.com/alibaba/nacos/pull/13674",
+      "merge_commit_url": "https://github.com/alibaba/nacos/commit/7f0e9310fb474bbc7024ae0449bc90a6729150ee",
+      "buggy_commit": "5536ceb683ac7cd8a0f36694989ee8a09b4c999d"
+    },
+    "alibaba_nacos-13764": {
+      "bug_id": "alibaba_nacos-13764",
+      "PR_number": 13764,
+      "PR_createdAt": "2025-09-01T06:42:47Z",
+      "merge_commit": "486e19848605bbea24902b26e741a433d912e0a8",
+      "buggy_commits": [
+        {
+          "oid": "b3f845e04f2648895dd7a811542b9fa24c2fc766",
+          "message": "[ISSUE #13767] fix: service NullPointerException when getSpec() (#13768)\n\n* [ISSUE #13767] fix: service NullPointerException when getSpec()\n\n* remove UnusedImports java.util.Arrays"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/alibaba/nacos/issues/13761",
+        "createdAt": "2025-08-31T11:35:18Z",
+        "content": "bug_report_all/alibaba_nacos-13764.json"
+      },
+      "changed_tests": [
+        "plugin-default-impl/nacos-default-auth-plugin/src/test/java/com/alibaba/nacos/plugin/auth/impl/roles/NacosRoleServiceDirectImplTest.java"
+      ],
+      "PR_url": "https://github.com/alibaba/nacos/pull/13764",
+      "merge_commit_url": "https://github.com/alibaba/nacos/commit/486e19848605bbea24902b26e741a433d912e0a8",
+      "buggy_commit": "b3f845e04f2648895dd7a811542b9fa24c2fc766"
+    }
+  },
+  "assertj_assertj": {
+    "assertj_assertj-3874": {
+      "bug_id": "assertj_assertj-3874",
+      "PR_number": 3874,
+      "PR_createdAt": "2025-07-28T21:55:46Z",
+      "merge_commit": "7461b681568b762c8ee8052f2a5558a5bfc99691",
+      "buggy_commits": [
+        {
+          "oid": "015f09517599a26e0ce38148fd6849d76a43793b",
+          "message": "Remove EOL Java 23"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/assertj/assertj/issues/3873",
+        "createdAt": "2025-07-28T16:33:10Z",
+        "content": "bug_report_all/assertj_assertj-3874.json"
+      },
+      "changed_tests": [
+        "assertj-core/src/test/java/org/assertj/core/api/date/DateAssert_isEqualTo_Test.java"
+      ],
+      "PR_url": "https://github.com/assertj/assertj/pull/3874",
+      "merge_commit_url": "https://github.com/assertj/assertj/commit/7461b681568b762c8ee8052f2a5558a5bfc99691",
+      "buggy_commit": "015f09517599a26e0ce38148fd6849d76a43793b"
+    },
+    "assertj_assertj-3949": {
+      "bug_id": "assertj_assertj-3949",
+      "PR_number": 3949,
+      "PR_createdAt": "2025-09-20T22:55:43Z",
+      "merge_commit": "91dd98aaf99c7b093ebedcb4f873bde2482d8411",
+      "buggy_commits": [
+        {
+          "oid": "6762a223e2c5d81deee866cd9243046e0208fa5b",
+          "message": "Merge branch '3.x'\n\n# Conflicts:\n#\tassertj-bom/pom.xml\n#\tassertj-core/pom.xml\n#\tassertj-guava/pom.xml\n#\tassertj-parent/pom.xml\n#\tassertj-tests/assertj-integration-tests/assertj-core-groovy/pom.xml\n#\tassertj-tests/assertj-integration-tests/assertj-core-junit4-with-opentest4j/pom.xml\n#\tassertj-tests/assertj-integration-tests/assertj-core-kotlin/pom.xml\n#\tassertj-tests/assertj-integration-tests/assertj-core-osgi/pom.xml\n#\tassertj-tests/assertj-integration-tests/assertj-core-spring-boot/pom.xml\n#\tassertj-tests/assertj-integration-tests/assertj-core-testng-with-junit4/pom.xml\n#\tassertj-tests/assertj-integration-tests/assertj-core-tests/pom.xml\n#\tassertj-tests/assertj-integration-tests/assertj-guava-tests/pom.xml\n#\tassertj-tests/assertj-integration-tests/pom.xml\n#\tassertj-tests/assertj-performance-tests/pom.xml\n#\tassertj-tests/pom.xml\n#\tpom.xml"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/assertj/assertj/issues/3844",
+        "createdAt": "2025-05-27T07:31:19Z",
+        "content": "bug_report_all/assertj_assertj-3949.json"
+      },
+      "changed_tests": [
+        "assertj-tests/assertj-integration-tests/assertj-core-testng-with-junit4/src/test/java/module-info.java",
+        "assertj-tests/assertj-integration-tests/assertj-core-testng-with-junit4/src/test/java/org/assertj/tests/core/TestNG_with_JUnit4_Test.java",
+        "assertj-tests/assertj-integration-tests/assertj-core-tests/src/test/java/module-info.java",
+        "assertj-tests/assertj-integration-tests/assertj-core-tests/src/test/java/org/assertj/tests/core/api/JUnitBDDSoftAssertionsSuccessTest.java",
+        "assertj-tests/assertj-integration-tests/assertj-core-tests/src/test/java/org/assertj/tests/core/api/JUnitSoftAssertionsSuccessTest.java",
+        "assertj-tests/assertj-integration-tests/assertj-core-tests/src/test/java/org/assertj/tests/core/error/ShouldBeEqual_assertj_elements_stack_trace_filtering_Test.java",
+        "assertj-tests/assertj-integration-tests/assertj-core-tests/src/test/java/org/assertj/tests/core/util/AssertionsUtil.java",
+        "assertj-tests/assertj-integration-tests/assertj-core-tests/src/test/java/org/example/test/Throwables_getFirstStackTraceElementFromTest_Test.java"
+      ],
+      "PR_url": "https://github.com/assertj/assertj/pull/3949",
+      "merge_commit_url": "https://github.com/assertj/assertj/commit/91dd98aaf99c7b093ebedcb4f873bde2482d8411",
+      "buggy_commit": "6762a223e2c5d81deee866cd9243046e0208fa5b"
+    }
+  },
+  "checkstyle_checkstyle": {
+    "checkstyle_checkstyle-17313": {
+      "bug_id": "checkstyle_checkstyle-17313",
+      "PR_number": 17313,
+      "PR_createdAt": "2025-07-03T07:10:24Z",
+      "merge_commit": "39276088e7b9ddada13e63cf9fd0fa44b18c00e7",
+      "buggy_commits": [
+        {
+          "oid": "36e8fb6584d6c33e73c1d249cafb0b07bb79e5da",
+          "message": "minor: Update contributing.xml to fix URL to avoid redirection"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/checkstyle/checkstyle/issues/17309",
+        "createdAt": "2025-07-02T12:48:05Z",
+        "content": "bug_report_all/checkstyle_checkstyle-17313.json"
+      },
+      "changed_tests": [
+        "src/it/resources-noncompilable/com/google/checkstyle/test/chapter4formatting/rule462horizontalwhitespace/InputWhitespaceAroundArrow.java",
+        "src/it/resources-noncompilable/com/google/checkstyle/test/chapter4formatting/rule462horizontalwhitespace/InputWhitespaceAroundArrowCorrect.java",
+        "src/it/resources-noncompilable/com/google/checkstyle/test/chapter4formatting/rule4841indentation/InputLambdaAndChildOnTheSameLine.java",
+        "src/it/resources-noncompilable/com/google/checkstyle/test/chapter4formatting/rule4841indentation/InputLambdaChild.java",
+        "src/it/resources-noncompilable/com/google/checkstyle/test/chapter4formatting/rule4841indentation/InputLambdaChildCorrect.java",
+        "src/it/resources-noncompilable/com/google/checkstyle/test/chapter4formatting/rule4841indentation/InputSingleSwitchStatementWithoutCurly.java",
+        "src/it/resources-noncompilable/com/google/checkstyle/test/chapter4formatting/rule4841indentation/InputSingleSwitchStatementWithoutCurlyCorrect.java",
+        "src/it/resources-noncompilable/com/google/checkstyle/test/chapter4formatting/rule4841indentation/InputSwitchWrappingIndentation.java",
+        "src/it/resources-noncompilable/com/google/checkstyle/test/chapter4formatting/rule4841indentation/InputSwitchWrappingIndentationCorrect.java",
+        "src/it/resources-noncompilable/com/google/checkstyle/test/chapter5naming/rule526parameternames/InputRecordComponentName.java"
+      ],
+      "PR_url": "https://github.com/checkstyle/checkstyle/pull/17313",
+      "merge_commit_url": "https://github.com/checkstyle/checkstyle/commit/39276088e7b9ddada13e63cf9fd0fa44b18c00e7",
+      "buggy_commit": "36e8fb6584d6c33e73c1d249cafb0b07bb79e5da"
+    },
+    "checkstyle_checkstyle-17368": {
+      "bug_id": "checkstyle_checkstyle-17368",
+      "PR_number": 17368,
+      "PR_createdAt": "2025-07-12T02:48:28Z",
+      "merge_commit": "8c8cfd46c472b35cfcdd8d7720d79cb0fd12760f",
+      "buggy_commits": [
+        {
+          "oid": "641c3060beae2f73fd2ca20dd31f7e466ef00aa3",
+          "message": "Issue #13999: Resolve pitest suppression for JavadocTagInfo4 and JavadocTagInfo1"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/checkstyle/checkstyle/issues/17366",
+        "createdAt": "2025-07-12T02:09:57Z",
+        "content": "bug_report_all/checkstyle_checkstyle-17368.json"
+      },
+      "changed_tests": [
+        "src/test/java/com/puppycrawl/tools/checkstyle/checks/FinalParametersCheckTest.java",
+        "src/test/java/com/puppycrawl/tools/checkstyle/internal/AllChecksTest.java",
+        "src/test/resources-noncompilable/com/puppycrawl/tools/checkstyle/checks/finalparameters/InputFinalParametersPatternVariables.java",
+        "src/test/resources-noncompilable/com/puppycrawl/tools/checkstyle/checks/finalparameters/InputFinalParametersRecordForLoopPatternVariables.java",
+        "src/test/resources/com/puppycrawl/tools/checkstyle/checks/finalparameters/InputFinalParametersInterfaceMethod.java"
+      ],
+      "PR_url": "https://github.com/checkstyle/checkstyle/pull/17368",
+      "merge_commit_url": "https://github.com/checkstyle/checkstyle/commit/8c8cfd46c472b35cfcdd8d7720d79cb0fd12760f",
+      "buggy_commit": "641c3060beae2f73fd2ca20dd31f7e466ef00aa3"
+    },
+    "checkstyle_checkstyle-17392": {
+      "bug_id": "checkstyle_checkstyle-17392",
+      "PR_number": 17392,
+      "PR_createdAt": "2025-07-15T05:48:15Z",
+      "merge_commit": "81b010292b9a0f83bc486a82faf6483d73fddede",
+      "buggy_commits": [
+        {
+          "oid": "d93374cb6c4d056fb7cad0130957418ac626ea64",
+          "message": "Issue #17390: Added RegexpSingleline to check for new macros"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/checkstyle/checkstyle/issues/16738",
+        "createdAt": "2025-04-02T12:37:51Z",
+        "content": "bug_report_all/checkstyle_checkstyle-17392.json"
+      },
+      "changed_tests": [
+        "src/test/java/com/puppycrawl/tools/checkstyle/checks/javadoc/WriteTagCheckTest.java",
+        "src/test/resources/com/puppycrawl/tools/checkstyle/checks/coding/unusedlocalvariable/InputUnusedLocalVariableTestWarningSeverity.java",
+        "src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/writetag/InputWriteTagEmptyTag.java",
+        "src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/writetag/InputWriteTagEnumsAndAnnotations.java",
+        "src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/writetag/InputWriteTagMethod.java",
+        "src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/writetag/InputWriteTagRegularExpression.java",
+        "src/xdocs-examples/java/com/puppycrawl/tools/checkstyle/checks/javadoc/WriteTagCheckExamplesTest.java",
+        "src/xdocs-examples/java/com/puppycrawl/tools/checkstyle/filters/SeverityMatchFilterExamplesTest.java"
+      ],
+      "PR_url": "https://github.com/checkstyle/checkstyle/pull/17392",
+      "merge_commit_url": "https://github.com/checkstyle/checkstyle/commit/81b010292b9a0f83bc486a82faf6483d73fddede",
+      "buggy_commit": "d93374cb6c4d056fb7cad0130957418ac626ea64"
+    },
+    "checkstyle_checkstyle-17399": {
+      "bug_id": "checkstyle_checkstyle-17399",
+      "PR_number": 17399,
+      "PR_createdAt": "2025-07-16T00:18:05Z",
+      "merge_commit": "d1d117bd7ed54614f24e7b3d48e0a7b6a0ee8074",
+      "buggy_commits": [
+        {
+          "oid": "81b010292b9a0f83bc486a82faf6483d73fddede",
+          "message": "Issue #16738: Update SeverityMatchFilter to use verifyFilterWithInlineConfigParser"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/checkstyle/checkstyle/issues/12980",
+        "createdAt": "2023-04-13T17:16:30Z",
+        "content": "bug_report_all/checkstyle_checkstyle-17399.json"
+      },
+      "changed_tests": [
+        "src/test/resources/com/puppycrawl/tools/checkstyle/checks/coding/unusedlocalvariable/InputUnusedLocalVariableTestWarningSeverity.java"
+      ],
+      "PR_url": "https://github.com/checkstyle/checkstyle/pull/17399",
+      "merge_commit_url": "https://github.com/checkstyle/checkstyle/commit/d1d117bd7ed54614f24e7b3d48e0a7b6a0ee8074",
+      "buggy_commit": "81b010292b9a0f83bc486a82faf6483d73fddede"
+    },
+    "checkstyle_checkstyle-17599": {
+      "bug_id": "checkstyle_checkstyle-17599",
+      "PR_number": 17599,
+      "PR_createdAt": "2025-08-11T04:57:33Z",
+      "merge_commit": "89aca7f811d46e6c3cc3bb958ca034b0a5825fa3",
+      "buggy_commits": [
+        {
+          "oid": "d934b10fcc04890d529fe687a55695d373db501c",
+          "message": "Issue #17429: Relocate inputs to compilable path for CodingModule5"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/checkstyle/checkstyle/issues/17501",
+        "createdAt": "2025-07-29T15:45:51Z",
+        "content": "bug_report_all/checkstyle_checkstyle-17599.json"
+      },
+      "changed_tests": [
+        "src/it/resources/com/google/checkstyle/test/chapter4formatting/rule4862todocomments/InputTodoCommentAllVariants.java"
+      ],
+      "PR_url": "https://github.com/checkstyle/checkstyle/pull/17599",
+      "merge_commit_url": "https://github.com/checkstyle/checkstyle/commit/89aca7f811d46e6c3cc3bb958ca034b0a5825fa3",
+      "buggy_commit": "d934b10fcc04890d529fe687a55695d373db501c"
+    },
+    "checkstyle_checkstyle-17619": {
+      "bug_id": "checkstyle_checkstyle-17619",
+      "PR_number": 17619,
+      "PR_createdAt": "2025-08-14T06:25:43Z",
+      "merge_commit": "f1084a78d9f40519a4859130b32fb43192b47b45",
+      "buggy_commits": [
+        {
+          "oid": "8f937b682aae0fe3d386ce3c2ca524e600c1abcf",
+          "message": "Revert \"Issue #17104: migrate IDEA inpection in CI to 2025.2\"\n\nThis reverts commit 403c2849557da2cff03c948f73cab56739203804."
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/checkstyle/checkstyle/issues/17071",
+        "createdAt": "2025-05-14T11:33:43Z",
+        "content": "bug_report_all/checkstyle_checkstyle-17619.json"
+      },
+      "changed_tests": [
+        "src/it/java/com/google/checkstyle/test/chapter5naming/rule523methodnames/MethodNamesTest.java",
+        "src/it/resources/com/google/checkstyle/test/chapter5naming/rule523methodnames/InputMethodName.java",
+        "src/it/resources/com/google/checkstyle/test/chapter5naming/rule523methodnames/InputMethodName2.java"
+      ],
+      "PR_url": "https://github.com/checkstyle/checkstyle/pull/17619",
+      "merge_commit_url": "https://github.com/checkstyle/checkstyle/commit/f1084a78d9f40519a4859130b32fb43192b47b45",
+      "buggy_commit": "8f937b682aae0fe3d386ce3c2ca524e600c1abcf"
+    },
+    "checkstyle_checkstyle-17660": {
+      "bug_id": "checkstyle_checkstyle-17660",
+      "PR_number": 17660,
+      "PR_createdAt": "2025-08-20T07:22:12Z",
+      "merge_commit": "17343cbea314fbdf489829c6801c5db980de9b4c",
+      "buggy_commits": [
+        {
+          "oid": "5d52248c85b0fc37ddd786ddb5354e332f8a54b8",
+          "message": "Issue #17507: Add support for multipart versioning format using underscores"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/checkstyle/checkstyle/issues/17540",
+        "createdAt": "2025-08-04T07:29:49Z",
+        "content": "bug_report_all/checkstyle_checkstyle-17660.json"
+      },
+      "changed_tests": [
+        "src/it/resources/com/google/checkstyle/test/chapter4formatting/rule4852classannotations/ParentPackage.java",
+        "src/it/resources/com/google/checkstyle/test/chapter4formatting/rule4852classannotations/SizePackage.java",
+        "src/it/resources/com/google/checkstyle/test/chapter4formatting/rule4852classannotations/example1/package-info.java",
+        "src/it/resources/com/google/checkstyle/test/chapter4formatting/rule4852classannotations/example2/package-info.java",
+        "src/it/resources/com/google/checkstyle/test/chapter4formatting/rule4852classannotations/example3/package-info.java",
+        "src/it/resources/com/google/checkstyle/test/chapter4formatting/rule4852classannotations/example4/package-info.java",
+        "src/it/resources/com/google/checkstyle/test/chapter4formatting/rule4852classannotations/example5/package-info.java",
+        "src/it/resources/com/google/checkstyle/test/chapter4formatting/rule4852classannotations/package-info.java"
+      ],
+      "PR_url": "https://github.com/checkstyle/checkstyle/pull/17660",
+      "merge_commit_url": "https://github.com/checkstyle/checkstyle/commit/17343cbea314fbdf489829c6801c5db980de9b4c",
+      "buggy_commit": "5d52248c85b0fc37ddd786ddb5354e332f8a54b8"
+    },
+    "checkstyle_checkstyle-17666": {
+      "bug_id": "checkstyle_checkstyle-17666",
+      "PR_number": 17666,
+      "PR_createdAt": "2025-08-21T07:15:23Z",
+      "merge_commit": "e81bf105ba1ded7015571c50a4649f790592248a",
+      "buggy_commits": [
+        {
+          "oid": "c97b280f8787f64564e94e87e8ba749328af3d14",
+          "message": "minor: exclude link due to permanent 429 response code"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/checkstyle/checkstyle/issues/11867",
+        "createdAt": "2022-07-08T17:16:24Z",
+        "content": "bug_report_all/checkstyle_checkstyle-17666.json"
+      },
+      "changed_tests": [
+        "src/it/java/com/google/checkstyle/test/chapter4formatting/rule44columnlimit/ColumnLimit100Test.java",
+        "src/it/resources/com/google/checkstyle/test/chapter4formatting/rule44columnlimit/InputColumnLimitEdgeCase.java",
+        "src/it/resources/com/google/checkstyle/test/chapter4formatting/rule44columnlimit/InputFormattedColumnLimitEdgeCase.java",
+        "src/it/resources/com/google/checkstyle/test/chapter4formatting/rule44columnlimit/InputFormattedTextBlockColumnLimit.java",
+        "src/it/resources/com/google/checkstyle/test/chapter4formatting/rule44columnlimit/InputTextBlockColumnLimit.java",
+        "src/test/java/com/puppycrawl/tools/checkstyle/internal/XdocsPagesTest.java"
+      ],
+      "PR_url": "https://github.com/checkstyle/checkstyle/pull/17666",
+      "merge_commit_url": "https://github.com/checkstyle/checkstyle/commit/e81bf105ba1ded7015571c50a4649f790592248a",
+      "buggy_commit": "c97b280f8787f64564e94e87e8ba749328af3d14"
+    },
+    "checkstyle_checkstyle-17689": {
+      "bug_id": "checkstyle_checkstyle-17689",
+      "PR_number": 17689,
+      "PR_createdAt": "2025-08-25T15:29:33Z",
+      "merge_commit": "d745238a434ac62974df6d5a909e6e9703357a51",
+      "buggy_commits": [
+        {
+          "oid": "7ffe626be32014151833dcb327353bb5d55a6bb3",
+          "message": "Issue #17451: Fix illegal whitespace between Ellipsis and Array Declarator"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/checkstyle/checkstyle/issues/17451",
+        "createdAt": "2025-07-24T07:17:35Z",
+        "content": "bug_report_all/checkstyle_checkstyle-17689.json"
+      },
+      "changed_tests": [
+        "src/it/resources/com/google/checkstyle/test/chapter4formatting/rule462horizontalwhitespace/InputNoWhitespaceBeforeAnnotations.java",
+        "src/it/resources/com/google/checkstyle/test/chapter4formatting/rule462horizontalwhitespace/InputNoWhitespaceBeforeEllipsis.java",
+        "src/test/java/com/puppycrawl/tools/checkstyle/checks/whitespace/WhitespaceAfterCheckTest.java",
+        "src/test/resources-noncompilable/com/puppycrawl/tools/checkstyle/checks/whitespace/whitespaceafter/InputWhitespaceAfterAnnotation.java",
+        "src/test/resources/com/puppycrawl/tools/checkstyle/checks/whitespace/whitespaceafter/InputWhitespaceAfterAnnotation2.java",
+        "src/test/resources/com/puppycrawl/tools/checkstyle/checks/whitespace/whitespaceafter/example1/package-info.java",
+        "src/test/resources/com/puppycrawl/tools/checkstyle/checks/whitespace/whitespaceafter/example2/package-info.java"
+      ],
+      "PR_url": "https://github.com/checkstyle/checkstyle/pull/17689",
+      "merge_commit_url": "https://github.com/checkstyle/checkstyle/commit/d745238a434ac62974df6d5a909e6e9703357a51",
+      "buggy_commit": "7ffe626be32014151833dcb327353bb5d55a6bb3"
+    },
+    "checkstyle_checkstyle-17729": {
+      "bug_id": "checkstyle_checkstyle-17729",
+      "PR_number": 17729,
+      "PR_createdAt": "2025-09-02T07:32:40Z",
+      "merge_commit": "21597ceb81379b5b2a7236917a165332e69af217",
+      "buggy_commits": [
+        {
+          "oid": "f486dcacb9b6096bd28ce9b6b3d215f922f315e7",
+          "message": "dependency: bump org.sonatype.central:central-publishing-maven-plugin\n\nBumps [org.sonatype.central:central-publishing-maven-plugin](https://github.com/sonatype/central-publishing-maven-plugin) from 0.8.0 to 0.9.0.\n- [Commits](https://github.com/sonatype/central-publishing-maven-plugin/commits)\n\n---\nupdated-dependencies:\n- dependency-name: org.sonatype.central:central-publishing-maven-plugin\n  dependency-version: 0.9.0\n  dependency-type: direct:production\n  update-type: version-update:semver-minor\n...\n\nSigned-off-by: dependabot[bot] <support@github.com>"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/checkstyle/checkstyle/issues/13048",
+        "createdAt": "2023-05-06T17:17:49Z",
+        "content": "bug_report_all/checkstyle_checkstyle-17729.json"
+      },
+      "changed_tests": [
+        "src/test/java/com/puppycrawl/tools/checkstyle/checks/javadoc/JavadocTagContinuationIndentationCheckTest.java",
+        "src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadoctagcontinuationindentation/InputJavadocTagContinuationIndentationBlockTag.java",
+        "src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadoctagcontinuationindentation/InputJavadocTagContinuationIndentationPreTag.java",
+        "src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadoctagcontinuationindentation/InputJavadocTagContinuationIndentationPreTag2.java",
+        "src/test/resources/com/puppycrawl/tools/checkstyle/checks/javadoc/javadoctagcontinuationindentation/InputJavadocTagContinuationIndentationPreTag3.java"
+      ],
+      "PR_url": "https://github.com/checkstyle/checkstyle/pull/17729",
+      "merge_commit_url": "https://github.com/checkstyle/checkstyle/commit/21597ceb81379b5b2a7236917a165332e69af217",
+      "buggy_commit": "f486dcacb9b6096bd28ce9b6b3d215f922f315e7"
+    },
+    "checkstyle_checkstyle-17837": {
+      "bug_id": "checkstyle_checkstyle-17837",
+      "PR_number": 17837,
+      "PR_createdAt": "2025-09-27T20:11:45Z",
+      "merge_commit": "152a993f8e5e7c790f787ab4789e3b7d984fc959",
+      "buggy_commits": [
+        {
+          "oid": "2b79795e7d41f506433820a85d2d5abd2dd37d58",
+          "message": "dependency: bump tech.picnic.error-prone-support:error-prone-contrib\n\nBumps [tech.picnic.error-prone-support:error-prone-contrib](https://github.com/PicnicSupermarket/error-prone-support) from 0.24.0 to 0.25.0.\n- [Release notes](https://github.com/PicnicSupermarket/error-prone-support/releases)\n- [Commits](https://github.com/PicnicSupermarket/error-prone-support/compare/v0.24.0...v0.25.0)\n\n---\nupdated-dependencies:\n- dependency-name: tech.picnic.error-prone-support:error-prone-contrib\n  dependency-version: 0.25.0\n  dependency-type: direct:production\n  update-type: version-update:semver-minor\n...\n\nSigned-off-by: dependabot[bot] <support@github.com>"
+        },
+        {
+          "oid": "1de6fb6183bfb97be99d620e2b3470915d10fed7",
+          "message": "Enable all pitest profiles (#91)"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/checkstyle/checkstyle/issues/17514",
+        "createdAt": "2025-07-31T00:30:43Z",
+        "content": "bug_report_all/checkstyle_checkstyle-17837.json"
+      },
+      "changed_tests": [
+        "src/test/resources/com/puppycrawl/tools/checkstyle/javadocpropertiesgenerator/InputJavadocPropertiesGeneratorCorrect.java",
+        "src/test/resources/com/puppycrawl/tools/checkstyle/javadocpropertiesgenerator/InputJavadocPropertiesGeneratorInvalidTokensInsideTag.java"
+      ],
+      "PR_url": "https://github.com/checkstyle/checkstyle/pull/17837",
+      "merge_commit_url": "https://github.com/checkstyle/checkstyle/commit/152a993f8e5e7c790f787ab4789e3b7d984fc959",
+      "buggy_commit": "2b79795e7d41f506433820a85d2d5abd2dd37d58"
+    }
+  },
+  "OpenAPITools_openapi-generator": {
+    "OpenAPITools_openapi-generator-21586": {
+      "bug_id": "OpenAPITools_openapi-generator-21586",
+      "PR_number": 21586,
+      "PR_createdAt": "2025-07-18T11:24:45Z",
+      "merge_commit": "7c4ada33c4521f1fb85625a154d0cb7874b0d51d",
+      "buggy_commits": [
+        {
+          "oid": "3453c7ba1087d898a3d9c63ef732d3296ad58abb",
+          "message": "Test PHP clients in Github workflow (#21643)\n\n* test php clients in github workflow\n\n* trigger build failure\n\n* update workflow\n\n* Revert \"trigger build failure\"\n\nThis reverts commit 572a69f6bcbab426103c77de55c069bd74b5e7fb.\n\n* update tests\n\n* update tests\n\n* update test\n\n* fix tests\n\n* fix async test\n\n* update tests"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/OpenAPITools/openapi-generator/issues/15586",
+        "createdAt": "2023-05-20T18:39:05Z",
+        "content": "bug_report_all/OpenAPITools_openapi-generator-21586.json"
+      },
+      "changed_tests": [
+        "samples/client/others/java/webclient-sealedInterface/src/test/java/org/openapitools/client/model/EntityTest.java",
+        "samples/client/others/java/webclient-sealedInterface/src/test/java/org/openapitools/client/model/ExtensibleTest.java",
+        "samples/client/others/java/webclient-sealedInterface/src/test/java/org/openapitools/client/model/FooRefOrValueTest.java",
+        "samples/client/others/java/webclient-sealedInterface/src/test/java/org/openapitools/client/model/FooRefTest.java",
+        "samples/client/others/java/webclient-sealedInterface/src/test/java/org/openapitools/client/model/FooTest.java",
+        "samples/client/others/java/webclient-sealedInterface/src/test/java/org/openapitools/client/model/FruitTest.java",
+        "samples/client/others/java/webclient-sealedInterface/src/test/java/org/openapitools/client/model/FruitTypeTest.java",
+        "samples/client/others/java/webclient-sealedInterface/src/test/java/org/openapitools/client/model/PastaTest.java",
+        "samples/client/others/java/webclient-sealedInterface/src/test/java/org/openapitools/client/model/PizzaSpezialeTest.java",
+        "samples/client/others/java/webclient-sealedInterface/src/test/java/org/openapitools/client/model/PizzaTest.java"
+      ],
+      "PR_url": "https://github.com/OpenAPITools/openapi-generator/pull/21586",
+      "merge_commit_url": "https://github.com/OpenAPITools/openapi-generator/commit/7c4ada33c4521f1fb85625a154d0cb7874b0d51d",
+      "buggy_commit": "3453c7ba1087d898a3d9c63ef732d3296ad58abb"
+    },
+    "OpenAPITools_openapi-generator-21599": {
+      "bug_id": "OpenAPITools_openapi-generator-21599",
+      "PR_number": 21599,
+      "PR_createdAt": "2025-07-20T23:08:03Z",
+      "merge_commit": "603dbfd7f924ee588464b2798c2bac73f76db876",
+      "buggy_commits": [
+        {
+          "oid": "e2652f1c62b07c6e6dafc27f14d6d95894950b66",
+          "message": "update C# samples"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/OpenAPITools/openapi-generator/issues/18527",
+        "createdAt": "2024-04-28T18:57:36Z",
+        "content": "bug_report_all/OpenAPITools_openapi-generator-21599.json"
+      },
+      "changed_tests": [
+        "modules/openapi-generator/src/test/java/org/openapitools/codegen/rust/RustClientCodegenTest.java"
+      ],
+      "PR_url": "https://github.com/OpenAPITools/openapi-generator/pull/21599",
+      "merge_commit_url": "https://github.com/OpenAPITools/openapi-generator/commit/603dbfd7f924ee588464b2798c2bac73f76db876",
+      "buggy_commit": "e2652f1c62b07c6e6dafc27f14d6d95894950b66"
+    },
+    "OpenAPITools_openapi-generator-21603": {
+      "bug_id": "OpenAPITools_openapi-generator-21603",
+      "PR_number": 21603,
+      "PR_createdAt": "2025-07-21T16:25:51Z",
+      "merge_commit": "02ba9f68ac98534ce8a87f7aaf8150a07b13ae6c",
+      "buggy_commits": [
+        {
+          "oid": "87231c3b58dc25593d8d56468d8ba78dcfe5b455",
+          "message": "[php][php-nextgen] add new github workflow to perform syntax check on php files (#21678)\n\n* update php laravel samples\n\n* add php-nextgen to the github workflow\n\n* trigger build failure\n\n* add syntax checker workflow\n\n* Revert \"trigger build failure\"\n\nThis reverts commit 5be28f2e768cb22d9edca83ec897cbaa9cf296e9."
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/OpenAPITools/openapi-generator/issues/21602",
+        "createdAt": "2025-07-21T14:01:16Z",
+        "content": "bug_report_all/OpenAPITools_openapi-generator-21603.json"
+      },
+      "changed_tests": [
+        "modules/openapi-generator/src/test/java/org/openapitools/codegen/scala/SttpCodegenTest.java"
+      ],
+      "PR_url": "https://github.com/OpenAPITools/openapi-generator/pull/21603",
+      "merge_commit_url": "https://github.com/OpenAPITools/openapi-generator/commit/02ba9f68ac98534ce8a87f7aaf8150a07b13ae6c",
+      "buggy_commit": "87231c3b58dc25593d8d56468d8ba78dcfe5b455"
+    },
+    "OpenAPITools_openapi-generator-21614": {
+      "bug_id": "OpenAPITools_openapi-generator-21614",
+      "PR_number": 21614,
+      "PR_createdAt": "2025-07-22T14:14:10Z",
+      "merge_commit": "791333a8b167a499d6d2272c0d2ea7997c457034",
+      "buggy_commits": [
+        {
+          "oid": "ddb15d4b9d6fa0f04090b5db3d64ea1b8a6d0ee6",
+          "message": "Delete docs/generators/postman.md (#22044)"
+        },
+        {
+          "oid": "4e73d8c349f056183bd81467730f4720959fbe4f",
+          "message": "Merge branch 'OpenAPITools:master' into master"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/OpenAPITools/openapi-generator/issues/21612",
+        "createdAt": "2025-07-22T13:03:31Z",
+        "content": "bug_report_all/OpenAPITools_openapi-generator-21614.json"
+      },
+      "changed_tests": [
+        "modules/openapi-generator/src/test/java/org/openapitools/codegen/utils/ModelUtilsTest.java"
+      ],
+      "PR_url": "https://github.com/OpenAPITools/openapi-generator/pull/21614",
+      "merge_commit_url": "https://github.com/OpenAPITools/openapi-generator/commit/791333a8b167a499d6d2272c0d2ea7997c457034",
+      "buggy_commit": "ddb15d4b9d6fa0f04090b5db3d64ea1b8a6d0ee6"
+    },
+    "OpenAPITools_openapi-generator-21634": {
+      "bug_id": "OpenAPITools_openapi-generator-21634",
+      "PR_number": 21634,
+      "PR_createdAt": "2025-07-26T16:09:46Z",
+      "merge_commit": "1c2ef3356ddffad95693c7d4f9c71f4cb9d06cc9",
+      "buggy_commits": [
+        {
+          "oid": "edbacaa3c7745fc25109e6a68e97d7c28dcbf851",
+          "message": "Add suggestion to PR template to encourage contributors to use a GitHub link their PR to issue (#21624)"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/OpenAPITools/openapi-generator/issues/19724",
+        "createdAt": "2024-09-30T12:58:02Z",
+        "content": "bug_report_all/OpenAPITools_openapi-generator-21634.json"
+      },
+      "changed_tests": [
+        "modules/openapi-generator-maven-plugin/src/test/java/org/openapitools/codegen/plugin/CodeGenMojoTest.java"
+      ],
+      "PR_url": "https://github.com/OpenAPITools/openapi-generator/pull/21634",
+      "merge_commit_url": "https://github.com/OpenAPITools/openapi-generator/commit/1c2ef3356ddffad95693c7d4f9c71f4cb9d06cc9",
+      "buggy_commit": "edbacaa3c7745fc25109e6a68e97d7c28dcbf851"
+    },
+    "OpenAPITools_openapi-generator-21645": {
+      "bug_id": "OpenAPITools_openapi-generator-21645",
+      "PR_number": 21645,
+      "PR_createdAt": "2025-07-28T16:51:30Z",
+      "merge_commit": "7c1dce4756cd7c3bd00da7dcb77b20ab34350db6",
+      "buggy_commits": [
+        {
+          "oid": "815a7324e32d7155ae30fb3fbad6ee2c2b2089d4",
+          "message": "[R] add null checks to nullable api parameters (#21629)\n\n* [R] check optional parametrs for null before evaluating param conditions\n\n* update petstore\n\n* handle isNullable when checking api parameters\n\n* update samples\n\n* allow not-nullable parameters to be missing\n\n* update samples\n\n* samples"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/OpenAPITools/openapi-generator/issues/21639",
+        "createdAt": "2025-07-27T19:22:56Z",
+        "content": "bug_report_all/OpenAPITools_openapi-generator-21645.json"
+      },
+      "changed_tests": [
+        "modules/openapi-generator/src/test/java/org/openapitools/codegen/typescript/fetch/TypeScriptFetchClientCodegenTest.java",
+        "modules/openapi-generator/src/test/java/org/openapitools/codegen/typescript/fetch/TypeScriptFetchModelTest.java"
+      ],
+      "PR_url": "https://github.com/OpenAPITools/openapi-generator/pull/21645",
+      "merge_commit_url": "https://github.com/OpenAPITools/openapi-generator/commit/7c1dce4756cd7c3bd00da7dcb77b20ab34350db6",
+      "buggy_commit": "815a7324e32d7155ae30fb3fbad6ee2c2b2089d4"
+    },
+    "OpenAPITools_openapi-generator-21656": {
+      "bug_id": "OpenAPITools_openapi-generator-21656",
+      "PR_number": 21656,
+      "PR_createdAt": "2025-07-29T18:46:34Z",
+      "merge_commit": "d29a4bea2561c404544f219b5ff5567eb27dc0eb",
+      "buggy_commits": [
+        {
+          "oid": "657f5fb004f887244c0924645cfc219ce6e9116f",
+          "message": "Test go client with aws signature in github workflow (#21657)\n\n* test go client with aws signature in github workflow\n\n* fix path\n\n* fix path\n\n* test with windows\n\n* omit version"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/OpenAPITools/openapi-generator/issues/21587",
+        "createdAt": "2025-07-18T13:24:51Z",
+        "content": "bug_report_all/OpenAPITools_openapi-generator-21656.json"
+      },
+      "changed_tests": [
+        "modules/openapi-generator/src/test/java/org/openapitools/codegen/typescript/fetch/TypeScriptFetchClientCodegenTest.java"
+      ],
+      "PR_url": "https://github.com/OpenAPITools/openapi-generator/pull/21656",
+      "merge_commit_url": "https://github.com/OpenAPITools/openapi-generator/commit/d29a4bea2561c404544f219b5ff5567eb27dc0eb",
+      "buggy_commit": "657f5fb004f887244c0924645cfc219ce6e9116f"
+    },
+    "OpenAPITools_openapi-generator-21734": {
+      "bug_id": "OpenAPITools_openapi-generator-21734",
+      "PR_number": 21734,
+      "PR_createdAt": "2025-08-12T20:59:49Z",
+      "merge_commit": "8ce639ddae7b20fc7e0b98f011ca350f04cee3fd",
+      "buggy_commits": [
+        {
+          "oid": "ca7e8bd932f4b58500559518bd77ff9999abb5d7",
+          "message": "typescript-fetch: Fix model date crash (#21821)\n\n* typescript-fetch: Fix model date crash\n\nFix a runtime crash converting to json when a date or datetime is both nullable\nAND required. There are 4 cases to account for:\n\n| required | nullable | values |\n|----------|----------|--------|\n| f        | f        | string OR undefined |\n| f        | t        | string OR null OR undefined |\n| t        | f        | string |\n| t        | t        | string OR null |\n\nAnd importantly when required and nullable code that would crash on null was\nbeing generated. additionally when required is false and nullable is true we\nstill want to allow consumers to be able to pass in `undefined` OR `null` and\npass that value to the server. Some servers treat null and undefined differently\nfor some operations so having that ability is pretty reasonable.\n\nfix: https://github.com/OpenAPITools/openapi-generator/issues/21820\n\n* Update typescript-fetch samples\n\n./bin/generate-samples.sh ./bin/configs/*.yaml || exit"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/OpenAPITools/openapi-generator/issues/21733",
+        "createdAt": "2025-08-12T20:25:56Z",
+        "content": "bug_report_all/OpenAPITools_openapi-generator-21734.json"
+      },
+      "changed_tests": [
+        "modules/openapi-generator/src/test/java/org/openapitools/codegen/kotlin/KotlinClientCodegenModelTest.java",
+        "modules/openapi-generator/src/test/java/org/openapitools/codegen/kotlin/KotlinSpringServerCodegenTest.java"
+      ],
+      "PR_url": "https://github.com/OpenAPITools/openapi-generator/pull/21734",
+      "merge_commit_url": "https://github.com/OpenAPITools/openapi-generator/commit/8ce639ddae7b20fc7e0b98f011ca350f04cee3fd",
+      "buggy_commit": "ca7e8bd932f4b58500559518bd77ff9999abb5d7"
+    },
+    "OpenAPITools_openapi-generator-21737": {
+      "bug_id": "OpenAPITools_openapi-generator-21737",
+      "PR_number": 21737,
+      "PR_createdAt": "2025-08-13T16:05:49Z",
+      "merge_commit": "490de02971fec3190ae456d78d896bb10706fcac",
+      "buggy_commits": [
+        {
+          "oid": "3ebb29998172115ff7167a734818326337354aca",
+          "message": "[kotlin-client] Support for integer enums with kotlinx with custom serializer  (#21765)\n\n* [kotlin-client] Add support for integer enums with custom serializer for kotlinx\n\n* [kotlin-client] Fix @SerialName annotation being used on non-string enums\n\n* Format samples\n\n* remove blank line\n\n* add tests for kotlin client with integer enum\n\n* add folders\n\n---------\n\nCo-authored-by: CHervaudBetclic <c.hervaud@betclicgroup.com>"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/OpenAPITools/openapi-generator/issues/21732",
+        "createdAt": "2025-08-12T15:54:18Z",
+        "content": "bug_report_all/OpenAPITools_openapi-generator-21737.json"
+      },
+      "changed_tests": [
+        "modules/openapi-generator/src/test/java/org/openapitools/codegen/utils/ModelUtilsTest.java"
+      ],
+      "PR_url": "https://github.com/OpenAPITools/openapi-generator/pull/21737",
+      "merge_commit_url": "https://github.com/OpenAPITools/openapi-generator/commit/490de02971fec3190ae456d78d896bb10706fcac",
+      "buggy_commit": "3ebb29998172115ff7167a734818326337354aca"
+    },
+    "OpenAPITools_openapi-generator-21816": {
+      "bug_id": "OpenAPITools_openapi-generator-21816",
+      "PR_number": 21816,
+      "PR_createdAt": "2025-08-26T08:47:43Z",
+      "merge_commit": "c134a8adbf334bd1cde432eab9807e2ccd8233b4",
+      "buggy_commits": [
+        {
+          "oid": "9c11fcf6bcc1676df9b6bf723f20dca9ae5f3d75",
+          "message": "[Fix][OCaml] Incorrect encoding/decoding for required free-form objects; Odoc for record fields (#21819)\n\n* [OCaml] Fix inconsistent oneOf primitive sample name\n\n* [OCaml] Fix encoding/decoding for free-form required fields\n\n* [OCaml] Change field comment to Odoc, move it after the field\n\nAs per Odoc documentation, record field documentation should be *after* the\nfield, not before.\nSee https://ocaml.github.io/odoc/odoc/odoc_for_authors.html#special_comments\ntype `my_record`\n\n* [OCaml] Cleanup non-generated files for ocaml sample"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/OpenAPITools/openapi-generator/issues/21815",
+        "createdAt": "2025-08-26T06:28:38Z",
+        "content": "bug_report_all/OpenAPITools_openapi-generator-21816.json"
+      },
+      "changed_tests": [
+        "modules/openapi-generator/src/test/java/org/openapitools/codegen/options/DartDioClientOptionsProvider.java"
+      ],
+      "PR_url": "https://github.com/OpenAPITools/openapi-generator/pull/21816",
+      "merge_commit_url": "https://github.com/OpenAPITools/openapi-generator/commit/c134a8adbf334bd1cde432eab9807e2ccd8233b4",
+      "buggy_commit": "9c11fcf6bcc1676df9b6bf723f20dca9ae5f3d75"
+    },
+    "OpenAPITools_openapi-generator-21896": {
+      "bug_id": "OpenAPITools_openapi-generator-21896",
+      "PR_number": 21896,
+      "PR_createdAt": "2025-09-04T12:10:36Z",
+      "merge_commit": "ee40887d47f6d7a16318772f49c63b8eb0553488",
+      "buggy_commits": [
+        {
+          "oid": "1d739f1598efddb49338312461f8f800ab43f55a",
+          "message": "New generator for Scala3 + sttp4 + jsoniter-scala (#21908)\n\n* started impl\n\n* seems to work\n\n* generated docs\n\n* fix class name duplicates on case-insensitive filesystems\n\n* wip\n\n* added script to rebuild all projects\n\n* dropped bash slop\n\n* fixed directory structure\n\n* ok, now it makes sense\n\n* update sttp, serialize query params, fix enums serialization, fix not required files params\n\n* fix compile errors after sttp upgrade, fix missing enum import in operations, fix file response. change serialization from Map to Seq to avoid deleting duplicate keys\n\n* auth support\n\n* fix enums entries, multipart support(partially), header, path and cookie serialization support\n\n* support of option fields\n\n* add samples, update workflow\n\n* add new files\n\n* fix\n\n* remove tab\n\n* remove tab\n\n* update doc\n\n* update header\n\n* update readme\n\n---------\n\nCo-authored-by: \u0141ukasz Bia\u0142y <lukasz.marcin.bialy@gmail.com>\nCo-authored-by: Kamil-Lontkowski <kamillont14@gmail.com>"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/OpenAPITools/openapi-generator/issues/21894",
+        "createdAt": "2025-09-04T12:08:24Z",
+        "content": "bug_report_all/OpenAPITools_openapi-generator-21896.json"
+      },
+      "changed_tests": [
+        "modules/openapi-generator/src/test/java/org/openapitools/codegen/rust/RustClientCodegenTest.java"
+      ],
+      "PR_url": "https://github.com/OpenAPITools/openapi-generator/pull/21896",
+      "merge_commit_url": "https://github.com/OpenAPITools/openapi-generator/commit/ee40887d47f6d7a16318772f49c63b8eb0553488",
+      "buggy_commit": "1d739f1598efddb49338312461f8f800ab43f55a"
+    },
+    "OpenAPITools_openapi-generator-21899": {
+      "bug_id": "OpenAPITools_openapi-generator-21899",
+      "PR_number": 21899,
+      "PR_createdAt": "2025-09-04T13:59:24Z",
+      "merge_commit": "08733aaf251cede20ac048fa7ff4cf0a64bb929c",
+      "buggy_commits": [
+        {
+          "oid": "3f24026b87d7cacb0b642cec1cc717a2f733412b",
+          "message": "update parser to 2.1.33"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/OpenAPITools/openapi-generator/issues/21898",
+        "createdAt": "2025-09-04T13:57:19Z",
+        "content": "bug_report_all/OpenAPITools_openapi-generator-21899.json"
+      },
+      "changed_tests": [
+        "modules/openapi-generator/src/test/java/org/openapitools/codegen/go/GoClientCodegenTest.java"
+      ],
+      "PR_url": "https://github.com/OpenAPITools/openapi-generator/pull/21899",
+      "merge_commit_url": "https://github.com/OpenAPITools/openapi-generator/commit/08733aaf251cede20ac048fa7ff4cf0a64bb929c",
+      "buggy_commit": "3f24026b87d7cacb0b642cec1cc717a2f733412b"
+    },
+    "OpenAPITools_openapi-generator-21931": {
+      "bug_id": "OpenAPITools_openapi-generator-21931",
+      "PR_number": 21931,
+      "PR_createdAt": "2025-09-09T14:46:32Z",
+      "merge_commit": "0e42edc95b44f19bf4262ec05aba8ede8cf18635",
+      "buggy_commits": [
+        {
+          "oid": "278d7ae4c95d365c5e414d992ef4cdae2526b9ef",
+          "message": "java-client: fix some javadoc comments (#21932)\n\n* java-client: fix some javadoc comments\n\n* update samples"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/OpenAPITools/openapi-generator/issues/21619",
+        "createdAt": "2025-07-23T15:05:19Z",
+        "content": "bug_report_all/OpenAPITools_openapi-generator-21931.json"
+      },
+      "changed_tests": [
+        "modules/openapi-generator/src/test/java/org/openapitools/codegen/python/PythonClientCodegenTest.java"
+      ],
+      "PR_url": "https://github.com/OpenAPITools/openapi-generator/pull/21931",
+      "merge_commit_url": "https://github.com/OpenAPITools/openapi-generator/commit/0e42edc95b44f19bf4262ec05aba8ede8cf18635",
+      "buggy_commit": "278d7ae4c95d365c5e414d992ef4cdae2526b9ef"
+    },
+    "OpenAPITools_openapi-generator-21953": {
+      "bug_id": "OpenAPITools_openapi-generator-21953",
+      "PR_number": 21953,
+      "PR_createdAt": "2025-09-12T08:11:44Z",
+      "merge_commit": "59eac42b0f9b248237952cf313e654d31bb7b9e2",
+      "buggy_commits": [
+        {
+          "oid": "5efe16c66b1c87f1f10564d99b057f71e0b37389",
+          "message": "[java] Update rest-assured dependencies to newer versions (#21961)\n\n* update rest-assured dep to newer versions\n\n* update build"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/OpenAPITools/openapi-generator/issues/21890",
+        "createdAt": "2025-09-04T08:23:47Z",
+        "content": "bug_report_all/OpenAPITools_openapi-generator-21953.json"
+      },
+      "changed_tests": [
+        "modules/openapi-generator/src/test/java/org/openapitools/codegen/java/spring/SpringCodegenTest.java"
+      ],
+      "PR_url": "https://github.com/OpenAPITools/openapi-generator/pull/21953",
+      "merge_commit_url": "https://github.com/OpenAPITools/openapi-generator/commit/59eac42b0f9b248237952cf313e654d31bb7b9e2",
+      "buggy_commit": "5efe16c66b1c87f1f10564d99b057f71e0b37389"
+    },
+    "OpenAPITools_openapi-generator-21992": {
+      "bug_id": "OpenAPITools_openapi-generator-21992",
+      "PR_number": 21992,
+      "PR_createdAt": "2025-09-18T12:34:42Z",
+      "merge_commit": "fe6da71327c255063efa6ad2e0071b93ef43ab0b",
+      "buggy_commits": [
+        {
+          "oid": "2f69ad9f26ab52a39a21ff9de0343d779b8e5c74",
+          "message": "update java samples"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/OpenAPITools/openapi-generator/issues/21991",
+        "createdAt": "2025-09-18T12:11:06Z",
+        "content": "bug_report_all/OpenAPITools_openapi-generator-21992.json"
+      },
+      "changed_tests": [
+        "modules/openapi-generator/src/test/java/org/openapitools/codegen/java/JavaClientCodegenTest.java"
+      ],
+      "PR_url": "https://github.com/OpenAPITools/openapi-generator/pull/21992",
+      "merge_commit_url": "https://github.com/OpenAPITools/openapi-generator/commit/fe6da71327c255063efa6ad2e0071b93ef43ab0b",
+      "buggy_commit": "2f69ad9f26ab52a39a21ff9de0343d779b8e5c74"
+    },
+    "OpenAPITools_openapi-generator-22020": {
+      "bug_id": "OpenAPITools_openapi-generator-22020",
+      "PR_number": 22020,
+      "PR_createdAt": "2025-09-24T09:44:14Z",
+      "merge_commit": "89edad5b8a7218ef263e275a616789b1b4ef2944",
+      "buggy_commits": [
+        {
+          "oid": "258d971f4216ef62da108a7473306de6c0fad6a4",
+          "message": "kotlin client: add docstring to new function (#22025)\n\n* kotlin client: add docstring\n\n* fix"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/OpenAPITools/openapi-generator/issues/20110",
+        "createdAt": "2024-11-15T11:34:09Z",
+        "content": "bug_report_all/OpenAPITools_openapi-generator-22020.json"
+      },
+      "changed_tests": [
+        "modules/openapi-generator/src/test/java/org/openapitools/codegen/java/JavaClientCodegenTest.java",
+        "modules/openapi-generator/src/test/java/org/openapitools/codegen/java/spring/SpringCodegenTest.java"
+      ],
+      "PR_url": "https://github.com/OpenAPITools/openapi-generator/pull/22020",
+      "merge_commit_url": "https://github.com/OpenAPITools/openapi-generator/commit/89edad5b8a7218ef263e275a616789b1b4ef2944",
+      "buggy_commit": "258d971f4216ef62da108a7473306de6c0fad6a4"
+    },
+    "OpenAPITools_openapi-generator-22028": {
+      "bug_id": "OpenAPITools_openapi-generator-22028",
+      "PR_number": 22028,
+      "PR_createdAt": "2025-09-25T13:08:41Z",
+      "merge_commit": "36fd3999a4054418749eedeee8ad08fd8712beb5",
+      "buggy_commits": [
+        {
+          "oid": "ddb15d4b9d6fa0f04090b5db3d64ea1b8a6d0ee6",
+          "message": "Delete docs/generators/postman.md (#22044)"
+        },
+        {
+          "oid": "efe558240cd0e33c75c17da0462b031a6410fe38",
+          "message": "Fix removal of RequestMapping version attribute if x-spring-api-version: '' is set at the operation level"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/OpenAPITools/openapi-generator/issues/22027",
+        "createdAt": "2025-09-25T12:57:38Z",
+        "content": "bug_report_all/OpenAPITools_openapi-generator-22028.json"
+      },
+      "changed_tests": [
+        "modules/openapi-generator/src/test/java/org/openapitools/codegen/java/assertions/AbstractAnnotationsAssert.java",
+        "modules/openapi-generator/src/test/java/org/openapitools/codegen/java/spring/SpringCodegenTest.java"
+      ],
+      "PR_url": "https://github.com/OpenAPITools/openapi-generator/pull/22028",
+      "merge_commit_url": "https://github.com/OpenAPITools/openapi-generator/commit/36fd3999a4054418749eedeee8ad08fd8712beb5",
+      "buggy_commit": "ddb15d4b9d6fa0f04090b5db3d64ea1b8a6d0ee6"
+    },
+    "OpenAPITools_openapi-generator-22037": {
+      "bug_id": "OpenAPITools_openapi-generator-22037",
+      "PR_number": 22037,
+      "PR_createdAt": "2025-09-27T23:40:59Z",
+      "merge_commit": "b4bcda16ab90af11500f0811cb07f0c07f7f1f1e",
+      "buggy_commits": [
+        {
+          "oid": "ddb15d4b9d6fa0f04090b5db3d64ea1b8a6d0ee6",
+          "message": "Delete docs/generators/postman.md (#22044)"
+        },
+        {
+          "oid": "17a184c2b0e8e38ba78d70e7e7e706b001dc845e",
+          "message": "Test cases fixes"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/OpenAPITools/openapi-generator/issues/20012",
+        "createdAt": "2024-11-01T18:15:16Z",
+        "content": "bug_report_all/OpenAPITools_openapi-generator-22037.json"
+      },
+      "changed_tests": [
+        "modules/openapi-generator/src/test/java/org/openapitools/codegen/python/PythonClientCodegenTest.java"
+      ],
+      "PR_url": "https://github.com/OpenAPITools/openapi-generator/pull/22037",
+      "merge_commit_url": "https://github.com/OpenAPITools/openapi-generator/commit/b4bcda16ab90af11500f0811cb07f0c07f7f1f1e",
+      "buggy_commit": "ddb15d4b9d6fa0f04090b5db3d64ea1b8a6d0ee6"
+    }
+  },
+  "jhy_jsoup": {
+    "jhy_jsoup-2390": {
+      "bug_id": "jhy_jsoup-2390",
+      "PR_number": 2390,
+      "PR_createdAt": "2025-08-26T19:08:03Z",
+      "merge_commit": "3941022e5c710392c6bd9f0fe8cce69f9caa08ef",
+      "buggy_commits": [
+        {
+          "oid": "a62f7317a353031ec7229397b40dbdf330524b3c",
+          "message": "Bump actions/setup-java from 4 to 5 (#2389)\n\nBumps [actions/setup-java](https://github.com/actions/setup-java) from 4 to 5.\n- [Release notes](https://github.com/actions/setup-java/releases)\n- [Commits](https://github.com/actions/setup-java/compare/v4...v5)\n\n---\nupdated-dependencies:\n- dependency-name: actions/setup-java\n  dependency-version: '5'\n  dependency-type: direct:production\n  update-type: version-update:semver-major\n...\n\nSigned-off-by: dependabot[bot] <support@github.com>\nCo-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/jhy/jsoup/issues/2388",
+        "createdAt": "2025-08-26T07:00:34Z",
+        "content": "bug_report_all/jhy_jsoup-2390.json"
+      },
+      "changed_tests": [
+        "src/test/java11/org/jsoup/helper/HttpClientExecutorTest.java"
+      ],
+      "PR_url": "https://github.com/jhy/jsoup/pull/2390",
+      "merge_commit_url": "https://github.com/jhy/jsoup/commit/3941022e5c710392c6bd9f0fe8cce69f9caa08ef",
+      "buggy_commit": "a62f7317a353031ec7229397b40dbdf330524b3c"
+    }
+  },
+  "apache_dubbo": {
+    "apache_dubbo-15521": {
+      "bug_id": "apache_dubbo-15521",
+      "PR_number": 15521,
+      "PR_createdAt": "2025-07-02T08:18:49Z",
+      "merge_commit": "62763ccee34e839a139fdc13f23f3bae6fa16f4c",
+      "buggy_commits": [
+        {
+          "oid": "a7b641f51e7166051c3006b3cc6f2e8a2dfd64f3",
+          "message": "[3.3] Optimize TriRpcStatus by adding http status code to its description (#15708)\n\n* Optimize TriRpcStatus by adding http status code to its description\n\n* Fix dubboCodeToTriCode method by converting METHOD_NOT_FOUND to UNIMPLEMENTED\n\n* Add back invalid keyword to TriRpcStatus description at validateHeaderStatus method"
+        },
+        {
+          "oid": "246f07ddc23e33dc7916f6d88df9eb2caa6b25b3",
+          "message": "Merge branch '3.3' into optimize-ut-performance-parallel"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/apache/dubbo/issues/15492",
+        "createdAt": "2025-06-26T01:48:13Z",
+        "content": "bug_report_all/apache_dubbo-15521.json"
+      },
+      "changed_tests": [
+        "dubbo-registry/dubbo-registry-api/src/test/java/org/apache/dubbo/registry/client/event/listener/ServiceInstancesChangedListenerTest.java",
+        "dubbo-registry/dubbo-registry-multiple/src/test/java/org/apache/dubbo/registry/multiple/MultipleRegistry2S2RTest.java",
+        "dubbo-registry/dubbo-registry-multiple/src/test/java/org/apache/dubbo/registry/multiple/MultipleServiceDiscoveryTest.java",
+        "dubbo-remoting/dubbo-remoting-zookeeper-curator5/src/test/java/org/apache/dubbo/remoting/zookeeper/curator5/Curator5ZookeeperClientManagerTest.java",
+        "dubbo-remoting/dubbo-remoting-zookeeper-curator5/src/test/java/org/apache/dubbo/remoting/zookeeper/curator5/Curator5ZookeeperClientTest.java",
+        "dubbo-rpc/dubbo-rpc-dubbo/src/test/java/org/apache/dubbo/rpc/protocol/dubbo/status/ThreadPoolStatusCheckerTest.java",
+        "dubbo-test/dubbo-test-check/src/main/java/org/apache/dubbo/test/check/registrycenter/config/ZookeeperConfig.java"
+      ],
+      "PR_url": "https://github.com/apache/dubbo/pull/15521",
+      "merge_commit_url": "https://github.com/apache/dubbo/commit/62763ccee34e839a139fdc13f23f3bae6fa16f4c",
+      "buggy_commit": "a7b641f51e7166051c3006b3cc6f2e8a2dfd64f3"
+    },
+    "apache_dubbo-15639": {
+      "bug_id": "apache_dubbo-15639",
+      "PR_number": 15639,
+      "PR_createdAt": "2025-08-19T00:42:10Z",
+      "merge_commit": "67e874583001d346e93f7a9f5f8c761a8009ed2d",
+      "buggy_commits": [
+        {
+          "oid": "a7b641f51e7166051c3006b3cc6f2e8a2dfd64f3",
+          "message": "[3.3] Optimize TriRpcStatus by adding http status code to its description (#15708)\n\n* Optimize TriRpcStatus by adding http status code to its description\n\n* Fix dubboCodeToTriCode method by converting METHOD_NOT_FOUND to UNIMPLEMENTED\n\n* Add back invalid keyword to TriRpcStatus description at validateHeaderStatus method"
+        },
+        {
+          "oid": "4042caff67fad18a8ba429b0516a905bc8e1ca92",
+          "message": "Merge branch '3.3' into feat_support_check_for_config_center_and_metadata"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/apache/dubbo/issues/15623",
+        "createdAt": "2025-08-07T05:48:31Z",
+        "content": "bug_report_all/apache_dubbo-15639.json"
+      },
+      "changed_tests": [
+        "dubbo-registry/dubbo-registry-zookeeper/src/test/java/org/apache/dubbo/registry/zookeeper/ZookeeperServiceDiscoveryTest.java",
+        "dubbo-registry/dubbo-registry-zookeeper/src/test/java/org/apache/dubbo/registry/zookeeper/util/CuratorFrameworkUtilsTest.java",
+        "dubbo-remoting/dubbo-remoting-zookeeper-curator5/src/test/java/org/apache/dubbo/remoting/zookeeper/curator5/Curator5ZookeeperClientManagerTest.java",
+        "dubbo-remoting/dubbo-remoting-zookeeper-curator5/src/test/java/org/apache/dubbo/remoting/zookeeper/curator5/Curator5ZookeeperClientTest.java"
+      ],
+      "PR_url": "https://github.com/apache/dubbo/pull/15639",
+      "merge_commit_url": "https://github.com/apache/dubbo/commit/67e874583001d346e93f7a9f5f8c761a8009ed2d",
+      "buggy_commit": "a7b641f51e7166051c3006b3cc6f2e8a2dfd64f3"
+    },
+    "apache_dubbo-15695": {
+      "bug_id": "apache_dubbo-15695",
+      "PR_number": 15695,
+      "PR_createdAt": "2025-09-17T12:29:17Z",
+      "merge_commit": "872c8cbeffc1a80d5ef9a92da66062cb56883c69",
+      "buggy_commits": [
+        {
+          "oid": "50099c107bbf960dbccafbfb61625e26080a72ac",
+          "message": "Bump org.apache.dubbo:hessian-lite from 4.0.3 to 4.0.4 (#15684)"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/apache/dubbo/issues/15671",
+        "createdAt": "2025-09-05T01:51:07Z",
+        "content": "bug_report_all/apache_dubbo-15695.json"
+      },
+      "changed_tests": [
+        "dubbo-remoting/dubbo-remoting-api/src/test/java/org/apache/dubbo/remoting/exchange/support/DefaultFutureTest.java"
+      ],
+      "PR_url": "https://github.com/apache/dubbo/pull/15695",
+      "merge_commit_url": "https://github.com/apache/dubbo/commit/872c8cbeffc1a80d5ef9a92da66062cb56883c69",
+      "buggy_commit": "50099c107bbf960dbccafbfb61625e26080a72ac"
+    }
+  },
+  "FasterXML_jackson-databind": {
+    "FasterXML_jackson-databind-5220": {
+      "bug_id": "FasterXML_jackson-databind-5220",
+      "PR_number": 5220,
+      "PR_createdAt": "2025-07-10T01:11:57Z",
+      "merge_commit": "2df25897968b129313b0e0f9d6e9214db2fd25c6",
+      "buggy_commits": [
+        {
+          "oid": "ad3b119cfb9abb671ddd42dfea8334647b17267e",
+          "message": "Merge branch '2.19' into 2.x"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/FasterXML/jackson-databind/issues/5194",
+        "createdAt": "2025-06-16T14:38:53Z",
+        "content": "bug_report_all/FasterXML_jackson-databind-5220.json"
+      },
+      "changed_tests": [
+        "src/test/java/com/fasterxml/jackson/databind/ser/jdk/CustomExceptionSer5194Test.java"
+      ],
+      "PR_url": "https://github.com/FasterXML/jackson-databind/pull/5220",
+      "merge_commit_url": "https://github.com/FasterXML/jackson-databind/commit/2df25897968b129313b0e0f9d6e9214db2fd25c6",
+      "buggy_commit": "ad3b119cfb9abb671ddd42dfea8334647b17267e"
+    },
+    "FasterXML_jackson-databind-5256": {
+      "bug_id": "FasterXML_jackson-databind-5256",
+      "PR_number": 5256,
+      "PR_createdAt": "2025-08-13T03:26:21Z",
+      "merge_commit": "e40aaee8f121ef1278775e6e178c3f2a222d729c",
+      "buggy_commits": [
+        {
+          "oid": "ff8c5a22c630333d4bce7e3717b89bece77ef0e6",
+          "message": "Fix #5237 (custom Map `@JsonMerge` fail) (#5251)"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/FasterXML/jackson-databind/issues/2692",
+        "createdAt": "2020-04-20T13:09:23Z",
+        "content": "bug_report_all/FasterXML_jackson-databind-5256.json"
+      },
+      "changed_tests": [
+        "src/test/java/com/fasterxml/jackson/databind/deser/SetterlessPropertiesDeserTest.java",
+        "src/test/java/com/fasterxml/jackson/databind/tofix/SetterlessList2692Test.java"
+      ],
+      "PR_url": "https://github.com/FasterXML/jackson-databind/pull/5256",
+      "merge_commit_url": "https://github.com/FasterXML/jackson-databind/commit/e40aaee8f121ef1278775e6e178c3f2a222d729c",
+      "buggy_commit": "ff8c5a22c630333d4bce7e3717b89bece77ef0e6"
+    }
+  },
+  "FasterXML_jackson-core": {
+    "FasterXML_jackson-core-1474": {
+      "bug_id": "FasterXML_jackson-core-1474",
+      "PR_number": 1474,
+      "PR_createdAt": "2025-09-16T21:45:10Z",
+      "merge_commit": "b4acc47d4c019c5842b2353594da0f2e968997f3",
+      "buggy_commits": [
+        {
+          "oid": "4975a1e7a2057520e2a995848a6f91f5f7939588",
+          "message": "Trigger cascading re-build via CI"
+        }
+      ],
+      "issue": {
+        "url": "https://github.com/FasterXML/jackson-core/issues/1473",
+        "createdAt": "2025-09-16T20:22:35Z",
+        "content": "bug_report_all/FasterXML_jackson-core-1474.json"
+      },
+      "changed_tests": [
+        "src/test/java/com/fasterxml/jackson/core/write/SurrogateWrite223Test.java"
+      ],
+      "PR_url": "https://github.com/FasterXML/jackson-core/pull/1474",
+      "merge_commit_url": "https://github.com/FasterXML/jackson-core/commit/b4acc47d4c019c5842b2353594da0f2e968997f3",
+      "buggy_commit": "4975a1e7a2057520e2a995848a6f91f5f7939588"
+    }
+  }
+}
