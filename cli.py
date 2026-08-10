@@ -63,9 +63,6 @@ def call_info(pid, bid):
         active_bugs = pd.read_csv(commit_db)
         with open(f"verified_bug/verified_bugs_{owner}_{pid}.json", "r") as f:
             extra_info = json.load(f)
-
-        with open(f"/root/framework/data/bug_cause.json", "r") as f:
-            bug_cause = json.load(f)
         
         
         for b_id in bid:
@@ -73,7 +70,6 @@ def call_info(pid, bid):
             revision_id_buggy = active_bugs.loc[active_bugs['bug_id'] == int(b_id)]["revision.id.buggy"].values[0]
             report_id = active_bugs.loc[active_bugs['bug_id'] == int(b_id)]["report.id"].values[0]
             report_url = active_bugs.loc[active_bugs['bug_id'] == int(b_id)]["report.url"].values[0]
-            root_cause = bug_cause[report_id]
             output += (f'''
     Summary for Bug: {pid}-{b_id}
     ------------------------------------------
@@ -91,9 +87,6 @@ def call_info(pid, bid):
     ------------------------------------------
         Revision ID (buggy version):
         {revision_id_buggy}
-    ------------------------------------------
-        Root cause in triggering tests:
-        {root_cause}
     ------------------------------------------
         List of modified sources:
     ''')
