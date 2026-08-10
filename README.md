@@ -17,7 +17,7 @@ As of January 1st, 2026:
 | dubbo | 1 | 0 |
 | rocketmq | 42 | 0 | 
 | assertj | 4 | 0 |
-| checkstyle | 24 | 1 |
+| checkstyle | 23 | 1 |
 | jackson-core | 5 | 0 |
 | jackson-databind | 8 | 0 |
 | jackson-dataformat-xml | 1 | 0 |
@@ -28,7 +28,7 @@ As of January 1st, 2026:
 | seata | 2 | 0 |
 | retrofit | 1 | 0 |
 | Apktool | 1 | 0 |
-| **Total** | **135** | **1** |
+| **Total** | **134** | **1** |
 
 See `debug/deprecated_bugs.json` for deprecated bugs. (Currently, only checkstyle-10857 is deprecated)
 
