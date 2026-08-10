@@ -30,6 +30,8 @@ As of January 1st, 2026:
 | Apktool | 1 | 0 |
 | **Total** | **135** | **1** |
 
+See `debug/deprecated_bugs.json` for deprecated bugs. (Currently, only checkstyle-10857 is deprecated)
+
 ## Setting up GHRB
 
 First, build the docker image:
